@@ -33,6 +33,22 @@ for /f "tokens=1,*" %%a in ('git status -s') do (
   if "%%a"=="D" set msg=delete: removed files
 )
 
+:: ===== Check & Create gitpushed.log in current dir =====
+if not exist "%cd%\gitpushed.log" (
+  echo Creating gitpushed.log ...
+  type nul > "%cd%\gitpushed.log"
+)
+
+:: ===== Ensure it's ignored =====
+if exist "%cd%\.gitignore" (
+  findstr /C:"gitpushed.log" "%cd%\.gitignore" >nul 2>&1
+  if errorlevel 1 (
+    echo gitpushed.log>>"%cd%\.gitignore"
+    echo Added gitpushed.log to .gitignore
+  )
+)
+
+
 :: Commit and push
 git add .
 git commit -m "%msg%"
@@ -43,5 +59,4 @@ if errorlevel 1 (
 
 git push origin %branch%
 echo [%date% %time%] ✅ %msg% -> pushed to %branch% >> gitpushed.log
-echo "" >> gitpushed.log
 
