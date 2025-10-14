@@ -1,44 +1,48 @@
 @echo off
-:: ==============================
-:: 🧩 Git 一键提交脚本
-:: 自动添加、提交、推送当前分支
-:: ==============================
+:: ======================================
+:: 🚀 Git Auto Commit Script (English only)
+:: Supports: auto detection + custom message
+:: ======================================
 
-:: 设置控制台编码（防止中文乱码）
 chcp 65001 >nul
 
-:: 检查是否在 Git 仓库中
+:: Verify git repo
 git rev-parse --is-inside-work-tree >nul 2>&1
 if errorlevel 1 (
-  echo ❌ 当前目录不是 Git 仓库
+  echo ❌ Not a git repository.
   exit /b
 )
 
-:: 获取当前分支名称
+:: Get branch name
 for /f "tokens=*" %%i in ('git rev-parse --abbrev-ref HEAD') do set branch=%%i
-
-echo 当前分支: %branch%
-
-:: 自动检测变更文件
-git status -s
+echo 🪴 Current branch: %branch%
 echo.
 
-:: 输入提交信息
-set /p msg=请输入提交说明（默认: auto commit）：
-
-if "%msg%"=="" set msg=auto commit
-
-:: 添加所有改动并提交
-git add .
-git commit -m "%msg%"
-
-if errorlevel 1 (
-  echo ⚠️ 提交失败，请检查是否有改动。
+:: Check if there are changes
+for /f %%i in ('git status --porcelain') do set changes=1
+if not defined changes (
+  echo ✅ No changes to commit.
   exit /b
 )
 
-:: 推送到远程分支
-git push origin %branch%
+:: Handle custom message (if provided)
+set msg=%*
+if "%msg%"=="" (
+  for /f "tokens=1,*" %%a in ('git status -s') do (
+    if "%%a"=="A" set msg=add: new files committed
+    if "%%a"=="M" set msg=update: modified files
+    if "%%a"=="D" set msg=delete: removed files
+  )
+  if "%msg%"=="" set msg=auto commit
+)
 
-echo ✅ 提交并推送完成！
+git add .
+git commit -m "%msg%"
+if errorlevel 1 (
+  echo ⚠️ Nothing to commit.
+  exit /b
+)
+
+git push origin %branch%
+echo ✅ %msg% -> gitpushed.log to %branch%
 pause
