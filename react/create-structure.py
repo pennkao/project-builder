@@ -79,10 +79,15 @@ STRUCTURE = {
                 "locales": ["en.json", "zh.json"]
             },
             "plugins": ["index.ts"],
-            "security": ["index.ts"]
+            "security": ["index.ts"],
+            "router": {
+                "guards":["AuthGuard.tsx", "NetworkGuard.tsx"],
+                "loaders":[],
+                ".":["types.ts","utils.ts","index.tsx", "routes.ts"]
+            },
         }
     },
-    ".": [".env",  "index.html"]
+    ".": [".env", ".env.dev", ".env.prod", "index.html"]
 }
 
 # ==================================================
@@ -93,7 +98,7 @@ TEMPLATES = {
         import React from 'react';
         import ReactDOM from 'react-dom/client';
         import App from './App';
-        import '../styles/global.css';
+        import '@/styles/global.css';
 
         ReactDOM.createRoot(document.getElementById('root')!).render(
         <React.StrictMode>
@@ -145,19 +150,21 @@ TEMPLATES = {
         </html>
 """,
     ".env": """
-            # Environment Variables
-            VITE_APP_NAME=DAppTemplate
-            VITE_API_BASE_URL=https://api.example.com
+# Environment Variables
+VITE_APP_NAME=DAppTemplate
+VITE_API_BASE_URL=https://api.example.com
 """,
     "en.json": json.dumps({"hello": "Hello World"}, indent=2),
     "zh.json": json.dumps({"hello": "你好，世界"}, indent=2),
     "app.config.ts": """
-        export const AppConfig = {
-        appName: 'DApp Template',
-        version: '1.0.0',
+export const AppConfig = {
+appName: 'DApp Template',
+version: '1.0.0',
 };
+
 """,
-    "index.ts": "// module entry\n",
+
+    "index.ts": "//module entry\n",
 }
 
 
@@ -182,8 +189,7 @@ def create_structure(base, struct, templates):
 # 4️⃣ 配置文件写入
 # ==================================================
 def write_config_files():
-    gitignore = """ 
-    # dependencies
+    gitignore = """# dependencies
 node_modules/
 .pnp
 .pnp.js
@@ -291,46 +297,70 @@ pnpm-lock.yaml
         "include": ["vite.config.ts"]
     }
     
-    tailwind_config = """
-        export default {
-            content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#5a38d1',
-                        secondary: '#6e57e0',
-                    },
-                    borderRadius: {
-                        xl: '1rem',
-                    },
-                },
+    tailwind_config = """// prettier.config.js 或 .prettierrc.js
+// tailwind.config.js
+module.exports = {
+    // 1. 必须配置：指定需要扫描的文件
+    content: [
+        './src/**/*.{css}',
+        './public/index.html',
+        // 添加所有包含Tailwind类名的文件路径
+    ],
+
+    // 2. 主题配置（影响类名排序分组）
+    theme: {
+        // 2.1 扩展默认主题
+        extend: {
+            colors: {
+                primary: '#3b82f6',
             },
-            plugins: [],
-        };
+        },
+
+        // 2.2 自定义排序分组（可选）
+        order: {
+            layouts: ['container', 'display'], // 布局类优先级
+            typography: ['font', 'text'], // 文字类优先级
+        },
+    },
+
+    // 3. 插件配置（影响类名处理）
+    plugins: [
+        require('@tailwindcss/forms'), // 表单类名处理
+        require('@tailwindcss/typography'), // 排版类名处理
+    ],
+
+    // 4. 核心功能控制（可选）
+    corePlugins: {
+        float: false, // 禁用不使用的工具类
+    },
+};
     """ 
-    prettier_config = """
-        // prettier.config.js 或 .prettierrc.js
-        module.exports = {
-            // 基础格式化选项
-            printWidth: 220, // 每行最大字符数
-            tabWidth: 4, // 缩进空格数
-            useTabs: false, // 使用空格而非制表符
-            semi: true, // 语句末尾添加分号
-            singleQuote: true, // 使用单引号而非双引号
-            quoteProps: 'as-needed', // 对象属性引号使用方式
-            jsxSingleQuote: false, // JSX 中使用双引号
-            trailingComma: 'es5', // 尾随逗号规则
-            bracketSpacing: true, // 对象括号间加空格 { foo: bar }
-            bracketSameLine: false, // 多行 JSX 元素的 `>` 换行显示
-            arrowParens: 'always', // 箭头函数参数始终加括号
-        };
+    prettier_config = """module.exports = {
+    // 基础格式化选项
+    printWidth: 220, // 每行最大字符数
+    tabWidth: 4, // 缩进空格数
+    useTabs: false, // 使用空格而非制表符
+    semi: true, // 语句末尾添加分号
+    singleQuote: true, // 使用单引号而非双引号
+    quoteProps: 'as-needed', // 对象属性引号使用方式
+    jsxSingleQuote: false, // JSX 中使用双引号
+    trailingComma: 'es5', // 尾随逗号规则
+    bracketSpacing: true, // 对象括号间加空格 { foo: bar }
+    bracketSameLine: false, // 多行 JSX 元素的 `>` 换行显示
+    arrowParens: 'always', // 箭头函数参数始终加括号
+};
     """
+    prettierignore = """# 忽略 .md 文件
+*.md
+    """
+    
     config_list = [("tsconfig.json", "json", tsconfig), 
                    ("tsconfig.app.json", "json", tsconfig_app), 
                    ("tsconfig.node.json", "json", tsconfig_node), 
                    ("tailwind.config.js","text", tailwind_config),
                    ("prettier.config.js","text", prettier_config),
-                   (".gitignore","text", gitignore)]
+                   (".gitignore","text", gitignore),
+                   (".prettierignore","text", prettierignore)]
     
     for config_file, ctype, config_content in config_list:
         with open(config_file, "w", encoding="utf-8") as f:
