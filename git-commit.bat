@@ -43,10 +43,11 @@ if not exist "%cd%\gitpushed.log" (
 if exist "%cd%\.gitignore" (
   findstr /C:"gitpushed.log" "%cd%\.gitignore" >nul 2>&1
   if errorlevel 1 (
-    echo gitpushed.log>>"%cd%\.gitignore"
+    echo gitpushed.log >> "%cd%\.gitignore"
     echo Added gitpushed.log to .gitignore
   )
 )
+
 
 
 :: Commit and push

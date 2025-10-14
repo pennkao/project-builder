@@ -38,6 +38,18 @@ else
   fi
 fi
 
+# ===== Check & Create gitpushed.log in current dir =====
+if [ ! -f "./gitpushed.log" ]; then
+  echo "Creating gitpushed.log ..."
+  touch "./gitpushed.log"
+fi
+
+# ===== Ensure it's ignored =====
+if [ -f "./.gitignore" ] && ! grep -qx "gitpushed.log" "./.gitignore"; then
+  echo "gitpushed.log" >> "./.gitignore"
+  echo "Added gitpushed.log to .gitignore"
+fi
+
 # Stage all and commit
 git add .
 git commit -m "$msg" || {
