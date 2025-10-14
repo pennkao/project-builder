@@ -1,10 +1,13 @@
+// src/App.tsx
+import { ThemeProvider } from "@/context/ThemeContext";
+import AppRouter from "@/core/router";
 
-        import React from 'react';
-        export default function App() {
-        return (
-            <div style={{textAlign: 'center', marginTop: '20vh'}}>
-            <h1>🚀 DApp Template Initialized</h1>
-            <p>Edit <code>src/App.tsx</code> and save to reload.</p>
-            </div>
-        );
-        }
+const App = () => {
+  return (
+    <ThemeProvider>
+        <AppRouter />
+    </ThemeProvider>
+  );
+};
+
+export default App;

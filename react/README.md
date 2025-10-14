@@ -24,7 +24,7 @@ src/
 │  ├─ Footer/
 │  │  ├─ index.tsx                        # 页脚组件
 │  │  └─ styles.module.css
-│  └─ MainLayout.tsx                      # 通用主布局（组合 Header + Sidebar + Footer）
+│  └─ MainLayout.tsx                      # 通用主布局（组合 Header + Sidebar + Footer）不同的布局需要多个
 │
 ├─ features/                              # 业务功能模块（按领域划分）
 │  ├─ wallet/                             # 钱包相关功能

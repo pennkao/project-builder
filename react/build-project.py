@@ -17,15 +17,16 @@ import json
 # ==================================================
 # 1️⃣ 项目结构定义
 # ==================================================
+
+Component_Files = ["index.tsx","styles.module.css"]
+Layout_Files = ["index.tsx", "styles.module.css", "Header.tsx", "Container.tsx", "Footer.tsx", "Sidebar.tsx"]
+Pages = {"Index":Component_Files, "Admin":Component_Files, "Login":Component_Files, "User":Component_Files}
+Router_Config = {"loaders":[], "guards":["AuthGuard.tsx", "NetworkGuard.tsx"], ".":["types.ts","utils.ts","index.tsx", "pageMap.ts","layoutMap.ts"]}
+Config_Files = ["app.config.ts","app.routes.ts"]
 STRUCTURE = {
     "src": {
         "app": ["main.tsx", "App.tsx"],
-        "layouts": {
-            "Sidebar": ["index.tsx", "styles.module.css"],
-            "Header": ["index.tsx", "styles.module.css"],
-            "Footer": ["index.tsx", "styles.module.css"],
-            ".": ["MainLayout.tsx"]
-        },
+        "layouts": {"MainLayout": Layout_Files,"AdminLayout": Layout_Files,"AuthLayout": Layout_Files},
         "features": {
             "wallet": {
                 "components": ["WalletSidebar.tsx", "ConnectButton.tsx", "BalanceDisplay.tsx", "styles.module.css"],
@@ -52,17 +53,17 @@ STRUCTURE = {
         },
         "components": {
             "common": {
-                "Button": ["index.tsx", "styles.module.css"],
-                "Card": ["index.tsx", "styles.module.css"],
-                "Input": ["index.tsx", "styles.module.css"],
-                "Modal": ["index.tsx", "styles.module.css"]
+                "Button": Component_Files,
+                "Card": Component_Files,
+                "Input": Component_Files,
+                "Modal": Component_Files
             },
             "ui": {
-                "Toast": ["index.tsx", "styles.module.css"],
-                "Spinner": ["index.tsx", "styles.module.css"]
+                "Toast": Component_Files,
+                "Spinner": Component_Files
             }
         },
-        "pages": ["index.tsx", "admin.tsx", "game.tsx", "user.tsx"],
+        "pages": Pages,
         "context": ["WalletContext.tsx", "ThemeContext.tsx", "AppContext.tsx"],
         "lib": ["wagmiClient.ts", "ethersProvider.ts", "viemClient.ts"],
         "data": {
@@ -80,11 +81,7 @@ STRUCTURE = {
             },
             "plugins": ["index.ts"],
             "security": ["index.ts"],
-            "router": {
-                "guards":["AuthGuard.tsx", "NetworkGuard.tsx"],
-                "loaders":[],
-                ".":["types.ts","utils.ts","index.tsx", "routes.ts"]
-            },
+            "router": Router_Config,
         }
     },
     ".": [".env", ".env.dev", ".env.prod", "index.html"]
@@ -94,30 +91,50 @@ STRUCTURE = {
 # 2️⃣ 模板内容定义
 # ==================================================
 TEMPLATES = {
-    "main.tsx": """
-        import React from 'react';
-        import ReactDOM from 'react-dom/client';
-        import App from './App';
-        import '@/styles/global.css';
+    "main.tsx": """// src/app/main.tsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
 
-        ReactDOM.createRoot(document.getElementById('root')!).render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-        );
+// 🧩 global styles
+import "@/styles/animations.css";
+import "@/styles/global.css";
+import "@/styles/tailwind.css";
+import "@/styles/variables.css";
+
+// 🧩 React 18 的新 root API
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+);
+
 """,
-    "App.tsx": """
-        import React from 'react';
-        export default function App() {
-        return (
-            <div style={{textAlign: 'center', marginTop: '20vh'}}>
-            <h1>🚀 DApp Template Initialized</h1>
-            <p>Edit <code>src/App.tsx</code> and save to reload.</p>
-            </div>
-        );
-        }
+    "App.tsx": """// src/App.tsx
+import { ThemeProvider } from "@/context/ThemeContext";
+import AppRouter from "@/core/router";
+
+const App = () => {
+  return (
+    <ThemeProvider>
+        <AppRouter />
+    </ThemeProvider>
+  );
+};
+
+export default App;
 """,
-    "index.tsx": "export default function Page() { return <div>Page Placeholder</div>; }",
+    "index.tsx": """// pages/index.tsx
+export default function HomePage() {
+    return (
+        <section>
+            <h1>Home</h1>
+            <p>Welcome to the Home layout.</p>
+        </section>
+    );
+}    
+""",
+    
     "styles.module.css": "/* Local CSS */\n.root { display: flex; align-items: center; justify-content: center; }",
     "vite.config.ts": """
         // @ts-nocheck  // 忽略类型检查，防止“找不到类型定义”等无关错误
@@ -164,7 +181,25 @@ version: '1.0.0',
 
 """,
 
-    "index.ts": "//module entry\n",
+    "app.router.ts":"""// src/config/app.router.ts
+
+export const appRoutes = [
+    {
+        path: '/',
+        layout: 'MainLayout',
+        children: [
+            { path: '/', component: 'IndexPage' },
+            { path: '/login', component: 'LoginPage' },
+        ],
+    },
+    {
+        path: '/admin',
+        layout: 'AdminLayout',
+        children: [{ path: '/admin/', component: 'AdminPage' }],
+    },
+];
+
+    """
 }
 
 
@@ -218,22 +253,30 @@ yarn.lock
 pnpm-lock.yaml
     """
     package_json = {
-        "name": "dapp-template",
+        "name": "template",
         "version": "1.0.0",
         "private": True,
         "scripts": {
-            "dev": "vite",
+            "dev": "vite --host 0.0.0.0 --mode dev",
             "build": "vite build",
             "preview": "vite preview"
         },
         "dependencies": {
             "react": "^18.3.1",
-            "react-dom": "^18.3.1"
+            "react-dom": "^18.3.1",
+            "react-router-dom": "^7.9.4"
         },
         "devDependencies": {
+            "@types/react": "^18.3.4",
+            "@types/react-dom": "^18.3.2",
+            "@types/node": "^24.7.2",
+            "@types/react": "^18.3.26",
+            "@types/react-dom": "^18.3.7",
             "@vitejs/plugin-react": "^4.3.2",
-            "typescript": "^5.4.0",
-            "vite": "^5.2.0"
+            "autoprefixer": "^10.4.21",
+            "postcss": "^8.5.6",
+            "typescript": "^5.9.3",
+            "vite": "^7.1.9"
         }
     }
 

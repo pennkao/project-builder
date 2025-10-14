@@ -1,5 +1,5 @@
 {
-    "name": "dapp-template",
+    "name": "template",
     "version": "1.0.0",
     "private": true,
     "scripts": {
@@ -9,9 +9,12 @@
     },
     "dependencies": {
         "react": "^18.3.1",
-        "react-dom": "^18.3.1"
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^7.9.4"
     },
     "devDependencies": {
+        "@types/react": "^18.3.4",
+        "@types/react-dom": "^18.3.2",
         "@vitejs/plugin-react": "^4.3.2",
         "typescript": "^5.4.0",
         "vite": "^5.2.0"
