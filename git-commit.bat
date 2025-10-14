@@ -42,5 +42,6 @@ if errorlevel 1 (
 )
 
 git push origin %branch%
-echo ✅ %msg% -> pushed to %branch%
-pause
+echo [%date% %time%] ✅ %msg% -> pushed to %branch% >> gitpushed.log
+echo "" >> gitpushed.log
+

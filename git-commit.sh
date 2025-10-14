@@ -47,4 +47,6 @@ git commit -m "$msg" || {
 
 # Push to origin
 git push origin "$branch"
-echo "✅ $msg -> gitpushed.log to $branch"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ $msg -> pushed to $branch" >> gitpushed.log
+echo "" >> gitpushed.log
+
