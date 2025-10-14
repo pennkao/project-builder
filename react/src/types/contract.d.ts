@@ -1,0 +1,1 @@
+// contract.d.ts
