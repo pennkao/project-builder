@@ -1,34 +1,49 @@
 #!/bin/bash
-# ==============================
-# 🧩 Git 一键提交脚本
-# 自动添加、提交、推送当前分支
-# ==============================
+# ======================================
+# 🚀 Git Auto Commit Script (English only)
+# Automatically adds, commits and pushes
+# ======================================
 
-# 确保脚本在 git 仓库中执行
-if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-  echo "❌ 当前目录不是 Git 仓库"
+# Ensure we’re inside a git repo
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "❌ Not a git repository."
   exit 1
 fi
 
-# 获取当前分支名称
+# Get current branch
 branch=$(git rev-parse --abbrev-ref HEAD)
-echo "当前分支: $branch"
-
-# 显示当前变更
-git status -s
+echo "🪴 Current branch: $branch"
 echo
 
-# 输入提交说明
-read -p "请输入提交说明（默认: auto commit）: " msg
-msg=${msg:-"auto commit"}
+# Check status
+status=$(git status -s)
 
-# 提交并推送
+if [ -z "$status" ]; then
+  echo "✅ No changes to commit."
+  exit 0
+fi
+
+# Build commit message automatically
+msg="auto commit"
+
+if echo "$status" | grep -q "^A "; then
+  msg="add: new files committed"
+elif echo "$status" | grep -q "^M "; then
+  msg="update: modified files"
+elif echo "$status" | grep -q "^D "; then
+  msg="delete: removed files"
+fi
+
+# Add all changes
 git add .
+
+# Commit with auto message
 git commit -m "$msg" || {
-  echo "⚠️ 没有改动可提交。"
+  echo "⚠️ Nothing to commit."
   exit 1
 }
 
+# Push to origin
 git push origin "$branch"
 
-echo "✅ 提交并推送完成！"
+echo "✅ $msg -> pushed to $branch"
