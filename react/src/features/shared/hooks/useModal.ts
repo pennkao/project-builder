@@ -1,1 +1,1 @@
-// useModal.ts
+/*useModal.ts*/

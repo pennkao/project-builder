@@ -1,1 +1,1 @@
-// useWalletBalance.ts
+/*useWalletBalance.ts*/

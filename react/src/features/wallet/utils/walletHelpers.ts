@@ -1,1 +1,1 @@
-// walletHelpers.ts
+/*walletHelpers.ts*/

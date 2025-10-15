@@ -1,1 +1,1 @@
-// useWalletEvents.ts
+/*useWalletEvents.ts*/

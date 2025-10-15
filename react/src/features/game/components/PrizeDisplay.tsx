@@ -1,1 +1,1 @@
-// PrizeDisplay.tsx
+/*PrizeDisplay.tsx*/

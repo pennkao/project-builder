@@ -1,1 +1,1 @@
-// currency.ts
+/*currency.ts*/

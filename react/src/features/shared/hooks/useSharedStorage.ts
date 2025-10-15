@@ -1,1 +1,1 @@
-// useSharedStorage.ts
+/*useSharedStorage.ts*/

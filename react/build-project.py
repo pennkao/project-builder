@@ -20,7 +20,7 @@ import json
 
 Component_Files = ["index.tsx","styles.module.css"]
 Layout_Files = ["index.tsx", "styles.module.css", "Header.tsx", "Container.tsx", "Footer.tsx", "Sidebar.tsx"]
-Pages = {"Index":Component_Files, "Admin":Component_Files, "Login":Component_Files, "User":Component_Files}
+Pages = {"Home":Component_Files, "Admin":Component_Files, "Login":Component_Files, "User":Component_Files}
 Router_Config = {"loaders":[], "guards":["AuthGuard.tsx", "NetworkGuard.tsx"], ".":["types.ts","utils.ts","index.tsx", "pageMap.ts","layoutMap.ts"]}
 Config_Files = ["app.config.ts","app.routes.ts"]
 STRUCTURE = {
@@ -91,6 +91,7 @@ STRUCTURE = {
 # 2️⃣ 模板内容定义
 # ==================================================
 TEMPLATES = {
+#=========main.tsx==================
     "main.tsx": """// src/app/main.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -110,6 +111,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 );
 
 """,
+#=========App.tsx==================
     "App.tsx": """// src/App.tsx
 import { ThemeProvider } from "@/context/ThemeContext";
 import AppRouter from "@/core/router";
@@ -123,19 +125,9 @@ const App = () => {
 };
 
 export default App;
-""",
-    "index.tsx": """// pages/index.tsx
-export default function HomePage() {
-    return (
-        <section>
-            <h1>Home</h1>
-            <p>Welcome to the Home layout.</p>
-        </section>
-    );
-}    
-""",
-    
-    "styles.module.css": "/* Local CSS */\n.root { display: flex; align-items: center; justify-content: center; }",
+""",    
+
+#=========vite.config.ts==================
     "vite.config.ts": """
         // @ts-nocheck  // 忽略类型检查，防止“找不到类型定义”等无关错误
 
@@ -153,6 +145,7 @@ export default function HomePage() {
             },
         });
 """,
+#=========index.htm==================
     "index.html": """<!DOCTYPE html>
         <html lang="en">
         <head>
@@ -166,59 +159,26 @@ export default function HomePage() {
         </body>
         </html>
 """,
+
+#=========.env==================
     ".env": """
-# Environment Variables
 VITE_APP_NAME=DAppTemplate
 VITE_API_BASE_URL=https://api.example.com
 """,
+#=========en.json==================
     "en.json": json.dumps({"hello": "Hello World"}, indent=2),
+#=========zh.json==================
     "zh.json": json.dumps({"hello": "你好，世界"}, indent=2),
-    "app.config.ts": """
-export const AppConfig = {
-appName: 'DApp Template',
-version: '1.0.0',
+#=========app.config.ts==================
+    "app.config.ts": """export const AppConfig = {
+    appName: 'DApp Template',
+    version: '1.0.0',
 };
 
 """,
-
-    "app.router.ts":"""// src/config/app.router.ts
-
-export const appRoutes = [
-    {
-        path: '/',
-        layout: 'MainLayout',
-        children: [
-            { path: '/', component: 'IndexPage' },
-            { path: '/login', component: 'LoginPage' },
-        ],
-    },
-    {
-        path: '/admin',
-        layout: 'AdminLayout',
-        children: [{ path: '/admin/', component: 'AdminPage' }],
-    },
-];
-
-    """
 }
 
 
-# ==================================================
-# 3️⃣ 目录与文件生成逻辑
-# ==================================================
-def create_structure(base, struct, templates):
-    for name, content in struct.items():
-        path = os.path.join(base, name)
-        if isinstance(content, dict):
-            os.makedirs(path, exist_ok=True)
-            create_structure(path, content, templates)
-        elif isinstance(content, list):
-            os.makedirs(path, exist_ok=True)
-            for file in content:
-                fpath = os.path.join(path, file)
-                os.makedirs(os.path.dirname(fpath), exist_ok=True)
-                with open(fpath, "w", encoding="utf-8") as f:
-                    f.write(templates.get(file, f"// {file}\n"))
 
 # ==================================================
 # 4️⃣ 配置文件写入
@@ -264,7 +224,7 @@ pnpm-lock.yaml
         "dependencies": {
             "react": "^18.3.1",
             "react-dom": "^18.3.1",
-            "react-router-dom": "^7.9.4"
+            "react-router": "^7.9.4",
         },
         "devDependencies": {
             "@types/react": "^18.3.4",
@@ -397,13 +357,25 @@ module.exports = {
 *.md
     """
     
+    vite_config = """// @ts-nocheck 忽略类型检查，防止“找不到类型定义”等无关错误
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+    plugins: [react()],
+    resolve: { alias: { '@': resolve(__dirname, 'src') } },
+});
+"""
+    
     config_list = [("tsconfig.json", "json", tsconfig), 
                    ("tsconfig.app.json", "json", tsconfig_app), 
                    ("tsconfig.node.json", "json", tsconfig_node), 
                    ("tailwind.config.js","text", tailwind_config),
                    ("prettier.config.js","text", prettier_config),
                    (".gitignore","text", gitignore),
-                   (".prettierignore","text", prettierignore)]
+                   (".prettierignore","text", prettierignore),
+                   ("vite.config.ts","text", vite_config)]
     
     for config_file, ctype, config_content in config_list:
         with open(config_file, "w", encoding="utf-8") as f:
@@ -412,6 +384,328 @@ module.exports = {
             else:
                 f.write(config_content)
         
+# ==================================================
+# 5️⃣ 业务文件
+# ==================================================
+PathFileContent = {
+    #=================================================
+    "src|core|config|app.config.ts":"""// src/config/app.router.ts
+
+export const appRoutes = [
+    {
+        path: '/',
+        layout: 'MainLayout',
+        children: [
+            { path: '/', component: 'IndexPage' },
+            { path: '/login', component: 'LoginPage' },
+            { path: '/admin/', component: 'AdminPage' },
+        ],
+    },
+    {
+        path: '/admin',
+        layout: 'AdminLayout',
+        children: [{ path: '/admin/', component: 'AdminPage' }],
+    },
+];
+
+    """,
+    #=================================================
+    "src|core|router|index.tsx":"""// src/core/router/index.ts
+import { appRoutes } from '@/core/config/app.routers';
+import { Suspense } from 'react';
+import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router';
+import { layoutMap } from './layoutMap';
+import { getPage } from './pageMap';
+
+function buildRoutes(appRoutes: any[]): RouteObject[] {
+    return appRoutes.map((route) => {
+        const Layout = layoutMap[route.layout as keyof typeof layoutMap];
+
+        return {
+            path: route.path,
+            element: (
+                <Suspense fallback={<div>Loading layout...</div>}>
+                    <Layout />
+                </Suspense>
+            ),
+            children: route.children?.map((child: any) => {
+                const Page = getPage(child.component)!;
+                if (child.index) {
+                    return {
+                        index: true,
+                        element: (
+                            <Suspense fallback={<div>Loading page...</div>}>
+                                <Page />
+                            </Suspense>
+                        ),
+                    };
+                }
+                return {
+                    path: child.path,
+                    element: (
+                        <Suspense fallback={<div>Loading page...</div>}>
+                            <Page />
+                        </Suspense>
+                    ),
+                };
+            }),
+        };
+    });
+}
+
+const router = createBrowserRouter(buildRoutes(appRoutes));
+
+export default function AppRouter() {
+    return <RouterProvider router={router} />;
+}
+
+
+    """,
+    #=================================================
+    "src|core|router|layoutMap.ts":"""
+    """,
+    #=================================================
+    "src|core|router|pageMap.ts":"""
+    """,
+    #=================================================
+    "src|layouts|MainLayout|index.tsx":"""// src/layouts/MainLayout/index.tsx
+import React from 'react';
+import { Outlet } from 'react-router';
+
+import Footer from './Footer';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import styles from './styles.module.css';
+export function MainLayout({ children }: { children?: React.ReactNode }) {
+    return (
+        <div className={styles.content}>
+            <Header />
+            <Sidebar />
+            <main>{children || <Outlet />}</main>
+            <Footer />
+        </div>
+    );
+}
+
+export default MainLayout;
+
+
+    """,
+    #=================================================
+    "src|layouts|MainLayout|Header.tsx":"""// Header.tsx
+const Header = () => {
+    return (
+        <header>
+            <h1>Admin Layout</h1>
+        </header>
+    );
+};
+
+export default Header;
+
+    """,
+    #=================================================
+    "src|layouts|MainLayout|Footer.tsx":"""// Footer.tsx
+const Footer = () => {
+    return (
+        <footer>
+            <p>Footer</p>
+        </footer>
+    );
+};
+
+export default Footer;
+    """,
+    #=================================================
+    "src|layouts|MainLayout|styles.module.css":"""
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.header {
+    background: #5a38d1;
+    color: white;
+    padding: 10px;
+}
+.sidebar {
+    background: #f2f2f2;
+    padding: 10px;
+}
+.footer {
+    background: #2f0c0c;
+    padding: 10px;
+    text-align: center;
+}
+    """,
+    #=================================================
+    "src|layouts|MainLayout|Sidebar.tsx":"""// Sidebar.tsx
+import { Link } from 'react-router-dom';
+const Sidebar = () => {
+    return (
+        <aside>
+            <p>Sidebar</p>
+        </aside>
+    );
+};
+
+export default Sidebar;
+    """,
+    #=================================================
+    "src|pages|Home|index.tsx":"""// src/pages/Home/index.tsx
+import { Link } from 'react-router';
+const HomePage = () => {
+    return (
+        <>
+            <h1>🏠 This is Home Page</h1>
+            <ul>
+                <li>
+                    <Link to="/">Home</Link>
+                </li>
+                <li>
+                    <Link to="root">root</Link>
+                </li>
+                <li>
+                    <Link to="login">login</Link>
+                </li>
+            </ul>
+        </>
+    );
+};
+
+export default HomePage;
+
+
+    """,
+    #=================================================
+    "src|context|ThemeContext.tsx":"""// src/context/ThemeContext.tsx
+import React, { createContext, useContext, useEffect, useState } from "react";
+
+type Theme = "light" | "dark";
+
+interface ThemeContextValue {
+  theme: Theme;
+  toggleTheme: () => void;
+}
+
+const ThemeContext = createContext<ThemeContextValue>({
+  theme: "light",
+  toggleTheme: () => {},
+});
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>(() => {
+    // 从 localStorage 读取，或默认 light
+    return (localStorage.getItem("theme") as Theme) || "light";
+  });
+
+  useEffect(() => {
+    // 更新 html 的 data-theme 属性
+    document.documentElement.setAttribute("data-theme", theme);
+    // 保存到 localStorage
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => (prev === "light" ? "dark" : "light"));
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+// 方便在组件中使用
+export const useTheme = () => useContext(ThemeContext);
+
+    """,
+    #=================================================
+    "src|core|router|layoutMap.ts":"""// src/core/router/layoutMap.ts
+import MainLayout from '@/layouts/MainLayout';
+export const layoutMap = {
+    "MainLayout":MainLayout,
+};    
+""",
+    #=================================================
+    "src|core|router|pageMap.ts":"""// src/core/router/pageMap.ts
+import { lazy } from 'react';
+export const getPage = (name: string) => {
+    const map: Record<string, any> = {
+        HomePage: lazy(() => import('@/pages/Home')),
+        LoginPage: lazy(() => import('@/pages/Login')),
+        AdminPage: lazy(() => import('@/pages/Admin')),
+    };
+    return map[name];
+};
+
+    """,
+    #=================================================
+    "src|pages|Admin|index.tsx":"""// index.tsx
+import { Link } from 'react-router';
+const AdminPage = () => {
+    return (
+        <>
+            <h1>Admin Page444</h1>
+            <Link to="/">Home</Link>
+        </>
+    );
+};
+export default AdminPage;
+    """,
+    #=================================================
+    "src|pages|Login|index.tsx":"""// index.tsx
+import { Link } from 'react-router';
+const LoginPage = () => {
+    return (
+        <>
+            <h1>Login Page</h1>
+            <Link to="/">Home</Link>
+        </>
+    );
+};
+export default LoginPage;
+
+    """,
+}#----------------------end PathFileContent-------------------------------
+#==================================================
+# 2️⃣ 项目结构定义
+def get_file_content(fileMap, path):
+    path = path.replace(".\\", "").replace("./", "")
+    path = path.replace("\\", "|").replace("/", "|")
+    # print(path, "===================================")
+    # print(fileMap.get(path))
+    return fileMap.get(path, None)
+# ==================================================
+# 3️⃣ 目录与文件生成逻辑
+# ==================================================
+def create_structure(base, struct, templates):
+    for name, content in struct.items():
+        path = os.path.join(base, name)
+        if isinstance(content, dict):
+            os.makedirs(path, exist_ok=True)
+            create_structure(path, content, templates)
+        elif isinstance(content, list):
+            os.makedirs(path, exist_ok=True)
+            for file in content:
+                fpath = os.path.join(path, file)
+                os.makedirs(os.path.dirname(fpath), exist_ok=True)
+                with open(fpath, "w", encoding="utf-8") as f:
+                    tpl_content = templates.get(file, None)
+                    if tpl_content:
+                        f.write(tpl_content)
+                        pass
+                    else:
+                        ct = get_file_content(PathFileContent,fpath)
+                        print(f"写入文件: {fpath}")
+                        if ct:
+                            f.write(ct)
+                            pass
+                        else:
+                            f.write(f"/*{file}*/\n")  
+                            pass                  
+        else:
+            pass 
+
 # ==================================================
 # 5️⃣ 主执行入口
 # ==================================================

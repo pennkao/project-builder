@@ -1,1 +1,1 @@
-// useAdminState.ts
+/*useAdminState.ts*/

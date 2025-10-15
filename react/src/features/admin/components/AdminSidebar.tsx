@@ -1,1 +1,1 @@
-// AdminSidebar.tsx
+/*AdminSidebar.tsx*/

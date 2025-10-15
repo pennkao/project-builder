@@ -1,1 +1,1 @@
-// AdminPanel.tsx
+/*AdminPanel.tsx*/

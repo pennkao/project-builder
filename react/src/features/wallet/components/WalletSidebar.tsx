@@ -1,1 +1,1 @@
-// WalletSidebar.tsx
+/*WalletSidebar.tsx*/

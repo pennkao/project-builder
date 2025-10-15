@@ -2,9 +2,10 @@
 const Footer = () => {
     return (
         <footer>
-            <p>Admin Layout Footer</p>
+            <p>Footer</p>
         </footer>
     );
 };
 
 export default Footer;
+    

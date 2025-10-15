@@ -1,5 +1,13 @@
+// index.tsx
+import { Link } from 'react-router';
 const LoginPage = () => {
-    return <h2>🔐 Please log in</h2>;
+    return (
+        <>
+            <h1>Login Page</h1>
+            <Link to="/">Home</Link>
+        </>
+    );
 };
-
 export default LoginPage;
+
+    

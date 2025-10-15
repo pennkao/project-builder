@@ -1,1 +1,1 @@
-// NetworkGuard.tsx
+/*NetworkGuard.tsx*/

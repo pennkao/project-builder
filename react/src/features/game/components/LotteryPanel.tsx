@@ -1,1 +1,1 @@
-// LotteryPanel.tsx
+/*LotteryPanel.tsx*/

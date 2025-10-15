@@ -1,10 +1,12 @@
 // Sidebar.tsx
+import { Link } from 'react-router-dom';
 const Sidebar = () => {
     return (
         <aside>
-            <h2>Admin Layout Sidebar</h2>
+            <p>Sidebar</p>
         </aside>
     );
 };
 
 export default Sidebar;
+    

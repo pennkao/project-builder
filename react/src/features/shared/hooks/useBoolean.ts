@@ -1,1 +1,1 @@
-// useBoolean.ts
+/*useBoolean.ts*/

@@ -1,1 +1,1 @@
-// formatNumber.ts
+/*formatNumber.ts*/

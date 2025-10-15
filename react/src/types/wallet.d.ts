@@ -1,1 +1,1 @@
-// wallet.d.ts
+/*wallet.d.ts*/

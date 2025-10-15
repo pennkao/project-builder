@@ -1,1 +1,1 @@
-// wagmiClient.ts
+/*wagmiClient.ts*/

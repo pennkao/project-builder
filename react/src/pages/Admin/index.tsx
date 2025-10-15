@@ -1,9 +1,12 @@
-// pages/index.tsx
-export default function AdminPage() {
+// index.tsx
+import { Link } from 'react-router';
+const AdminPage = () => {
     return (
-        <section>
-            <h1>AdminPage</h1>
-            <p>Welcome to the AdminPage layout.</p>
-        </section>
+        <>
+            <h1>Admin Page444</h1>
+            <Link to="/">Home</Link>
+        </>
     );
-}
+};
+export default AdminPage;
+    

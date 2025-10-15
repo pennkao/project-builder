@@ -1,5 +1,6 @@
+// src/layouts/MainLayout/index.tsx
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 import Footer from './Footer';
 import Header from './Header';
@@ -17,3 +18,6 @@ export function MainLayout({ children }: { children?: React.ReactNode }) {
 }
 
 export default MainLayout;
+
+
+    

@@ -1,1 +1,1 @@
-//module entry
+/*index.ts*/

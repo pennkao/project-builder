@@ -1,1 +1,1 @@
-// contract.d.ts
+/*contract.d.ts*/

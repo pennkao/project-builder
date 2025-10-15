@@ -1,1 +1,1 @@
-// walletConfig.ts
+/*walletConfig.ts*/
