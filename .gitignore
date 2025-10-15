@@ -25,8 +25,4 @@ node_modules/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
-
-
-#git
-.git/
-gitpushed.log 
+    gitpushed.log 

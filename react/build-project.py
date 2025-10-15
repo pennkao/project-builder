@@ -22,8 +22,9 @@ Layout_Demo_Files = ["index.tsx", "styles.module.css", "Header.tsx",
                      "Footer.tsx", "Sidebar.tsx", "header.module.css", 
                      "footer.module.css", "sidebar.module.css"]
 Component_Files = ["index.tsx","styles.module.css"]
+Page_Files = ["index.tsx","styles.module.css"]
 Layout_Files = ["index.tsx", "styles.module.css", "Header.tsx",  "Footer.tsx", "Sidebar.tsx"]
-Pages = {"Home":Component_Files, "Admin":Component_Files, "Login":Component_Files, "User":Component_Files}
+Pages = {"Home":Page_Files, "Admin":Page_Files, "Login":Page_Files, "User":Page_Files}
 Router_Config = {"loaders":[], "guards":["AuthGuard.tsx", "NetworkGuard.tsx"], ".":["types.ts","utils.ts","index.tsx", "pageMap.ts","layoutMap.ts"]}
 Config_Files = ["app.config.ts","app.routes.ts"]
 STRUCTURE = {

@@ -1,6 +1,6 @@
-import styles from './Header.module.css';
+import styles from './styles.module.css';
 
-export default function Header() {
+const Header = () => {
     return (
         <header className={styles.header}>
             <div className={styles.left}>
@@ -20,4 +20,6 @@ export default function Header() {
             </div>
         </header>
     );
-}
+};
+
+export default Header;

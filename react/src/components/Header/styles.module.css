@@ -1,0 +1,56 @@
+.header {
+    /* height: 60px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #5a38d1;
+    height: 100%;
+    color: #fff;
+    padding: 0 35px;
+}
+
+/* 左中右布局 */
+.left,
+.center,
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.right {
+    gap: 20px;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.search {
+    width: 200px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.themeBtn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
