@@ -92,23 +92,20 @@ STRUCTURE = {
 TEMPLATES = {
 #=========main.tsx==================
     "main.tsx": """// src/app/main.tsx
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
 // 🧩 global styles
-import "@/styles/animations.css";
-import "@/styles/global.css";
-import "@/styles/tailwind.css";
-import "@/styles/variables.css";
-
-// 🧩 React 18 的新 root API
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <React.StrictMode>
+import '@/styles/animations.css';
+import '@/styles/global.css';
+import '@/styles/tailwind.css';
+import '@/styles/variables.css';
+import App from './App';
+createRoot(document.getElementById('root')!).render(
+    <StrictMode>
         <App />
-    </React.StrictMode>
+    </StrictMode>
 );
-
 """,
 #=========App.tsx==================
     "App.tsx": """// src/App.tsx
