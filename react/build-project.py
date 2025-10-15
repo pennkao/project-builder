@@ -829,7 +829,7 @@ const HomePage = () => {
                     <Link to="login">root</Link>
                 </div>
                 <div className={styles.item}>
-                    <Link to="admin">login</Link>
+                    <Link to="admin">login</Link> 
                 </div>
                 <div className={styles.item}>
                     <Link to="admin">login</Link>
