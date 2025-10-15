@@ -1,20 +1,34 @@
 // src/pages/Home/index.tsx
 import { Link } from 'react-router';
+import styles from './styles.module.css';
 const HomePage = () => {
     return (
         <>
             <h1>🏠 This is Home Page</h1>
-            <ul>
-                <li>
+            <div className={styles.container}>
+
+                <div className={`${styles.item}  ${styles.first}`}>
+                    <span>Home</span>
                     <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="root">root</Link>
-                </li>
-                <li>
-                    <Link to="login">login</Link>
-                </li>
-            </ul>
+                </div>
+                <div className={styles.item}>
+                    <Link to="login">root</Link>
+                </div>
+                <div className={styles.item}>
+                    <Link to="admin">login</Link>
+                </div>
+                <div className={styles.item}>
+                    <Link to="admin">login</Link>
+                </div>
+                <div className={styles.item}>
+                    <Link to="admin">login</Link>
+                </div>
+                <div className={styles.item}>
+                    <Link to="admin">login</Link>
+                </div>
+
+            </div>
+
         </>
     );
 };

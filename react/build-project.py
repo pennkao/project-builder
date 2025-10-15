@@ -705,6 +705,21 @@ const LoginPage = () => {
 export default LoginPage;
 
     """,
+    #=================================================
+    "src|styles|global.css":"""/*global.css*/
+html {
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+    """,
 }#----------------------end PathFileContent-------------------------------
 #==================================================
 # 2️⃣ 项目结构定义
