@@ -464,12 +464,7 @@ export default function AppRouter() {
 
 
     """,
-    #=================================================
-    "src|core|router|layoutMap.ts":"""
-    """,
-    #=================================================
-    "src|core|router|pageMap.ts":"""
-    """,
+
     #=================================================
     "src|layouts|MainLayout|index.tsx":"""// src/layouts/MainLayout/index.tsx
 import { Outlet } from 'react-router';
@@ -517,25 +512,37 @@ export default Footer;
     """,
     #=================================================
     "src|layouts|MainLayout|styles.module.css":"""
-.content {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
-.header {
-    background: #5a38d1;
-    color: white;
-    padding: 10px;
+
+/* Header Footer 高度固定 */
+.container > :first-child,
+.container > :last-child {
+  flex-shrink: 0;
 }
-.sidebar {
-    background: #f2f2f2;
-    padding: 10px;
+
+.body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
-.footer {
-    background: #2f0c0c;
-    padding: 10px;
-    text-align: center;
+
+/* Sidebar 固定宽度 */
+.body > :first-child {
+  width: 220px;
+  flex-shrink: 0;
 }
+
+/* Main 自动占满 */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
     """,
     #=================================================
     "src|layouts|MainLayout|Sidebar.tsx":"""// Sidebar.tsx
