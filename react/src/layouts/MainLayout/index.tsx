@@ -1,7 +1,7 @@
 // src/layouts/MainLayout/index.tsx
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import Sidebar from '@/components/Sidebar';
+import AppFooter from '@/features/app/components/AppFooter';
+import AppHeader from '@/features/app/components/AppHeader';
+import AppSidebar from '@/features/app/components/AppSidebar';
 import { Outlet } from 'react-router';
 import styles from './styles.module.css';
 
@@ -9,17 +9,19 @@ export default function MainLayout() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <Header />
+                <AppHeader />
             </div>
             <div className={styles.body}>
-                <Sidebar />
+                <AppSidebar />
                 <div className={styles.content}>
                     <main className={styles.main}>
                         <Outlet />
                     </main>
-                    <Footer />
+                    <AppFooter />
                 </div>
             </div>
         </div>
     );
 }
+
+    

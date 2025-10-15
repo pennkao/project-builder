@@ -18,13 +18,12 @@ import json
 # 1️⃣ 项目结构定义
 # ==================================================
 
-Layout_Demo_Files = ["index.tsx", "styles.module.css", "Header.tsx", 
-                     "Footer.tsx", "Sidebar.tsx", "header.module.css", 
-                     "footer.module.css", "sidebar.module.css"]
+Layout_Demo_Files = ["index.tsx", "styles.module.css"]
 Component_Files = ["index.tsx","styles.module.css"]
 Page_Files = ["index.tsx","styles.module.css"]
 Layout_Files = ["index.tsx", "styles.module.css", "Header.tsx",  "Footer.tsx", "Sidebar.tsx"]
 Pages = {"Home":Page_Files, "Admin":Page_Files, "Login":Page_Files, "User":Page_Files}
+App_Component_Files = {"AppHeader":Component_Files, "AppFooter":Component_Files, "AppSidebar":Component_Files}
 Router_Config = {"loaders":[], "guards":["AuthGuard.tsx", "NetworkGuard.tsx"], ".":["types.ts","utils.ts","index.tsx", "pageMap.ts","layoutMap.ts"]}
 Config_Files = ["app.config.ts","app.routes.ts"]
 STRUCTURE = {
@@ -32,12 +31,8 @@ STRUCTURE = {
         "app": ["main.tsx", "App.tsx"],
         "layouts": {"MainLayout": Layout_Demo_Files,"AdminLayout": Layout_Files,"AuthLayout": Layout_Files},
         "features": {
-            "wallet": {
-                "components": ["WalletSidebar.tsx", "ConnectButton.tsx", "BalanceDisplay.tsx", "styles.module.css"],
-                "hooks": ["useWalletState.ts", "useWalletBalance.ts", "useWalletEvents.ts"],
-                "utils": ["formatAddress.ts", "walletHelpers.ts"],
-                "constants": ["walletConfig.ts"],
-                ".": ["index.ts"]
+            "app": {
+                "components": App_Component_Files
             },
             "admin": {
                 "components": ["AdminSidebar.tsx", "AdminPanel.tsx", "styles.module.css"],
@@ -166,8 +161,20 @@ export default App;
 
 #=========.env==================
     ".env": """
-VITE_APP_NAME=DAppTemplate
-VITE_API_BASE_URL=https://api.example.com
+VITE_APP_NAME = MyApp
+VITE_APP_API_URL = https://api.example.com
+""",
+#=========.env==================
+    ".env.dev": """
+VITE_APP_NAME = MyApp
+VITE_APP_ENV = DEV
+VITE_APP_API_URL = https://api.example.com
+""",
+#=========.env==================
+    ".env.prod": """
+VITE_APP_NAME = MyApp
+VITE_APP_ENV = PROD
+VITE_APP_API_URL = https://api.example.com
 """,
 #=========en.json==================
     "en.json": json.dumps({"hello": "Hello World"}, indent=2),
@@ -200,10 +207,8 @@ node_modules/
 # misc
 .DS_Store
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.dev
+.env.prod
 
 # editor
 .idea/
@@ -468,153 +473,230 @@ export default function AppRouter() {
 
     #=================================================
     "src|layouts|MainLayout|index.tsx":"""// src/layouts/MainLayout/index.tsx
+import AppFooter from '@/features/app/components/AppFooter';
+import AppHeader from '@/features/app/components/AppHeader';
+import AppSidebar from '@/features/app/components/AppSidebar';
 import { Outlet } from 'react-router';
-import Footer from './Footer';
-import Header from './Header';
-import Sidebar from './Sidebar';
 import styles from './styles.module.css';
 
 export default function MainLayout() {
     return (
         <div className={styles.container}>
-            <Header />
-            <div className={styles.body}>
-                <Sidebar />
-                <main className={styles.main}>
-                    <Outlet />
-                </main>
+            <div className={styles.header}>
+                <AppHeader />
             </div>
-            <Footer />
+            <div className={styles.body}>
+                <AppSidebar />
+                <div className={styles.content}>
+                    <main className={styles.main}>
+                        <Outlet />
+                    </main>
+                    <AppFooter />
+                </div>
+            </div>
         </div>
     );
 }
 
     """,
     #=================================================
-    "src|layouts|MainLayout|Header.tsx":"""// Header.tsx
-import styles from './header.module.css'; 
-
-export default function Header() {
-    return (
-        <header className={styles.header}>
-            <h1>My App</h1>
-        </header>
-    );
-}
-    """,
-    #=================================================
-    "src|layouts|MainLayout|Footer.tsx":"""// Footer.tsx
-import styles from './footer.module.css';
-const Footer = () => {
-    return <div className={styles.footer}>© 2025 My DApp. All rights reserved.</div>;
-};
-
-export default Footer;
-    """,
-    #=================================================
-    "src|layouts|MainLayout|styles.module.css":"""
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+    "src|layouts|MainLayout|styles.module.css":""".container {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    height: 100vh;
 }
 
 /* Header Footer 高度固定 */
 .container > :first-child,
 .container > :last-child {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
-
-.body {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
 /* Sidebar 固定宽度 */
 .body > :first-child {
-  width: 220px;
-  flex-shrink: 0;
+    width: 150px;
+    height: 100%;
+    flex-shrink: 0;
 }
+
+.header {
+    height: 60px;
+}
+.body {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    overflow: hidden;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding: 0 10px;
+    overflow: hidden;
+    height: 100%;
+}
+.footer {
+    height: 60px;
+}
+
+
 
 /* Main 自动占满 */
 .main {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
+    flex: 1;
+    overflow-y: scroll;
+}
+
+    """,
+
+    #=================================================
+    "src|features|app|components|AppFooter|index.tsx":"""import styles from './styles.module.css';
+
+const AppFooter = () => {
+    return <div className={styles.footer}>© 2025 My DApp. All rights reserved.</div>;
+};
+
+export default AppFooter;
+    """,
+    #=================================================
+    "src|features|app|components|AppFooter|styles.module.css":""".footer {
+    background: #91e49f;
+    padding: 10px;
+    text-align: center; 
 }
 
     """,
     #=================================================
-    "src|layouts|MainLayout|Sidebar.tsx":"""// Sidebar.tsx
-import styles from './sidebar.module.css';
-import { Link } from 'react-router';
-const Sidebar = () => {
+    "src|features|app|components|AppHeader|index.tsx":"""import styles from './styles.module.css';
+
+const AppHeader = () => {
+    return (
+        <header className={styles.header}>
+            <div className={styles.left}>
+                <div className={styles.logo}>MyApp</div>
+            </div>
+
+            <div className={styles.center}>
+                <input className={styles.search} placeholder="搜索..." />
+            </div>
+
+            <div className={styles.right}>
+                <button className={styles.themeBtn}>🌙</button>
+                <div className={styles.user}>
+                    <img src="/avatar.png" alt="user" className={styles.avatar} />
+                    <span>reco</span>
+                </div>
+            </div>
+        </header>
+    );
+};
+
+export default AppHeader;
+
+    """,
+    #=================================================
+    "src|features|app|components|AppHeader|styles.module.css":""".header {
+    /* height: 60px; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #5a38d1;
+    height: 100%;
+    color: #fff;
+    padding: 0 35px;
+}
+
+/* 左中右布局 */
+.left,
+.center,
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.right {
+    gap: 20px;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.search {
+    width: 200px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.themeBtn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+
+    """,
+    #=================================================
+    #=================================================
+    "src|features|app|components|AppSidebar|index.tsx":"""import { Link } from 'react-router';
+import styles from './styles.module.css';
+const AppSidebar = () => {
     return (
         <nav className={styles.sidebar}>
-            <ul>
-                <li><Link to="/">🏠 Home</Link></li>
-                <li><Link to="/login">🔑 Login</Link></li>
-                <li><Link to="/admin">⚙️ Admin</Link></li>
-            </ul>
+            <div className={styles.item}>
+                <Link to="/">🏠 Home</Link>
+            </div>
+            <div className={styles.item}>
+                <Link to="/login">🔑 Login</Link>
+            </div>
+            <div className={styles.item}>
+                <Link to="/admin">⚙️ Admin</Link>
+            </div>
         </nav>
     );
 };
 
-export default Sidebar;
+export default AppSidebar;
+
+
     """,
     #=================================================
-    "src|layouts|MainLayout|header.module.css":"""
-.header {
-    background: #5a38d1;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    height: 60px;
-}
-    """,
-    "src|layouts|MainLayout|footer.module.css":"""
-.footer {
-    background: #91e49f;
-    padding: 10px;
+    "src|features|app|components|AppSidebar|styles.module.css":""".sidebar {
+    background: #f8f4f4;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    row-gap: 10px;
+    padding: 10px 0;
+    height: 100%;
 }
 
-    """,
-    #=================================================
-    "src|layouts|MainLayout|sidebar.module.css":"""
-.sidebar {
-    background: #f2f2f2;
-    padding: 10px;
+.item {
+    padding: 10px 0px;
+    background-color: #e4dbdb; /* #f2f2f2; */
+    font-size: 1.2rem;
 }
-
-    """,
-    #=================================================
-    #=================================================
-    "src|pages|Home|index.tsx":"""// src/pages/Home/index.tsx
-import { Link } from 'react-router';
-const HomePage = () => {
-    return (
-        <>
-            <h1>🏠 This is Home Page</h1>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="root">root</Link>
-                </li>
-                <li>
-                    <Link to="login">login</Link>
-                </li>
-            </ul>
-        </>
-    );
-};
-
-export default HomePage;
-
 
     """,
     #=================================================
@@ -720,6 +802,105 @@ html {
     margin: 0;
     padding: 0;
 }
+    """,
+
+    #=================================================
+    "src|pages|Home|index.tsx":"""// src/pages/Home/index.tsx
+import { useState } from 'react';
+import { Link } from 'react-router';
+import styles from './styles.module.css';
+const HomePage = () => {
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+
+    return (
+        <>
+            <h1>🏠 This is Home Page</h1>
+            <div className={styles.container}>
+                <div className={`${styles.item}  ${styles.first}`}>
+                    <span>
+                        <Link className={styles.sp} style={{ verticalAlign: 'middle' }} to="/">
+                            Home
+                        </Link>
+
+                        <img  className={styles.img} alt="" />
+                    </span>
+                </div>
+                <div className={styles.item}>
+                    <Link to="login">root</Link>
+                </div>
+                <div className={styles.item}>
+                    <Link to="admin">login</Link>
+                </div>
+                <div className={styles.item}>
+                    <Link to="admin">login</Link>
+                </div>
+                <div className={styles.item}>
+                    <Link to="admin">login</Link>
+                </div>
+                <div className={styles.item}>
+                    <Link to="admin">login</Link>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default HomePage;
+
+    """,
+    #=================================================
+    "src|pages|Home|styles.module.css":"""/*styles.module.css*/
+.container {
+    display: flex;
+    background: #c37676;
+    flex-direction: row;
+
+    height: 1500px;
+    /* flex-wrap:wrap; */
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.item {
+    /* float: left; */
+    /* margin:10px; */
+    width: 100px;
+    flex-shrink: 0;
+    height: 100px;
+    background: #f0f0f0;
+}
+
+.first {
+    text-align: center;
+    vertical-align: center;
+    /* line-height: 100px; */
+    padding: 50px, 50px;
+    flex: 2;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    vertical-align: bottom;
+}
+
+.sp {
+    vertical-align: bottom;
+
+    background-color: #9fc7a5;
+}
+.img {
+    vertical-align: bottom;
+
+    width: 40px;
+    height: 40px;
+}
+
     """,
 }#----------------------end PathFileContent-------------------------------
 #==================================================

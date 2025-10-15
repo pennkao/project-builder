@@ -1,5 +1,4 @@
 // src/pages/Home/index.tsx
-import a from '@/assets/images/ev1.png';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import styles from './styles.module.css';
@@ -16,7 +15,7 @@ const HomePage = () => {
                             Home
                         </Link>
 
-                        <img src={a} className={styles.img} alt="" />
+                        <img  className={styles.img} alt="" />
                     </span>
                 </div>
                 <div className={styles.item}>
@@ -40,3 +39,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+    

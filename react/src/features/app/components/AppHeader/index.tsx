@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-const Header = () => {
+const AppHeader = () => {
     return (
         <header className={styles.header}>
             <div className={styles.left}>
@@ -22,4 +22,6 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default AppHeader;
+
+    

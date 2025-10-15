@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import styles from './styles.module.css';
-const Sidebar = () => {
+const AppSidebar = () => {
     return (
         <nav className={styles.sidebar}>
             <div className={styles.item}>
@@ -16,4 +16,7 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar;
+export default AppSidebar;
+
+
+    
