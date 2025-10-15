@@ -18,15 +18,18 @@ import json
 # 1️⃣ 项目结构定义
 # ==================================================
 
+Layout_Demo_Files = ["index.tsx", "styles.module.css", "Header.tsx", 
+                     "Footer.tsx", "Sidebar.tsx", "header.module.css", 
+                     "footer.module.css", "sidebar.module.css"]
 Component_Files = ["index.tsx","styles.module.css"]
-Layout_Files = ["index.tsx", "styles.module.css", "Header.tsx", "Container.tsx", "Footer.tsx", "Sidebar.tsx"]
+Layout_Files = ["index.tsx", "styles.module.css", "Header.tsx",  "Footer.tsx", "Sidebar.tsx"]
 Pages = {"Home":Component_Files, "Admin":Component_Files, "Login":Component_Files, "User":Component_Files}
 Router_Config = {"loaders":[], "guards":["AuthGuard.tsx", "NetworkGuard.tsx"], ".":["types.ts","utils.ts","index.tsx", "pageMap.ts","layoutMap.ts"]}
 Config_Files = ["app.config.ts","app.routes.ts"]
 STRUCTURE = {
     "src": {
         "app": ["main.tsx", "App.tsx"],
-        "layouts": {"MainLayout": Layout_Files,"AdminLayout": Layout_Files,"AuthLayout": Layout_Files},
+        "layouts": {"MainLayout": Layout_Demo_Files,"AdminLayout": Layout_Files,"AuthLayout": Layout_Files},
         "features": {
             "wallet": {
                 "components": ["WalletSidebar.tsx", "ConnectButton.tsx", "BalanceDisplay.tsx", "styles.module.css"],
@@ -469,49 +472,45 @@ export default function AppRouter() {
     """,
     #=================================================
     "src|layouts|MainLayout|index.tsx":"""// src/layouts/MainLayout/index.tsx
-import React from 'react';
 import { Outlet } from 'react-router';
-
 import Footer from './Footer';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import styles from './styles.module.css';
-export function MainLayout({ children }: { children?: React.ReactNode }) {
+
+export default function MainLayout() {
     return (
-        <div className={styles.content}>
+        <div className={styles.container}>
             <Header />
-            <Sidebar />
-            <main>{children || <Outlet />}</main>
+            <div className={styles.body}>
+                <Sidebar />
+                <main className={styles.main}>
+                    <Outlet />
+                </main>
+            </div>
             <Footer />
         </div>
     );
 }
 
-export default MainLayout;
-
-
     """,
     #=================================================
     "src|layouts|MainLayout|Header.tsx":"""// Header.tsx
-const Header = () => {
+import styles from './header.module.css'; 
+
+export default function Header() {
     return (
-        <header>
-            <h1>Admin Layout</h1>
+        <header className={styles.header}>
+            <h1>My App</h1>
         </header>
     );
-};
-
-export default Header;
-
+}
     """,
     #=================================================
     "src|layouts|MainLayout|Footer.tsx":"""// Footer.tsx
+import styles from './footer.module.css';
 const Footer = () => {
-    return (
-        <footer>
-            <p>Footer</p>
-        </footer>
-    );
+    return <div className={styles.footer}>© 2025 My DApp. All rights reserved.</div>;
 };
 
 export default Footer;
@@ -540,17 +539,49 @@ export default Footer;
     """,
     #=================================================
     "src|layouts|MainLayout|Sidebar.tsx":"""// Sidebar.tsx
-import { Link } from 'react-router-dom';
+import styles from './sidebar.module.css';
 const Sidebar = () => {
     return (
-        <aside>
-            <p>Sidebar</p>
-        </aside>
+        <nav className={styles.sidebar}>
+            <ul>
+                <li>🏠 Home</li>
+                <li>🔑 Login</li>
+                <li>⚙️ Admin</li>
+            </ul>
+        </nav>
     );
 };
 
 export default Sidebar;
     """,
+    #=================================================
+    "src|layouts|MainLayout|header.module.css":"""
+.header {
+    background: #5a38d1;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+    """,
+    "src|layouts|MainLayout|footer.module.css":"""
+.footer {
+    background: #91e49f;
+    padding: 10px;
+    text-align: center;
+}
+
+    """,
+    #=================================================
+    "src|layouts|MainLayout|sidebar.module.css":"""
+.sidebar {
+    background: #f2f2f2;
+    padding: 10px;
+}
+
+    """,
+    #=================================================
     #=================================================
     "src|pages|Home|index.tsx":"""// src/pages/Home/index.tsx
 import { Link } from 'react-router';

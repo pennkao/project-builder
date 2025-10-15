@@ -1,12 +1,15 @@
 // Sidebar.tsx
-import { Link } from 'react-router-dom';
+import styles from './sidebar.module.css';
 const Sidebar = () => {
     return (
-        <aside>
-            <p>Sidebar</p>
-        </aside>
+        <nav className={styles.sidebar}>
+            <ul>
+                <li>🏠 Home</li>
+                <li>🔑 Login</li>
+                <li>⚙️ Admin</li>
+            </ul>
+        </nav>
     );
 };
 
 export default Sidebar;
-    

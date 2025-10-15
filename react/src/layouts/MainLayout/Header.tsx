@@ -1,12 +1,9 @@
-// Header.tsx
-const Header = () => {
+import styles from './header.module.css'; 
+
+export default function Header() {
     return (
-        <header>
-            <h1>Admin Layout</h1>
+        <header className={styles.header}>
+            <h1>My App</h1>
         </header>
     );
-};
-
-export default Header;
-
-    
+}

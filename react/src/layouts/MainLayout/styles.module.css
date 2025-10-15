@@ -1,21 +1,29 @@
-
 .content {
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
-.header {
-    background: #5a38d1;
-    color: white;
-    padding: 10px;
+/* Header Footer 高度固定 */
+.container > :first-child,
+.container > :last-child {
+    flex-shrink: 0;
 }
-.sidebar {
-    background: #f2f2f2;
-    padding: 10px;
+.body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
 }
-.footer {
-    background: #2f0c0c;
-    padding: 10px;
-    text-align: center;
+/* Sidebar 固定宽度 */
+.body > :first-child {
+    width: 220px;
+    flex-shrink: 0;
 }
-    
+
+/* Main 自动占满 */
+.main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}

@@ -1,23 +1,21 @@
 // src/layouts/MainLayout/index.tsx
-import React from 'react';
 import { Outlet } from 'react-router';
-
 import Footer from './Footer';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import styles from './styles.module.css';
-export function MainLayout({ children }: { children?: React.ReactNode }) {
+
+export default function MainLayout() {
     return (
-        <div className={styles.content}>
+        <div className={styles.container}>
             <Header />
-            <Sidebar />
-            <main>{children || <Outlet />}</main>
+            <div className={styles.body}>
+                <Sidebar />
+                <main className={styles.main}>
+                    <Outlet />
+                </main>
+            </div>
             <Footer />
         </div>
     );
 }
-
-export default MainLayout;
-
-
-    
