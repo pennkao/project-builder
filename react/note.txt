@@ -1,0 +1,11 @@
+vertical-align: middle;  
+用法：1。是用在要对齐的元素自身，而不是用在父元素，自身和父元素都要求是inline或者inline-block元素，否则没有效果。
+2。vertail-align不是用来调整居中的，而是用来调整自身基线的，比如图片和文字对齐，就是通过调整图片的基线来实现的。 
+
+例子:<span>
+    <img src="1.jpg" alt="1" style="vertical-align: middle;height: 100px; width: 50px;"/>
+    <span style="vertical-align: middle;font-size: 20px;">文字</span>
+</span>
+
+两个要对齐的元素都设置成middle，表示两个元素都是中线对齐，而不是在父元素内垂直居中。
+

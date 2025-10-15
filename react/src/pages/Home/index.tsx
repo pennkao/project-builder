@@ -1,15 +1,23 @@
 // src/pages/Home/index.tsx
+import a from '@/assets/images/ev1.png';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import styles from './styles.module.css';
 const HomePage = () => {
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+
     return (
         <>
             <h1>🏠 This is Home Page</h1>
             <div className={styles.container}>
-
                 <div className={`${styles.item}  ${styles.first}`}>
-                    <span>Home</span>
-                    <Link to="/">Home</Link>
+                    <span>
+                        <Link className={styles.sp} style={{ verticalAlign: 'middle' }} to="/">
+                            Home
+                        </Link>
+
+                        <img src={a} className={styles.img} alt="" />
+                    </span>
                 </div>
                 <div className={styles.item}>
                     <Link to="login">root</Link>
@@ -26,14 +34,9 @@ const HomePage = () => {
                 <div className={styles.item}>
                     <Link to="admin">login</Link>
                 </div>
-
             </div>
-
         </>
     );
 };
 
 export default HomePage;
-
-
-    
