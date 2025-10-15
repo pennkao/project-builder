@@ -3,7 +3,10 @@ html {
     box-sizing: border-box;
     font-family: system-ui, sans-serif;
 }
-
+body,
+html {
+    overflow: hidden; /* ✅ 禁止出现滚动条 */
+}
 *,
 *::before,
 *::after {
@@ -11,4 +14,3 @@ html {
     margin: 0;
     padding: 0;
 }
-    

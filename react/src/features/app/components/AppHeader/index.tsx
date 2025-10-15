@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 
+import Language from '@/components/common/Language';
 const AppHeader = () => {
     return (
         <header className={styles.header}>
@@ -12,6 +13,7 @@ const AppHeader = () => {
             </div>
 
             <div className={styles.right}>
+                <Language />
                 <button className={styles.themeBtn}>🌙</button>
                 <div className={styles.user}>
                     <img src="/avatar.png" alt="user" className={styles.avatar} />
@@ -23,5 +25,3 @@ const AppHeader = () => {
 };
 
 export default AppHeader;
-
-    

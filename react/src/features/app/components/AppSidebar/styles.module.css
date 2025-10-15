@@ -7,12 +7,19 @@
     row-gap: 10px;
     padding: 10px 0;
     height: 100%;
+    box-shadow: 0 0 10px rgba(159, 103, 103, 0.1);
 }
 
-.item {
+.navItem {
     padding: 10px 0px;
     background-color: #e4dbdb; /* #f2f2f2; */
     font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 10px;
 }
+.navItem:hover {
+    background-color: #d4c9c9;
+}
+
 
     

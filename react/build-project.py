@@ -221,33 +221,34 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
     """
+    
     package_json = {
-        "name": "template",
-        "version": "1.0.0",
-        "private": True,
-        "scripts": {
-            "dev": "vite --host 0.0.0.0 --mode dev",
-            "build": "vite build",
-            "preview": "vite preview"
-        },
-        "dependencies": {
-            "react": "^18.3.1",
-            "react-dom": "^18.3.1",
-            "react-router": "^7.9.4",
-        },
-        "devDependencies": {
-            "@types/react": "^18.3.4",
-            "@types/react-dom": "^18.3.2",
-            "@types/node": "^24.7.2",
-            "@types/react": "^18.3.26",
-            "@types/react-dom": "^18.3.7",
-            "@vitejs/plugin-react": "^4.3.2",
-            "autoprefixer": "^10.4.21",
-            "postcss": "^8.5.6",
-            "typescript": "^5.9.3",
-            "vite": "^7.1.9"
-        }
+    "name": "template",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@ark-ui/react": "^5.26.0",
+        "i18next": "^25.6.0",
+        "i18next-browser-languagedetector": "^8.2.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-i18next": "^16.0.1",
+        "react-router": "^7.9.4"
+    },
+    "devDependencies": {
+        "@types/react": "^18.3.4",
+        "@types/react-dom": "^18.3.2",
+        "@vitejs/plugin-react": "^4.3.2",
+        "typescript": "^5.9.3",
+        "vite": "^7.1.9"
     }
+}
+
 
 
     tsconfig = {

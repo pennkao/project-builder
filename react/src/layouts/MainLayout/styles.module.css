@@ -1,6 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    background-color: var(--color-primary-text-hover);
     /* justify-content: space-between; */
     height: 100vh;
 }
@@ -40,12 +41,8 @@
     height: 60px;
 }
 
-
-
 /* Main 自动占满 */
 .main {
     flex: 1;
     overflow-y: scroll;
 }
-
-    

@@ -1,3 +1,5 @@
 {
-  "hello": "Hello World"
+    "welcome": "Welcome to My DApp",
+    "login": "Login",
+    "logout": "Logout"
 }
