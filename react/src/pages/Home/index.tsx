@@ -1,5 +1,5 @@
 // src/pages/Home/index.tsx
-import { useEffect, useState } from 'react';
+import React, { Activity, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import styles from './styles.module.css';
@@ -7,28 +7,35 @@ import styles from './styles.module.css';
 const HomePage = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const { t } = useTranslation();
-    const [users, setUsers] = useState([]);
+    const [count, setCount] = useState(0);
+
+    const [users, setUsers] = useState<{ id: number; name: string }[]>([]);
+    const UserList = React.memo(({ users }: { users: { id: number; name: string }[] }) => {
+        console.log('Render UserList');
+        return (
+            <div>
+                {users.map((user: { id: number; name: string }) => (
+                    <div key={user.id}>{user.name}</div>
+                ))}
+            </div>
+        );
+    });
+
     useEffect(() => {
         fetch('/api/users')
             .then((res) => res.json())
             .then((data) => setUsers(data.data));
     }, []);
-    // const aaa = useEffectEvent(() => {
-    //     console.log('position', position);
-    // });
-
-    useEffect(() => {
-        document.addEventListener('mousemove', (e) => {
-            // aaa();
-        });
-    }),
-        [position];
 
     return (
         <>
-            {users.map((user) => (
-                <p key={user.id}>{user.name}</p>
-            ))}
+            <button onClick={() => setCount((c) => c + 1)}>点击 {count}</button>
+            <Activity mode={count > 5 ? 'visible' : 'hidden'}>
+                <p>
+                    当前位置：{position.x} - {position.y}
+                </p>
+            </Activity>
+            <UserList users={users} />
             <h1>🏠 This is Home Page</h1>
             <div className={styles.container}>
                 <div className={`${styles.item}  ${styles.first}`}>
@@ -53,7 +60,7 @@ const HomePage = () => {
                     <Link to="admin">login</Link>
                 </div>
                 <div className={styles.item}>
-                    <Link to="admin">{t('logout')}</Link>
+                    <Link to="admin">{t('common.wellcome')}</Link>
                 </div>
             </div>
         </>

@@ -12,14 +12,14 @@
 
 .navItem {
     padding: 10px 0px;
-    background-color: #e4dbdb; /* #f2f2f2; */
+    background-color: #faf5f5; /* #f2f2f2; */
     font-size: 1.2rem;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 4px;
 }
 .navItem.active {
     background-color: #d4c9c9;
 }
 .navItem:hover {
-    background-color: #d4c9c9;
+    background-color: #f2eded;
 }

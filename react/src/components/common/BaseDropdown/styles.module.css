@@ -1,0 +1,25 @@
+.dropdownWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown {
+    appearance: none;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px 32px 4px 8px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+}
+
+.dropdownWrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8em;
+    color: #666;
+    pointer-events: none;
+}

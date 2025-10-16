@@ -1,4 +1,5 @@
 {
+    "common.wellcome": "欢迎使用我的 DApp",
     "welcome": "欢迎使用我的 DApp",
     "login": "登录",
     "logout": "退出登录"
