@@ -27,6 +27,8 @@ App_Component_Files = {"AppHeader":Component_Files, "AppFooter":Component_Files,
 Router_Config = {"loaders":[], "guards":["AuthGuard.tsx", "NetworkGuard.tsx"], ".":["types.ts","utils.ts","index.tsx", "pageMap.ts","layoutMap.ts"]}
 Config_Files = ["app.config.ts","app.routes.ts"]
 STRUCTURE = {
+     ".": [".env", ".env.dev", ".env.prod", "index.html"],
+     "mock": ["use.ts"],
     "src": {
         "app": ["main.tsx", "App.tsx"],
         "layouts": {"MainLayout": Layout_Demo_Files,"AdminLayout": Layout_Files,"AuthLayout": Layout_Files},
@@ -83,7 +85,7 @@ STRUCTURE = {
             "router": Router_Config,
         }
     },
-    ".": [".env", ".env.dev", ".env.prod", "index.html"]
+   
 }
 
 # ==================================================
@@ -229,7 +231,6 @@ pnpm-lock.yaml
         "preview": "vite preview"
     },
     "dependencies": {
-        "@ark-ui/react": "^5.26.0",
         "i18next": "^25.6.0",
         "i18next-browser-languagedetector": "^8.2.0",
         "react": "^18.3.1",
@@ -238,6 +239,7 @@ pnpm-lock.yaml
         "react-router": "^7.9.4"
     },
     "devDependencies": {
+        "@types/node": "^24.7.2",
         "@types/react": "^18.3.4",
         "@types/react-dom": "^18.3.2",
         "@vitejs/plugin-react": "^4.3.2",
@@ -245,8 +247,6 @@ pnpm-lock.yaml
         "vite": "^7.1.9"
     }
 }
-
-
 
     tsconfig = {
         "compilerOptions": {
@@ -364,13 +364,20 @@ module.exports = {
 *.md
     """
     
-    vite_config = """// @ts-nocheck 忽略类型检查，防止“找不到类型定义”等无关错误
-import react from '@vitejs/plugin-react';
+    vite_config = """
+import { viteMockServe } from 'vite-plugin-mock';
+
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        viteMockServe({
+            mockPath: 'mock', // mock 文件目录
+            logger: true, // 打印日志
+            }),
+    ],
     resolve: { alias: { '@': resolve(__dirname, 'src') } },
 });
 """
@@ -899,6 +906,36 @@ export default HomePage;
     height: 40px;
 }
 
+    """,
+    #=================================================
+    "mock|use.ts":"""// mock/user.ts
+import { MockMethod } from 'vite-plugin-mock';
+
+export default [
+    {
+        url: '/api/users',
+        method: 'get',
+        response: () => {
+            return {
+                code: 200,
+                data: [
+                    { id: 1, name: 'Alice' },
+                    { id: 2, name: 'Bob' },
+                ],
+            };
+        },
+    },
+    {
+        url: '/api/user',
+        method: 'post',
+        response: ({ body }) => {
+            return {
+                code: 200,
+                data: { id: 3, ...body },
+            };
+        },
+    },
+] as MockMethod[];
     """,
 }#----------------------end PathFileContent-------------------------------
 #==================================================
