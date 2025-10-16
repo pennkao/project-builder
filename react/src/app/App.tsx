@@ -2,6 +2,7 @@
 import { ThemeProvider } from '@/context/ThemeContext';
 import '@/core/i18n';
 import AppRouter from '@/core/router';
+
 const App = () => {
     return (
         <ThemeProvider>

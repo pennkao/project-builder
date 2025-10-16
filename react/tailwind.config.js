@@ -1,4 +1,3 @@
-// prettier.config.js 或 .prettierrc.js
 // tailwind.config.js
 module.exports = {
     // 1. 必须配置：指定需要扫描的文件

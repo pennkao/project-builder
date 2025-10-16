@@ -1,4 +1,5 @@
 // src/pages/Home/index.tsx
+import { Button } from '@/components/ui/button';
 import React, { Activity, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
@@ -63,6 +64,9 @@ const HomePage = () => {
                     <Link to="admin">{t('common.wellcome')}</Link>
                 </div>
             </div>
+            <h2 className="text-lg font-semibold">账户余额</h2>
+            <p className="text-muted-foreground">0.245 ETH</p>
+            <Button className="mt-4 w-full">充值</Button>
         </>
     );
 };
