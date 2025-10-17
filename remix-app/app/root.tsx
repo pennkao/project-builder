@@ -1,8 +1,8 @@
 import {
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  isRouteErrorResponse,
+    Outlet,
+    Scripts,
+    ScrollRestoration,
+    isRouteErrorResponse,
 } from "react-router";
 import type { Route } from "./+types/root";
 

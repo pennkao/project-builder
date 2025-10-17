@@ -1,24 +1,17 @@
-// tailwind.config.ts （或 .js）
 import type { Config } from "tailwindcss";
 
 export default {
-  // 👇 必须包含 content！
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      colors: {
-        brand: "#3b82f6",
-      },
-      maxWidth: {
-        '5xl': '200px', // ✅ 现在会生效
-      },
-      fontFamily: {
-        sans: ["Inter", "sans-serif"],
-      },
+    colors: {
+      brand: "#3b82f6",
+    },
+    maxWidth: {
+      "8xl": "800px",   // ✅ v4 允许直接写，不需要 extend
+    },
+    fontFamily: {
+      sans: ["Inter", "sans-serif"],
     },
   },
-
   plugins: [],
 } satisfies Config;

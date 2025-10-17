@@ -12,4 +12,3 @@ module.exports = {
     bracketSameLine: false, // 多行 JSX 元素的 `>` 换行显示
     arrowParens: 'always', // 箭头函数参数始终加括号
 };
-    

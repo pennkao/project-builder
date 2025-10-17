@@ -1,44 +1,10 @@
 
 import Banner from "@/features/app/Banner";
+import products from "@/mock/products";
+import products2 from "@/mock/products";
 const HomePage = ({ data }: any) => {{
-const products: Product[] = [
-  {
-    id: "1",
-    name: "【五粮液一尊天下】六瓶装浓香型52度白酒",
-    image: "https://cdn1.tiantiandui.cn/yT7icgYLBgtDD4g31Y50gNYjIn0sHAPq?x-oss-process=image/resize,h_400,m_lfit",
-    points: 58000,
-    price: 4999,
-    monthly: "1.2万",
-    tags: ["五粮液官方授权", "52°浓香经典"],
-  },
-  {
-    id: "2",
-    name: "【除菌除螨】牛油果洗衣液两/四桶装",
-    image: "https://cdn1.tiantiandui.cn/XIQ8o2iZVL8X3yVxfOZBcNh60VT6hhDj?x-oss-process=image/resize,h_400,m_lfit",
-    points: 12000,
-    price: 98.9,
-    monthly: "2.4万",
-    tags: ["母婴级品质", "抑菌温和"],
-  },
-  {
-    id: "3",
-    name: "【甩脂机】腰腹按摩懒人减肥专属",
-    image: "https://cdn1.tiantiandui.cn/XIQ8o2iZVL8X3yVxfOZBcNh60VT6hhDj?x-oss-process=image/resize,h_400,m_lfit",
-    points: 7300,
-    price: 149,
-    monthly: "11.7万",
-    tags: ["腰腹甩脂", "振动按摩"],
-  },
-  {
-    id: "4",
-    name: "【轻便登机箱】静音万向轮行李箱20寸",
-    image: "https://cdn1.tiantiandui.cn/XIQ8o2iZVL8X3yVxfOZBcNh60VT6hhDj?x-oss-process=image/resize,h_400,m_lfit",
-    points: 3080,
-    price: 308,
-    monthly: "700+",
-    tags: ["可上飞机", "加厚防撞"],
-  },
-];
+    const products = products2
+
 
     return (
         <>
