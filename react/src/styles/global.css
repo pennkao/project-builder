@@ -147,5 +147,4 @@ input {
     color: var(--input-foreground);
     background-color: var(--input);
     border: 1px solid var(--border);
-
 }
