@@ -9,8 +9,8 @@ export default function MainLayout() {
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* 内层：限制宽度为 1200px，居中，包含所有内容 */}
       <div className="w-full mx-auto flex flex-col flex-grow max-w-4xl">
-        <AppHeader />
-        <main className="flex-grow">
+        
+        <main className="flex-grow max-w-4xl">
           <Outlet />
         </main>
         <AppFooter />

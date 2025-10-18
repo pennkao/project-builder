@@ -1,16 +1,19 @@
 //routes/product.tsx
-import ProductPage from "@/pages/product";
-import type { Route } from "./+types/product";
+import ProductPage from '@/pages/product';
+import type { Route } from './+types/product';
 
-export const loader = async () => {
-  return {};
+export const loader = async ({ params }: Route.LoaderArgs) => {
+    console.log(params);
+    return {};
 };
 export const clientLoader = async () => {
-  return {};
+    return {};
 };
 export default function Product({ loaderData }: Route.ComponentProps) {
-  const data = loaderData;
-  return (<><ProductPage data={data} /></>);
+    const data = loaderData;
+    return (
+        <>
+            <ProductPage data={data} />
+        </>
+    );
 }
-    
-    
