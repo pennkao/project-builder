@@ -1,5 +1,4 @@
 import AppHeader from '@/features/app/AppHeader';
-import Banner from '@/features/app/Banner';
 import products2 from '@/mock/products';
 import { Link } from 'react-router';
 const HomePage = ({ data }: any) => {
@@ -28,8 +27,10 @@ const HomePage = ({ data }: any) => {
                                         <h3 className="font-medium text-gray-900 line-clamp-2 text-sm">{product.name}</h3>
                                         <div className="mt-2">
                                             <div className="text-lg font-bold text-red-600">{product.points}积分</div>
-                                            <div className="text-xs text-gray-500 mt-1">{product.price}元</div>
-                                            <div className="text-xs text-orange-600 mt-1">月兑{product.monthly}+</div>
+                                            <div className="flex  justify-between">
+                                                <div className="text-xs text-gray-500 mt-1">{product.price}元</div>
+                                                <div className="text-xs text-orange-600 mt-1">月兑{product.monthly}+</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </Link>

@@ -1,6 +1,13 @@
-import imgUrl from '@/assets/images/banner1.jpeg';
+import imgUrl1 from '@/assets/images/s1.jpg';
+import imgUrl2 from '@/assets/images/s2.jpg';
+import imgUrl3 from '@/assets/images/s3.jpg';
+import imgUrl4 from '@/assets/images/s4.jpg';
+import imgUrl5 from '@/assets/images/s5.jpg';
 
 import { useEffect, useRef, useState } from 'react';
+import SwiperImage from '@/components/SwiperImage';
+
+const bannerImages = [imgUrl1, imgUrl2, imgUrl3, imgUrl4, imgUrl5];
 
 const AppHeader = ({ className }: { className?: string }) => {
     const headerRef = useRef<HTMLDivElement>(null);
@@ -52,14 +59,10 @@ const AppHeader = ({ className }: { className?: string }) => {
                     <span className="text-white text-lg whitespace-nowrap">🎧</span>
                 </div>
             </header>
-            <div style={{ height: `${headerHeight}px` }}></div>
-            <section className={`relative w-full ${className}`}>
+            <div style={{ height: `${headerHeight + 1}px` }}></div>
+            <section className={` w-full ${className}`}>
                 {/* 占位元素：高度 = 宽度 * (高度/宽度) */}
-                <div className="pb-[31.25%]">
-                    {' '}
-                    {/* 16:5 → 5/16 = 31.25% */}
-                    <img src={imgUrl} alt="banner" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
-                </div>
+                <SwiperImage images={bannerImages} autoPlayInterval={4000} className="rounded-lg" />
             </section>
         </>
     );
