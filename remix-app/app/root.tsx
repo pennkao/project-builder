@@ -1,4 +1,6 @@
 import { Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from 'react-router';
+import { useEffect } from 'react';
+import { detectFastestCdnOnce, getFastestCdn } from './utils/cdnChecker';
 import type { Route } from './+types/root';
 
 // import stylesHref from "./styles/global.module.css?url";
@@ -6,6 +8,9 @@ import globalStylesHref from './app.css?url';
 import styles from './main.css?url';
 
 export default function App() {
+    useEffect(() => {
+        detectFastestCdnOnce();
+    }, []);
     return <Outlet />;
 }
 
