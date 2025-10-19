@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import SImage from '@/components/BaseImage';
 import styles from './styles.module.css';
 interface SwiperImageProps {
     images: string[];
@@ -120,7 +121,7 @@ export default function SwiperImage({ images, autoPlayInterval = 5000, className
             <div className={`flex transition-transform duration-300 ease-out ${styles['swiper-container']}`} style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
                 {images.map((img, index) => (
                     <div key={index} className="w-full flex-shrink-0">
-                        <img src={img} alt={`slide-${index}`} className="w-full h-full object-cover" loading={index === 0 ? 'eager' : 'lazy'} draggable={false} />
+                        <SImage src={img} alt={`slide-${index}`} className="w-full h-full object-cover" loading={index === 0 ? 'eager' : 'lazy'} draggable={false} />
                     </div>
                 ))}
             </div>
