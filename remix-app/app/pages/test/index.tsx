@@ -99,6 +99,14 @@ export default function TestPage() {
         </div>
       </div>
     </div>
+
+<div className="relative w-full h-full">
+    <div className="absolute inset-0 h-full w-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
+
+    <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-slate-300/50 border-t-slate-500/75 rounded-full animate-spin"></div>
+    </div>
+</div>
     </>
   );
 }

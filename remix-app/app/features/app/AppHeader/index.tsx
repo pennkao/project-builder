@@ -11,8 +11,8 @@ const bannerImages = [imgUrl1, imgUrl2, imgUrl3, imgUrl4, imgUrl5];
 
 const AppHeader = ({ className }: { className?: string }) => {
     const headerRef = useRef<HTMLDivElement>(null);
-    const [headerHeight, setHeaderHeight] = useState(0);
-
+    const [headerHeight, setHeaderHeight] = useState(85);
+    className = className || '';
     useEffect(() => {
         // 组件挂载后，读取 Header 的实际高度
         if (headerRef.current) {
@@ -59,10 +59,10 @@ const AppHeader = ({ className }: { className?: string }) => {
                     <span className="text-white text-lg whitespace-nowrap">🎧</span>
                 </div>
             </header>
-            <div style={{ height: `${headerHeight + 1}px` }}></div>
-            <section className={` w-full ${className}`}>
+            <div className={`h-[84px]`}></div>
+            <section className="min-h-[170px] ">
                 {/* 占位元素：高度 = 宽度 * (高度/宽度) */}
-                <SwiperImage images={bannerImages} autoPlayInterval={4000} className="rounded-lg" />
+                <SwiperImage images={bannerImages}  autoPlayInterval={4000} className="rounded-lg" />
             </section>
         </>
     );

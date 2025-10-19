@@ -1,21 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { Cdn_Config } from '@/config/cdn';
+import React, { useEffect, useRef, useState } from 'react';
 interface SImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-    width?: number | string;
-    height?: number | string;
     className?: string;
+    isUrl: boolean; //直接使用url
     skeletonClassName?: string;
 }
 
-export default function BaseImage({ src, alt = '', width = '100%', height = 'auto', className = '', skeletonClassName = '', ...rest }: SImageProps) {
+export default function BaseImage({ src, alt = '', isUrl = false, className = '', skeletonClassName = '', ...rest }: SImageProps) {
     const [loaded, setLoaded] = useState(false);
     const imgRef = useRef<HTMLImageElement>(null);
-    if (import.meta.env.vVITE_ENV === 'PROD') {
-        src = Cdn_Config.defaultBase + src;
-    }else{
-        src = Cdn_Config.devBase + src;
+
+    if (!isUrl) {
+        if (import.meta.env.VITE_ENV === 'PROD') {
+            src = Cdn_Config.defaultBase + src;
+        } else {
+            src = Cdn_Config.devBase + src;
+        }
     }
-    console.log('src', src);
     // 如果图片缓存中已加载完，直接设置 loaded
     useEffect(() => {
         const img = imgRef.current;
@@ -25,13 +26,9 @@ export default function BaseImage({ src, alt = '', width = '100%', height = 'aut
     }, [src]);
 
     return (
-        <div className="relative overflow-hidden rounded-xl" style={{ width, height }}>
+        <div className="relative overflow-hidden rounded-xl h-full w-full">
             {/* 骨架层 */}
-            {!loaded && (
-                <div className={`absolute inset-0 bg-gray-200 dark:bg-gray-700 overflow-hidden z-0 ${skeletonClassName}`}>
-                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent dark:via-white/10" />
-                </div>
-            )}
+            {!loaded && <div className={`absolute inset-0 h-full w-full bg-gray-200 dark:bg-gray-700 overflow-hidden z-0 skeleton-shimmer`} />}
 
             {/* 图片层 */}
             {src && (

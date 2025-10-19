@@ -1,13 +1,16 @@
 // ThumbnailGallery.jsx
 import { useEffect, useRef } from 'react';
+import BaseImage from '../BaseImage';
 
 interface ThumbnailGalleryProps {
     images: string[];
     activeIndex: number;
+    height?: number;
+    width?: number;
     onClick: (index: number) => void;
 }
 
-export default function ThumbGallery({ images, activeIndex, onClick }: ThumbnailGalleryProps) {
+export default function ThumbGallery({ images, activeIndex, height = 60, width = 60, onClick }: ThumbnailGalleryProps) {
     const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
     useEffect(() => {
@@ -29,7 +32,7 @@ export default function ThumbGallery({ images, activeIndex, onClick }: Thumbnail
     };
 
     return (
-        <div className="text-center overflow-x-hidden flex items-center justify-center pb-2 scrollbar-hide">
+        <div className="text-center overflow-x-hidden flex items-center justify-center pb-2 scrollbar-hide h-full w-full">
             {/* ← 上一张按钮（优化后） */}
             <button
                 onClick={handlePrev}
@@ -45,16 +48,16 @@ export default function ThumbGallery({ images, activeIndex, onClick }: Thumbnail
             </button>
 
             {/* 缩略图区域 */}
-            <div className="flex overflow-x-auto scrollbar-hide px-2">
+            <div className="flex h-full gap-1 overflow-x-auto scrollbar-hide px-2">
                 {images.map((src, index) => (
                     <button
                         key={index}
                         ref={(el) => (thumbRefs.current[index] = el) as any}
                         onClick={() => onClick(index)}
-                        className={`p-1 w-16 h-16 flex-shrink-0 ${activeIndex === index ? 'ring-2 ring-blue-500 rounded-md' : 'opacity-70 hover:opacity-100'}`}
+                        className={`aspect-[1/1] h-full flex-shrink-0  ${activeIndex === index ? 'ring-2 ring-blue-500 rounded-md' : 'opacity-70 hover:opacity-100'}`}
                         aria-label={`查看第 ${index + 1} 张图`}
                     >
-                        <img src={src} alt="" className="w-full h-full object-cover rounded" loading="lazy" />
+                        <BaseImage src={src} alt="" className="w-full h-full object-cover rounded" loading="lazy" isUrl={false} />
                     </button>
                 ))}
             </div>

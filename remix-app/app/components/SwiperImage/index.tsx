@@ -9,7 +9,7 @@ interface SwiperImageProps {
     className?: string;
 }
 
-export default function SwiperImage({ images, autoPlayInterval = 5000, className = '', selectIndex, onIndexChange }: SwiperImageProps) {
+export default function SwiperImage({ images, autoPlayInterval = 5000,  className = '', selectIndex, onIndexChange }: SwiperImageProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
 
@@ -108,7 +108,7 @@ export default function SwiperImage({ images, autoPlayInterval = 5000, className
 
     return (
         <div
-            className={`relative w-full overflow-hidden rounded-lg ${className} group touch-pan-y`}
+            className={`relative w-full h-full overflow-hidden rounded-lg ${className} group touch-pan-y`}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             // 👇 仅添加触摸事件（移除鼠标拖拽）
@@ -118,7 +118,7 @@ export default function SwiperImage({ images, autoPlayInterval = 5000, className
             onTouchCancel={handleTouchEnd} // 安全兜底
         >
             {/* 轮播容器 */}
-            <div className={`flex transition-transform duration-300 min-h-[360px] ease-out ${styles['swiper-container']}`} style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+            <div className={`flex transition-transform duration-300 h-full w-full ease-out ${styles['swiper-container']}`} style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
                 {images.map((img, index) => (
                     <div key={index} className="w-full flex-shrink-0">
                         <SmartImage src={img} alt={`slide-${index}`} className="w-full h-full object-cover" loading={index === 0 ? 'eager' : 'lazy'} draggable={false} />

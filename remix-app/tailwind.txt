@@ -1,0 +1,31 @@
+| 颜色字段               | 影响的 Tailwind 类 / 作用场景                       |
+| ------------------ | ------------------------------------------- |
+| **primary**        | `bg-primary` → 主按钮背景色、强调色背景、状态提醒色等          |
+| **primary-hover**  | `hover:bg-primary-hover` → 鼠标悬停按钮、强调元素的背景变化 |
+| **secondary**      | `bg-secondary` → 次按钮、次要强调色                  |
+| **accent**         | `bg-accent` → 徽章、卡片高亮背景、提示框背景               |
+| **background**     | `bg-background` → 页面背景、容器背景、卡片背景            |
+| **text**           | `text-text` → 主文字颜色（标题、正文、内容）               |
+| **secondary-text** | `text-secondary-text` → 辅助文字、提示文字、小字体说明等    |
+| **border**         | `border-border` → 边框颜色、分割线颜色                |
+| **link**           | `text-link` → 链接文字颜色、可点击文字、强调文字颜色           |
+| **prose.text**     | `.prose` → 富文本正文文字颜色                        |
+| **prose.headings** | `.prose h1,h2,h3,h4` → 富文本标题颜色              |
+| **prose.links**    | `.prose a` → 富文本中的链接颜色                      |
+
+
+
+| 颜色字段               | Tailwind 类 / 场景          | 说明 / 覆盖位置              |
+| ------------------ | ------------------------ | ---------------------- |
+| **primary**        | `bg-primary`             | 主按钮背景、强调色背景、通知/提醒色     |
+| **primary-hover**  | `hover:bg-primary-hover` | 鼠标悬停主按钮、强调元素的 hover 状态 |
+| **secondary**      | `bg-secondary`           | 次按钮、次要强调色背景            |
+| **accent**         | `bg-accent`              | 徽章、提示框、卡片高亮背景          |
+| **background**     | `bg-background`          | 页面、卡片、容器背景             |
+| **text**           | `text-text`              | 主文字、标题正文               |
+| **secondary-text** | `text-secondary-text`    | 辅助文字、小字体说明、提示信息        |
+| **border**         | `border-border`          | 容器边框、分割线               |
+| **link**           | `text-link`              | 普通链接、按钮文本、可点击文字        |
+| **prose.text**     | `.prose`                 | 富文本正文文字颜色              |
+| **prose.headings** | `.prose h1,h2,h3,h4`     | 富文本标题颜色                |
+| **prose.links**    | `.prose a`               | 富文本中的链接颜色              |

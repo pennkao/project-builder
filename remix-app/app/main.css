@@ -1,1 +1,83 @@
+/* @config "../tailwind.config.ts"; */
+
 @import 'tailwindcss';
+
+/* ===== 定义 shimmer 动画 ===== */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ===== 可直接使用的 shimmer 骨架屏类 ===== */
+.skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: #e5e7eb; /* gray-200 */
+}
+.skeleton-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: shimmer 1.5s infinite;
+}
+
+@layer components {
+    /* 独立容器，避免 Tailwind reset 破坏富文本 */
+    .rich-text-container {
+        @apply w-full h-auto leading-relaxed; /* 自适应宽度、高度随内容 */
+    }
+
+    /* 段落 */
+    .rich-text-container p {
+        @apply mb-4; /* 段落间距 */
+    }
+
+    /* 标题 */
+    .rich-text-container h1 {
+        @apply text-3xl font-semibold mt-6 mb-2;
+    }
+    .rich-text-container h2 {
+        @apply text-2xl font-semibold mt-5 mb-2;
+    }
+    .rich-text-container h3 {
+        @apply text-xl font-semibold mt-4 mb-2;
+    }
+    .rich-text-container h4 {
+        @apply text-lg font-semibold mt-3 mb-1;
+    }
+    .rich-text-container h5 {
+        @apply text-base font-semibold mt-2 mb-1;
+    }
+    .rich-text-container h6 {
+        @apply text-sm font-semibold mt-2 mb-1;
+    }
+
+    /* 列表 */
+    .rich-text-container ul,
+    .rich-text-container ol {
+        @apply mb-4 pl-5;
+    }
+
+    /* 列表项 */
+    .rich-text-container li {
+        @apply mb-2;
+    }
+
+    /* 图片 */
+    .rich-text-container img {
+        @apply max-w-full h-auto block my-2;
+    }
+
+    /* 链接 */
+    .rich-text-container a {
+        @apply underline text-inherit;
+    }
+}

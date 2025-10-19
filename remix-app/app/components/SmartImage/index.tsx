@@ -1,15 +1,12 @@
-import { Cdn_Config } from '@/config/cdn';
 import { getFastestCdn } from '@/utils/cdnChecker';
 import React, { useEffect, useRef, useState } from 'react';
 
 interface SmartImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-    width?: number | string;
-    height?: number | string;
     className?: string;
     skeletonClassName?: string;
 }
 
-export default function SmartImage({ src, alt = '', width = '100%', height = '', className = '', skeletonClassName = '', ...rest }: SmartImageProps) {
+export default function SmartImage({ src, alt = '', className = '', ...rest }: SmartImageProps) {
     const [loaded, setLoaded] = useState(false);
     const [url, setUrl] = useState<string | null>(null);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -19,15 +16,11 @@ export default function SmartImage({ src, alt = '', width = '100%', height = '',
         const base = getFastestCdn();
         setUrl(base + src);
     }, [src]);
-    
+
     return (
-        <div className="relative overflow-hidden rounded-xl" >
+        <div className="relative overflow-hidden rounded-xl h-full w-full">
             {/* 占位层 */}
-            {(!loaded || !url) && (
-                <div className={`absolute inset-0 ${Cdn_Config.placeholderClass} z-0 ${skeletonClassName} ${className}` }>
-                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
-                </div>
-            )}
+            {(!loaded || !url) && <div className={`absolute  inset-0 h-full w-full skeleton-shimmer ${className}`} />}
 
             {/* 图片层 */}
             {url && (

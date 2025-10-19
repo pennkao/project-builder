@@ -1,7 +1,7 @@
 import Countdown from '@/components/Countdown';
 import { useState } from 'react';
 
-export default function Inventory({ product }: { product: Product }) {
+export default function Inventory() {
     const [inventory, setInventory] = useState(250);
     return (
         <div className="flex justify-between items-center p-2">

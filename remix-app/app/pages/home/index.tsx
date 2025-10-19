@@ -1,6 +1,7 @@
 import AppHeader from '@/features/app/AppHeader';
 import products2 from '@/mock/products';
 import { Link } from 'react-router';
+import BaseImage from '@/components/BaseImage';
 const HomePage = ({ data }: any) => {
     {
         const products = products2;
@@ -15,9 +16,9 @@ const HomePage = ({ data }: any) => {
                         {products.map((product) => (
                             <div key={product.id} className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow duration-200">
                                 {/* 图片 */}
-                                <Link to={`/products/${product.id}`}>
+                                <Link to={`/collections/${product.id}`}>
                                     <div className="relative aspect-square overflow-hidden">
-                                        <img src={product.image} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
+                                        <BaseImage src={product.image} alt={product.name} className="w-full h-full object-cover" loading="lazy" isUrl={true} />
                                         {/* 标签 */}
                                         {product.tags && <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">{product.tags.join(' ')}</div>}
                                     </div>
