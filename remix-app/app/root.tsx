@@ -1,7 +1,7 @@
-import { Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from 'react-router';
 import { useEffect } from 'react';
-import { detectFastestCdnOnce, getFastestCdn } from './utils/cdnChecker';
+import { Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from 'react-router';
 import type { Route } from './+types/root';
+import { detectFastestCdnOnce } from './utils/cdnChecker';
 
 // import stylesHref from "./styles/global.module.css?url";
 import globalStylesHref from './app.css?url';
@@ -18,7 +18,6 @@ export default function App() {
 // It acts as your document's "app shell" for all route components, HydrateFallback, and ErrorBoundary
 // For more information, see https://reactrouter.com/explanation/special-files#layout-export
 export function Layout({ children }: { children: React.ReactNode }) {
-    console.log(globalStylesHref);
     return (
         <html lang="en">
             <head>
@@ -30,6 +29,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 {children}
                 <ScrollRestoration />
                 <Scripts />
+                
             </body>
         </html>
     );

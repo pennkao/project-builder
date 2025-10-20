@@ -16,6 +16,7 @@ const ExchangeItem = ({ name, phone, timeAgo }: { name: string; phone: string; t
 );
 
 export default function BuyRecords() {
+    console.log("BuyRecords");
     // 模拟初始用户
     const [users, setUsers] = useState([
         { name: '蒋**', phone: '184****6089', timeAgo: '在12分钟前' },

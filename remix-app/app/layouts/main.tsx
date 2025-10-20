@@ -1,20 +1,17 @@
 // MainLayout.tsx
-import AppFooter from "@/features/app/AppFooter";
-import AppHeader from "@/features/app/AppHeader";
-import { Outlet } from "react-router";
+import BackToTopButton from '@/components/BackToTopButton';
+import AppFooter from '@/features/app/AppFooter';
+import { Outlet } from 'react-router';
 
-export default function MainLayout() {
-  return (
-    // 外层：撑满视口高度，设置全局背景色
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      {/* 内层：限制宽度为 1200px，居中，包含所有内容 */}
-      <div className="w-full mx-auto flex flex-col flex-grow max-w-4xl">
-        
-        <main className="flex-grow max-w-4xl">
-          <Outlet />
+const MainLayout = () => {
+    return (
+        // MainLayout.tsx
+        <main className={`min-h-screen bg-gray-100 max-w-4xl mx-auto overflow-scroll`}>
+            <Outlet />
+            <AppFooter />
+            <BackToTopButton />
         </main>
-        <AppFooter />
-      </div>
-    </div>
-  );
-}
+    );
+};
+
+export default MainLayout;

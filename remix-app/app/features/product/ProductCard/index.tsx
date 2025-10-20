@@ -1,4 +1,4 @@
-export default function ProductCard() {
+export default function ProductCard({children}: {children: React.ReactNode}) {
     return (
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
             {/* 顶部红色横幅 */}
@@ -30,6 +30,7 @@ export default function ProductCard() {
                     扫吸拖擦一步到位 大容量电池长续航 智能清扫遇障掉头 让清洁更持久
                 </div>
             </div>
+            {children}
         </div>
     );
 }
