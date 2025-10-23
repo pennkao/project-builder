@@ -27,8 +27,8 @@ export default function Payment() {
     return (
         <>
             <PaymentForm onChange={setCardNumber} />
-            <button type="submit" onClick={validateAll} className="w-full mt-4 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
-            {errs.length === 0 ? '' : `,${errors.join(',')}`}111111111111
+            <button type="submit" onClick={validateAll} className="w-full mt-4 text-test-500  py-2 button-main ">
+                {errs.length === 0 ? '' : `,${errors.join(',')}`}111111111111
             </button>
         </>
     );

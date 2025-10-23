@@ -46,12 +46,12 @@ export default function UserInfo({ action, defaultCountry, defaultState, default
         onChange?.(country, state, city);
     }, [country, state, city]);
 
-    const className = 'w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500';
+    const className = 'w-full  p-2 text-sm input-main';
     const addressClassName = 'rounded-lg border border-gray-300 bg-white transition-colors py-1';
     return (
-        <div className="bg-white-50 flex items-center justify-center  ">
+        <div className="flex items-center justify-center  ">
             <div className="w-full max-w-md bg-white-1 ">
-                <form className="space-y-2 p-1 gap-3 ">
+                <form className="space-y-2 p-1 gap-4 bg-content">
                     <input type="email" name="email" placeholder="Email" required className={className} />
                     <ComboBox
                         options={countries.map((c) => ({ code: c.code, name: c.name }))}
@@ -110,16 +110,16 @@ export default function UserInfo({ action, defaultCountry, defaultState, default
                     {/* <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg text-sm font-medium">
                         提交
                     </button> */}
-                    <button
-                        onClick={() => {
-                            action('tab3');
-                            console.log('action...');
-                        }}
-                        className="px-6 py-[9px] w-full bg-red-500 text-white rounded-md hover:bg-red-600"
-                    >
-                        继 续
-                    </button>
                 </form>
+                <button
+                    onClick={() => {
+                        action('tab3');
+                        console.log('action...');
+                    }}
+                    className=" mt-2 w-full button-main"
+                >
+                    继 续agc
+                </button>
             </div>
         </div>
     );

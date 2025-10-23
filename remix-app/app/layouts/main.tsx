@@ -6,7 +6,7 @@ import { Outlet } from 'react-router';
 const MainLayout = () => {
     return (
         // MainLayout.tsx
-        <main className={`min-h-screen bg-gray-100 max-w-4xl mx-auto overflow-scroll`}>
+        <main className={`min-h-screen bg-white max-w-4xl mx-auto overflow-scroll`}>
             <Outlet />
             <AppFooter />
             <BackToTopButton />

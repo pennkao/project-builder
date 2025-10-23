@@ -1,0 +1,26 @@
+@layer components {
+    /*所有输入框*/
+    .input-main {
+        @apply rounded-lg border bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500;
+    }
+
+    .text-main {
+        @apply text-gray-700;
+    }
+
+    .text-placeholder {
+        @apply text-gray-400;
+    }
+
+    .bg-main {
+        @apply bg-white;
+    }
+    .bg-content {
+        @apply bg-gray-100;
+    }
+    .button-main {
+        @apply bg-red-600 font-semibold text-white rounded-md px-4 py-2 hover:bg-red-800 focus:ring-2 focus:ring-red-400;
+        appearance: none; /* 去掉浏览器默认外观 */
+        border: none; /* 移除默认边框 */
+    }
+}

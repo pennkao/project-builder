@@ -24,7 +24,7 @@ American Express cards have a 4-digit code located on the front.`;
         onChange({ ...state, [name]: value });
     };
 
-    let className = 'w-full px-4 py-3 rounded-lg border bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500';
+    let className = 'w-full px-4 py-2 input-main';
 
     const validateAll = (name: Focused) => {
         let errs = '';
@@ -81,11 +81,9 @@ American Express cards have a 4-digit code located on the front.`;
     return (
         <div>
             <Cards number={state.number} expiry={state.expiry} cvc={state.cvc} name={state.name} focused={focusedField} />
-            <div className="max-w-md mx-auto mt-1 bg-gray-100 rounded-lg shadow p-1">
-                <span>{errors}</span>
-            </div>
-            <div className="max-w-md mx-auto mt-1 bg-gray-100 rounded-lg shadow p-1">
-                <form method="post" className="space-y-2">
+
+            <div className="max-w-md mx-auto mt-1 bg-content rounded-lg  p-1">
+                <form method="post" className="space-y-2 border-none flex flex-col gap-2">
                     {/* Card Number */}
                     <div className="relative">
                         <input type="number" name="number" placeholder="Card number" value={state.number} onBlur={handleBlur} onChange={handleInputChange} onFocus={handleFocus} className={className} />

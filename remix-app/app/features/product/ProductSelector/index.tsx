@@ -19,7 +19,7 @@ interface ProductSelectorProps {
     // price: number;
     options: ProductOption[];
     skus: SKU[];
-    action:(str:string)=>void,
+    action: (str: string) => void;
     // attributesSort: string[];
 }
 const FirstOrder = 3;
@@ -194,8 +194,7 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
                     <span>满减 </span>
                     <span className="font-medium">
                         <span className="text-xs mr-3 text-gray-500">
-                            {discountValue.discount <= 0 ? '' : `满${discountValue.num}减${discountValue.discount.toFixed(2)},再买${discountValue.nextDiscountNum-quantity}减${discountValue.nextDiscount.toFixed(2)}`}
-                            
+                            {discountValue.discount <= 0 ? '' : `满${discountValue.num}减${discountValue.discount.toFixed(2)},再买${discountValue.nextDiscountNum - quantity}减${discountValue.nextDiscount.toFixed(2)}`}
                         </span>
                         -{discountValue.discount.toFixed(2)}
                     </span>
@@ -207,7 +206,13 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
                 </div>
             </div>
             <div className="flex justify-center w-full ">
-                <button onClick={()=>{action('tab2');console.log("action...")}} className="px-6 py-2 w-full bg-red-500 text-white rounded-md hover:bg-red-600">
+                <button
+                    onClick={() => {
+                        action('tab2');
+                        console.log('action...');
+                    }}
+                    className="px-6 py-2 w-full button-main"
+                >
                     继 续
                 </button>
             </div>
