@@ -1,4 +1,4 @@
-/* @config "../tailwind.config.ts"; */
+@config "../tailwind.config.ts";
 
 @import 'tailwindcss';
 
@@ -27,6 +27,30 @@
     bottom: 0;
     background: linear-gradient(90deg, transparent, rgba(206, 204, 204, 0.6), transparent);
     animation: shimmer 1.5s infinite;
+}
+
+/* ===== 水平 Tab 选中滑动动画 ===== */
+/* ===== 边框呼吸动画 ===== */
+@keyframes border-breathe {
+    0% {
+        border-color: #3b82f6; /* Tailwind blue-500 */
+        box-shadow: 0 0 0px #3b82f6;
+    }
+    50% {
+        border-color: #60a5fa; /* Tailwind blue-400 */
+        box-shadow: 0 0 8px #3b82f6;
+    }
+    100% {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0px #3b82f6;
+    }
+}
+
+/* ===== 可直接使用的呼吸蓝边框类 ===== */
+.border-breathe {
+    border: 2px solid #3b82f6;
+    border-radius: 0.5rem; /* 可自定义圆角 */
+    animation: border-breathe 1.5s ease-in-out infinite;
 }
 
 @layer components {

@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Australia",
+    "code": "AU",
+    "region": "Oceania"
+  },
+  {
+    "name": "Brazil",
+    "code": "BR",
+    "region": "Americas"
+  },
+  {
+    "name": "Canada",
+    "code": "CA",
+    "region": "Americas"
+  },
+  {
+    "name": "China",
+    "code": "CN",
+    "region": "Asia"
+  },
+  {
+    "name": "France",
+    "code": "FR",
+    "region": "Europe"
+  },
+  {
+    "name": "Germany",
+    "code": "DE",
+    "region": "Europe"
+  },
+  {
+    "name": "India",
+    "code": "IN",
+    "region": "Asia"
+  },
+  {
+    "name": "Indonesia",
+    "code": "ID",
+    "region": "Asia"
+  },
+  {
+    "name": "Italy",
+    "code": "IT",
+    "region": "Europe"
+  },
+  {
+    "name": "Japan",
+    "code": "JP",
+    "region": "Asia"
+  },
+  {
+    "name": "Mexico",
+    "code": "MX",
+    "region": "Americas"
+  },
+  {
+    "name": "Netherlands",
+    "code": "NL",
+    "region": "Europe"
+  },
+  {
+    "name": "Poland",
+    "code": "PL",
+    "region": "Europe"
+  },
+  {
+    "name": "Russia",
+    "code": "RU",
+    "region": "Europe"
+  },
+  {
+    "name": "Saudi Arabia",
+    "code": "SA",
+    "region": "Asia"
+  },
+  {
+    "name": "South Korea",
+    "code": "KR",
+    "region": "Asia"
+  },
+  {
+    "name": "Spain",
+    "code": "ES",
+    "region": "Europe"
+  },
+  {
+    "name": "Turkey",
+    "code": "TR",
+    "region": "Asia"
+  },
+  {
+    "name": "United Kingdom",
+    "code": "GB",
+    "region": "Europe"
+  },
+  {
+    "name": "United States",
+    "code": "US",
+    "region": "Americas"
+  }
+]

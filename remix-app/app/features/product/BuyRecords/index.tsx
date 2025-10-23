@@ -16,7 +16,7 @@ const ExchangeItem = ({ name, phone, timeAgo }: { name: string; phone: string; t
 );
 
 export default function BuyRecords() {
-    console.log("BuyRecords");
+    console.log('BuyRecords');
     // 模拟初始用户
     const [users, setUsers] = useState([
         { name: '蒋**', phone: '184****6089', timeAgo: '在12分钟前' },
@@ -40,11 +40,11 @@ export default function BuyRecords() {
                 const updated = [prev[0], newUser];
                 return updated.length > 5 ? updated.slice(-5) : updated;
             });
-        }, 5000); // 每5秒新增一条
+        }, 60000); // 每5秒新增一条
 
         return () => clearInterval(interval);
     }, []);
-    
+
     return (
         <div className="flex justify-between items-center bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden px-1">
             {/* 用户兑换记录 */}
@@ -52,8 +52,7 @@ export default function BuyRecords() {
             <div className="space-y-2 text-sm">
                 {users.map((user, index) => (
                     <ExchangeItem key={index} name={user.name} phone={user.phone} timeAgo={user.timeAgo} />
-                ))
-                }
+                ))}
             </div>
             {/* “去兑换”按钮 */}
             <div className="">

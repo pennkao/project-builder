@@ -1,0 +1,10 @@
+[
+    { "id": 3907, "code": "ACT", "name": "Australian Capital Territory", "type": "territory" },
+    { "id": 3909, "code": "NSW", "name": "New South Wales", "type": "state" },
+    { "id": 3910, "code": "NT", "name": "Northern Territory", "type": "territory" },
+    { "id": 3905, "code": "QLD", "name": "Queensland", "type": "state" },
+    { "id": 3904, "code": "SA", "name": "South Australia", "type": "state" },
+    { "id": 3908, "code": "TAS", "name": "Tasmania", "type": "state" },
+    { "id": 3903, "code": "VIC", "name": "Victoria", "type": "state" },
+    { "id": 3906, "code": "WA", "name": "Western Australia", "type": "state" }
+]

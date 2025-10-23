@@ -1,0 +1,16 @@
+@import '../../main.css'; /* 引入全局 CSS */
+
+/* 所有 Tab 默认都有 2px 边框，但透明 */
+.tab-button {
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    transition:
+        border-color 0.3s,
+        box-shadow 0.3s;
+}
+
+/* 选中时呼吸蓝边框 */
+.tab-button.active {
+    animation: border-breathe 1.5s ease-in-out infinite;
+    border-color: #3b82f6;
+}

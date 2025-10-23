@@ -1,43 +1,28 @@
 import type { Config } from 'tailwindcss';
 
-const THEME = 'orange'; // 编译期选择主题
-const themes = {
-    orange: {
-        primary: '#0000FF',
-        'primary-hover': '#ea580c',
-        secondary: '#fbbf24',
-        accent: '#fef3c7',
-        background: '#ffffff',
-        text: '#1f2937',
-        'secondary-text': '#4b5563',
-        border: '#fcd34d',
-        link: '#ea580c',
-        prose: {
-            text: '#1f2937',
-            headings: '#f97316',
-            links: '#ea580c',
-        },
-    },
-    gray: {
-        primary: '#6b7280',
-        'primary-hover': '#4b5563',
-        secondary: '#d1d5db',
-        accent: '#f9fafb',
-        background: '#f3f4f6',
-        text: '#111827',
-        'secondary-text': '#374151',
-        border: '#d1d5db',
-        link: '#6b7280',
-        prose: {
-            text: '#111827',
-            headings: '#6b7280',
-            links: '#6b7280',
-        },
-    },
+const theme = {
+    // 正文文字与次要文字
+    'slate-700': '#334155', // 正文文字
+    'slate-500': '#64748b', // 次要文字
+
+    // 边框
+    'slate-200': '#e5e7eb', // 浅灰边框
+
+    // 背景
+    'slate-50': '#f8fafc', // 浅灰底
+
+    // 状态色（语义色）
+    'primary-500': '#3b82f6', // 主色 示例蓝色
+    'primary-600': '#2563eb', // 主按钮默认颜色
+    'primary-700': '#1d4ed8', // 主按钮悬停状态颜色
+
+    'success-500': '#10b981', // 成功
+    'warning-500': '#f59e0b', // 警告
+    'error-500': '#ef4444', // 错误
+    'info-500': '#3b82f6', // 信息
+
+    // 更多自定义颜色...
 };
-
-const themeColors = themes[THEME];
-
 export default {
     content: ['./app/**/*.{js,ts,jsx,tsx}'], // 1️⃣ 扫描文件路径（v4 已自动推断）
     prefix: '', // 6️⃣ 类名前缀（可选）引用的适合需要加上 写法 spm:px-4

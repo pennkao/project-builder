@@ -1,0 +1,126 @@
+[
+    {
+        "name": "United Kingdom",
+        "code": "GB",
+        "region": "Europe",
+        "states": 0
+    },
+    {
+        "name": "Japan",
+        "code": "JP",
+        "region": "Asia",
+        "states": 1
+    },
+    {
+        "name": "United States",
+        "code": "US",
+        "region": "Americas",
+        "states": 1
+    },
+    {
+        "name": "France",
+        "code": "FR",
+        "region": "Europe",
+        "states": 0
+    },
+    {
+        "name": "Canada",
+        "code": "CA",
+        "region": "Americas",
+        "states": 1
+    },
+    {
+        "name": "Australia",
+        "code": "AU",
+        "region": "Oceania",
+        "states": 1
+    },
+
+    {
+        "name": "Germany",
+        "code": "DE",
+        "region": "Europe",
+        "states": 0
+    },
+    {
+        "name": "Saudi Arabia",
+        "code": "SA",
+        "region": "Asia",
+        "states": 0
+    },
+    {
+        "name": "Brazil",
+        "code": "BR",
+        "region": "Americas",
+        "states": 1
+    },
+
+    {
+        "name": "China",
+        "code": "CN",
+        "region": "Asia",
+        "states": 1
+    },
+
+    {
+        "name": "India",
+        "code": "IN",
+        "region": "Asia",
+        "states": 1
+    },
+    {
+        "name": "Indonesia",
+        "code": "ID",
+        "region": "Asia",
+        "states": 1
+    },
+    {
+        "name": "Italy",
+        "code": "IT",
+        "region": "Europe",
+        "states": 1
+    },
+
+    {
+        "name": "Mexico",
+        "code": "MX",
+        "region": "Americas",
+        "states": 1
+    },
+    {
+        "name": "Netherlands",
+        "code": "NL",
+        "region": "Europe",
+        "states": 0
+    },
+    {
+        "name": "Poland",
+        "code": "PL",
+        "region": "Europe",
+        "states": 0
+    },
+    {
+        "name": "Russia",
+        "code": "RU",
+        "region": "Europe",
+        "states": 1
+    },
+    {
+        "name": "South Korea",
+        "code": "KR",
+        "region": "Asia",
+        "states": 1
+    },
+    {
+        "name": "Spain",
+        "code": "ES",
+        "region": "Europe",
+        "states": 1
+    },
+    {
+        "name": "Turkey",
+        "code": "TR",
+        "region": "Asia",
+        "states": 1
+    }
+]

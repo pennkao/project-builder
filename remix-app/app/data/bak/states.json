@@ -1,0 +1,6348 @@
+{
+  "AU": [
+    {
+      "id": 3907,
+      "code": "ACT",
+      "name": "Australian Capital Territory",
+      "type": "territory"
+    },
+    {
+      "id": 3909,
+      "code": "NSW",
+      "name": "New South Wales",
+      "type": "state"
+    },
+    {
+      "id": 3910,
+      "code": "NT",
+      "name": "Northern Territory",
+      "type": "territory"
+    },
+    {
+      "id": 3905,
+      "code": "QLD",
+      "name": "Queensland",
+      "type": "state"
+    },
+    {
+      "id": 3904,
+      "code": "SA",
+      "name": "South Australia",
+      "type": "state"
+    },
+    {
+      "id": 3908,
+      "code": "TAS",
+      "name": "Tasmania",
+      "type": "state"
+    },
+    {
+      "id": 3903,
+      "code": "VIC",
+      "name": "Victoria",
+      "type": "state"
+    },
+    {
+      "id": 3906,
+      "code": "WA",
+      "name": "Western Australia",
+      "type": "state"
+    }
+  ],
+  "BR": [
+    {
+      "id": 2012,
+      "code": "AC",
+      "name": "Acre",
+      "type": "state"
+    },
+    {
+      "id": 2007,
+      "code": "AL",
+      "name": "Alagoas",
+      "type": "state"
+    },
+    {
+      "id": 1999,
+      "code": "AP",
+      "name": "Amapá",
+      "type": "state"
+    },
+    {
+      "id": 2004,
+      "code": "AM",
+      "name": "Amazonas",
+      "type": "state"
+    },
+    {
+      "id": 2002,
+      "code": "BA",
+      "name": "Bahia",
+      "type": "state"
+    },
+    {
+      "id": 2016,
+      "code": "CE",
+      "name": "Ceará",
+      "type": "state"
+    },
+    {
+      "id": 2017,
+      "code": "DF",
+      "name": "Distrito Federal",
+      "type": "federal district"
+    },
+    {
+      "id": 2018,
+      "code": "ES",
+      "name": "Espírito Santo",
+      "type": "state"
+    },
+    {
+      "id": 2000,
+      "code": "GO",
+      "name": "Goiás",
+      "type": "state"
+    },
+    {
+      "id": 2015,
+      "code": "MA",
+      "name": "Maranhão",
+      "type": "state"
+    },
+    {
+      "id": 2011,
+      "code": "MT",
+      "name": "Mato Grosso",
+      "type": "state"
+    },
+    {
+      "id": 2010,
+      "code": "MS",
+      "name": "Mato Grosso do Sul",
+      "type": "state"
+    },
+    {
+      "id": 1998,
+      "code": "MG",
+      "name": "Minas Gerais",
+      "type": "state"
+    },
+    {
+      "id": 2009,
+      "code": "PA",
+      "name": "Pará",
+      "type": "state"
+    },
+    {
+      "id": 2005,
+      "code": "PB",
+      "name": "Paraíba",
+      "type": "state"
+    },
+    {
+      "id": 2022,
+      "code": "PR",
+      "name": "Paraná",
+      "type": "state"
+    },
+    {
+      "id": 2006,
+      "code": "PE",
+      "name": "Pernambuco",
+      "type": "state"
+    },
+    {
+      "id": 2008,
+      "code": "PI",
+      "name": "Piauí",
+      "type": "state"
+    },
+    {
+      "id": 1997,
+      "code": "RJ",
+      "name": "Rio de Janeiro",
+      "type": "state"
+    },
+    {
+      "id": 2019,
+      "code": "RN",
+      "name": "Rio Grande do Norte",
+      "type": "state"
+    },
+    {
+      "id": 2001,
+      "code": "RS",
+      "name": "Rio Grande do Sul",
+      "type": "state"
+    },
+    {
+      "id": 2013,
+      "code": "RO",
+      "name": "Rondônia",
+      "type": "state"
+    },
+    {
+      "id": 4858,
+      "code": "RR",
+      "name": "Roraima",
+      "type": "state"
+    },
+    {
+      "id": 2014,
+      "code": "SC",
+      "name": "Santa Catarina",
+      "type": "state"
+    },
+    {
+      "id": 2021,
+      "code": "SP",
+      "name": "São Paulo",
+      "type": "state"
+    },
+    {
+      "id": 2003,
+      "code": "SE",
+      "name": "Sergipe",
+      "type": "state"
+    },
+    {
+      "id": 2020,
+      "code": "TO",
+      "name": "Tocantins",
+      "type": "state"
+    }
+  ],
+  "CA": [
+    {
+      "id": 872,
+      "code": "AB",
+      "name": "Alberta",
+      "type": "province"
+    },
+    {
+      "id": 875,
+      "code": "BC",
+      "name": "British Columbia",
+      "type": "province"
+    },
+    {
+      "id": 867,
+      "code": "MB",
+      "name": "Manitoba",
+      "type": "province"
+    },
+    {
+      "id": 868,
+      "code": "NB",
+      "name": "New Brunswick",
+      "type": "province"
+    },
+    {
+      "id": 877,
+      "code": "NL",
+      "name": "Newfoundland and Labrador",
+      "type": "province"
+    },
+    {
+      "id": 878,
+      "code": "NT",
+      "name": "Northwest Territories",
+      "type": "territory"
+    },
+    {
+      "id": 874,
+      "code": "NS",
+      "name": "Nova Scotia",
+      "type": "province"
+    },
+    {
+      "id": 876,
+      "code": "NU",
+      "name": "Nunavut",
+      "type": "territory"
+    },
+    {
+      "id": 866,
+      "code": "ON",
+      "name": "Ontario",
+      "type": "province"
+    },
+    {
+      "id": 871,
+      "code": "PE",
+      "name": "Prince Edward Island",
+      "type": "province"
+    },
+    {
+      "id": 873,
+      "code": "QC",
+      "name": "Quebec",
+      "type": "province"
+    },
+    {
+      "id": 870,
+      "code": "SK",
+      "name": "Saskatchewan",
+      "type": "province"
+    },
+    {
+      "id": 869,
+      "code": "YT",
+      "name": "Yukon",
+      "type": "territory"
+    }
+  ],
+  "CN": [
+    {
+      "id": 2251,
+      "code": "AH",
+      "name": "Anhui",
+      "type": "province"
+    },
+    {
+      "id": 2257,
+      "code": "BJ",
+      "name": "Beijing",
+      "type": "municipality"
+    },
+    {
+      "id": 2271,
+      "code": "CQ",
+      "name": "Chongqing",
+      "type": "municipality"
+    },
+    {
+      "id": 2248,
+      "code": "FJ",
+      "name": "Fujian",
+      "type": "province"
+    },
+    {
+      "id": 2275,
+      "code": "GS",
+      "name": "Gansu",
+      "type": "province"
+    },
+    {
+      "id": 2279,
+      "code": "GD",
+      "name": "Guangdong",
+      "type": "province"
+    },
+    {
+      "id": 2278,
+      "code": "GX",
+      "name": "Guangxi Zhuang",
+      "type": "autonomous region"
+    },
+    {
+      "id": 2261,
+      "code": "GZ",
+      "name": "Guizhou",
+      "type": "province"
+    },
+    {
+      "id": 2273,
+      "code": "HI",
+      "name": "Hainan",
+      "type": "province"
+    },
+    {
+      "id": 2280,
+      "code": "HE",
+      "name": "Hebei",
+      "type": "province"
+    },
+    {
+      "id": 2265,
+      "code": "HL",
+      "name": "Heilongjiang",
+      "type": "province"
+    },
+    {
+      "id": 2259,
+      "code": "HA",
+      "name": "Henan",
+      "type": "province"
+    },
+    {
+      "id": 2267,
+      "code": "HK",
+      "name": "Hong Kong SAR",
+      "type": "special administrative region"
+    },
+    {
+      "id": 2274,
+      "code": "HB",
+      "name": "Hubei",
+      "type": "province"
+    },
+    {
+      "id": 2258,
+      "code": "HN",
+      "name": "Hunan",
+      "type": "province"
+    },
+    {
+      "id": 2269,
+      "code": "NM",
+      "name": "Inner Mongolia",
+      "type": "autonomous region"
+    },
+    {
+      "id": 2250,
+      "code": "JS",
+      "name": "Jiangsu",
+      "type": "province"
+    },
+    {
+      "id": 2256,
+      "code": "JX",
+      "name": "Jiangxi",
+      "type": "province"
+    },
+    {
+      "id": 2253,
+      "code": "JL",
+      "name": "Jilin",
+      "type": "province"
+    },
+    {
+      "id": 2268,
+      "code": "LN",
+      "name": "Liaoning",
+      "type": "province"
+    },
+    {
+      "id": 2266,
+      "code": "MO",
+      "name": "Macau SAR",
+      "type": "special administrative region"
+    },
+    {
+      "id": 2262,
+      "code": "NX",
+      "name": "Ningxia Huizu",
+      "type": "autonomous region"
+    },
+    {
+      "id": 2270,
+      "code": "QH",
+      "name": "Qinghai",
+      "type": "province"
+    },
+    {
+      "id": 2272,
+      "code": "SN",
+      "name": "Shaanxi",
+      "type": "province"
+    },
+    {
+      "id": 2252,
+      "code": "SD",
+      "name": "Shandong",
+      "type": "province"
+    },
+    {
+      "id": 2249,
+      "code": "SH",
+      "name": "Shanghai",
+      "type": "municipality"
+    },
+    {
+      "id": 2254,
+      "code": "SX",
+      "name": "Shanxi",
+      "type": "province"
+    },
+    {
+      "id": 2277,
+      "code": "SC",
+      "name": "Sichuan",
+      "type": "province"
+    },
+    {
+      "id": 2255,
+      "code": "TW",
+      "name": "Taiwan",
+      "type": "province"
+    },
+    {
+      "id": 2276,
+      "code": "TJ",
+      "name": "Tianjin",
+      "type": "municipality"
+    },
+    {
+      "id": 2263,
+      "code": "XJ",
+      "name": "Xinjiang",
+      "type": "autonomous region"
+    },
+    {
+      "id": 2264,
+      "code": "XZ",
+      "name": "Xizang",
+      "type": "autonomous region"
+    },
+    {
+      "id": 2260,
+      "code": "YN",
+      "name": "Yunnan",
+      "type": "province"
+    },
+    {
+      "id": 2247,
+      "code": "ZJ",
+      "name": "Zhejiang",
+      "type": "province"
+    }
+  ],
+  "FR": [
+    {
+      "id": 4967,
+      "code": "01",
+      "name": "Ain",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4968,
+      "code": "02",
+      "name": "Aisne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4969,
+      "code": "03",
+      "name": "Allier",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4970,
+      "code": "04",
+      "name": "Alpes-de-Haute-Provence",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4972,
+      "code": "06",
+      "name": "Alpes-Maritimes",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4811,
+      "code": "6AE",
+      "name": "Alsace",
+      "type": "European collectivity"
+    },
+    {
+      "id": 4973,
+      "code": "07",
+      "name": "Ardèche",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4974,
+      "code": "08",
+      "name": "Ardennes",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4975,
+      "code": "09",
+      "name": "Ariège",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4976,
+      "code": "10",
+      "name": "Aube",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4977,
+      "code": "11",
+      "name": "Aude",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4798,
+      "code": "ARA",
+      "name": "Auvergne-Rhône-Alpes",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 4978,
+      "code": "12",
+      "name": "Aveyron",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5035,
+      "code": "67",
+      "name": "Bas-Rhin",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4979,
+      "code": "13",
+      "name": "Bouches-du-Rhône",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4825,
+      "code": "BFC",
+      "name": "Bourgogne-Franche-Comté",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 4807,
+      "code": "BRE",
+      "name": "Bretagne",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 4981,
+      "code": "14",
+      "name": "Calvados",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4982,
+      "code": "15",
+      "name": "Cantal",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4818,
+      "code": "CVL",
+      "name": "Centre-Val de Loire",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 4983,
+      "code": "16",
+      "name": "Charente",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4984,
+      "code": "17",
+      "name": "Charente-Maritime",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4985,
+      "code": "18",
+      "name": "Cher",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5064,
+      "code": "CP",
+      "name": "Clipperton",
+      "type": "dependency"
+    },
+    {
+      "id": 4986,
+      "code": "19",
+      "name": "Corrèze",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4806,
+      "code": "20R",
+      "name": "Corse",
+      "type": "metropolitan collectivity with special status"
+    },
+    {
+      "id": 4996,
+      "code": "2A",
+      "name": "Corse-du-Sud",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4987,
+      "code": "21",
+      "name": "Côte-d'Or",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4988,
+      "code": "22",
+      "name": "Côtes-d'Armor",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4989,
+      "code": "23",
+      "name": "Creuse",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5047,
+      "code": "79",
+      "name": "Deux-Sèvres",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4990,
+      "code": "24",
+      "name": "Dordogne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4991,
+      "code": "25",
+      "name": "Doubs",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4992,
+      "code": "26",
+      "name": "Drôme",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5059,
+      "code": "91",
+      "name": "Essonne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4993,
+      "code": "27",
+      "name": "Eure",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4994,
+      "code": "28",
+      "name": "Eure-et-Loir",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4995,
+      "code": "29",
+      "name": "Finistère",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4822,
+      "code": "973",
+      "name": "French Guiana",
+      "type": "overseas region"
+    },
+    {
+      "id": 4824,
+      "code": "PF",
+      "name": "French Polynesia",
+      "type": "overseas collectivity"
+    },
+    {
+      "id": 5065,
+      "code": "TF",
+      "name": "French Southern and Antarctic Lands",
+      "type": "overseas territory"
+    },
+    {
+      "id": 4998,
+      "code": "30",
+      "name": "Gard",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5000,
+      "code": "32",
+      "name": "Gers",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5001,
+      "code": "33",
+      "name": "Gironde",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4820,
+      "code": "GES",
+      "name": "Grand-Est",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 4829,
+      "code": "971",
+      "name": "Guadeloupe",
+      "type": "overseas region"
+    },
+    {
+      "id": 5036,
+      "code": "68",
+      "name": "Haut-Rhin",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4997,
+      "code": "2B",
+      "name": "Haute-Corse",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4999,
+      "code": "31",
+      "name": "Haute-Garonne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5011,
+      "code": "43",
+      "name": "Haute-Loire",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5020,
+      "code": "52",
+      "name": "Haute-Marne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5039,
+      "code": "70",
+      "name": "Haute-Saône",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5043,
+      "code": "74",
+      "name": "Haute-Savoie",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5055,
+      "code": "87",
+      "name": "Haute-Vienne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4971,
+      "code": "05",
+      "name": "Hautes-Alpes",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5033,
+      "code": "65",
+      "name": "Hautes-Pyrénées",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4828,
+      "code": "HDF",
+      "name": "Hauts-de-France",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 5060,
+      "code": "92",
+      "name": "Hauts-de-Seine",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5002,
+      "code": "34",
+      "name": "Hérault",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4796,
+      "code": "IDF",
+      "name": "Île-de-France",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 5003,
+      "code": "35",
+      "name": "Ille-et-Vilaine",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5004,
+      "code": "36",
+      "name": "Indre",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5005,
+      "code": "37",
+      "name": "Indre-et-Loire",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5006,
+      "code": "38",
+      "name": "Isère",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5007,
+      "code": "39",
+      "name": "Jura",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4823,
+      "code": "974",
+      "name": "La Réunion",
+      "type": "overseas region"
+    },
+    {
+      "id": 5008,
+      "code": "40",
+      "name": "Landes",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5009,
+      "code": "41",
+      "name": "Loir-et-Cher",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5010,
+      "code": "42",
+      "name": "Loire",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5012,
+      "code": "44",
+      "name": "Loire-Atlantique",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5013,
+      "code": "45",
+      "name": "Loiret",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5014,
+      "code": "46",
+      "name": "Lot",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5015,
+      "code": "47",
+      "name": "Lot-et-Garonne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5016,
+      "code": "48",
+      "name": "Lozère",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5017,
+      "code": "49",
+      "name": "Maine-et-Loire",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5018,
+      "code": "50",
+      "name": "Manche",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5019,
+      "code": "51",
+      "name": "Marne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4827,
+      "code": "972",
+      "name": "Martinique",
+      "type": "overseas region"
+    },
+    {
+      "id": 5021,
+      "code": "53",
+      "name": "Mayenne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4797,
+      "code": "976",
+      "name": "Mayotte",
+      "type": "overseas region"
+    },
+    {
+      "id": 5038,
+      "code": "69M",
+      "name": "Métropole de Lyon",
+      "type": "metropolitan collectivity with special status"
+    },
+    {
+      "id": 5022,
+      "code": "54",
+      "name": "Meurthe-et-Moselle",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5023,
+      "code": "55",
+      "name": "Meuse",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5024,
+      "code": "56",
+      "name": "Morbihan",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5025,
+      "code": "57",
+      "name": "Moselle",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5026,
+      "code": "58",
+      "name": "Nièvre",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5027,
+      "code": "59",
+      "name": "Nord",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4804,
+      "code": "NOR",
+      "name": "Normandie",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 4795,
+      "code": "NAQ",
+      "name": "Nouvelle-Aquitaine",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 4799,
+      "code": "OCC",
+      "name": "Occitanie",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 5028,
+      "code": "60",
+      "name": "Oise",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5029,
+      "code": "61",
+      "name": "Orne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4816,
+      "code": "75C",
+      "name": "Paris",
+      "type": "metropolitan collectivity with special status"
+    },
+    {
+      "id": 5030,
+      "code": "62",
+      "name": "Pas-de-Calais",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4802,
+      "code": "PDL",
+      "name": "Pays-de-la-Loire",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 4812,
+      "code": "PAC",
+      "name": "Provence-Alpes-Côte-d’Azur",
+      "type": "metropolitan region"
+    },
+    {
+      "id": 5031,
+      "code": "63",
+      "name": "Puy-de-Dôme",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5032,
+      "code": "64",
+      "name": "Pyrénées-Atlantiques",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5034,
+      "code": "66",
+      "name": "Pyrénées-Orientales",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5037,
+      "code": "69",
+      "name": "Rhône",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4821,
+      "code": "PM",
+      "name": "Saint Pierre and Miquelon",
+      "type": "overseas collectivity"
+    },
+    {
+      "id": 4794,
+      "code": "BL",
+      "name": "Saint-Barthélemy",
+      "type": "overseas collectivity"
+    },
+    {
+      "id": 4809,
+      "code": "MF",
+      "name": "Saint-Martin",
+      "type": "overseas collectivity"
+    },
+    {
+      "id": 5040,
+      "code": "71",
+      "name": "Saône-et-Loire",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5041,
+      "code": "72",
+      "name": "Sarthe",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5042,
+      "code": "73",
+      "name": "Savoie",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5045,
+      "code": "77",
+      "name": "Seine-et-Marne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5044,
+      "code": "76",
+      "name": "Seine-Maritime",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5061,
+      "code": "93",
+      "name": "Seine-Saint-Denis",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5048,
+      "code": "80",
+      "name": "Somme",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5049,
+      "code": "81",
+      "name": "Tarn",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5050,
+      "code": "82",
+      "name": "Tarn-et-Garonne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5058,
+      "code": "90",
+      "name": "Territoire de Belfort",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5063,
+      "code": "95",
+      "name": "Val-d'Oise",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5062,
+      "code": "94",
+      "name": "Val-de-Marne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5051,
+      "code": "83",
+      "name": "Var",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5052,
+      "code": "84",
+      "name": "Vaucluse",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5053,
+      "code": "85",
+      "name": "Vendée",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5054,
+      "code": "86",
+      "name": "Vienne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5056,
+      "code": "88",
+      "name": "Vosges",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 4810,
+      "code": "WF",
+      "name": "Wallis and Futuna",
+      "type": "overseas collectivity"
+    },
+    {
+      "id": 5057,
+      "code": "89",
+      "name": "Yonne",
+      "type": "metropolitan department"
+    },
+    {
+      "id": 5046,
+      "code": "78",
+      "name": "Yvelines",
+      "type": "metropolitan department"
+    }
+  ],
+  "DE": [
+    {
+      "id": 3006,
+      "code": "BW",
+      "name": "Baden-Württemberg",
+      "type": "land"
+    },
+    {
+      "id": 3009,
+      "code": "BY",
+      "name": "Bavaria",
+      "type": "land"
+    },
+    {
+      "id": 3010,
+      "code": "BE",
+      "name": "Berlin",
+      "type": "land"
+    },
+    {
+      "id": 3013,
+      "code": "BB",
+      "name": "Brandenburg",
+      "type": "land"
+    },
+    {
+      "id": 3014,
+      "code": "HB",
+      "name": "Bremen",
+      "type": "land"
+    },
+    {
+      "id": 3016,
+      "code": "HH",
+      "name": "Hamburg",
+      "type": "land"
+    },
+    {
+      "id": 3018,
+      "code": "HE",
+      "name": "Hessen",
+      "type": "land"
+    },
+    {
+      "id": 3008,
+      "code": "NI",
+      "name": "Lower Saxony",
+      "type": "land"
+    },
+    {
+      "id": 3007,
+      "code": "MV",
+      "name": "Mecklenburg-Vorpommern",
+      "type": "land"
+    },
+    {
+      "id": 3017,
+      "code": "NW",
+      "name": "North Rhine-Westphalia",
+      "type": "land"
+    },
+    {
+      "id": 3019,
+      "code": "RP",
+      "name": "Rhineland-Palatinate",
+      "type": "land"
+    },
+    {
+      "id": 3020,
+      "code": "SL",
+      "name": "Saarland",
+      "type": "land"
+    },
+    {
+      "id": 3021,
+      "code": "SN",
+      "name": "Saxony",
+      "type": "land"
+    },
+    {
+      "id": 3011,
+      "code": "ST",
+      "name": "Saxony-Anhalt",
+      "type": "land"
+    },
+    {
+      "id": 3005,
+      "code": "SH",
+      "name": "Schleswig-Holstein",
+      "type": "land"
+    },
+    {
+      "id": 3015,
+      "code": "TH",
+      "name": "Thuringia",
+      "type": "land"
+    }
+  ],
+  "IN": [
+    {
+      "id": 4023,
+      "code": "AN",
+      "name": "Andaman and Nicobar Islands",
+      "type": "union territory"
+    },
+    {
+      "id": 4017,
+      "code": "AP",
+      "name": "Andhra Pradesh",
+      "type": "state"
+    },
+    {
+      "id": 4024,
+      "code": "AR",
+      "name": "Arunachal Pradesh",
+      "type": "state"
+    },
+    {
+      "id": 4027,
+      "code": "AS",
+      "name": "Assam",
+      "type": "state"
+    },
+    {
+      "id": 4037,
+      "code": "BR",
+      "name": "Bihar",
+      "type": "state"
+    },
+    {
+      "id": 4031,
+      "code": "CH",
+      "name": "Chandigarh",
+      "type": "union territory"
+    },
+    {
+      "id": 4040,
+      "code": "CT",
+      "name": "Chhattisgarh",
+      "type": "state"
+    },
+    {
+      "id": 4033,
+      "code": "DH",
+      "name": "Dadra and Nagar Haveli and Daman and Diu",
+      "type": "union territory"
+    },
+    {
+      "id": 4021,
+      "code": "DL",
+      "name": "Delhi",
+      "type": "union territory"
+    },
+    {
+      "id": 4009,
+      "code": "GA",
+      "name": "Goa",
+      "type": "state"
+    },
+    {
+      "id": 4030,
+      "code": "GJ",
+      "name": "Gujarat",
+      "type": "state"
+    },
+    {
+      "id": 4007,
+      "code": "HR",
+      "name": "Haryana",
+      "type": "state"
+    },
+    {
+      "id": 4020,
+      "code": "HP",
+      "name": "Himachal Pradesh",
+      "type": "state"
+    },
+    {
+      "id": 4029,
+      "code": "JK",
+      "name": "Jammu and Kashmir",
+      "type": "union territory"
+    },
+    {
+      "id": 4025,
+      "code": "JH",
+      "name": "Jharkhand",
+      "type": "state"
+    },
+    {
+      "id": 4026,
+      "code": "KA",
+      "name": "Karnataka",
+      "type": "state"
+    },
+    {
+      "id": 4028,
+      "code": "KL",
+      "name": "Kerala",
+      "type": "state"
+    },
+    {
+      "id": 4852,
+      "code": "LA",
+      "name": "Ladakh",
+      "type": "union territory"
+    },
+    {
+      "id": 4019,
+      "code": "LD",
+      "name": "Lakshadweep",
+      "type": "union territory"
+    },
+    {
+      "id": 4039,
+      "code": "MP",
+      "name": "Madhya Pradesh",
+      "type": "state"
+    },
+    {
+      "id": 4008,
+      "code": "MH",
+      "name": "Maharashtra",
+      "type": "state"
+    },
+    {
+      "id": 4010,
+      "code": "MN",
+      "name": "Manipur",
+      "type": "state"
+    },
+    {
+      "id": 4006,
+      "code": "ML",
+      "name": "Meghalaya",
+      "type": "state"
+    },
+    {
+      "id": 4036,
+      "code": "MZ",
+      "name": "Mizoram",
+      "type": "state"
+    },
+    {
+      "id": 4018,
+      "code": "NL",
+      "name": "Nagaland",
+      "type": "state"
+    },
+    {
+      "id": 4013,
+      "code": "OR",
+      "name": "Odisha",
+      "type": "state"
+    },
+    {
+      "id": 4011,
+      "code": "PY",
+      "name": "Puducherry",
+      "type": "union territory"
+    },
+    {
+      "id": 4015,
+      "code": "PB",
+      "name": "Punjab",
+      "type": "state"
+    },
+    {
+      "id": 4014,
+      "code": "RJ",
+      "name": "Rajasthan",
+      "type": "state"
+    },
+    {
+      "id": 4034,
+      "code": "SK",
+      "name": "Sikkim",
+      "type": "state"
+    },
+    {
+      "id": 4035,
+      "code": "TN",
+      "name": "Tamil Nadu",
+      "type": "state"
+    },
+    {
+      "id": 4012,
+      "code": "TG",
+      "name": "Telangana",
+      "type": "state"
+    },
+    {
+      "id": 4038,
+      "code": "TR",
+      "name": "Tripura",
+      "type": "state"
+    },
+    {
+      "id": 4022,
+      "code": "UP",
+      "name": "Uttar Pradesh",
+      "type": "state"
+    },
+    {
+      "id": 4016,
+      "code": "UK",
+      "name": "Uttarakhand",
+      "type": "state"
+    },
+    {
+      "id": 4853,
+      "code": "WB",
+      "name": "West Bengal",
+      "type": "state"
+    }
+  ],
+  "ID": [
+    {
+      "id": 1822,
+      "code": "AC",
+      "name": "Aceh",
+      "type": "province"
+    },
+    {
+      "id": 1826,
+      "code": "BA",
+      "name": "Bali",
+      "type": "province"
+    },
+    {
+      "id": 1810,
+      "code": "BT",
+      "name": "Banten",
+      "type": "province"
+    },
+    {
+      "id": 1793,
+      "code": "BE",
+      "name": "Bengkulu",
+      "type": "province"
+    },
+    {
+      "id": 1829,
+      "code": "YO",
+      "name": "DI Yogyakarta",
+      "type": "Special region"
+    },
+    {
+      "id": 1805,
+      "code": "JK",
+      "name": "DKI Jakarta",
+      "type": "capital district"
+    },
+    {
+      "id": 1812,
+      "code": "GO",
+      "name": "Gorontalo",
+      "type": "province"
+    },
+    {
+      "id": 1815,
+      "code": "JA",
+      "name": "Jambi",
+      "type": "province"
+    },
+    {
+      "id": 1825,
+      "code": "JB",
+      "name": "Jawa Barat",
+      "type": "province"
+    },
+    {
+      "id": 1802,
+      "code": "JT",
+      "name": "Jawa Tengah",
+      "type": "province"
+    },
+    {
+      "id": 1827,
+      "code": "JI",
+      "name": "Jawa Timur",
+      "type": "province"
+    },
+    {
+      "id": 1806,
+      "code": "KB",
+      "name": "Kalimantan Barat",
+      "type": "province"
+    },
+    {
+      "id": 1819,
+      "code": "KS",
+      "name": "Kalimantan Selatan",
+      "type": "province"
+    },
+    {
+      "id": 1794,
+      "code": "KT",
+      "name": "Kalimantan Tengah",
+      "type": "province"
+    },
+    {
+      "id": 1804,
+      "code": "KI",
+      "name": "Kalimantan Timur",
+      "type": "province"
+    },
+    {
+      "id": 1824,
+      "code": "KU",
+      "name": "Kalimantan Utara",
+      "type": "province"
+    },
+    {
+      "id": 1820,
+      "code": "BB",
+      "name": "Kepulauan Bangka Belitung",
+      "type": "province"
+    },
+    {
+      "id": 1807,
+      "code": "KR",
+      "name": "Kepulauan Riau",
+      "type": "province"
+    },
+    {
+      "id": 1811,
+      "code": "LA",
+      "name": "Lampung",
+      "type": "province"
+    },
+    {
+      "id": 1800,
+      "code": "MA",
+      "name": "Maluku",
+      "type": "province"
+    },
+    {
+      "id": 1801,
+      "code": "MU",
+      "name": "Maluku Utara",
+      "type": "province"
+    },
+    {
+      "id": 1814,
+      "code": "NB",
+      "name": "Nusa Tenggara Barat",
+      "type": "province"
+    },
+    {
+      "id": 1818,
+      "code": "NT",
+      "name": "Nusa Tenggara Timur",
+      "type": "province"
+    },
+    {
+      "id": 1798,
+      "code": "PA",
+      "name": "Papua",
+      "type": "province"
+    },
+    {
+      "id": 1799,
+      "code": "PB",
+      "name": "Papua Barat",
+      "type": "province"
+    },
+    {
+      "id": 5238,
+      "code": "PD",
+      "name": "Papua Barat Daya",
+      "type": "province"
+    },
+    {
+      "id": 5236,
+      "code": "PE",
+      "name": "Papua Pegunungan",
+      "type": "province"
+    },
+    {
+      "id": 5237,
+      "code": "PS",
+      "name": "Papua Selatan",
+      "type": "province"
+    },
+    {
+      "id": 5235,
+      "code": "PT",
+      "name": "Papua Tengah",
+      "type": "province"
+    },
+    {
+      "id": 1809,
+      "code": "RI",
+      "name": "Riau",
+      "type": "province"
+    },
+    {
+      "id": 1817,
+      "code": "SR",
+      "name": "Sulawesi Barat",
+      "type": "province"
+    },
+    {
+      "id": 1795,
+      "code": "SN",
+      "name": "Sulawesi Selatan",
+      "type": "province"
+    },
+    {
+      "id": 1813,
+      "code": "ST",
+      "name": "Sulawesi Tengah",
+      "type": "province"
+    },
+    {
+      "id": 1796,
+      "code": "SG",
+      "name": "Sulawesi Tenggara",
+      "type": "province"
+    },
+    {
+      "id": 1808,
+      "code": "SA",
+      "name": "Sulawesi Utara",
+      "type": "province"
+    },
+    {
+      "id": 1828,
+      "code": "SB",
+      "name": "Sumatera Barat",
+      "type": "province"
+    },
+    {
+      "id": 1816,
+      "code": "SS",
+      "name": "Sumatera Selatan",
+      "type": "province"
+    },
+    {
+      "id": 1792,
+      "code": "SU",
+      "name": "Sumatera Utara",
+      "type": "province"
+    }
+  ],
+  "IT": [
+    {
+      "id": 1679,
+      "code": "65",
+      "name": "Abruzzo",
+      "type": "region"
+    },
+    {
+      "id": 1727,
+      "code": "AG",
+      "name": "Agrigento",
+      "type": "free municipal consortium"
+    },
+    {
+      "id": 1783,
+      "code": "AL",
+      "name": "Alessandria",
+      "type": "province"
+    },
+    {
+      "id": 1672,
+      "code": "AN",
+      "name": "Ancona",
+      "type": "province"
+    },
+    {
+      "id": 1716,
+      "code": "23",
+      "name": "Aosta Valley",
+      "type": "autonomous region"
+    },
+    {
+      "id": 1688,
+      "code": "75",
+      "name": "Apulia",
+      "type": "region"
+    },
+    {
+      "id": 1761,
+      "code": "AR",
+      "name": "Arezzo",
+      "type": "province"
+    },
+    {
+      "id": 1681,
+      "code": "AP",
+      "name": "Ascoli Piceno",
+      "type": "province"
+    },
+    {
+      "id": 1780,
+      "code": "AT",
+      "name": "Asti",
+      "type": "province"
+    },
+    {
+      "id": 1692,
+      "code": "AV",
+      "name": "Avellino",
+      "type": "province"
+    },
+    {
+      "id": 1686,
+      "code": "BT",
+      "name": "Barletta-Andria-Trani",
+      "type": "province"
+    },
+    {
+      "id": 1706,
+      "code": "77",
+      "name": "Basilicata",
+      "type": "region"
+    },
+    {
+      "id": 1689,
+      "code": "BL",
+      "name": "Belluno",
+      "type": "province"
+    },
+    {
+      "id": 1701,
+      "code": "BN",
+      "name": "Benevento",
+      "type": "province"
+    },
+    {
+      "id": 1704,
+      "code": "BG",
+      "name": "Bergamo",
+      "type": "province"
+    },
+    {
+      "id": 1778,
+      "code": "BI",
+      "name": "Biella",
+      "type": "province"
+    },
+    {
+      "id": 1717,
+      "code": "BS",
+      "name": "Brescia",
+      "type": "province"
+    },
+    {
+      "id": 1714,
+      "code": "BR",
+      "name": "Brindisi",
+      "type": "province"
+    },
+    {
+      "id": 1703,
+      "code": "78",
+      "name": "Calabria",
+      "type": "region"
+    },
+    {
+      "id": 1718,
+      "code": "CL",
+      "name": "Caltanissetta",
+      "type": "free municipal consortium"
+    },
+    {
+      "id": 1669,
+      "code": "72",
+      "name": "Campania",
+      "type": "region"
+    },
+    {
+      "id": 1721,
+      "code": "CB",
+      "name": "Campobasso",
+      "type": "province"
+    },
+    {
+      "id": 1731,
+      "code": "CE",
+      "name": "Caserta",
+      "type": "province"
+    },
+    {
+      "id": 1728,
+      "code": "CZ",
+      "name": "Catanzaro",
+      "type": "province"
+    },
+    {
+      "id": 1739,
+      "code": "CH",
+      "name": "Chieti",
+      "type": "province"
+    },
+    {
+      "id": 1740,
+      "code": "CO",
+      "name": "Como",
+      "type": "province"
+    },
+    {
+      "id": 1742,
+      "code": "CS",
+      "name": "Cosenza",
+      "type": "province"
+    },
+    {
+      "id": 1751,
+      "code": "CR",
+      "name": "Cremona",
+      "type": "province"
+    },
+    {
+      "id": 1754,
+      "code": "KR",
+      "name": "Crotone",
+      "type": "province"
+    },
+    {
+      "id": 1775,
+      "code": "CN",
+      "name": "Cuneo",
+      "type": "province"
+    },
+    {
+      "id": 1773,
+      "code": "45",
+      "name": "Emilia-Romagna",
+      "type": "region"
+    },
+    {
+      "id": 1723,
+      "code": "EN",
+      "name": "Enna",
+      "type": "free municipal consortium"
+    },
+    {
+      "id": 1744,
+      "code": "FM",
+      "name": "Fermo",
+      "type": "province"
+    },
+    {
+      "id": 1746,
+      "code": "FE",
+      "name": "Ferrara",
+      "type": "province"
+    },
+    {
+      "id": 1771,
+      "code": "FG",
+      "name": "Foggia",
+      "type": "province"
+    },
+    {
+      "id": 1779,
+      "code": "FC",
+      "name": "Forlì-Cesena",
+      "type": "province"
+    },
+    {
+      "id": 1756,
+      "code": "36",
+      "name": "Friuli–Venezia Giulia",
+      "type": "autonomous region"
+    },
+    {
+      "id": 1776,
+      "code": "FR",
+      "name": "Frosinone",
+      "type": "province"
+    },
+    {
+      "id": 1777,
+      "code": "GO",
+      "name": "Gorizia",
+      "type": "decentralized regional entity"
+    },
+    {
+      "id": 1787,
+      "code": "GR",
+      "name": "Grosseto",
+      "type": "province"
+    },
+    {
+      "id": 1788,
+      "code": "IM",
+      "name": "Imperia",
+      "type": "province"
+    },
+    {
+      "id": 1789,
+      "code": "IS",
+      "name": "Isernia",
+      "type": "province"
+    },
+    {
+      "id": 1781,
+      "code": "AQ",
+      "name": "L'Aquila",
+      "type": "province"
+    },
+    {
+      "id": 1791,
+      "code": "SP",
+      "name": "La Spezia",
+      "type": "province"
+    },
+    {
+      "id": 1674,
+      "code": "LT",
+      "name": "Latina",
+      "type": "province"
+    },
+    {
+      "id": 1678,
+      "code": "62",
+      "name": "Lazio",
+      "type": "region"
+    },
+    {
+      "id": 1675,
+      "code": "LE",
+      "name": "Lecce",
+      "type": "province"
+    },
+    {
+      "id": 1677,
+      "code": "LC",
+      "name": "Lecco",
+      "type": "province"
+    },
+    {
+      "id": 1768,
+      "code": "42",
+      "name": "Liguria",
+      "type": "region"
+    },
+    {
+      "id": 1745,
+      "code": "LI",
+      "name": "Livorno",
+      "type": "province"
+    },
+    {
+      "id": 1747,
+      "code": "LO",
+      "name": "Lodi",
+      "type": "province"
+    },
+    {
+      "id": 1705,
+      "code": "25",
+      "name": "Lombardy",
+      "type": "region"
+    },
+    {
+      "id": 1749,
+      "code": "LU",
+      "name": "Lucca",
+      "type": "province"
+    },
+    {
+      "id": 1750,
+      "code": "MC",
+      "name": "Macerata",
+      "type": "province"
+    },
+    {
+      "id": 1758,
+      "code": "MN",
+      "name": "Mantua",
+      "type": "province"
+    },
+    {
+      "id": 1670,
+      "code": "57",
+      "name": "Marche",
+      "type": "region"
+    },
+    {
+      "id": 1759,
+      "code": "MS",
+      "name": "Massa and Carrara",
+      "type": "province"
+    },
+    {
+      "id": 1760,
+      "code": "MT",
+      "name": "Matera",
+      "type": "province"
+    },
+    {
+      "id": 1757,
+      "code": "MO",
+      "name": "Modena",
+      "type": "province"
+    },
+    {
+      "id": 1695,
+      "code": "67",
+      "name": "Molise",
+      "type": "region"
+    },
+    {
+      "id": 1769,
+      "code": "MB",
+      "name": "Monza and Brianza",
+      "type": "province"
+    },
+    {
+      "id": 1774,
+      "code": "NO",
+      "name": "Novara",
+      "type": "province"
+    },
+    {
+      "id": 1790,
+      "code": "NU",
+      "name": "Nuoro",
+      "type": "province"
+    },
+    {
+      "id": 1786,
+      "code": "OR",
+      "name": "Oristano",
+      "type": "province"
+    },
+    {
+      "id": 1665,
+      "code": "PD",
+      "name": "Padua",
+      "type": "province"
+    },
+    {
+      "id": 1668,
+      "code": "PA",
+      "name": "Palermo",
+      "type": "metropolitan city"
+    },
+    {
+      "id": 1666,
+      "code": "PR",
+      "name": "Parma",
+      "type": "province"
+    },
+    {
+      "id": 1676,
+      "code": "PV",
+      "name": "Pavia",
+      "type": "province"
+    },
+    {
+      "id": 1691,
+      "code": "PG",
+      "name": "Perugia",
+      "type": "province"
+    },
+    {
+      "id": 1693,
+      "code": "PU",
+      "name": "Pesaro and Urbino",
+      "type": "province"
+    },
+    {
+      "id": 1694,
+      "code": "PE",
+      "name": "Pescara",
+      "type": "province"
+    },
+    {
+      "id": 1696,
+      "code": "PC",
+      "name": "Piacenza",
+      "type": "province"
+    },
+    {
+      "id": 1702,
+      "code": "21",
+      "name": "Piedmont",
+      "type": "region"
+    },
+    {
+      "id": 1685,
+      "code": "PI",
+      "name": "Pisa",
+      "type": "province"
+    },
+    {
+      "id": 1687,
+      "code": "PT",
+      "name": "Pistoia",
+      "type": "province"
+    },
+    {
+      "id": 1690,
+      "code": "PN",
+      "name": "Pordenone",
+      "type": "decentralized regional entity"
+    },
+    {
+      "id": 1697,
+      "code": "PZ",
+      "name": "Potenza",
+      "type": "province"
+    },
+    {
+      "id": 1700,
+      "code": "PO",
+      "name": "Prato",
+      "type": "province"
+    },
+    {
+      "id": 1729,
+      "code": "RG",
+      "name": "Ragusa",
+      "type": "free municipal consortium"
+    },
+    {
+      "id": 1707,
+      "code": "RA",
+      "name": "Ravenna",
+      "type": "province"
+    },
+    {
+      "id": 1708,
+      "code": "RE",
+      "name": "Reggio Emilia",
+      "type": "province"
+    },
+    {
+      "id": 1712,
+      "code": "RI",
+      "name": "Rieti",
+      "type": "province"
+    },
+    {
+      "id": 1713,
+      "code": "RN",
+      "name": "Rimini",
+      "type": "province"
+    },
+    {
+      "id": 1719,
+      "code": "RO",
+      "name": "Rovigo",
+      "type": "province"
+    },
+    {
+      "id": 1720,
+      "code": "SA",
+      "name": "Salerno",
+      "type": "province"
+    },
+    {
+      "id": 1715,
+      "code": "88",
+      "name": "Sardinia",
+      "type": "autonomous region"
+    },
+    {
+      "id": 1722,
+      "code": "SS",
+      "name": "Sassari",
+      "type": "province"
+    },
+    {
+      "id": 1732,
+      "code": "SV",
+      "name": "Savona",
+      "type": "province"
+    },
+    {
+      "id": 1709,
+      "code": "82",
+      "name": "Sicily",
+      "type": "autonomous region"
+    },
+    {
+      "id": 1734,
+      "code": "SI",
+      "name": "Siena",
+      "type": "province"
+    },
+    {
+      "id": 1667,
+      "code": "SR",
+      "name": "Siracusa",
+      "type": "free municipal consortium"
+    },
+    {
+      "id": 1741,
+      "code": "SO",
+      "name": "Sondrio",
+      "type": "province"
+    },
+    {
+      "id": 1730,
+      "code": "SU",
+      "name": "South Sardinia",
+      "type": "province"
+    },
+    {
+      "id": 1743,
+      "code": "TA",
+      "name": "Taranto",
+      "type": "province"
+    },
+    {
+      "id": 1752,
+      "code": "TE",
+      "name": "Teramo",
+      "type": "province"
+    },
+    {
+      "id": 1755,
+      "code": "TR",
+      "name": "Terni",
+      "type": "province"
+    },
+    {
+      "id": 1733,
+      "code": "TP",
+      "name": "Trapani",
+      "type": "free municipal consortium"
+    },
+    {
+      "id": 1725,
+      "code": "32",
+      "name": "Trentino-South Tyrol",
+      "type": "autonomous region"
+    },
+    {
+      "id": 1762,
+      "code": "TV",
+      "name": "Treviso",
+      "type": "province"
+    },
+    {
+      "id": 1763,
+      "code": "TS",
+      "name": "Trieste",
+      "type": "decentralized regional entity"
+    },
+    {
+      "id": 1664,
+      "code": "52",
+      "name": "Tuscany",
+      "type": "region"
+    },
+    {
+      "id": 1764,
+      "code": "UD",
+      "name": "Udine",
+      "type": "decentralized regional entity"
+    },
+    {
+      "id": 1683,
+      "code": "55",
+      "name": "Umbria",
+      "type": "region"
+    },
+    {
+      "id": 1765,
+      "code": "VA",
+      "name": "Varese",
+      "type": "province"
+    },
+    {
+      "id": 1753,
+      "code": "34",
+      "name": "Veneto",
+      "type": "region"
+    },
+    {
+      "id": 1726,
+      "code": "VB",
+      "name": "Verbano-Cusio-Ossola",
+      "type": "province"
+    },
+    {
+      "id": 1785,
+      "code": "VC",
+      "name": "Vercelli",
+      "type": "province"
+    },
+    {
+      "id": 1736,
+      "code": "VR",
+      "name": "Verona",
+      "type": "province"
+    },
+    {
+      "id": 1737,
+      "code": "VV",
+      "name": "Vibo Valentia",
+      "type": "province"
+    },
+    {
+      "id": 1738,
+      "code": "VI",
+      "name": "Vicenza",
+      "type": "province"
+    },
+    {
+      "id": 1735,
+      "code": "VT",
+      "name": "Viterbo",
+      "type": "province"
+    }
+  ],
+  "JP": [
+    {
+      "id": 827,
+      "code": "23",
+      "name": "Aichi",
+      "type": "prefecture"
+    },
+    {
+      "id": 829,
+      "code": "05",
+      "name": "Akita",
+      "type": "prefecture"
+    },
+    {
+      "id": 839,
+      "code": "02",
+      "name": "Aomori",
+      "type": "prefecture"
+    },
+    {
+      "id": 821,
+      "code": "12",
+      "name": "Chiba",
+      "type": "prefecture"
+    },
+    {
+      "id": 865,
+      "code": "38",
+      "name": "Ehime",
+      "type": "prefecture"
+    },
+    {
+      "id": 848,
+      "code": "18",
+      "name": "Fukui",
+      "type": "prefecture"
+    },
+    {
+      "id": 861,
+      "code": "40",
+      "name": "Fukuoka",
+      "type": "prefecture"
+    },
+    {
+      "id": 847,
+      "code": "07",
+      "name": "Fukushima",
+      "type": "prefecture"
+    },
+    {
+      "id": 858,
+      "code": "21",
+      "name": "Gifu",
+      "type": "prefecture"
+    },
+    {
+      "id": 862,
+      "code": "10",
+      "name": "Gunma",
+      "type": "prefecture"
+    },
+    {
+      "id": 828,
+      "code": "34",
+      "name": "Hiroshima",
+      "type": "prefecture"
+    },
+    {
+      "id": 832,
+      "code": "01",
+      "name": "Hokkaidō",
+      "type": "prefecture"
+    },
+    {
+      "id": 831,
+      "code": "28",
+      "name": "Hyōgo",
+      "type": "prefecture"
+    },
+    {
+      "id": 851,
+      "code": "08",
+      "name": "Ibaraki",
+      "type": "prefecture"
+    },
+    {
+      "id": 830,
+      "code": "17",
+      "name": "Ishikawa",
+      "type": "prefecture"
+    },
+    {
+      "id": 856,
+      "code": "03",
+      "name": "Iwate",
+      "type": "prefecture"
+    },
+    {
+      "id": 864,
+      "code": "37",
+      "name": "Kagawa",
+      "type": "prefecture"
+    },
+    {
+      "id": 840,
+      "code": "46",
+      "name": "Kagoshima",
+      "type": "prefecture"
+    },
+    {
+      "id": 842,
+      "code": "14",
+      "name": "Kanagawa",
+      "type": "prefecture"
+    },
+    {
+      "id": 4924,
+      "code": "39",
+      "name": "Kōchi",
+      "type": "prefecture"
+    },
+    {
+      "id": 846,
+      "code": "43",
+      "name": "Kumamoto",
+      "type": "prefecture"
+    },
+    {
+      "id": 834,
+      "code": "26",
+      "name": "Kyōto",
+      "type": "prefecture"
+    },
+    {
+      "id": 833,
+      "code": "24",
+      "name": "Mie",
+      "type": "prefecture"
+    },
+    {
+      "id": 857,
+      "code": "04",
+      "name": "Miyagi",
+      "type": "prefecture"
+    },
+    {
+      "id": 855,
+      "code": "45",
+      "name": "Miyazaki",
+      "type": "prefecture"
+    },
+    {
+      "id": 843,
+      "code": "20",
+      "name": "Nagano",
+      "type": "prefecture"
+    },
+    {
+      "id": 849,
+      "code": "42",
+      "name": "Nagasaki",
+      "type": "prefecture"
+    },
+    {
+      "id": 824,
+      "code": "29",
+      "name": "Nara",
+      "type": "prefecture"
+    },
+    {
+      "id": 841,
+      "code": "15",
+      "name": "Niigata",
+      "type": "prefecture"
+    },
+    {
+      "id": 822,
+      "code": "44",
+      "name": "Ōita",
+      "type": "prefecture"
+    },
+    {
+      "id": 820,
+      "code": "33",
+      "name": "Okayama",
+      "type": "prefecture"
+    },
+    {
+      "id": 853,
+      "code": "47",
+      "name": "Okinawa",
+      "type": "prefecture"
+    },
+    {
+      "id": 859,
+      "code": "27",
+      "name": "Ōsaka",
+      "type": "prefecture"
+    },
+    {
+      "id": 863,
+      "code": "41",
+      "name": "Saga",
+      "type": "prefecture"
+    },
+    {
+      "id": 860,
+      "code": "11",
+      "name": "Saitama",
+      "type": "prefecture"
+    },
+    {
+      "id": 845,
+      "code": "25",
+      "name": "Shiga",
+      "type": "prefecture"
+    },
+    {
+      "id": 826,
+      "code": "32",
+      "name": "Shimane",
+      "type": "prefecture"
+    },
+    {
+      "id": 825,
+      "code": "22",
+      "name": "Shizuoka",
+      "type": "prefecture"
+    },
+    {
+      "id": 854,
+      "code": "09",
+      "name": "Tochigi",
+      "type": "prefecture"
+    },
+    {
+      "id": 836,
+      "code": "36",
+      "name": "Tokushima",
+      "type": "prefecture"
+    },
+    {
+      "id": 823,
+      "code": "13",
+      "name": "Tokyo",
+      "type": "prefecture"
+    },
+    {
+      "id": 850,
+      "code": "31",
+      "name": "Tottori",
+      "type": "prefecture"
+    },
+    {
+      "id": 838,
+      "code": "16",
+      "name": "Toyama",
+      "type": "prefecture"
+    },
+    {
+      "id": 844,
+      "code": "30",
+      "name": "Wakayama",
+      "type": "prefecture"
+    },
+    {
+      "id": 837,
+      "code": "06",
+      "name": "Yamagata",
+      "type": "prefecture"
+    },
+    {
+      "id": 835,
+      "code": "35",
+      "name": "Yamaguchi",
+      "type": "prefecture"
+    },
+    {
+      "id": 852,
+      "code": "19",
+      "name": "Yamanashi",
+      "type": "prefecture"
+    }
+  ],
+  "MX": [
+    {
+      "id": 3456,
+      "code": "AGU",
+      "name": "Aguascalientes",
+      "type": "state"
+    },
+    {
+      "id": 3457,
+      "code": "BCN",
+      "name": "Baja California",
+      "type": "state"
+    },
+    {
+      "id": 3460,
+      "code": "BCS",
+      "name": "Baja California Sur",
+      "type": "state"
+    },
+    {
+      "id": 3475,
+      "code": "CAM",
+      "name": "Campeche",
+      "type": "state"
+    },
+    {
+      "id": 3451,
+      "code": "CHP",
+      "name": "Chiapas",
+      "type": "state"
+    },
+    {
+      "id": 3447,
+      "code": "CHH",
+      "name": "Chihuahua",
+      "type": "state"
+    },
+    {
+      "id": 3473,
+      "code": "CMX",
+      "name": "Ciudad de México",
+      "type": "federal district"
+    },
+    {
+      "id": 3471,
+      "code": "COA",
+      "name": "Coahuila de Zaragoza",
+      "type": "state"
+    },
+    {
+      "id": 3472,
+      "code": "COL",
+      "name": "Colima",
+      "type": "state"
+    },
+    {
+      "id": 3453,
+      "code": "DUR",
+      "name": "Durango",
+      "type": "state"
+    },
+    {
+      "id": 3450,
+      "code": "MEX",
+      "name": "Estado de México",
+      "type": "state"
+    },
+    {
+      "id": 3469,
+      "code": "GUA",
+      "name": "Guanajuato",
+      "type": "state"
+    },
+    {
+      "id": 3459,
+      "code": "GRO",
+      "name": "Guerrero",
+      "type": "state"
+    },
+    {
+      "id": 3470,
+      "code": "HID",
+      "name": "Hidalgo",
+      "type": "state"
+    },
+    {
+      "id": 4857,
+      "code": "JAL",
+      "name": "Jalisco",
+      "type": "state"
+    },
+    {
+      "id": 3474,
+      "code": "MIC",
+      "name": "Michoacán de Ocampo",
+      "type": "state"
+    },
+    {
+      "id": 3465,
+      "code": "MOR",
+      "name": "Morelos",
+      "type": "state"
+    },
+    {
+      "id": 3477,
+      "code": "NAY",
+      "name": "Nayarit",
+      "type": "state"
+    },
+    {
+      "id": 3452,
+      "code": "NLE",
+      "name": "Nuevo León",
+      "type": "state"
+    },
+    {
+      "id": 3448,
+      "code": "OAX",
+      "name": "Oaxaca",
+      "type": "state"
+    },
+    {
+      "id": 3476,
+      "code": "PUE",
+      "name": "Puebla",
+      "type": "state"
+    },
+    {
+      "id": 3455,
+      "code": "QUE",
+      "name": "Querétaro",
+      "type": "state"
+    },
+    {
+      "id": 3467,
+      "code": "ROO",
+      "name": "Quintana Roo",
+      "type": "state"
+    },
+    {
+      "id": 3461,
+      "code": "SLP",
+      "name": "San Luis Potosí",
+      "type": "state"
+    },
+    {
+      "id": 3449,
+      "code": "SIN",
+      "name": "Sinaloa",
+      "type": "state"
+    },
+    {
+      "id": 3468,
+      "code": "SON",
+      "name": "Sonora",
+      "type": "state"
+    },
+    {
+      "id": 3454,
+      "code": "TAB",
+      "name": "Tabasco",
+      "type": "state"
+    },
+    {
+      "id": 3463,
+      "code": "TAM",
+      "name": "Tamaulipas",
+      "type": "state"
+    },
+    {
+      "id": 3458,
+      "code": "TLA",
+      "name": "Tlaxcala",
+      "type": "state"
+    },
+    {
+      "id": 3464,
+      "code": "VER",
+      "name": "Veracruz de Ignacio de la Llave",
+      "type": "state"
+    },
+    {
+      "id": 3466,
+      "code": "YUC",
+      "name": "Yucatán",
+      "type": "state"
+    },
+    {
+      "id": 3462,
+      "code": "ZAC",
+      "name": "Zacatecas",
+      "type": "state"
+    }
+  ],
+  "NL": [
+    {
+      "id": 2613,
+      "code": "DR",
+      "name": "Drenthe",
+      "type": "province"
+    },
+    {
+      "id": 2619,
+      "code": "FL",
+      "name": "Flevoland",
+      "type": "province"
+    },
+    {
+      "id": 2622,
+      "code": "FR",
+      "name": "Friesland",
+      "type": "province"
+    },
+    {
+      "id": 2611,
+      "code": "GE",
+      "name": "Gelderland",
+      "type": "province"
+    },
+    {
+      "id": 2617,
+      "code": "GR",
+      "name": "Groningen",
+      "type": "province"
+    },
+    {
+      "id": 2615,
+      "code": "LI",
+      "name": "Limburg",
+      "type": "province"
+    },
+    {
+      "id": 2623,
+      "code": "NB",
+      "name": "North Brabant",
+      "type": "province"
+    },
+    {
+      "id": 2612,
+      "code": "NH",
+      "name": "North Holland",
+      "type": "province"
+    },
+    {
+      "id": 2618,
+      "code": "OV",
+      "name": "Overijssel",
+      "type": "province"
+    },
+    {
+      "id": 2614,
+      "code": "ZH",
+      "name": "South Holland",
+      "type": "province"
+    },
+    {
+      "id": 2610,
+      "code": "UT",
+      "name": "Utrecht",
+      "type": "province"
+    },
+    {
+      "id": 2620,
+      "code": "ZE",
+      "name": "Zeeland",
+      "type": "province"
+    }
+  ],
+  "PL": [
+    {
+      "id": 1634,
+      "code": "30",
+      "name": "Greater Poland",
+      "type": "voivodship"
+    },
+    {
+      "id": 1630,
+      "code": "26",
+      "name": "Holy Cross",
+      "type": "voivodship"
+    },
+    {
+      "id": 1625,
+      "code": "04",
+      "name": "Kuyavia-Pomerania",
+      "type": "voivodship"
+    },
+    {
+      "id": 1635,
+      "code": "12",
+      "name": "Lesser Poland",
+      "type": "voivodship"
+    },
+    {
+      "id": 1629,
+      "code": "02",
+      "name": "Lower Silesia",
+      "type": "voivodship"
+    },
+    {
+      "id": 1638,
+      "code": "06",
+      "name": "Lublin",
+      "type": "voivodship"
+    },
+    {
+      "id": 1631,
+      "code": "08",
+      "name": "Lubusz",
+      "type": "voivodship"
+    },
+    {
+      "id": 1636,
+      "code": "10",
+      "name": "Łódź",
+      "type": "voivodship"
+    },
+    {
+      "id": 1637,
+      "code": "14",
+      "name": "Mazovia",
+      "type": "voivodship"
+    },
+    {
+      "id": 1632,
+      "code": "20",
+      "name": "Podlaskie",
+      "type": "voivodship"
+    },
+    {
+      "id": 1624,
+      "code": "22",
+      "name": "Pomerania",
+      "type": "voivodship"
+    },
+    {
+      "id": 1623,
+      "code": "24",
+      "name": "Silesia",
+      "type": "voivodship"
+    },
+    {
+      "id": 1626,
+      "code": "18",
+      "name": "Subcarpathia",
+      "type": "voivodship"
+    },
+    {
+      "id": 1622,
+      "code": "16",
+      "name": "Upper Silesia",
+      "type": "voivodship"
+    },
+    {
+      "id": 1628,
+      "code": "28",
+      "name": "Warmia-Masuria",
+      "type": "voivodship"
+    },
+    {
+      "id": 1633,
+      "code": "32",
+      "name": "West Pomerania",
+      "type": "voivodship"
+    }
+  ],
+  "RU": [
+    {
+      "id": 1852,
+      "code": "AD",
+      "name": "Adygea",
+      "type": "republic"
+    },
+    {
+      "id": 1911,
+      "code": "ALT",
+      "name": "Altai",
+      "type": "administrative territory"
+    },
+    {
+      "id": 1876,
+      "code": "AL",
+      "name": "Altai",
+      "type": "republic"
+    },
+    {
+      "id": 1858,
+      "code": "AMU",
+      "name": "Amur",
+      "type": "administrative region"
+    },
+    {
+      "id": 1849,
+      "code": "ARK",
+      "name": "Arkhangelsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1866,
+      "code": "AST",
+      "name": "Astrakhan",
+      "type": "administrative region"
+    },
+    {
+      "id": 1854,
+      "code": "BA",
+      "name": "Bashkortostan",
+      "type": "republic"
+    },
+    {
+      "id": 1903,
+      "code": "BEL",
+      "name": "Belgorod",
+      "type": "administrative region"
+    },
+    {
+      "id": 1867,
+      "code": "BRY",
+      "name": "Bryansk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1842,
+      "code": "BU",
+      "name": "Buryatia",
+      "type": "republic"
+    },
+    {
+      "id": 1893,
+      "code": "CE",
+      "name": "Chechen",
+      "type": "republic"
+    },
+    {
+      "id": 1845,
+      "code": "CHE",
+      "name": "Chelyabinsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1859,
+      "code": "CHU",
+      "name": "Chukotka",
+      "type": "autonomous district"
+    },
+    {
+      "id": 1914,
+      "code": "CU",
+      "name": "Chuvash",
+      "type": "republic"
+    },
+    {
+      "id": 1850,
+      "code": "DA",
+      "name": "Dagestan",
+      "type": "republic"
+    },
+    {
+      "id": 1884,
+      "code": "IN",
+      "name": "Ingushetia",
+      "type": "republic"
+    },
+    {
+      "id": 1880,
+      "code": "IRK",
+      "name": "Irkutsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1864,
+      "code": "IVA",
+      "name": "Ivanovo",
+      "type": "administrative region"
+    },
+    {
+      "id": 1835,
+      "code": "YEV",
+      "name": "Jewish",
+      "type": "autonomous region"
+    },
+    {
+      "id": 1892,
+      "code": "KB",
+      "name": "Kabardino-Balkar",
+      "type": "republic"
+    },
+    {
+      "id": 1902,
+      "code": "KGD",
+      "name": "Kaliningrad",
+      "type": "administrative region"
+    },
+    {
+      "id": 1883,
+      "code": "KL",
+      "name": "Kalmykia",
+      "type": "republic"
+    },
+    {
+      "id": 1844,
+      "code": "KLU",
+      "name": "Kaluga",
+      "type": "administrative region"
+    },
+    {
+      "id": 1865,
+      "code": "KAM",
+      "name": "Kamchatka",
+      "type": "administrative territory"
+    },
+    {
+      "id": 1869,
+      "code": "KC",
+      "name": "Karachay-Cherkess",
+      "type": "republic"
+    },
+    {
+      "id": 1841,
+      "code": "KR",
+      "name": "Karelia",
+      "type": "republic"
+    },
+    {
+      "id": 1897,
+      "code": "KEM",
+      "name": "Kemerovo",
+      "type": "administrative region"
+    },
+    {
+      "id": 1873,
+      "code": "KHA",
+      "name": "Khabarovsk",
+      "type": "administrative territory"
+    },
+    {
+      "id": 1877,
+      "code": "KK",
+      "name": "Khakassia",
+      "type": "republic"
+    },
+    {
+      "id": 1838,
+      "code": "KHM",
+      "name": "Khanty-Mansi",
+      "type": "autonomous district"
+    },
+    {
+      "id": 1890,
+      "code": "KIR",
+      "name": "Kirov",
+      "type": "administrative region"
+    },
+    {
+      "id": 1899,
+      "code": "KO",
+      "name": "Komi",
+      "type": "republic"
+    },
+    {
+      "id": 1910,
+      "code": "KOS",
+      "name": "Kostroma",
+      "type": "administrative region"
+    },
+    {
+      "id": 1891,
+      "code": "KDA",
+      "name": "Krasnodar",
+      "type": "administrative territory"
+    },
+    {
+      "id": 1840,
+      "code": "KYA",
+      "name": "Krasnoyarsk",
+      "type": "administrative territory"
+    },
+    {
+      "id": 1915,
+      "code": "KGN",
+      "name": "Kurgan",
+      "type": "administrative region"
+    },
+    {
+      "id": 1855,
+      "code": "KRS",
+      "name": "Kursk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1896,
+      "code": "LEN",
+      "name": "Leningrad",
+      "type": "administrative region"
+    },
+    {
+      "id": 1889,
+      "code": "LIP",
+      "name": "Lipetsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1839,
+      "code": "MAG",
+      "name": "Magadan",
+      "type": "administrative region"
+    },
+    {
+      "id": 1870,
+      "code": "ME",
+      "name": "Mari El",
+      "type": "republic"
+    },
+    {
+      "id": 1898,
+      "code": "MO",
+      "name": "Mordovia",
+      "type": "republic"
+    },
+    {
+      "id": 1882,
+      "code": "MOS",
+      "name": "Moscow",
+      "type": "administrative region"
+    },
+    {
+      "id": 1901,
+      "code": "MOW",
+      "name": "Moscow",
+      "type": "autonomous city"
+    },
+    {
+      "id": 1843,
+      "code": "MUR",
+      "name": "Murmansk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1836,
+      "code": "NEN",
+      "name": "Nenets",
+      "type": "autonomous city"
+    },
+    {
+      "id": 1857,
+      "code": "NIZ",
+      "name": "Nizhny Novgorod",
+      "type": "administrative region"
+    },
+    {
+      "id": 1853,
+      "code": "SE",
+      "name": "North Ossetia-Alania",
+      "type": "republic"
+    },
+    {
+      "id": 1834,
+      "code": "NGR",
+      "name": "Novgorod",
+      "type": "administrative region"
+    },
+    {
+      "id": 1888,
+      "code": "NVS",
+      "name": "Novosibirsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1846,
+      "code": "OMS",
+      "name": "Omsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1886,
+      "code": "ORE",
+      "name": "Orenburg",
+      "type": "administrative region"
+    },
+    {
+      "id": 1908,
+      "code": "ORL",
+      "name": "Oryol",
+      "type": "administrative region"
+    },
+    {
+      "id": 1909,
+      "code": "PNZ",
+      "name": "Penza",
+      "type": "administrative region"
+    },
+    {
+      "id": 1871,
+      "code": "PER",
+      "name": "Perm",
+      "type": "administrative territory"
+    },
+    {
+      "id": 1833,
+      "code": "PRI",
+      "name": "Primorsky",
+      "type": "administrative territory"
+    },
+    {
+      "id": 1863,
+      "code": "PSK",
+      "name": "Pskov",
+      "type": "administrative region"
+    },
+    {
+      "id": 1837,
+      "code": "ROS",
+      "name": "Rostov",
+      "type": "administrative region"
+    },
+    {
+      "id": 1905,
+      "code": "RYA",
+      "name": "Ryazan",
+      "type": "administrative region"
+    },
+    {
+      "id": 1879,
+      "code": "SPE",
+      "name": "Saint Petersburg",
+      "type": "autonomous city"
+    },
+    {
+      "id": 1848,
+      "code": "SA",
+      "name": "Sakha",
+      "type": "republic"
+    },
+    {
+      "id": 1875,
+      "code": "SAK",
+      "name": "Sakhalin",
+      "type": "administrative region"
+    },
+    {
+      "id": 1862,
+      "code": "SAM",
+      "name": "Samara",
+      "type": "administrative region"
+    },
+    {
+      "id": 1887,
+      "code": "SAR",
+      "name": "Saratov",
+      "type": "administrative region"
+    },
+    {
+      "id": 1885,
+      "code": "SMO",
+      "name": "Smolensk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1868,
+      "code": "STA",
+      "name": "Stavropol",
+      "type": "administrative territory"
+    },
+    {
+      "id": 1894,
+      "code": "SVE",
+      "name": "Sverdlovsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1878,
+      "code": "TAM",
+      "name": "Tambov",
+      "type": "administrative region"
+    },
+    {
+      "id": 1861,
+      "code": "TA",
+      "name": "Tatarstan",
+      "type": "republic"
+    },
+    {
+      "id": 1872,
+      "code": "TOM",
+      "name": "Tomsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1895,
+      "code": "TUL",
+      "name": "Tula",
+      "type": "administrative region"
+    },
+    {
+      "id": 1900,
+      "code": "TY",
+      "name": "Tuva",
+      "type": "republic"
+    },
+    {
+      "id": 1860,
+      "code": "TVE",
+      "name": "Tver",
+      "type": "administrative region"
+    },
+    {
+      "id": 1907,
+      "code": "TYU",
+      "name": "Tyumen",
+      "type": "administrative region"
+    },
+    {
+      "id": 1913,
+      "code": "UD",
+      "name": "Udmurt",
+      "type": "republic"
+    },
+    {
+      "id": 1856,
+      "code": "ULY",
+      "name": "Ulyanovsk",
+      "type": "administrative region"
+    },
+    {
+      "id": 1881,
+      "code": "VLA",
+      "name": "Vladimir",
+      "type": "administrative region"
+    },
+    {
+      "id": 4916,
+      "code": "VGG",
+      "name": "Volgograd Oblast",
+      "type": "administrative region"
+    },
+    {
+      "id": 1874,
+      "code": "VLG",
+      "name": "Vologda",
+      "type": "administrative region"
+    },
+    {
+      "id": 1906,
+      "code": "VOR",
+      "name": "Voronezh",
+      "type": "administrative region"
+    },
+    {
+      "id": 1847,
+      "code": "YAN",
+      "name": "Yamalo-Nenets",
+      "type": "autonomous district"
+    },
+    {
+      "id": 1851,
+      "code": "YAR",
+      "name": "Yaroslavl",
+      "type": "administrative region"
+    },
+    {
+      "id": 1904,
+      "code": "ZAB",
+      "name": "Zabaykalsky",
+      "type": "administrative territory"
+    }
+  ],
+  "SA": [
+    {
+      "id": 2859,
+      "code": "11",
+      "name": "Al Bahah",
+      "type": "region"
+    },
+    {
+      "id": 2857,
+      "code": "12",
+      "name": "Al Jawf",
+      "type": "region"
+    },
+    {
+      "id": 2851,
+      "code": "03",
+      "name": "Al Madinah",
+      "type": "region"
+    },
+    {
+      "id": 2861,
+      "code": "05",
+      "name": "Al-Qassim",
+      "type": "region"
+    },
+    {
+      "id": 2853,
+      "code": "14",
+      "name": "Asir",
+      "type": "region"
+    },
+    {
+      "id": 2856,
+      "code": "04",
+      "name": "Eastern Province",
+      "type": "region"
+    },
+    {
+      "id": 2855,
+      "code": "06",
+      "name": "Ha'il",
+      "type": "region"
+    },
+    {
+      "id": 2858,
+      "code": "09",
+      "name": "Jizan",
+      "type": "region"
+    },
+    {
+      "id": 2850,
+      "code": "02",
+      "name": "Makkah",
+      "type": "region"
+    },
+    {
+      "id": 2860,
+      "code": "10",
+      "name": "Najran",
+      "type": "region"
+    },
+    {
+      "id": 2854,
+      "code": "08",
+      "name": "Northern Borders",
+      "type": "region"
+    },
+    {
+      "id": 2849,
+      "code": "01",
+      "name": "Riyadh",
+      "type": "region"
+    },
+    {
+      "id": 2852,
+      "code": "07",
+      "name": "Tabuk",
+      "type": "region"
+    }
+  ],
+  "KR": [
+    {
+      "id": 3860,
+      "code": "26",
+      "name": "Busan",
+      "type": "metropolitan city"
+    },
+    {
+      "id": 3846,
+      "code": "27",
+      "name": "Daegu",
+      "type": "metropolitan city"
+    },
+    {
+      "id": 3850,
+      "code": "30",
+      "name": "Daejeon",
+      "type": "metropolitan city"
+    },
+    {
+      "id": 3862,
+      "code": "42",
+      "name": "Gangwon",
+      "type": "special self-governing province"
+    },
+    {
+      "id": 3858,
+      "code": "29",
+      "name": "Gwangju",
+      "type": "metropolitan city"
+    },
+    {
+      "id": 3847,
+      "code": "41",
+      "name": "Gyeonggi",
+      "type": "province"
+    },
+    {
+      "id": 3848,
+      "code": "28",
+      "name": "Incheon",
+      "type": "metropolitan city"
+    },
+    {
+      "id": 3853,
+      "code": "49",
+      "name": "Jeju",
+      "type": "special self-governing province"
+    },
+    {
+      "id": 3854,
+      "code": "43",
+      "name": "North Chungcheong",
+      "type": "province"
+    },
+    {
+      "id": 3855,
+      "code": "47",
+      "name": "North Gyeongsang",
+      "type": "province"
+    },
+    {
+      "id": 3851,
+      "code": "45",
+      "name": "North Jeolla",
+      "type": "province"
+    },
+    {
+      "id": 3861,
+      "code": "50",
+      "name": "Sejong City",
+      "type": "special self-governing city"
+    },
+    {
+      "id": 3849,
+      "code": "11",
+      "name": "Seoul",
+      "type": "special city"
+    },
+    {
+      "id": 3859,
+      "code": "44",
+      "name": "South Chungcheong",
+      "type": "province"
+    },
+    {
+      "id": 3857,
+      "code": "48",
+      "name": "South Gyeongsang",
+      "type": "province"
+    },
+    {
+      "id": 3856,
+      "code": "46",
+      "name": "South Jeolla",
+      "type": "province"
+    },
+    {
+      "id": 3852,
+      "code": "31",
+      "name": "Ulsan",
+      "type": "metropolitan city"
+    }
+  ],
+  "ES": [
+    {
+      "id": 5089,
+      "code": "C",
+      "name": "A Coruña",
+      "type": "province"
+    },
+    {
+      "id": 5109,
+      "code": "AB",
+      "name": "Albacete",
+      "type": "province"
+    },
+    {
+      "id": 5108,
+      "code": "A",
+      "name": "Alicante",
+      "type": "province"
+    },
+    {
+      "id": 5095,
+      "code": "AL",
+      "name": "Almeria",
+      "type": "province"
+    },
+    {
+      "id": 5325,
+      "code": "AN",
+      "name": "Andalusia",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5093,
+      "code": "VI",
+      "name": "Araba",
+      "type": "province"
+    },
+    {
+      "id": 5326,
+      "code": "AR",
+      "name": "Aragon",
+      "type": "autonomous community"
+    },
+    {
+      "id": 1160,
+      "code": "O",
+      "name": "Asturias",
+      "type": "province"
+    },
+    {
+      "id": 1189,
+      "code": "AV",
+      "name": "Ávila",
+      "type": "province"
+    },
+    {
+      "id": 5092,
+      "code": "BA",
+      "name": "Badajoz",
+      "type": "province"
+    },
+    {
+      "id": 5335,
+      "code": "IB",
+      "name": "Balearic Islands",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5102,
+      "code": "B",
+      "name": "Barcelona",
+      "type": "province"
+    },
+    {
+      "id": 5332,
+      "code": "PV",
+      "name": "Basque Country",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5094,
+      "code": "BI",
+      "name": "Bizkaia",
+      "type": "province"
+    },
+    {
+      "id": 1146,
+      "code": "BU",
+      "name": "Burgos",
+      "type": "province"
+    },
+    {
+      "id": 1190,
+      "code": "CC",
+      "name": "Caceres",
+      "type": "province"
+    },
+    {
+      "id": 5096,
+      "code": "CA",
+      "name": "Cádiz",
+      "type": "province"
+    },
+    {
+      "id": 5222,
+      "code": "CN",
+      "name": "Canary Islands",
+      "type": "autonomous community"
+    },
+    {
+      "id": 1170,
+      "code": "S",
+      "name": "Cantabria",
+      "type": "province"
+    },
+    {
+      "id": 5110,
+      "code": "CS",
+      "name": "Castellón",
+      "type": "province"
+    },
+    {
+      "id": 5329,
+      "code": "CL",
+      "name": "Castile and Leon",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5330,
+      "code": "CM",
+      "name": "Castilla-La Mancha",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5331,
+      "code": "CT",
+      "name": "Catalonia",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5223,
+      "code": "CE",
+      "name": "Ceuta",
+      "type": "autonomous city"
+    },
+    {
+      "id": 5105,
+      "code": "CR",
+      "name": "Ciudad Real",
+      "type": "province"
+    },
+    {
+      "id": 5337,
+      "code": "MD",
+      "name": "Community of Madrid",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5097,
+      "code": "CO",
+      "name": "Córdoba",
+      "type": "province"
+    },
+    {
+      "id": 5106,
+      "code": "CU",
+      "name": "Cuenca",
+      "type": "province"
+    },
+    {
+      "id": 5333,
+      "code": "EX",
+      "name": "Estremadura",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5334,
+      "code": "GA",
+      "name": "Galicia",
+      "type": "autonomous community"
+    },
+    {
+      "id": 1191,
+      "code": "SS",
+      "name": "Gipuzkoa",
+      "type": "province"
+    },
+    {
+      "id": 5103,
+      "code": "GI",
+      "name": "Girona",
+      "type": "province"
+    },
+    {
+      "id": 5098,
+      "code": "GR",
+      "name": "Granada",
+      "type": "province"
+    },
+    {
+      "id": 5107,
+      "code": "GU",
+      "name": "Guadalajara",
+      "type": "province"
+    },
+    {
+      "id": 5099,
+      "code": "H",
+      "name": "Huelva",
+      "type": "province"
+    },
+    {
+      "id": 1177,
+      "code": "HU",
+      "name": "Huesca",
+      "type": "province"
+    },
+    {
+      "id": 1174,
+      "code": "PM",
+      "name": "Islas Baleares",
+      "type": "province"
+    },
+    {
+      "id": 5100,
+      "code": "J",
+      "name": "Jaén",
+      "type": "province"
+    },
+    {
+      "id": 1171,
+      "code": "LO",
+      "name": "La Rioja",
+      "type": "province"
+    },
+    {
+      "id": 1185,
+      "code": "GC",
+      "name": "Las Palmas",
+      "type": "province"
+    },
+    {
+      "id": 1200,
+      "code": "LE",
+      "name": "León",
+      "type": "province"
+    },
+    {
+      "id": 5104,
+      "code": "L",
+      "name": "Lleida",
+      "type": "province"
+    },
+    {
+      "id": 5090,
+      "code": "LU",
+      "name": "Lugo",
+      "type": "province"
+    },
+    {
+      "id": 1158,
+      "code": "M",
+      "name": "Madrid",
+      "type": "province"
+    },
+    {
+      "id": 5101,
+      "code": "MA",
+      "name": "Málaga",
+      "type": "province"
+    },
+    {
+      "id": 5224,
+      "code": "ML",
+      "name": "Melilla",
+      "type": "autonomous city"
+    },
+    {
+      "id": 1176,
+      "code": "MU",
+      "name": "Murcia",
+      "type": "province"
+    },
+    {
+      "id": 1204,
+      "code": "NA",
+      "name": "Navarra",
+      "type": "province"
+    },
+    {
+      "id": 5339,
+      "code": "NC",
+      "name": "Navarre",
+      "type": "autonomous community"
+    },
+    {
+      "id": 5091,
+      "code": "OR",
+      "name": "Ourense",
+      "type": "province"
+    },
+    {
+      "id": 1157,
+      "code": "P",
+      "name": "Palencia",
+      "type": "province"
+    },
+    {
+      "id": 1167,
+      "code": "PO",
+      "name": "Pontevedra",
+      "type": "province"
+    },
+    {
+      "id": 5338,
+      "code": "MC",
+      "name": "Region of Murcia",
+      "type": "autonomous community"
+    },
+    {
+      "id": 1147,
+      "code": "SA",
+      "name": "Salamanca",
+      "type": "province"
+    },
+    {
+      "id": 5112,
+      "code": "TF",
+      "name": "Santa Cruz de Tenerife",
+      "type": "province"
+    },
+    {
+      "id": 1192,
+      "code": "SG",
+      "name": "Segovia",
+      "type": "province"
+    },
+    {
+      "id": 1193,
+      "code": "SE",
+      "name": "Sevilla",
+      "type": "province"
+    },
+    {
+      "id": 1208,
+      "code": "SO",
+      "name": "Soria",
+      "type": "province"
+    },
+    {
+      "id": 1203,
+      "code": "T",
+      "name": "Tarragona",
+      "type": "province"
+    },
+    {
+      "id": 5111,
+      "code": "TE",
+      "name": "Teruel",
+      "type": "province"
+    },
+    {
+      "id": 1205,
+      "code": "TO",
+      "name": "Toledo",
+      "type": "province"
+    },
+    {
+      "id": 1175,
+      "code": "V",
+      "name": "Valencia",
+      "type": "province"
+    },
+    {
+      "id": 5340,
+      "code": "VC",
+      "name": "Valencian Community",
+      "type": "autonomous community"
+    },
+    {
+      "id": 1183,
+      "code": "VA",
+      "name": "Valladolid",
+      "type": "province"
+    },
+    {
+      "id": 1161,
+      "code": "ZA",
+      "name": "Zamora",
+      "type": "province"
+    },
+    {
+      "id": 5113,
+      "code": "Z",
+      "name": "Zaragoza",
+      "type": "province"
+    }
+  ],
+  "TR": [
+    {
+      "id": 2212,
+      "code": "01",
+      "name": "Adana",
+      "type": "province"
+    },
+    {
+      "id": 2155,
+      "code": "02",
+      "name": "Adıyaman",
+      "type": "province"
+    },
+    {
+      "id": 2179,
+      "code": "03",
+      "name": "Afyonkarahisar",
+      "type": "province"
+    },
+    {
+      "id": 2193,
+      "code": "04",
+      "name": "Ağrı",
+      "type": "province"
+    },
+    {
+      "id": 2210,
+      "code": "68",
+      "name": "Aksaray",
+      "type": "province"
+    },
+    {
+      "id": 2161,
+      "code": "05",
+      "name": "Amasya",
+      "type": "province"
+    },
+    {
+      "id": 2217,
+      "code": "06",
+      "name": "Ankara",
+      "type": "province"
+    },
+    {
+      "id": 2169,
+      "code": "07",
+      "name": "Antalya",
+      "type": "province"
+    },
+    {
+      "id": 2185,
+      "code": "75",
+      "name": "Ardahan",
+      "type": "province"
+    },
+    {
+      "id": 2191,
+      "code": "08",
+      "name": "Artvin",
+      "type": "province"
+    },
+    {
+      "id": 2187,
+      "code": "09",
+      "name": "Aydın",
+      "type": "province"
+    },
+    {
+      "id": 2175,
+      "code": "10",
+      "name": "Balıkesir",
+      "type": "province"
+    },
+    {
+      "id": 2148,
+      "code": "74",
+      "name": "Bartın",
+      "type": "province"
+    },
+    {
+      "id": 2194,
+      "code": "72",
+      "name": "Batman",
+      "type": "province"
+    },
+    {
+      "id": 2177,
+      "code": "69",
+      "name": "Bayburt",
+      "type": "province"
+    },
+    {
+      "id": 2221,
+      "code": "11",
+      "name": "Bilecik",
+      "type": "province"
+    },
+    {
+      "id": 2153,
+      "code": "12",
+      "name": "Bingöl",
+      "type": "province"
+    },
+    {
+      "id": 2215,
+      "code": "13",
+      "name": "Bitlis",
+      "type": "province"
+    },
+    {
+      "id": 2172,
+      "code": "14",
+      "name": "Bolu",
+      "type": "province"
+    },
+    {
+      "id": 2209,
+      "code": "15",
+      "name": "Burdur",
+      "type": "province"
+    },
+    {
+      "id": 2163,
+      "code": "16",
+      "name": "Bursa",
+      "type": "province"
+    },
+    {
+      "id": 2216,
+      "code": "17",
+      "name": "Çanakkale",
+      "type": "province"
+    },
+    {
+      "id": 2168,
+      "code": "18",
+      "name": "Çankırı",
+      "type": "province"
+    },
+    {
+      "id": 2173,
+      "code": "19",
+      "name": "Çorum",
+      "type": "province"
+    },
+    {
+      "id": 2157,
+      "code": "20",
+      "name": "Denizli",
+      "type": "province"
+    },
+    {
+      "id": 2226,
+      "code": "21",
+      "name": "Diyarbakır",
+      "type": "province"
+    },
+    {
+      "id": 2202,
+      "code": "81",
+      "name": "Düzce",
+      "type": "province"
+    },
+    {
+      "id": 2151,
+      "code": "22",
+      "name": "Edirne",
+      "type": "province"
+    },
+    {
+      "id": 2159,
+      "code": "23",
+      "name": "Elazığ",
+      "type": "province"
+    },
+    {
+      "id": 2160,
+      "code": "24",
+      "name": "Erzincan",
+      "type": "province"
+    },
+    {
+      "id": 2165,
+      "code": "25",
+      "name": "Erzurum",
+      "type": "province"
+    },
+    {
+      "id": 2164,
+      "code": "26",
+      "name": "Eskişehir",
+      "type": "province"
+    },
+    {
+      "id": 2203,
+      "code": "27",
+      "name": "Gaziantep",
+      "type": "province"
+    },
+    {
+      "id": 2186,
+      "code": "28",
+      "name": "Giresun",
+      "type": "province"
+    },
+    {
+      "id": 2204,
+      "code": "29",
+      "name": "Gümüşhane",
+      "type": "province"
+    },
+    {
+      "id": 2190,
+      "code": "30",
+      "name": "Hakkâri",
+      "type": "province"
+    },
+    {
+      "id": 2211,
+      "code": "31",
+      "name": "Hatay",
+      "type": "province"
+    },
+    {
+      "id": 2166,
+      "code": "76",
+      "name": "Iğdır",
+      "type": "province"
+    },
+    {
+      "id": 2222,
+      "code": "32",
+      "name": "Isparta",
+      "type": "province"
+    },
+    {
+      "id": 2170,
+      "code": "34",
+      "name": "İstanbul",
+      "type": "province"
+    },
+    {
+      "id": 2205,
+      "code": "35",
+      "name": "İzmir",
+      "type": "province"
+    },
+    {
+      "id": 2227,
+      "code": "46",
+      "name": "Kahramanmaraş",
+      "type": "province"
+    },
+    {
+      "id": 2223,
+      "code": "78",
+      "name": "Karabük",
+      "type": "province"
+    },
+    {
+      "id": 2184,
+      "code": "70",
+      "name": "Karaman",
+      "type": "province"
+    },
+    {
+      "id": 2208,
+      "code": "36",
+      "name": "Kars",
+      "type": "province"
+    },
+    {
+      "id": 2197,
+      "code": "37",
+      "name": "Kastamonu",
+      "type": "province"
+    },
+    {
+      "id": 2200,
+      "code": "38",
+      "name": "Kayseri",
+      "type": "province"
+    },
+    {
+      "id": 2154,
+      "code": "79",
+      "name": "Kilis",
+      "type": "province"
+    },
+    {
+      "id": 2178,
+      "code": "71",
+      "name": "Kırıkkale",
+      "type": "province"
+    },
+    {
+      "id": 2176,
+      "code": "39",
+      "name": "Kırklareli",
+      "type": "province"
+    },
+    {
+      "id": 2180,
+      "code": "40",
+      "name": "Kırşehir",
+      "type": "province"
+    },
+    {
+      "id": 2195,
+      "code": "41",
+      "name": "Kocaeli",
+      "type": "province"
+    },
+    {
+      "id": 2171,
+      "code": "42",
+      "name": "Konya",
+      "type": "province"
+    },
+    {
+      "id": 2149,
+      "code": "43",
+      "name": "Kütahya",
+      "type": "province"
+    },
+    {
+      "id": 2158,
+      "code": "44",
+      "name": "Malatya",
+      "type": "province"
+    },
+    {
+      "id": 2198,
+      "code": "45",
+      "name": "Manisa",
+      "type": "province"
+    },
+    {
+      "id": 2224,
+      "code": "47",
+      "name": "Mardin",
+      "type": "province"
+    },
+    {
+      "id": 2156,
+      "code": "33",
+      "name": "Mersin",
+      "type": "province"
+    },
+    {
+      "id": 2182,
+      "code": "48",
+      "name": "Muğla",
+      "type": "province"
+    },
+    {
+      "id": 2162,
+      "code": "49",
+      "name": "Muş",
+      "type": "province"
+    },
+    {
+      "id": 2196,
+      "code": "50",
+      "name": "Nevşehir",
+      "type": "province"
+    },
+    {
+      "id": 2189,
+      "code": "51",
+      "name": "Niğde",
+      "type": "province"
+    },
+    {
+      "id": 2174,
+      "code": "52",
+      "name": "Ordu",
+      "type": "province"
+    },
+    {
+      "id": 2214,
+      "code": "80",
+      "name": "Osmaniye",
+      "type": "province"
+    },
+    {
+      "id": 2219,
+      "code": "53",
+      "name": "Rize",
+      "type": "province"
+    },
+    {
+      "id": 2150,
+      "code": "54",
+      "name": "Sakarya",
+      "type": "province"
+    },
+    {
+      "id": 2220,
+      "code": "55",
+      "name": "Samsun",
+      "type": "province"
+    },
+    {
+      "id": 2183,
+      "code": "63",
+      "name": "Şanlıurfa",
+      "type": "province"
+    },
+    {
+      "id": 2207,
+      "code": "56",
+      "name": "Siirt",
+      "type": "province"
+    },
+    {
+      "id": 4854,
+      "code": "57",
+      "name": "Sinop",
+      "type": "province"
+    },
+    {
+      "id": 2181,
+      "code": "58",
+      "name": "Sivas",
+      "type": "province"
+    },
+    {
+      "id": 2225,
+      "code": "73",
+      "name": "Şırnak",
+      "type": "province"
+    },
+    {
+      "id": 2167,
+      "code": "59",
+      "name": "Tekirdağ",
+      "type": "province"
+    },
+    {
+      "id": 2199,
+      "code": "60",
+      "name": "Tokat",
+      "type": "province"
+    },
+    {
+      "id": 2206,
+      "code": "61",
+      "name": "Trabzon",
+      "type": "province"
+    },
+    {
+      "id": 2192,
+      "code": "62",
+      "name": "Tunceli",
+      "type": "province"
+    },
+    {
+      "id": 2201,
+      "code": "64",
+      "name": "Uşak",
+      "type": "province"
+    },
+    {
+      "id": 2152,
+      "code": "65",
+      "name": "Van",
+      "type": "province"
+    },
+    {
+      "id": 2218,
+      "code": "77",
+      "name": "Yalova",
+      "type": "province"
+    },
+    {
+      "id": 2188,
+      "code": "66",
+      "name": "Yozgat",
+      "type": "province"
+    },
+    {
+      "id": 2213,
+      "code": "67",
+      "name": "Zonguldak",
+      "type": "province"
+    }
+  ],
+  "GB": [
+    {
+      "id": 2463,
+      "code": "ABE",
+      "name": "Aberdeen",
+      "type": "council area"
+    },
+    {
+      "id": 2401,
+      "code": "ABD",
+      "name": "Aberdeenshire",
+      "type": "council area"
+    },
+    {
+      "id": 2387,
+      "code": "ANS",
+      "name": "Angus",
+      "type": "council area"
+    },
+    {
+      "id": 2412,
+      "code": "ANN",
+      "name": "Antrim and Newtownabbey",
+      "type": "district"
+    },
+    {
+      "id": 2523,
+      "code": "AND",
+      "name": "Ards and North Down",
+      "type": "district"
+    },
+    {
+      "id": 2392,
+      "code": "AGB",
+      "name": "Argyll and Bute",
+      "type": "council area"
+    },
+    {
+      "id": 2324,
+      "code": "ABC",
+      "name": "Armagh, Banbridge and Craigavon",
+      "type": "district"
+    },
+    {
+      "id": 2356,
+      "code": "BDG",
+      "name": "Barking and Dagenham",
+      "type": "london borough"
+    },
+    {
+      "id": 2520,
+      "code": "BNE",
+      "name": "Barnet",
+      "type": "london borough"
+    },
+    {
+      "id": 2499,
+      "code": "BNS",
+      "name": "Barnsley",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2339,
+      "code": "BAS",
+      "name": "Bath and North East Somerset",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2507,
+      "code": "BDF",
+      "name": "Bedford",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2311,
+      "code": "BFS",
+      "name": "Belfast",
+      "type": "district"
+    },
+    {
+      "id": 2307,
+      "code": "BEX",
+      "name": "Bexley",
+      "type": "london borough"
+    },
+    {
+      "id": 2425,
+      "code": "BIR",
+      "name": "Birmingham",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2329,
+      "code": "BBD",
+      "name": "Blackburn with Darwen",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2451,
+      "code": "BPL",
+      "name": "Blackpool",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2530,
+      "code": "BGW",
+      "name": "Blaenau Gwent",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2504,
+      "code": "BOL",
+      "name": "Bolton",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 5459,
+      "code": "BCP",
+      "name": "Bournemouth, Christchurch and Poole",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2470,
+      "code": "BRC",
+      "name": "Bracknell Forest",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2529,
+      "code": "BRD",
+      "name": "Bradford",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2291,
+      "code": "BEN",
+      "name": "Brent",
+      "type": "london borough"
+    },
+    {
+      "id": 2452,
+      "code": "BGE",
+      "name": "Bridgend",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2395,
+      "code": "BNH",
+      "name": "Brighton and Hove",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2413,
+      "code": "BST",
+      "name": "Bristol",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2490,
+      "code": "BRY",
+      "name": "Bromley",
+      "type": "london borough"
+    },
+    {
+      "id": 2405,
+      "code": "BKM",
+      "name": "Buckinghamshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2459,
+      "code": "BUR",
+      "name": "Bury",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2298,
+      "code": "CAY",
+      "name": "Caerphilly",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2517,
+      "code": "CLD",
+      "name": "Calderdale",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2423,
+      "code": "CAM",
+      "name": "Cambridgeshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2349,
+      "code": "CMD",
+      "name": "Camden",
+      "type": "london borough"
+    },
+    {
+      "id": 2528,
+      "code": "CRF",
+      "name": "Cardiff",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2484,
+      "code": "CMN",
+      "name": "Carmarthenshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2316,
+      "code": "CCG",
+      "name": "Causeway Coast and Glens",
+      "type": "district"
+    },
+    {
+      "id": 2303,
+      "code": "CBF",
+      "name": "Central Bedfordshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2509,
+      "code": "CGN",
+      "name": "Ceredigion",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2444,
+      "code": "CHE",
+      "name": "Cheshire East",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2442,
+      "code": "CHW",
+      "name": "Cheshire West and Chester",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2475,
+      "code": "KHL",
+      "name": "City of Kingston upon Hull",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2294,
+      "code": "STH",
+      "name": "City of Southampton",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2450,
+      "code": "CLK",
+      "name": "Clackmannanshire",
+      "type": "council area"
+    },
+    {
+      "id": 2352,
+      "code": "CWY",
+      "name": "Conwy",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2312,
+      "code": "CON",
+      "name": "Cornwall",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2438,
+      "code": "COV",
+      "name": "Coventry",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2512,
+      "code": "CRY",
+      "name": "Croydon",
+      "type": "london borough"
+    },
+    {
+      "id": 2334,
+      "code": "CMA",
+      "name": "Cumbria",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2389,
+      "code": "DAL",
+      "name": "Darlington",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2497,
+      "code": "DEN",
+      "name": "Denbighshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2485,
+      "code": "DER",
+      "name": "Derby",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2403,
+      "code": "DBY",
+      "name": "Derbyshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2446,
+      "code": "DRS",
+      "name": "Derry City and Strabane",
+      "type": "district"
+    },
+    {
+      "id": 2491,
+      "code": "DEV",
+      "name": "Devon",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2364,
+      "code": "DNC",
+      "name": "Doncaster",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2345,
+      "code": "DOR",
+      "name": "Dorset",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2457,
+      "code": "DUD",
+      "name": "Dudley",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2415,
+      "code": "DGY",
+      "name": "Dumfries and Galloway",
+      "type": "council area"
+    },
+    {
+      "id": 2511,
+      "code": "DND",
+      "name": "Dundee",
+      "type": "council area"
+    },
+    {
+      "id": 2406,
+      "code": "DUR",
+      "name": "Durham",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2532,
+      "code": "EAL",
+      "name": "Ealing",
+      "type": "london borough"
+    },
+    {
+      "id": 2374,
+      "code": "EAY",
+      "name": "East Ayrshire",
+      "type": "council area"
+    },
+    {
+      "id": 2454,
+      "code": "EDU",
+      "name": "East Dunbartonshire",
+      "type": "council area"
+    },
+    {
+      "id": 2462,
+      "code": "ELN",
+      "name": "East Lothian",
+      "type": "council area"
+    },
+    {
+      "id": 2333,
+      "code": "ERW",
+      "name": "East Renfrewshire",
+      "type": "council area"
+    },
+    {
+      "id": 2370,
+      "code": "ERY",
+      "name": "East Riding of Yorkshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2414,
+      "code": "ESX",
+      "name": "East Sussex",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2428,
+      "code": "EDH",
+      "name": "Edinburgh",
+      "type": "council area"
+    },
+    {
+      "id": 2476,
+      "code": "ENF",
+      "name": "Enfield",
+      "type": "london borough"
+    },
+    {
+      "id": 2336,
+      "code": "ENG",
+      "name": "England",
+      "type": "country"
+    },
+    {
+      "id": 2410,
+      "code": "ESS",
+      "name": "Essex",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2344,
+      "code": "FAL",
+      "name": "Falkirk",
+      "type": "council area"
+    },
+    {
+      "id": 2366,
+      "code": "FMO",
+      "name": "Fermanagh and Omagh",
+      "type": "district"
+    },
+    {
+      "id": 2479,
+      "code": "FIF",
+      "name": "Fife",
+      "type": "council area"
+    },
+    {
+      "id": 2437,
+      "code": "FLN",
+      "name": "Flintshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2431,
+      "code": "GAT",
+      "name": "Gateshead",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2404,
+      "code": "GLG",
+      "name": "Glasgow",
+      "type": "council area"
+    },
+    {
+      "id": 2373,
+      "code": "GLS",
+      "name": "Gloucestershire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2492,
+      "code": "GRE",
+      "name": "Greenwich",
+      "type": "london borough"
+    },
+    {
+      "id": 2379,
+      "code": "GWN",
+      "name": "Gwynedd",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2411,
+      "code": "HCK",
+      "name": "Hackney",
+      "type": "london borough"
+    },
+    {
+      "id": 2466,
+      "code": "HAL",
+      "name": "Halton",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2448,
+      "code": "HMF",
+      "name": "Hammersmith and Fulham",
+      "type": "london borough"
+    },
+    {
+      "id": 2435,
+      "code": "HAM",
+      "name": "Hampshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2306,
+      "code": "HRY",
+      "name": "Haringey",
+      "type": "london borough"
+    },
+    {
+      "id": 2385,
+      "code": "HRW",
+      "name": "Harrow",
+      "type": "london borough"
+    },
+    {
+      "id": 2309,
+      "code": "HPL",
+      "name": "Hartlepool",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2347,
+      "code": "HAV",
+      "name": "Havering",
+      "type": "london borough"
+    },
+    {
+      "id": 2500,
+      "code": "HEF",
+      "name": "Herefordshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2369,
+      "code": "HRT",
+      "name": "Hertfordshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2383,
+      "code": "HLD",
+      "name": "Highland",
+      "type": "council area"
+    },
+    {
+      "id": 2376,
+      "code": "HIL",
+      "name": "Hillingdon",
+      "type": "london borough"
+    },
+    {
+      "id": 2380,
+      "code": "HNS",
+      "name": "Hounslow",
+      "type": "london borough"
+    },
+    {
+      "id": 2388,
+      "code": "IVC",
+      "name": "Inverclyde",
+      "type": "council area"
+    },
+    {
+      "id": 5458,
+      "code": "AGY",
+      "name": "Isle of Anglesey",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2289,
+      "code": "IOW",
+      "name": "Isle of Wight",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2343,
+      "code": "IOS",
+      "name": "Isles of Scilly",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2319,
+      "code": "ISL",
+      "name": "Islington",
+      "type": "london borough"
+    },
+    {
+      "id": 2368,
+      "code": "KEC",
+      "name": "Kensington and Chelsea",
+      "type": "london borough"
+    },
+    {
+      "id": 2464,
+      "code": "KEN",
+      "name": "Kent",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2481,
+      "code": "KTT",
+      "name": "Kingston upon Thames",
+      "type": "london borough"
+    },
+    {
+      "id": 2371,
+      "code": "KIR",
+      "name": "Kirklees",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2330,
+      "code": "KWL",
+      "name": "Knowsley",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2396,
+      "code": "LBH",
+      "name": "Lambeth",
+      "type": "london borough"
+    },
+    {
+      "id": 2495,
+      "code": "LAN",
+      "name": "Lancashire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2503,
+      "code": "LDS",
+      "name": "Leeds",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2318,
+      "code": "LCE",
+      "name": "Leicester",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2516,
+      "code": "LEC",
+      "name": "Leicestershire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2358,
+      "code": "LEW",
+      "name": "Lewisham",
+      "type": "london borough"
+    },
+    {
+      "id": 2355,
+      "code": "LIN",
+      "name": "Lincolnshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2460,
+      "code": "LBC",
+      "name": "Lisburn and Castlereagh",
+      "type": "district"
+    },
+    {
+      "id": 2340,
+      "code": "LIV",
+      "name": "Liverpool",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2424,
+      "code": "LND",
+      "name": "London",
+      "type": "city"
+    },
+    {
+      "id": 5460,
+      "code": "LUT",
+      "name": "Luton",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2398,
+      "code": "MAN",
+      "name": "Manchester",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2381,
+      "code": "MDW",
+      "name": "Medway",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2328,
+      "code": "MTY",
+      "name": "Merthyr Tydfil",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2483,
+      "code": "MRT",
+      "name": "Merton",
+      "type": "london borough"
+    },
+    {
+      "id": 2429,
+      "code": "MEA",
+      "name": "Mid and East Antrim",
+      "type": "district"
+    },
+    {
+      "id": 2399,
+      "code": "MUL",
+      "name": "Mid Ulster",
+      "type": "district"
+    },
+    {
+      "id": 2332,
+      "code": "MDB",
+      "name": "Middlesbrough",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2519,
+      "code": "MLN",
+      "name": "Midlothian",
+      "type": "council area"
+    },
+    {
+      "id": 2416,
+      "code": "MIK",
+      "name": "Milton Keynes",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2402,
+      "code": "MON",
+      "name": "Monmouthshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2360,
+      "code": "MRY",
+      "name": "Moray",
+      "type": "council area"
+    },
+    {
+      "id": 2351,
+      "code": "NTL",
+      "name": "Neath Port Talbot",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2458,
+      "code": "NET",
+      "name": "Newcastle upon Tyne",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2418,
+      "code": "NWM",
+      "name": "Newham",
+      "type": "london borough"
+    },
+    {
+      "id": 2524,
+      "code": "NWP",
+      "name": "Newport",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2534,
+      "code": "NMD",
+      "name": "Newry, Mourne and Down",
+      "type": "district"
+    },
+    {
+      "id": 2473,
+      "code": "NFK",
+      "name": "Norfolk",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2535,
+      "code": "NAY",
+      "name": "North Ayrshire",
+      "type": "council area"
+    },
+    {
+      "id": 2384,
+      "code": "NEL",
+      "name": "North East Lincolnshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2487,
+      "code": "NLK",
+      "name": "North Lanarkshire",
+      "type": "council area"
+    },
+    {
+      "id": 2453,
+      "code": "NLN",
+      "name": "North Lincolnshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 5461,
+      "code": "NNH",
+      "name": "North Northamptonshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2430,
+      "code": "NSM",
+      "name": "North Somerset",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2521,
+      "code": "NTY",
+      "name": "North Tyneside",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2522,
+      "code": "NYK",
+      "name": "North Yorkshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2337,
+      "code": "NIR",
+      "name": "Northern Ireland",
+      "type": "province"
+    },
+    {
+      "id": 2365,
+      "code": "NBL",
+      "name": "Northumberland",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2359,
+      "code": "NGM",
+      "name": "Nottingham",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2456,
+      "code": "NTT",
+      "name": "Nottinghamshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2477,
+      "code": "OLD",
+      "name": "Oldham",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2474,
+      "code": "ORK",
+      "name": "Orkney Islands",
+      "type": "council area"
+    },
+    {
+      "id": 2353,
+      "code": "ELS",
+      "name": "Outer Hebrides",
+      "type": "council area"
+    },
+    {
+      "id": 2321,
+      "code": "OXF",
+      "name": "Oxfordshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2486,
+      "code": "PEM",
+      "name": "Pembrokeshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2325,
+      "code": "PKN",
+      "name": "Perth and Kinross",
+      "type": "council area"
+    },
+    {
+      "id": 2297,
+      "code": "PTE",
+      "name": "Peterborough",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2514,
+      "code": "PLY",
+      "name": "Plymouth",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2305,
+      "code": "POR",
+      "name": "Portsmouth",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2441,
+      "code": "POW",
+      "name": "Powys",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2455,
+      "code": "RDG",
+      "name": "Reading",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2397,
+      "code": "RDB",
+      "name": "Redbridge",
+      "type": "london borough"
+    },
+    {
+      "id": 2527,
+      "code": "RCC",
+      "name": "Redcar and Cleveland",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2443,
+      "code": "RFW",
+      "name": "Renfrewshire",
+      "type": "council area"
+    },
+    {
+      "id": 2301,
+      "code": "RCT",
+      "name": "Rhondda Cynon Taf",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2501,
+      "code": "RIC",
+      "name": "Richmond upon Thames",
+      "type": "london borough"
+    },
+    {
+      "id": 2327,
+      "code": "RCH",
+      "name": "Rochdale",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2308,
+      "code": "ROT",
+      "name": "Rotherham",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2472,
+      "code": "RUT",
+      "name": "Rutland",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2493,
+      "code": "SLF",
+      "name": "Salford",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2341,
+      "code": "SAW",
+      "name": "Sandwell",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2335,
+      "code": "SCT",
+      "name": "Scotland",
+      "type": "country"
+    },
+    {
+      "id": 2346,
+      "code": "SCB",
+      "name": "Scottish Borders",
+      "type": "council area"
+    },
+    {
+      "id": 2518,
+      "code": "SFT",
+      "name": "Sefton",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2295,
+      "code": "SHF",
+      "name": "Sheffield",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2300,
+      "code": "ZET",
+      "name": "Shetland Islands",
+      "type": "council area"
+    },
+    {
+      "id": 2407,
+      "code": "SHR",
+      "name": "Shropshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2427,
+      "code": "SLG",
+      "name": "Slough",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2469,
+      "code": "SOL",
+      "name": "Solihull",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2386,
+      "code": "SOM",
+      "name": "Somerset",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2377,
+      "code": "SAY",
+      "name": "South Ayrshire",
+      "type": "council area"
+    },
+    {
+      "id": 2400,
+      "code": "SGC",
+      "name": "South Gloucestershire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2362,
+      "code": "SLK",
+      "name": "South Lanarkshire",
+      "type": "council area"
+    },
+    {
+      "id": 2409,
+      "code": "STY",
+      "name": "South Tyneside",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2323,
+      "code": "SOS",
+      "name": "Southend-on-Sea",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2432,
+      "code": "SWK",
+      "name": "Southwark",
+      "type": "london borough"
+    },
+    {
+      "id": 2290,
+      "code": "SHN",
+      "name": "St Helens",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2447,
+      "code": "STS",
+      "name": "Staffordshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2488,
+      "code": "STG",
+      "name": "Stirling",
+      "type": "council area"
+    },
+    {
+      "id": 2394,
+      "code": "SKP",
+      "name": "Stockport",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2421,
+      "code": "STT",
+      "name": "Stockton-on-Tees",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2506,
+      "code": "STE",
+      "name": "Stoke-on-Trent",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2467,
+      "code": "SFK",
+      "name": "Suffolk",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2372,
+      "code": "SND",
+      "name": "Sunderland",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2526,
+      "code": "SRY",
+      "name": "Surrey",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2313,
+      "code": "STN",
+      "name": "Sutton",
+      "type": "london borough"
+    },
+    {
+      "id": 2433,
+      "code": "SWA",
+      "name": "Swansea",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2422,
+      "code": "SWD",
+      "name": "Swindon",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2367,
+      "code": "TAM",
+      "name": "Tameside",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2310,
+      "code": "TFW",
+      "name": "Telford and Wrekin",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2468,
+      "code": "THR",
+      "name": "Thurrock",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2478,
+      "code": "TOB",
+      "name": "Torbay",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2496,
+      "code": "TOF",
+      "name": "Torfaen",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2390,
+      "code": "TWH",
+      "name": "Tower Hamlets",
+      "type": "london borough"
+    },
+    {
+      "id": 2293,
+      "code": "TRF",
+      "name": "Trafford",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2299,
+      "code": "VGL",
+      "name": "Vale of Glamorgan",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2465,
+      "code": "WKF",
+      "name": "Wakefield",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2338,
+      "code": "WLS",
+      "name": "Wales",
+      "type": "country"
+    },
+    {
+      "id": 2292,
+      "code": "WLL",
+      "name": "Walsall",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2326,
+      "code": "WFT",
+      "name": "Waltham Forest",
+      "type": "london borough"
+    },
+    {
+      "id": 2434,
+      "code": "WND",
+      "name": "Wandsworth",
+      "type": "london borough"
+    },
+    {
+      "id": 2420,
+      "code": "WRT",
+      "name": "Warrington",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2505,
+      "code": "WAR",
+      "name": "Warwickshire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2471,
+      "code": "WBK",
+      "name": "West Berkshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2440,
+      "code": "WDU",
+      "name": "West Dunbartonshire",
+      "type": "council area"
+    },
+    {
+      "id": 2354,
+      "code": "WLN",
+      "name": "West Lothian",
+      "type": "council area"
+    },
+    {
+      "id": 5462,
+      "code": "WNH",
+      "name": "West Northamptonshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2296,
+      "code": "WSX",
+      "name": "West Sussex",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2357,
+      "code": "WSM",
+      "name": "Westminster",
+      "type": "london borough"
+    },
+    {
+      "id": 2320,
+      "code": "WGN",
+      "name": "Wigan",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2391,
+      "code": "WIL",
+      "name": "Wiltshire",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2482,
+      "code": "WNM",
+      "name": "Windsor and Maidenhead",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2408,
+      "code": "WRL",
+      "name": "Wirral",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2419,
+      "code": "WOK",
+      "name": "Wokingham",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2489,
+      "code": "WLV",
+      "name": "Wolverhampton",
+      "type": "metropolitan district"
+    },
+    {
+      "id": 2510,
+      "code": "WOR",
+      "name": "Worcestershire",
+      "type": "two-tier county"
+    },
+    {
+      "id": 2436,
+      "code": "WRX",
+      "name": "Wrexham",
+      "type": "unitary authority"
+    },
+    {
+      "id": 2426,
+      "code": "YOR",
+      "name": "York",
+      "type": "unitary authority"
+    }
+  ],
+  "US": [
+    {
+      "id": 1456,
+      "code": "AL",
+      "name": "Alabama",
+      "type": "state"
+    },
+    {
+      "id": 1400,
+      "code": "AK",
+      "name": "Alaska",
+      "type": "state"
+    },
+    {
+      "id": 1424,
+      "code": "AS",
+      "name": "American Samoa",
+      "type": "outlying area"
+    },
+    {
+      "id": 1434,
+      "code": "AZ",
+      "name": "Arizona",
+      "type": "state"
+    },
+    {
+      "id": 1444,
+      "code": "AR",
+      "name": "Arkansas",
+      "type": "state"
+    },
+    {
+      "id": 1416,
+      "code": "CA",
+      "name": "California",
+      "type": "state"
+    },
+    {
+      "id": 1450,
+      "code": "CO",
+      "name": "Colorado",
+      "type": "state"
+    },
+    {
+      "id": 1435,
+      "code": "CT",
+      "name": "Connecticut",
+      "type": "state"
+    },
+    {
+      "id": 1399,
+      "code": "DE",
+      "name": "Delaware",
+      "type": "state"
+    },
+    {
+      "id": 1437,
+      "code": "DC",
+      "name": "District of Columbia",
+      "type": "district"
+    },
+    {
+      "id": 1436,
+      "code": "FL",
+      "name": "Florida",
+      "type": "state"
+    },
+    {
+      "id": 1455,
+      "code": "GA",
+      "name": "Georgia",
+      "type": "state"
+    },
+    {
+      "id": 1412,
+      "code": "GU",
+      "name": "Guam",
+      "type": "outlying area"
+    },
+    {
+      "id": 1411,
+      "code": "HI",
+      "name": "Hawaii",
+      "type": "state"
+    },
+    {
+      "id": 1460,
+      "code": "ID",
+      "name": "Idaho",
+      "type": "state"
+    },
+    {
+      "id": 1425,
+      "code": "IL",
+      "name": "Illinois",
+      "type": "state"
+    },
+    {
+      "id": 1440,
+      "code": "IN",
+      "name": "Indiana",
+      "type": "state"
+    },
+    {
+      "id": 1459,
+      "code": "IA",
+      "name": "Iowa",
+      "type": "state"
+    },
+    {
+      "id": 1406,
+      "code": "KS",
+      "name": "Kansas",
+      "type": "state"
+    },
+    {
+      "id": 1419,
+      "code": "KY",
+      "name": "Kentucky",
+      "type": "state"
+    },
+    {
+      "id": 1457,
+      "code": "LA",
+      "name": "Louisiana",
+      "type": "state"
+    },
+    {
+      "id": 1453,
+      "code": "ME",
+      "name": "Maine",
+      "type": "state"
+    },
+    {
+      "id": 1401,
+      "code": "MD",
+      "name": "Maryland",
+      "type": "state"
+    },
+    {
+      "id": 1433,
+      "code": "MA",
+      "name": "Massachusetts",
+      "type": "state"
+    },
+    {
+      "id": 1426,
+      "code": "MI",
+      "name": "Michigan",
+      "type": "state"
+    },
+    {
+      "id": 1420,
+      "code": "MN",
+      "name": "Minnesota",
+      "type": "state"
+    },
+    {
+      "id": 1430,
+      "code": "MS",
+      "name": "Mississippi",
+      "type": "state"
+    },
+    {
+      "id": 1451,
+      "code": "MO",
+      "name": "Missouri",
+      "type": "state"
+    },
+    {
+      "id": 1446,
+      "code": "MT",
+      "name": "Montana",
+      "type": "state"
+    },
+    {
+      "id": 1408,
+      "code": "NE",
+      "name": "Nebraska",
+      "type": "state"
+    },
+    {
+      "id": 1458,
+      "code": "NV",
+      "name": "Nevada",
+      "type": "state"
+    },
+    {
+      "id": 1404,
+      "code": "NH",
+      "name": "New Hampshire",
+      "type": "state"
+    },
+    {
+      "id": 1417,
+      "code": "NJ",
+      "name": "New Jersey",
+      "type": "state"
+    },
+    {
+      "id": 1423,
+      "code": "NM",
+      "name": "New Mexico",
+      "type": "state"
+    },
+    {
+      "id": 1452,
+      "code": "NY",
+      "name": "New York",
+      "type": "state"
+    },
+    {
+      "id": 1447,
+      "code": "NC",
+      "name": "North Carolina",
+      "type": "state"
+    },
+    {
+      "id": 1418,
+      "code": "ND",
+      "name": "North Dakota",
+      "type": "state"
+    },
+    {
+      "id": 1431,
+      "code": "MP",
+      "name": "Northern Mariana Islands",
+      "type": "outlying area"
+    },
+    {
+      "id": 4851,
+      "code": "OH",
+      "name": "Ohio",
+      "type": "state"
+    },
+    {
+      "id": 1421,
+      "code": "OK",
+      "name": "Oklahoma",
+      "type": "state"
+    },
+    {
+      "id": 1415,
+      "code": "OR",
+      "name": "Oregon",
+      "type": "state"
+    },
+    {
+      "id": 1422,
+      "code": "PA",
+      "name": "Pennsylvania",
+      "type": "state"
+    },
+    {
+      "id": 1449,
+      "code": "PR",
+      "name": "Puerto Rico",
+      "type": "outlying area"
+    },
+    {
+      "id": 1461,
+      "code": "RI",
+      "name": "Rhode Island",
+      "type": "state"
+    },
+    {
+      "id": 1443,
+      "code": "SC",
+      "name": "South Carolina",
+      "type": "state"
+    },
+    {
+      "id": 1445,
+      "code": "SD",
+      "name": "South Dakota",
+      "type": "state"
+    },
+    {
+      "id": 1454,
+      "code": "TN",
+      "name": "Tennessee",
+      "type": "state"
+    },
+    {
+      "id": 1407,
+      "code": "TX",
+      "name": "Texas",
+      "type": "state"
+    },
+    {
+      "id": 1432,
+      "code": "UM",
+      "name": "United States Minor Outlying Islands",
+      "type": "outlying area"
+    },
+    {
+      "id": 1413,
+      "code": "VI",
+      "name": "United States Virgin Islands",
+      "type": "outlying area"
+    },
+    {
+      "id": 1414,
+      "code": "UT",
+      "name": "Utah",
+      "type": "state"
+    },
+    {
+      "id": 1409,
+      "code": "VT",
+      "name": "Vermont",
+      "type": "state"
+    },
+    {
+      "id": 1427,
+      "code": "VA",
+      "name": "Virginia",
+      "type": "state"
+    },
+    {
+      "id": 1462,
+      "code": "WA",
+      "name": "Washington",
+      "type": "state"
+    },
+    {
+      "id": 1429,
+      "code": "WV",
+      "name": "West Virginia",
+      "type": "state"
+    },
+    {
+      "id": 1441,
+      "code": "WI",
+      "name": "Wisconsin",
+      "type": "state"
+    },
+    {
+      "id": 1442,
+      "code": "WY",
+      "name": "Wyoming",
+      "type": "state"
+    }
+  ]
+}

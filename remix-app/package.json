@@ -9,14 +9,17 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.9",
     "@react-router/node": "^7.9.4",
     "@react-router/serve": "^7.9.4",
     "@types/node": "^24.8.1",
+    "card-validator": "^10.0.3",
     "cross-env": "^10.1.0",
     "dompurify": "^3.3.0",
     "isbot": "^5.1.17",
     "match-sorter": "^8.0.0",
     "react": "^19.2.0",
+    "react-credit-cards-3": "^3.0.1",
     "react-dom": "^19.2.0",
     "react-loading-skeleton": "^3.5.0",
     "react-router": "^7.9.4",
