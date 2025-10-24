@@ -19,8 +19,7 @@ import ProductDetail from '@/features/product/ProductDetail';
 import ProductSelector from '@/features/product/ProductSelector';
 import ReviewCard from '@/features/product/ReviewCard';
 import UserInfo from '@/features/product/UserInfo';
-import { useElementVisibility } from '@/hooks/useElementVisibility';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 
 import StickyBar from '@/components/StickyBar';
 
@@ -31,7 +30,6 @@ const ProductPage = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     // data = data.replace(/<img /g, '<img loading="lazy" ');
     const buyButtonRef = useRef<HTMLDivElement>(null); // 👈 就用 useRef
-    const isVisible = useElementVisibility(buyButtonRef);
     const [open, setOpen] = useState(false);
 
     const handleAction = (key: string | null) => {
@@ -69,7 +67,13 @@ const ProductPage = () => {
             </div>
             <div className="p-1">
                 <ProductCard>
-                    <div ref={buyButtonRef} className="flex bg-blue-500 justify-center items-center bg-primary text-white px-4 py-2 rounded-full">
+                    <div
+                        ref={buyButtonRef}
+                        className="flex bg-blue-500 justify-center items-center bg-primary text-white px-4 py-2 rounded-full"
+                        onClick={() => {
+                            setOpen(true);
+                        }}
+                    >
                         加入购物车
                     </div>
                 </ProductCard>
@@ -82,13 +86,16 @@ const ProductPage = () => {
                 <ProductDetail data={data as string} />
             </div>
 
-            {!isVisible && (
-                <StickyBar>
-                    <div className="flex bg-blue-500 justify-center items-center bg-primary text-white px-4 py-2 rounded-full" onClick={() => setOpen(true)}>
-                        加入购物车
-                    </div>
-                </StickyBar>
-            )}
+            <StickyBar ref={buyButtonRef as RefObject<HTMLDivElement>}>
+                <div
+                    className="flex bg-blue-500 justify-center items-center bg-primary text-white px-4 py-2 rounded-full" //
+                    onClick={() => {
+                        setOpen(true);
+                    }}
+                >
+                    加入购物车
+                </div>
+            </StickyBar>
 
             <BottomSheet open={open} onClose={() => setOpen(false)}>
                 <HorizontalTabs
@@ -145,9 +152,5 @@ const ProductPage = () => {
             </BottomSheet>
         </div>
     );
-
-    function SelectProduct() {
-        return <div className="text-lg">✨ 这是第一个页面内容</div>;
-    }
 };
 export default ProductPage;

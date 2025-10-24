@@ -24,3 +24,17 @@ interface ComboBoxProps {
     placeholder?: string;
     className?: string;
 }
+interface ProductSelectorProps {
+    // price: number;
+    options: ProductOptionType[];
+    skus: SKUType[];
+    action: (str: string) => void;
+    // attributesSort: string[];
+}
+
+interface StickyBarProps {
+    ref: React.RefObject<HTMLElement>;
+    isVisible?: boolean;
+    children: React.ReactNode;
+    className?: string;
+}

@@ -23,8 +23,8 @@ export function buildObbjectFromGroupAttributes<T extends Record<string, string>
     return result;
 }
 
-export function discount(num: number, price: number, other: number): { discount: number; total: number; num: number; payAmount: number; nextDiscount: number; nextDiscountNum: number } {
-    let total = num * price - other;
+export function discount(num: number, price: number, payment: string, other: number): DiscountInfoType {
+    let total = num * price;
     let discount = 0.0;
     const rules = [3, 5, 10, 15, 20];
     const rulesMap: Record<number, { discount: number; minNum?: number }> = {
@@ -57,7 +57,8 @@ export function discount(num: number, price: number, other: number): { discount:
         }
     }
 
-    let payAmount = total - discount;
+    const paymentDiscount = payment === 'credit-card' ? total * 0.05 : 0;
+    let payAmount = total - discount - paymentDiscount - other;
     return {
         total,
         payAmount,
@@ -65,5 +66,21 @@ export function discount(num: number, price: number, other: number): { discount:
         discount,
         nextDiscount: (rulesMap[rules[i + 1]]?.discount || 0) * total,
         nextDiscountNum: rulesMap[rules[i + 1]]?.minNum || 0,
+        paymentDiscount: paymentDiscount,
     };
+}
+
+export function discountMoneyFormat(num: number): string {
+    if (num === 0) {
+        return '--';
+    }
+
+    return '-' + num.toFixed(2);
+}
+
+export function moneyFormat(num: number): string {
+    if (num === 0) {
+        return '0.00';
+    }
+    return num.toFixed(2);
 }

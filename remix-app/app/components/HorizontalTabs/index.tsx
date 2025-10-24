@@ -35,7 +35,7 @@ export default function HorizontalTabs({ tabs, className, activeKey: outActiveKe
                     <button
                         key={tab.key}
                         onClick={() => handleTabSwitch(tab.key)}
-                        className={`flex-1 text-center py-2 text-sm font-medium ${styles['tab-button']} ${activeKey === tab.key ? `${styles.active}` : 'text-gray-600 hover:text-blue-500'}`}
+                        className={`flex-1 text-center py-2 text-sub ${styles['tab-button']} ${activeKey === tab.key ? `${styles.active}` : 'text-gray-600 hover:text-blue-500'}`}
                     >
                         {tab.label}
                     </button>
@@ -43,7 +43,7 @@ export default function HorizontalTabs({ tabs, className, activeKey: outActiveKe
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 p-2 bg-white-1 overflow-y-hidden">{tabs.find((t) => t.key === activeKey)?.content}</div>
+            <div className="flex-1 px-2 bg-white-1 ">{tabs.find((t) => t.key === activeKey)?.content}</div>
         </div>
     );
 }

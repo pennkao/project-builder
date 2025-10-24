@@ -1,4 +1,4 @@
-import cardValidator from 'card-validator';
+import { checkCvv, checkExpiredDate, checkName, checkNumber, formatCardNumber, formatExpireDateInput } from '@/utils/card';
 import { useState } from 'react';
 import Cards from 'react-credit-cards-3';
 
@@ -6,7 +6,7 @@ import 'react-credit-cards-3/dist/es/styles-compiled.css';
 const PaymentForm = ({ onChange }: { onChange: (state: CreditCardPaymentFormType) => void }) => {
     const [focusedField, setFocusedField] = useState<Focused>('');
     const [isVisible, setIsVisible] = useState(false);
-    const [errors, setErrors] = useState('');
+    const [errors, setErrors] = useState<CardErrorType>({ number: '', expiry: '', cvc: '', name: '' });
 
     const [state, setState] = useState<CreditCardPaymentFormType>({
         number: '',
@@ -18,51 +18,77 @@ const PaymentForm = ({ onChange }: { onChange: (state: CreditCardPaymentFormType
 usually found on the back of your card.
 American Express cards have a 4-digit code located on the front.`;
 
+    const formatExpireInput = (input: string) => {
+        // 去掉非数字
+        let v = input.replace(/\D/g, '');
+        // 限制为4位数字
+        if (v.length > 4) v = v.slice(0, 4);
+        // 自动插入 /
+        if (v.length > 2) v = `${v.slice(0, 2)}/${v.slice(2)}`;
+        return v;
+    };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setState((prev) => ({ ...prev, [name]: value }));
+        if (name === 'expiry') {
+            setState((prev) => ({ ...prev, [name]: formatExpireDateInput(value) }));
+        }
+        if (name === 'cvc') {
+            // 限制为3位数字
+            let v = e.target.value.replace(/\D/g, ''); // 只允许数字
+            // 限制最大长度 4
+            if (v.trim().length > 4) v = v.slice(0, 4);
+            setState((prev) => ({ ...prev, [name]: v }));
+        }
+        if (name === 'number') {
+            // 限制为16位数字
+            let v = e.target.value.replace(/\D/g, ''); // 只允许数字
+            // 限制最大长度 16
+            if (v.trim().length > 19) v = v.slice(0, 19);
+            v = formatCardNumber(v);
+            setState((prev) => ({ ...prev, [name]: v }));
+        }
+        if (name === 'name') {
+            setState((prev) => ({ ...prev, [name]: value }));
+        }
+        // setState((prev) => ({ ...prev, [name]: value }));
         onChange({ ...state, [name]: value });
     };
 
-    let className = 'w-full px-4 py-2 input-main';
-
     const validateAll = (name: Focused) => {
-        let errs = '';
         if (name === '') {
             return;
         }
-        let isValid = true;
+        let error: CardErrorType = {
+            number: '',
+            expiry: '',
+            cvc: '',
+            name: '',
+        };
         switch (name) {
             case 'number':
-                const numberValidation = cardValidator.number(state.number);
-                if (!numberValidation.isValid) errs = 'number:卡号不合法';
-                isValid = false;
-                break;
+                const numberValidation = checkNumber(state.number);
+                error.number = numberValidation.message;
+                if (!numberValidation.result) setErrors(error);
+                return;
             case 'expiry':
-                const expValidation = cardValidator.expirationDate(state.expiry);
-                if (!expValidation.isValid) errs = 'expiry:到期日不合法/已过期';
-                isValid = false;
-                break;
+                const expValidation = checkExpiredDate(state.expiry);
+                console.log(expValidation);
+                error.expiry = expValidation.message;
+                if (!expValidation.result) setErrors(error);
+                return;
             case 'cvc':
-                const cvcValidation = cardValidator.cvv(state.cvc);
-                if (!cvcValidation.isValid) errs = 'cvc: CVV 不合法';
-                isValid = false;
-                break;
+                const cvcValidation = checkCvv(state.cvc);
+                error.cvc = cvcValidation.message;
+                if (!cvcValidation.result) setErrors(error);
+                return;
             case 'name':
-                const nameValidation = cardValidator.cardholderName(state.name);
-                if (!nameValidation.isValid) errs = 'name: 姓名不合法';
-                isValid = false;
-                break;
+                const nameValidation = checkName(state.name);
+                error.name = nameValidation.message;
+                if (!nameValidation.result) setErrors(error);
+                return;
             default:
                 break;
         }
-
-        if (!isValid) {
-            setErrors(errs);
-
-            return false;
-        }
-        return true;
     };
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         setFocusedField(e.target.name as Focused);
@@ -72,21 +98,35 @@ American Express cards have a 4-digit code located on the front.`;
         if (e.target.value.trim() == '') {
             return;
         }
-        const isValid = validateAll(e.target.name as Focused);
-        if (!isValid) {
-            e.target.classList.add('border-red-500');
-        }
+        validateAll(e.target.name as Focused);
     };
+
+    const handleError = (name: Focused) => {
+        // return errors[name] !== '' ? errors[name] : '';
+    };
+    const errorLineClassName = 'px-1 text-sm h-6 text-error';
+    const className = 'w-full px-4 py-2 input-main';
 
     return (
         <div>
             <Cards number={state.number} expiry={state.expiry} cvc={state.cvc} name={state.name} focused={focusedField} />
 
-            <div className="max-w-md mx-auto mt-1 bg-content rounded-lg  p-1">
-                <form method="post" className="space-y-2 border-none flex flex-col gap-2">
+            <div className="max-w-md mx-auto mt-2 bg-content rounded-lg p-1">
+                <form method="post" className=" border-none flex flex-col">
                     {/* Card Number */}
                     <div className="relative">
-                        <input type="number" name="number" placeholder="Card number" value={state.number} onBlur={handleBlur} onChange={handleInputChange} onFocus={handleFocus} className={className} />
+                        <input
+                            type="text"
+                            inputMode="numeric" // 软键盘只显示数字
+                            pattern="\d*"
+                            name="number"
+                            placeholder="Card number"
+                            value={state.number}
+                            onBlur={handleBlur}
+                            onChange={handleInputChange}
+                            onFocus={handleFocus}
+                            className={className}
+                        />
                         <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-help transition-colors">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -105,13 +145,24 @@ American Express cards have a 4-digit code located on the front.`;
                             </svg>
                         </div>
                     </div>
-
+                    <p className={errorLineClassName}>{errors.number}</p>
                     {/* Expiration Date */}
                     <input type="text" name="expiry" placeholder="Expiration date (MM / YY)" value={state.expiry} onBlur={handleBlur} onChange={handleInputChange} onFocus={handleFocus} className={className} />
-
+                    <p className={errorLineClassName}>{errors.expiry}</p>
                     {/* Security Code */}
                     <div className="relative">
-                        <input type="text" name="cvc" placeholder="Security code" value={state.cvc} onBlur={handleBlur} onChange={handleInputChange} onFocus={handleFocus} className={className} />
+                        <input
+                            type="test"
+                            name="cvc"
+                            pattern="\d*"
+                            inputMode="numeric"
+                            placeholder="Security code"
+                            value={state.cvc}
+                            onBlur={handleBlur}
+                            onChange={handleInputChange}
+                            onFocus={handleFocus}
+                            className={className}
+                        />
                         <div onClick={() => setIsVisible(!isVisible)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-help transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <circle cx="12" cy="12" r="10" />
@@ -133,9 +184,10 @@ American Express cards have a 4-digit code located on the front.`;
                             </div>
                         )}
                     </div>
-
+                    <p className={errorLineClassName}>{errors.cvc}</p>
                     {/* Name on Card */}
                     <input type="text" name="name" placeholder="Name on card" value={state.name} onBlur={handleBlur} onChange={handleInputChange} onFocus={handleFocus} className={className} />
+                    <p className={errorLineClassName}>{errors.name}</p>
                 </form>
             </div>
         </div>

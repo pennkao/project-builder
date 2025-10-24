@@ -12,7 +12,7 @@ const HomePage = ({ data }: any) => {
             <AppHeader />
 
             <div className="bg-white rounded-lg p-1 shadow-sm">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">热门商品</h2>
+                {/* <h2 className="text-xl font-bold text-gray-800 mb-4">热门商品</h2> */}
 
                 {/* 商品网格 */}
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 auto-rows-min">

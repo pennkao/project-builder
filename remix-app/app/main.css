@@ -2,6 +2,13 @@
 
 @import 'tailwindcss';
 @import './theme/theme.css';
+
+@theme {
+    --font-sans: 'PingFang SC', 'Inter', sans-serif;
+    --font-serif: 'Merriweather', serif;
+    --font-mono: 'Fira Code', monospace;
+    --font-brand: 'PingFang SC', 'Inter', sans-serif;
+}
 /* ===== 定义 shimmer 动画 ===== */
 @keyframes shimmer {
     0% {

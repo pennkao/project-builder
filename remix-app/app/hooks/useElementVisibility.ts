@@ -21,5 +21,5 @@ export const useElementVisibility = (elementRef: React.RefObject<HTMLElement | n
         return () => observer.disconnect();
     }, [elementRef]);
 
-    return isVisible;
+    return [isVisible, setIsVisible] as const;
 };

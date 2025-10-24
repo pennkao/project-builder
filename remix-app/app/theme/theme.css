@@ -1,26 +1,63 @@
 @layer components {
     /*所有输入框*/
     .input-main {
-        @apply rounded-lg border bg-white border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500;
+        @apply rounded-lg border bg-white border-gray-300 text-gray-700 font-medium text-base focus:outline-none focus:ring-2 focus:ring-green-500;
     }
-
+    .button-main {
+        @apply bg-red-600 font-semibold text-white rounded-md px-4 py-2 hover:bg-red-800 focus:ring-2 focus:ring-red-400;
+    }
+    /* 主要正文文本：用于核心内容，清晰可读 */
     .text-main {
-        @apply text-gray-700;
+        @apply text-gray-700 font-medium text-base;
     }
 
-    .text-placeholder {
-        @apply text-gray-400;
+    /* 次要/辅助文本：用于描述、说明、非重点信息 */
+    .text-sub-main {
+        @apply text-gray-700 font-normal text-sm;
+    }
+    /* 次要/辅助文本：用于描述、说明、非重点信息 */
+    .text-sub {
+        @apply text-gray-600 font-normal text-sm;
     }
 
+    /* 标题文本：用于小标题、表头、模块标题等 */
+    .text-title {
+        @apply text-gray-800 font-semibold text-lg;
+    }
+
+    /* 提示/禁用文本：用于 placeholder、disabled 状态、弱提示 */
+    .text-tip {
+        @apply text-gray-400 font-normal;
+    }
+    /* 错误文本：用于错误提示、错误信息 */
+    .text-error {
+        @apply text-red-600 font-medium;
+    }
+    /* 品牌/强调文本：用于价格、按钮、关键操作、高亮信息 */
+    .text-brand {
+        @apply text-red-600 font-semibold;
+    }
+    .text-important {
+        @apply text-red-600 font-extrabold;
+    }
+    .text-selected {
+        @apply text-blue-800 font-medium;
+    }
+    /*底部分隔*/
+    .sp-border-main {
+        @apply border-gray-200 border-b;
+    }
     .bg-main {
         @apply bg-white;
     }
     .bg-content {
         @apply bg-gray-100;
     }
-    .button-main {
-        @apply bg-red-600 font-semibold text-white rounded-md px-4 py-2 hover:bg-red-800 focus:ring-2 focus:ring-red-400;
-        appearance: none; /* 去掉浏览器默认外观 */
-        border: none; /* 移除默认边框 */
+    .bg-selected {
+        @apply bg-blue-50;
+    }
+
+    .border-selected {
+        @apply border-2 border-blue-500;
     }
 }

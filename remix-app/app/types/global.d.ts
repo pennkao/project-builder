@@ -39,3 +39,38 @@ interface CreditCardPaymentFormType {
     cvc: string;
     name: string;
 }
+
+interface ProductOptionType {
+    sort: number;
+    label: string;
+    values?: string[];
+}
+
+interface SKUType {
+    id: string;
+    url: string;
+    price: number;
+    stock: number;
+    attributes: Record<string, string>; // e.g. { 尺码: "M", 颜色: "红" }
+}
+
+interface DiscountInfoType {
+    discount: number;
+    total: number;
+    num: number;
+    payAmount: number;
+    nextDiscount: number;
+    nextDiscountNum: number;
+    paymentDiscount: number;
+}
+interface ErrorType {
+    result: boolean;
+    message: string;
+}
+
+interface CardErrorType {
+    number: string;
+    expiry: string;
+    cvc: string;
+    name: string;
+}

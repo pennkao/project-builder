@@ -28,7 +28,7 @@ export default function Payment() {
         <>
             <PaymentForm onChange={setCardNumber} />
             <button type="submit" onClick={validateAll} className="w-full mt-4 text-test-500  py-2 button-main ">
-                {errs.length === 0 ? '' : `,${errors.join(',')}`}111111111111
+                提交
             </button>
         </>
     );

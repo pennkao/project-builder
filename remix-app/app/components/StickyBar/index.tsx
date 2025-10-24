@@ -1,10 +1,20 @@
 // components/StickyBar.tsx
+import { useElementVisibility } from '@/hooks/useElementVisibility';
 import React from 'react';
 
-const StickyBar = React.memo(({ children, className = '' }: { children: React.ReactNode; className?: string }) => {
+const StickyBar = React.memo(({ ref, children, className = '' }: StickyBarProps) => {
+    const [isShow, setisShow] = useElementVisibility(ref);
+
     return (
-        <div className={`fixed w-full bottom-0 pb-safe left-0 z-50 bg-gray-100 border-t border-gray-200 ${className}`}>
-            <div className="">{children}</div>
+        <div
+            className={`
+    fixed bottom-0 left-0 right-0
+    mx-auto w-full max-w-4xl
+    pb-safe z-50 bg-white/0 ${className}
+    ${!isShow ? 'block' : 'hidden'}
+  `}
+        >
+            <div>{children}</div>
         </div>
     );
 });
