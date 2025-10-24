@@ -32,7 +32,7 @@ export default function ThumbGallery({ images, activeIndex, height = 60, width =
     };
 
     return (
-        <div className="text-center overflow-x-hidden flex items-center justify-center pb-2 scrollbar-hide h-full w-full">
+        <div className="text-center  flex items-center justify-center pb-2 scrollbar-hide h-full w-full">
             {/* ← 上一张按钮（优化后） */}
             <button
                 onClick={handlePrev}
@@ -48,7 +48,7 @@ export default function ThumbGallery({ images, activeIndex, height = 60, width =
             </button>
 
             {/* 缩略图区域 */}
-            <div className="flex h-full gap-1 overflow-x-auto scrollbar-hide px-2">
+            <div className="flex h-full gap-1 overflow-x-auto scrollbar-hidden  no-scrollbar px-2">
                 {images.map((src, index) => (
                     <button
                         key={index}

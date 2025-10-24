@@ -104,11 +104,25 @@
 
     /* 图片 */
     .rich-text-container img {
-        @apply max-w-full h-auto block my-2;
+        @apply max-w-full h-auto block my-2 mx-auto;
     }
 
     /* 链接 */
     .rich-text-container a {
         @apply underline text-inherit;
+    }
+}
+
+@layer utilities {
+    /* 通用：隐藏滚动条（但保留滚动）*/
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE 10+ */
+        scrollbar-width: none; /* Firefox */
+    }
+    /* WebKit 系浏览器：把滚动条尺寸设为 0（比 display:none 更稳妥） */
+    .no-scrollbar::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        background: transparent;
     }
 }

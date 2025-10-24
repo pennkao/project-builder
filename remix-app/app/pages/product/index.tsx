@@ -62,7 +62,7 @@ const ProductPage = () => {
                 <SwiperImage images={images} autoPlayInterval={4000} selectIndex={activeIndex} onIndexChange={setActiveIndex} className="rounded-lg min-h-[300px]" />
             </div>
             <div className="h-1"></div>
-            <div className="h-16">
+            <div className="lg:h-28 h-16">
                 <ThumbGallery images={images} activeIndex={activeIndex} onClick={setActiveIndex} />
             </div>
             <div className="p-1">

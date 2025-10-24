@@ -38,3 +38,8 @@ interface StickyBarProps {
     children: React.ReactNode;
     className?: string;
 }
+
+interface RichTextViewerProps {
+    htmlContent: string;
+    className?: string;
+}
