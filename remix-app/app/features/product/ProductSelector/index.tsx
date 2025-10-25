@@ -1,9 +1,11 @@
 import { buildJsonByOrderKeys, discount, discountMoneyFormat, moneyFormat } from '@/utils/tools';
 import { useEffect, useMemo, useState } from 'react';
-
+const productSelectedKey = '--google:vtx:product:selected';
 const FirstOrder = 3;
-export default function ProductSelector({ options, skus, action }: ProductSelectorProps) {
-    const [quantity, setQuantity] = useState(1);
+export default function ProductSelector({ options, skus, action, product }: ProductSelectorProps) {
+    const productDefault = localStorage && localStorage.getItem(productSelectedKey) ? JSON.parse(localStorage.getItem(productSelectedKey) || '{}') : null;
+    const [quantity, setQuantity] = useState((productDefault?.quantity as number) || 1);
+    console.log('productDefault', productDefault);
     const [discountValue, setDiscountInfo] = useState<DiscountInfoType>({
         discount: 0.0,
         total: 0.0,
@@ -14,9 +16,9 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
         paymentDiscount: 0.0,
     });
     skus.sort((a, b) => a.price - b.price); // 按价格排序
-    const [selectedSKU, setSelectedSKU] = useState<SKUType>(skus[0]);
+    const [selectedSKU, setSelectedSKU] = useState<SKUType>(productDefault?.sku || skus[0]);
     const sortAttributes = useMemo(() => options.sort((a, b) => a.sort - b.sort).map((o) => o.label), [options]); // 排序属性
-    const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+    const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(productDefault?.sku?.attributes || {});
     const handleOptionClick = (optionLabel: string, value: string, isSelected: boolean) => {
         setSelectedOptions((prev) => ({ ...prev, [optionLabel]: value }));
         if (isSelected) {
@@ -82,7 +84,24 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
             return !set?.has(currentKey);
         });
     };
-
+    const handleSubmit = () => {
+        console.log('selectedSKU', selectedSKU);
+        if (!selectedSKU.id) {
+            return;
+        }
+        const productSelected = {
+            productId: product.id,
+            sku: selectedSKU,
+            quantity,
+            price: selectedSKU.price,
+            image: selectedSKU.url || skus[0].url,
+            total: discountValue.total, // 折扣后的总价
+            discountValue: discountValue.discount,
+            payAmount: discountValue.payAmount,
+        };
+        localStorage.setItem(productSelectedKey, JSON.stringify(productSelected));
+        action('tab2');
+    };
     return (
         <div className="flex flex-col justify-start w-full h-full">
             <div className="p-1 bg-white rounded-lg shadow-md w-full mx-auto space-y-4 overflow-hidden flex-shrink-0">
@@ -156,9 +175,8 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
                 </div>
             </div>
 
-
             {/** 优惠 */}
-            <div className='h-2'></div>
+            <div className="h-2"></div>
             <div className="text-right px-3 gap-1">
                 <div className="flex justify-between text-main items-center sp-border-main py-1">
                     <span className="text-sub-main">总金额</span>
@@ -188,13 +206,7 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
                 </div>
             </div>
             <div className="h-4"></div>
-            <button
-                onClick={() => {
-                    action('tab2');
-                    console.log('action...');
-                }}
-                className="w-full  py-2 button-main"
-            >
+            <button onClick={handleSubmit} className="w-full  py-2 button-main">
                 继 续
             </button>
         </div>

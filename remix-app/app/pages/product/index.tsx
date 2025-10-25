@@ -25,6 +25,39 @@ import StickyBar from '@/components/StickyBar';
 
 const images = [url1, url2, url3, url4, url5, url6, url7, url8, url9];
 const data = `<div style="line-height: 0;"><img src="https://cdn1.tiantiandui.cn/2NqEvu6CI5n6sLHeUxZ9dpbY9kfyTvu6?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/r2ah8qB9tU3EZ7ToQThBzmUbllWrz52u?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/ZsiiVBXye5M8HZr3tvvtUhAmFkh3vRQ3?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/S2btqjRqmx7GHXmVYqFNNaAX2Fe5tWyc?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/q4s2x7vZonMAx3X75UUW1NJ91fPxOPXL?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/hzqQdIgg7RLzXb4fNojL72everA7svCu?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/L3w5SZoHvYXeltzUJiHWUgA0fvUuFk2z?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/Eg36WuwoMePuca2vaD5Y3nz1ZuZJ9xJg?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/qQs0YmgPE9zxx3fYZqwPyt0Uettd6ioh?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/flqo3TpRWrMzc7eO09UIYCK5frqCGn5F?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/rzdu2hUP6no8u6a96fuyRZph68nGfMYE?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/HOCr5cQTCrb6rzMIAQrs9Y3zU5h1xkKH?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/CFaYUfbDiDN4rGvUizqA4nKIJdKZZRiu?x-oss-process=image/resize,w_800,m_lfit"><img src="https://cdn1.tiantiandui.cn/TkLZcNrVRul6Qmok1mhq3UYZZ566b06t?x-oss-process=image/resize,w_800,m_lfit"></div>`;
+const productData = {
+    id: '10001',
+    name: 'Apple iPhone 14 Pro Max',
+    price: 9999,
+    description: 'The iPhone 14 Pro Max is the latest iPhone from Apple, featuring a larger 6.7-inch display, improved cameras, and enhanced performance.',
+    image: url1,
+    monthly: '999',
+    tags: ['Apple', 'iPhone', 'Pro Max'],
+    options: [
+        {
+            sort: 1,
+            label: 'Size',
+            values: ['S', 'M', 'L'],
+        },
+        {
+            sort: 2,
+            label: 'Color',
+            values: ['Red', 'Black', 'White'],
+        },
+    ],
+    skus: [
+        {
+            id: '10001',
+            url: url1,
+            price: 9999,
+            stock: 10,
+            attributes: {
+                尺码: 'S',
+                颜色: '红',
+            },
+        },
+    ],
+};
 const ProductPage = () => {
     const [tabActiveKey, setTabActiveKey] = useState<string | null>(null);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -107,12 +140,14 @@ const ProductPage = () => {
                 <HorizontalTabs
                     activeKey={tabActiveKey}
                     onTabChange={setTabActiveKey}
+                    // product={productData}
                     tabs={[
                         {
                             key: 'tab1',
                             label: '选择产品 >',
                             content: (
                                 <ProductSelector
+                                    product={productData}
                                     action={handleAction}
                                     options={[
                                         { sort: 125, label: '尺码' },

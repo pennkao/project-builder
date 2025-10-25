@@ -25,11 +25,10 @@ interface ComboBoxProps {
     className?: string;
 }
 interface ProductSelectorProps {
-    // price: number;
     options: ProductOptionType[];
     skus: SKUType[];
     action: (str: string) => void;
-    // attributesSort: string[];
+    product: ProductType;
 }
 
 interface StickyBarProps {

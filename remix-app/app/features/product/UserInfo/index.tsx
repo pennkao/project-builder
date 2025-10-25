@@ -1,16 +1,24 @@
 import { ComboBox, haveState } from '@/components/AddressSelector';
 import countriesJson from '@/data/countries.json';
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
+import { useEffect, useRef, useState } from 'react';
+const userInfoKey = '--google:vtx:user:info';
 export default function UserInfo({ action, defaultCountry, defaultState, defaultCity, onChange }: UserInfoProps) {
-    const [countries] = useState<Country[]>(countriesJson);
-    const [states, setStates] = useState<StateType[]>([]);
-    const [cities, setCities] = useState<City[]>([]);
+    const userInfo = localStorage && localStorage.getItem(userInfoKey) ? JSON.parse(localStorage.getItem(userInfoKey) || '{}') : null;
+    const navigate = useNavigate();
 
-    const [country, setCountry] = useState(defaultCountry || 'US');
-    const [state, setState] = useState(defaultState || '');
-    const [city, setCity] = useState(defaultCity || '');
+    const [countries] = useState<CountryType[]>(countriesJson);
+    const [states, setStates] = useState<StateType[]>([]);
+    const [cities, setCities] = useState<CityType[]>([]);
+
+    const [country, setCountry] = useState(userInfo?.addressSelected?.country || defaultCountry || 'US');
+    const [state, setState] = useState(userInfo?.addressSelected?.state || defaultState || '');
+    const [city, setCity] = useState(userInfo?.addressSelected?.city || defaultCity || '');
+
     const isHaveState = haveState(country);
+    const formRef = useRef<HTMLFormElement>(null);
+
     // 🔹 国家变化时加载省份
     useEffect(() => {
         console.log('country changed', country);
@@ -45,20 +53,47 @@ export default function UserInfo({ action, defaultCountry, defaultState, default
     useEffect(() => {
         onChange?.(country, state, city);
     }, [country, state, city]);
+    const handleSubmit = () => {
+        if (!formRef.current) return;
+        const userInfo: UserInfoType = {
+            addressSelected: {
+                country,
+                state,
+                city,
+            },
+            phone: formRef.current?.phone?.value || '',
+            email: formRef.current?.email?.value || '',
+            firstName: formRef.current?.firstName?.value || '',
+            lastName: formRef.current?.lastName?.value || '',
+            company: formRef.current?.company?.value || '',
+            address: formRef.current?.address?.value || '',
+            address2: formRef.current?.address2?.value || '',
+            zipCode: formRef.current?.zipCode?.value || '',
+            country: formRef.current?.country?.value || '', // country
+            state: formRef.current?.state?.value || '', // state
+            city: formRef.current?.city?.value || '', // city
+        };
 
+        if (!userInfo.email || !userInfo.zipCode || !userInfo.firstName || !userInfo.lastName || !userInfo.address || !userInfo.country || !userInfo.state || !userInfo.city) {
+            console.log('userInfo', userInfo);
+            return;
+        }
+
+        localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
+        navigate('/checkout');
+    };
     const className = 'w-full  p-2  input-main';
     const addressClassName = 'rounded-lg border border-gray-300 bg-white transition-colors py-1';
     return (
         <div className="flex items-center justify-center  ">
             <div className="w-full max-w-md bg-white-1 ">
-                <form className="space-y-2 p-1 gap-4 bg-content">
-                    <input type="email" name="email" placeholder="Email" required className={className} />
+                <form ref={formRef} className="space-y-2 p-1 gap-4 bg-content">
+                    <input type="email" name="email" placeholder="Email" required className={className} value={userInfo?.email || ''} />
                     <ComboBox
                         options={countries.map((c) => ({ code: c.code, name: c.name }))}
                         value={country}
                         className={addressClassName}
                         onChange={(code) => {
-                            console.log('country changed', code);
                             setCountry(code);
                             setState('');
                             setCity('');
@@ -66,12 +101,13 @@ export default function UserInfo({ action, defaultCountry, defaultState, default
                         placeholder="Country/Region"
                     />
                     <div className="flex justify-between w-full gap-1">
-                        <input type="text" name="firstName" placeholder="First Name" required className={`w-1/2 ${className}`} />
-                        <input type="text" name="lastName" placeholder="Last Name" required className={`w-1/2 ${className}`} />
+                        <input type="text" name="firstName" placeholder="First Name" required className={`w-1/2 ${className}`} value={userInfo?.firstName || ''} />
+                        <input type="text" name="lastName" placeholder="Last Name" required className={`w-1/2 ${className}`} value={userInfo?.lastName || ''} />
                     </div>
-                    <input type="text" name="company" placeholder="Company (Optional)" className={className} />
-                    <input type="text" name="address1" placeholder="Address" className={className} />
-                    <input type="text" name="address2" placeholder="Apartment, suite, etc. (Optional)" className={className} />
+                    <input type="text" name="company" placeholder="Company (Optional)" className={className} value={userInfo?.company || ''} />
+                    <input type="text" name="address" placeholder="Address" className={className} value={userInfo?.address || ''} />
+                    <input type="text" name="address2" placeholder="Apartment, suite, etc. (Optional)" className={className} value={userInfo?.address2 || ''} />
+
                     {/* 城市 */}
                     {!isHaveState && <input type="text" name="city" placeholder="city" required className={className} />}
                     {isHaveState && (
@@ -101,8 +137,8 @@ export default function UserInfo({ action, defaultCountry, defaultState, default
                             />
                         </>
                     )}
-                    <input type="text" name="postalCode" placeholder="Zip code" required className={className} />
-                    <input type="tel" name="phone" placeholder="Phone" required className={className} />
+                    <input type="text" name="zipCode" placeholder="Zip code" required className={className} value={userInfo?.zipCode || ''} />
+                    <input type="number" name="phone" placeholder="Phone" required className={className} value={userInfo?.phone || ''} />
                     {/* 隐藏 input 提交 code */}
                     <input type="hidden" name="country" value={country} required />
                     <input type="hidden" name="state" value={state} required />
@@ -111,13 +147,7 @@ export default function UserInfo({ action, defaultCountry, defaultState, default
                         提交
                     </button> */}
                 </form>
-                <button
-                    onClick={() => {
-                        action('tab3');
-                        console.log('action...');
-                    }}
-                    className=" mt-2 w-full button-main"
-                >
+                <button onClick={handleSubmit} className=" mt-2 w-full button-main">
                     继 续agc
                 </button>
             </div>
