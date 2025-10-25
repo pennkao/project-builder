@@ -3,10 +3,7 @@ import React from 'react';
 const ProductDetail = React.memo(({ data }: { data: string }) => {
     return (
         <div className="flex flex-col">
-            <div className="">商品详情</div>
-            <div>
-                <div>产品参数</div>
-            </div>
+            <div className="p-1">商品详情</div>
             <div className="rich-text-container w-full">
                 <RichTextViewer htmlContent={data} />
             </div>

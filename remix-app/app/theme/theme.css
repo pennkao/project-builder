@@ -1,16 +1,18 @@
 @layer components {
     /*所有输入框*/
     .input-main {
-        @apply rounded-lg border bg-white border-gray-300 text-gray-700 font-medium text-base focus:outline-none focus:ring-2 focus:ring-green-500;
+        @apply rounded-lg border bg-white border-gray-300 text-gray-700 font-normal text-sm focus:outline-none focus:ring-2 focus:ring-green-500;
     }
     .button-main {
         @apply bg-red-600 font-semibold text-white rounded-md px-4 py-2 hover:bg-red-800 focus:ring-2 focus:ring-red-400;
     }
     /* 主要正文文本：用于核心内容，清晰可读 */
     .text-main {
-        @apply text-gray-700 font-medium text-base;
+        @apply text-gray-700 font-normal text-sm;
     }
-
+    .text-label {
+        @apply text-black font-semibold text-sm;
+    }
     /* 次要/辅助文本：用于描述、说明、非重点信息 */
     .text-sub-main {
         @apply text-gray-700 font-normal text-sm;
@@ -22,7 +24,7 @@
 
     /* 标题文本：用于小标题、表头、模块标题等 */
     .text-title {
-        @apply text-gray-800 font-semibold text-lg;
+        @apply text-black font-semibold text-lg;
     }
 
     /* 提示/禁用文本：用于 placeholder、disabled 状态、弱提示 */
@@ -47,16 +49,46 @@
     .sp-border-main {
         @apply border-gray-200 border-b;
     }
+
+    /* 页面背景：用于整个页面的背景 */
     .bg-main {
         @apply bg-white;
     }
+    /* 主要内容区域：用于展示主要信息、核心功能、主要交互元素 */
     .bg-content {
+        @apply bg-white;
+    }
+    .bg-surface {
         @apply bg-gray-100;
     }
     .bg-selected {
-        @apply bg-blue-50;
+        @apply bg-gray-500;
+    }
+    .bg-brand {
+        @apply bg-blue-600;
     }
 
+    /*产品属性*/
+    .bg-content-attr {
+        @apply bg-gray-100;
+    }
+    .border-content-attr {
+        @apply border-2 border-gray-100;
+    }
+    .bg-selected-attr {
+        @apply bg-white;
+    }
+    .border-selected-attr {
+        @apply border-2 border-red-500;
+    }
+    .text-attr {
+        @apply text-gray-600;
+    }
+    .text-selected-attr {
+        @apply text-red-600;
+    }
+
+    /* 选中状态：用于突出显示当前选中的项目、选项或状态 */
     .border-selected {
         @apply border-2 border-blue-500;
     }

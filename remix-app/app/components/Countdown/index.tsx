@@ -51,7 +51,7 @@ const Countdown = ({ seconds = 3600, className = '', color = 'red' }: CountdownP
         }
     };
 
-    return <span className={`font-mono tabular-nums tracking-[0.5px] text-right ${textColor} ${className}`}>{formatTime(timeLeft)}</span>;
+    return <span className={`font-mono tabular-nums tracking-[0.5px] align-bottom text-right ${textColor} ${className}`}>{formatTime(timeLeft)}</span>;
 };
 
 export default Countdown;

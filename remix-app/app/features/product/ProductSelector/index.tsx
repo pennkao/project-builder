@@ -30,10 +30,9 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
             return changeSku;
         });
     };
-    const [selectedPayment, setSelectedPayment] = useState('credit-card');
     useEffect(() => {
-        setDiscountInfo(discount(quantity, selectedSKU.price, selectedPayment, FirstOrder));
-    }, [quantity, selectedSKU.price, selectedPayment]);
+        setDiscountInfo(discount(quantity, selectedSKU.price, '', FirstOrder));
+    }, [quantity, selectedSKU.price]);
 
     const [skuMap, optionsWithValues, matchValues] = useMemo(() => {
         const map = new Map<string, SKUType>();
@@ -132,18 +131,18 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
 
                         return (
                             <div key={label}>
-                                <div className="text-sub-main mb-1">{label}</div>
+                                <div className="mb-1 text-label">{label}</div>
                                 <div className="flex flex-wrap gap-2 ">
                                     {values.map((value) => (
                                         <button
                                             key={value}
                                             disabled={isDisabled(label, value)}
                                             onClick={() => handleOptionClick(label, value, selectedOptions[label] === value ? true : false)}
-                                            className={`px-3 py-1 border w-auto inline-block rounded-2xl text-sub text-left ${
+                                            className={`px-2 py-1 w-auto text-attr border-2 border-content-attr inline-block rounded bg-content-attr text-left ${
                                                 selectedOptions[label] === value
-                                                    ? 'border-selected text-selected'
+                                                    ? 'border-selected-attr text-selected-attr bg-selected-attr '
                                                     : !isDisabled(label, value)
-                                                      ? 'bg-white text-gray-500 '
+                                                      ? ''
                                                       : 'bg-gray-100 text-gray-400 border-gray-300 opacity-60 cursor-not-allowed'
                                             }`}
                                         >
@@ -157,42 +156,22 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
                 </div>
             </div>
 
-            <div className="flex justify-center items-center px-5 py-3 gap-7">
-                <label className="flex items-center cursor-pointer py-2 px-3 border-1 border-green-600 rounded-full bg-green-100">
-                    <input type="radio" name="payment" value="credit-card" checked={selectedPayment === 'credit-card'} onChange={() => setSelectedPayment('credit-card')} className="sr-only" />
-                    <div className="flex items-center">
-                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center mr-2 ${selectedPayment === 'credit-card' ? 'border-green-500 bg-green-500' : 'border-gray-300'}`}>
-                            {selectedPayment === 'credit-card' && <div className="w-2 h-2 bg-white rounded-full"></div>}
-                        </div>
-                        <span className="text-main">Credit card</span>
-                    </div>
-                </label>
-
-                <label className="flex items-center cursor-pointer px-3 py-2 border-1 border-blue-600 rounded-full  bg-blue-100">
-                    <input type="radio" name="payment" value="paypal" checked={selectedPayment === 'paypal'} onChange={() => setSelectedPayment('paypal')} className="sr-only" />
-                    <div className="flex items-center">
-                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center mr-2 ${selectedPayment === 'paypal' ? 'border-blue-500 bg-blue-500' : 'border-gray-300'}`}>
-                            {selectedPayment === 'paypal' && <div className="w-2 h-2 bg-white rounded-full"></div>}
-                        </div>
-                        <span className="text-main">PayPal</span>
-                    </div>
-                </label>
-            </div>
 
             {/** 优惠 */}
+            <div className='h-2'></div>
             <div className="text-right px-3 gap-1">
-                <div className="flex justify-between text-sm  text-main sp-border-main pb-1">
+                <div className="flex justify-between text-main items-center sp-border-main py-1">
                     <span className="text-sub-main">总金额</span>
                     <span className="text-main line-through">${discountValue.total.toFixed(2)}</span>
                 </div>
 
-                <div className="flex justify-between text-sm text-main sp-border-main pb-1">
+                <div className="flex justify-between text-main items-center sp-border-main py-1">
                     <span className="text-sub-main">首次购买</span>
                     <span className="text-main">-{FirstOrder}</span>
                 </div>
 
-                <div className="flex justify-between text-sm text-main sp-border-main pb-1">
-                    <span className="text-sub-main">满减 </span>
+                <div className="flex justify-between items-center text-main sp-border-main py-1">
+                    <span className="flex items-center text-sub-main">满减 </span>
                     <span className="font-medium">
                         <span className="mr-3 text-sub">
                             {discountValue.discount <= 0
@@ -202,19 +181,13 @@ export default function ProductSelector({ options, skus, action }: ProductSelect
                         <span className="text-main">{discountMoneyFormat(discountValue.discount)}</span>
                     </span>
                 </div>
-                <div className="flex justify-between text-sm text-black border-b pb-1">
-                    <span className="text-sub">Payment Discount </span>
-                    <span className="font-medium">
-                        <span className="mr-3 text-sub-main">{discountValue.paymentDiscount <= 0 ? '' : `Credit Card Payment`}</span>
-                        <span className="text-main">{discountMoneyFormat(discountValue.paymentDiscount)}</span>
-                    </span>
-                </div>
-                <div className="flex justify-between text-important mt-2">
+
+                <div className="flex justify-between text-important">
                     <span>总支付金额</span>
                     <span>${discountValue.payAmount.toFixed(2)}</span>
                 </div>
             </div>
-
+            <div className="h-4"></div>
             <button
                 onClick={() => {
                     action('tab2');

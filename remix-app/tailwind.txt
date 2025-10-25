@@ -29,3 +29,4 @@
 | **prose.text**     | `.prose`                 | 富文本正文文字颜色              |
 | **prose.headings** | `.prose h1,h2,h3,h4`     | 富文本标题颜色                |
 | **prose.links**    | `.prose a`               | 富文本中的链接颜色              |
+psql 'postgresql://neondb_owner:npg_rs6dy1UlaeIu@ep-broad-resonance-aevh2sjw-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'

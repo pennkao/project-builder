@@ -74,3 +74,11 @@ interface CardErrorType {
     cvc: string;
     name: string;
 }
+
+interface ReviewType {
+    id: string;
+    avatar: string;
+    images: string[];
+    username: string;
+    comment: string;
+}

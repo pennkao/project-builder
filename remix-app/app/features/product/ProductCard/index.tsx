@@ -1,4 +1,4 @@
-export default function ProductCard({children}: {children: React.ReactNode}) {
+export default function ProductCard({ data }: { data: Product | null }) {
     return (
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
             {/* 顶部红色横幅 */}
@@ -25,12 +25,10 @@ export default function ProductCard({children}: {children: React.ReactNode}) {
 
                 {/* 商品标题 */}
                 <div className="text-sm leading-tight">
-                    <span className="inline-block bg-black text-white text-xs px-1.5 py-0.5 rounded mr-1">自营</span>
-                    <span className="font-medium">【家用智能扫拖一体机】</span>
+                    <span className="text-main">【家用智能扫拖一体机】</span>
                     扫吸拖擦一步到位 大容量电池长续航 智能清扫遇障掉头 让清洁更持久
                 </div>
             </div>
-            {children}
         </div>
     );
 }

@@ -1,22 +1,13 @@
 import { useEffect, useState } from 'react';
 
-interface ExchangeItemProps {
-    name: string;
-    phone: string;
-    timeAgo: string;
-}
 // 假设 ExchangeItem 已定义（或内联）
 const ExchangeItem = ({ name, phone, timeAgo }: { name: string; phone: string; timeAgo: string }) => (
-    <div className="flex items-center">
-        <span className="font-medium">{name}</span>
-        <span className="ml-1">({phone})</span>
-        <span className="ml-1 text-blue-600">{timeAgo}</span>
-        <span className="ml-1">兑换该商品</span>
+    <div className="text-tip text-xs">
+        {name} {phone} {timeAgo} 兑换该商品
     </div>
 );
 
 export default function BuyRecords() {
-    console.log('BuyRecords');
     // 模拟初始用户
     const [users, setUsers] = useState([
         { name: '蒋**', phone: '184****6089', timeAgo: '在12分钟前' },
@@ -46,18 +37,10 @@ export default function BuyRecords() {
     }, []);
 
     return (
-        <div className="flex justify-between items-center bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden px-1">
-            {/* 用户兑换记录 */}
-
-            <div className="space-y-2 text-sm">
-                {users.map((user, index) => (
-                    <ExchangeItem key={index} name={user.name} phone={user.phone} timeAgo={user.timeAgo} />
-                ))}
-            </div>
-            {/* “去兑换”按钮 */}
-            <div className="">
-                <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md text-sm font-medium transition-colors">去兑换</button>
-            </div>
+        <div className="flex flex-col items-start bg-white rounded-lg  overflow-hidden px-2">
+            {users.map((user, index) => (
+                <ExchangeItem key={index} name={user.name} phone={user.phone} timeAgo={user.timeAgo} />
+            ))}
         </div>
     );
 }

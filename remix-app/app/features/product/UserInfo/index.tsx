@@ -46,7 +46,7 @@ export default function UserInfo({ action, defaultCountry, defaultState, default
         onChange?.(country, state, city);
     }, [country, state, city]);
 
-    const className = 'w-full  p-2 text-sm input-main';
+    const className = 'w-full  p-2  input-main';
     const addressClassName = 'rounded-lg border border-gray-300 bg-white transition-colors py-1';
     return (
         <div className="flex items-center justify-center  ">

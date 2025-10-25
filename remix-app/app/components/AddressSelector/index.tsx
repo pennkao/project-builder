@@ -127,7 +127,7 @@ export function ComboBox({ options, value, onChange, mustSelect = true, placehol
                     placeholder={placeholder}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    className="flex-1 outline-none text-sm bg-transparent border-none "
+                    className="flex-1 outline-none text-main bg-transparent border-none "
                 />
                 <div className="ml-2 cursor-pointer border-none  select-none text-gray-400" onClick={handleDropdownClick}>
                     ▼
@@ -136,7 +136,7 @@ export function ComboBox({ options, value, onChange, mustSelect = true, placehol
             {isOpen && options.length > 0 && (
                 <ul style={dropdownStyle} className="border border-gray rounded-lg shadow-lg bg-white overflow-auto">
                     {filteredOptions.map((opt) => (
-                        <li key={opt.code} className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100" onClick={() => handleSelect(opt)}>
+                        <li key={opt.code} className="px-3 py-2 cursor-pointer text-main hover:bg-gray-100" onClick={() => handleSelect(opt)}>
                             {highlightText(opt.name)}
                         </li>
                     ))}

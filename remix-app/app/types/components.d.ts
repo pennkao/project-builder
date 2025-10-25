@@ -43,3 +43,10 @@ interface RichTextViewerProps {
     htmlContent: string;
     className?: string;
 }
+
+interface ExchangeItemProps {
+    name: string;
+    phone: string;
+    timeAgo: string;
+}
+

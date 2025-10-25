@@ -29,9 +29,17 @@ const ProductPage = () => {
     const [tabActiveKey, setTabActiveKey] = useState<string | null>(null);
     const [activeIndex, setActiveIndex] = useState(0);
     // data = data.replace(/<img /g, '<img loading="lazy" ');
-    const buyButtonRef = useRef<HTMLDivElement>(null); // 👈 就用 useRef
+    const buyButtonRef = useRef<HTMLElement>(null); // 👈 就用 useRef
     const [open, setOpen] = useState(false);
-
+    const reviews: ReviewType[] = [
+        {
+            id: 'url1',
+            avatar: url1,
+            username: '33333333333',
+            images: [url1, url2, url3],
+            comment: '232dddddddddddddddddddd3',
+        },
+    ];
     const handleAction = (key: string | null) => {
         if (key) {
             setTabActiveKey(key);
@@ -65,36 +73,34 @@ const ProductPage = () => {
             <div className="lg:h-28 h-16">
                 <ThumbGallery images={images} activeIndex={activeIndex} onClick={setActiveIndex} />
             </div>
-            <div className="p-1">
-                <ProductCard>
-                    <div
-                        ref={buyButtonRef}
-                        className="flex bg-blue-500 justify-center items-center bg-primary text-white px-4 py-2 rounded-full"
-                        onClick={() => {
-                            setOpen(true);
-                        }}
-                    >
-                        加入购物车
-                    </div>
-                </ProductCard>
+            <div className="p-1 py-1">
+                <ProductCard data={null} />
+                <div className="h-1"></div>
+                <button
+                    ref={buyButtonRef as RefObject<HTMLButtonElement>}
+                    className="button-main w-full"
+                    onClick={() => {
+                        setOpen(true);
+                    }}
+                >
+                    Buy Now
+                </button>
             </div>
+            <div className="h-1"></div>
+
             <Inventory />
             <BuyRecords />
-            <div className="h-1"></div>
-            <ReviewCard total={100} reviews={[]} onSeeAll={() => {}} />
+
+            <div className="h-3"></div>
+            <ReviewCard reviews={reviews} />
             <div className="px-2">
                 <ProductDetail data={data as string} />
             </div>
 
             <StickyBar ref={buyButtonRef as RefObject<HTMLDivElement>}>
-                <div
-                    className="flex bg-blue-500 justify-center items-center bg-primary text-white px-4 py-2 rounded-full" //
-                    onClick={() => {
-                        setOpen(true);
-                    }}
-                >
-                    加入购物车
-                </div>
+                <button className="button-main w-full" onClick={() => setOpen(true)}>
+                    Buy Now
+                </button>
             </StickyBar>
 
             <BottomSheet open={open} onClose={() => setOpen(false)}>
