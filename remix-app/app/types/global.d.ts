@@ -103,6 +103,20 @@ interface ProductSelectedType {
     payAmount: number;
 }
 
+interface UserInfoFormType {
+    email: string; // 邮箱
+    firstName: string; // 名
+    lastName: string; // 姓
+    company: string; // 公司
+    address: string; // 地址
+    address2: string; // 地址2
+    zipCode: string; // 邮编
+    phone: string; // 电话
+    country: string;
+    state: string;
+    city: string;
+}
+
 interface UserInfoType {
     addressSelected: AddressSelectedType;
     email: string; // 邮箱

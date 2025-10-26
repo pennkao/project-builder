@@ -3,9 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 const productSelectedKey = '--google:vtx:product:selected';
 const FirstOrder = 3;
 export default function ProductSelector({ options, skus, action, product }: ProductSelectorProps) {
-    const productDefault = localStorage && localStorage.getItem(productSelectedKey) ? JSON.parse(localStorage.getItem(productSelectedKey) || '{}') : null;
-    const [quantity, setQuantity] = useState((productDefault?.quantity as number) || 1);
-    console.log('productDefault', productDefault);
+    const [quantity, setQuantity] = useState(1);
     const [discountValue, setDiscountInfo] = useState<DiscountInfoType>({
         discount: 0.0,
         total: 0.0,
@@ -16,9 +14,9 @@ export default function ProductSelector({ options, skus, action, product }: Prod
         paymentDiscount: 0.0,
     });
     skus.sort((a, b) => a.price - b.price); // 按价格排序
-    const [selectedSKU, setSelectedSKU] = useState<SKUType>(productDefault?.sku || skus[0]);
+    const [selectedSKU, setSelectedSKU] = useState<SKUType>(skus[0]);
     const sortAttributes = useMemo(() => options.sort((a, b) => a.sort - b.sort).map((o) => o.label), [options]); // 排序属性
-    const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(productDefault?.sku?.attributes || {});
+    const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
     const handleOptionClick = (optionLabel: string, value: string, isSelected: boolean) => {
         setSelectedOptions((prev) => ({ ...prev, [optionLabel]: value }));
         if (isSelected) {
@@ -84,6 +82,17 @@ export default function ProductSelector({ options, skus, action, product }: Prod
             return !set?.has(currentKey);
         });
     };
+
+    useEffect(() => {
+        const productDefault = JSON.parse(localStorage.getItem(productSelectedKey) || '{}');
+
+        if (productDefault) {
+            setQuantity(productDefault?.quantity || 1);
+            setSelectedSKU(productDefault?.sku || skus[0]);
+            setSelectedOptions(productDefault?.sku?.attributes || {});
+        }
+    }, []);
+
     const handleSubmit = () => {
         console.log('selectedSKU', selectedSKU);
         if (!selectedSKU.id) {
@@ -92,7 +101,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
         const productSelected = {
             productId: product.id,
             sku: selectedSKU,
-            quantity,
+            quantity: quantity,
             price: selectedSKU.price,
             image: selectedSKU.url || skus[0].url,
             total: discountValue.total, // 折扣后的总价

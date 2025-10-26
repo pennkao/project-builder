@@ -5,10 +5,9 @@ export const haveState = (country: string) => {
     const noStateCountry = ['FR', 'DE', 'NL', 'PL', 'SA', 'GB'];
     return !noStateCountry.includes(country);
 };
-export function ComboBox({ options, value, onChange, mustSelect = true, placeholder, className = '' }: ComboBoxProps) {
+export function ComboBox({ options, value, onInputChange, onChange, mustSelect = true, placeholder, className = '' }: ComboBoxProps) {
     const containerRef = useRef<HTMLInputElement | null>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
-
     const [inputValue, setInputValue] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
@@ -19,7 +18,7 @@ export function ComboBox({ options, value, onChange, mustSelect = true, placehol
     // 同步输入框显示
     useEffect(() => {
         setInputValue(selectedOption?.name || '');
-    }, [selectedOption]);
+    }, []);
 
     // 过滤选项，高亮匹配放前
     const filteredOptions = useMemo(() => {
@@ -92,11 +91,14 @@ export function ComboBox({ options, value, onChange, mustSelect = true, placehol
     const handleSelect = (opt: AddressOptionType) => {
         onChange?.(opt.code);
         setInputValue(opt.name);
+        onInputChange?.(opt.name);
         requestAnimationFrame(() => setIsOpen(false));
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
+        // console.log('inputValue', e.target.value);
+        onInputChange?.(e.target.value);
         setIsOpen(e.target.value.trim().length > 1);
     };
 
@@ -118,8 +120,8 @@ export function ComboBox({ options, value, onChange, mustSelect = true, placehol
         );
     };
     return (
-        <div ref={wrapperRef} className={`relative ${className} ${isFocused ? 'border-green-500 ring-1 ring-green-500 ring-opacity-30' : 'border-gray-300'}`}>
-            <div ref={containerRef} className="flex items-center px-2 py-[2px] border-none">
+        <div ref={wrapperRef} className={`relative min-h-[37.6px] ${className} ${isFocused ? 'border-green-500 ring-1 ring-green-500 ring-opacity-30' : 'border-gray-300'}`}>
+            <div ref={containerRef} className="flex items-center px-2 py-[2px] border-none ">
                 <input
                     type="text"
                     value={inputValue}
@@ -129,9 +131,11 @@ export function ComboBox({ options, value, onChange, mustSelect = true, placehol
                     onBlur={() => setIsFocused(false)}
                     className="flex-1 outline-none text-main bg-transparent border-none "
                 />
-                <div className="ml-2 cursor-pointer border-none  select-none text-gray-400" onClick={handleDropdownClick}>
-                    ▼
-                </div>
+                {options.length > 0 && (
+                    <div className="ml-2 cursor-pointer border-none  select-none text-gray-400" onClick={handleDropdownClick}>
+                        ▼
+                    </div>
+                )}
             </div>
             {isOpen && options.length > 0 && (
                 <ul style={dropdownStyle} className="border border-gray rounded-lg shadow-lg bg-white overflow-auto">
@@ -148,9 +152,9 @@ export function ComboBox({ options, value, onChange, mustSelect = true, placehol
 
 // ▼ 主地址组件
 export default function AddressSelector({ defaultCountry, defaultState, defaultCity, className, onChange }: AddressProps) {
-    const [countries] = useState<Country[]>(countriesJson);
+    const [countries] = useState<CountryType[]>(countriesJson);
     const [states, setStates] = useState<StateType[]>([]);
-    const [cities, setCities] = useState<City[]>([]);
+    const [cities, setCities] = useState<CityType[]>([]);
 
     const [country, setCountry] = useState(defaultCountry || '');
     const [state, setState] = useState(defaultState || '');
@@ -158,7 +162,6 @@ export default function AddressSelector({ defaultCountry, defaultState, defaultC
 
     // 🔹 国家变化时加载省份
     useEffect(() => {
-        console.log('country changed');
         if (!country) {
             setStates([]);
             setCities([]);

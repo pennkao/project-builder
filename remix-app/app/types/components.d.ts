@@ -21,6 +21,7 @@ interface ComboBoxProps {
     value?: string;
     mustSelect?: boolean;
     onChange?: (val: string) => void;
+    onInputChange?: (val: string) => void;
     placeholder?: string;
     className?: string;
 }
@@ -48,4 +49,3 @@ interface ExchangeItemProps {
     phone: string;
     timeAgo: string;
 }
-
