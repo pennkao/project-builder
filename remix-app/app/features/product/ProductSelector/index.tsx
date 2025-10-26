@@ -100,6 +100,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
         }
         const productSelected = {
             productId: product.id,
+            name: product.name,
             sku: selectedSKU,
             quantity: quantity,
             price: selectedSKU.price,

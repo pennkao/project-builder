@@ -52,6 +52,13 @@
         box-shadow: 0 0 0px #3b82f6;
     }
 }
+/* styles.css 或 Dash.module.css */
+.dash {
+    height: 2px;
+    background-image: repeating-linear-gradient(90deg, #f87171 0 16px, transparent 16px 24px, #3b82f6 24px 40px, transparent 40px 48px);
+    background-size: 48px 2px;
+    background-repeat: repeat-x;
+}
 
 /* ===== 可直接使用的呼吸蓝边框类 ===== */
 .border-breathe {

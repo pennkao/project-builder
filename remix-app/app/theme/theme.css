@@ -8,7 +8,7 @@
     }
     /* 主要正文文本：用于核心内容，清晰可读 */
     .text-main {
-        @apply text-gray-700 font-normal text-sm;
+        @apply text-gray-700 font-normal text-base;
     }
     .text-label {
         @apply text-black font-semibold text-sm;

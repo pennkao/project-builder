@@ -5,32 +5,33 @@ export const haveState = (country: string) => {
     const noStateCountry = ['FR', 'DE', 'NL', 'PL', 'SA', 'GB'];
     return !noStateCountry.includes(country);
 };
-export function ComboBox({ options, value, onInputChange, onChange, mustSelect = true, placeholder, className = '' }: ComboBoxProps) {
+export function ComboBox({ name, options, option, onChange, placeholder, className = '' }: ComboBoxProps) {
     const containerRef = useRef<HTMLInputElement | null>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const [inputValue, setInputValue] = useState('');
+    const [selectedOption, setSelectedOption] = useState<AddressOptionType>(option);
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
     const [isFocused, setIsFocused] = useState(false);
-
-    const selectedOption = options.find((o) => o.code === value);
-
-    // 同步输入框显示
+    // const matchOption = options.find((o) => o.code === selectedOption.code);
+    // console.log('inputvalue', value);
+    // setInputValue(selectedOption?.name || '');
+    //设置默认值
     useEffect(() => {
-        setInputValue(selectedOption?.name || '');
-    }, []);
+        setSelectedOption(option);
+    }, [option]);
+    // const matchOption = options.find((o) => o.code === selectedOption.code)
 
     // 过滤选项，高亮匹配放前
     const filteredOptions = useMemo(() => {
-        if (!inputValue.trim()) return options;
-        const q = inputValue.toLowerCase();
+        if (!selectedOption.name.trim()) return options;
+        const q = selectedOption.name.toLowerCase();
         const matches: AddressOptionType[] = [];
         const rest: AddressOptionType[] = [];
         for (const o of options) {
             (o.name.toLowerCase().includes(q) ? matches : rest).push(o);
         }
         return matches.concat(rest);
-    }, [inputValue, options]);
+    }, [selectedOption.name, options]);
 
     // 计算下拉位置
     const computeDropdown = () => {
@@ -88,27 +89,36 @@ export function ComboBox({ options, value, onInputChange, onChange, mustSelect =
         return () => document.removeEventListener('pointerdown', handleClickOutside);
     }, [handleClickOutside]);
 
+    /**
+     * 处理地址选项的选择事件
+     * @param opt - AddressOptionType 类型的地址选项对象，包含地址代码和名称等信息
+     */
     const handleSelect = (opt: AddressOptionType) => {
-        onChange?.(opt.code);
-        setInputValue(opt.name);
-        onInputChange?.(opt.name);
+        // 触发变更回调函数，传入地址选项的代码
+        onChange?.(opt);
+        // 设置输入框的显示值为地址选项的名称
+        setSelectedOption(opt);
+        // 触发输入变更回调函数，传入地址选项的名称
+        // onInputChange?.(opt.name);
+        // 使用 requestAnimationFrame 确保在下一次动画帧之前关闭下拉选项
         requestAnimationFrame(() => setIsOpen(false));
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
+        setSelectedOption((prev) => ({ ...prev, name: e.target.value }));
         // console.log('inputValue', e.target.value);
-        onInputChange?.(e.target.value);
+        // onInputChange?.(e.target.value);
         setIsOpen(e.target.value.trim().length > 1);
     };
 
     const handleDropdownClick = () => {
+        if (name == 'city') return;
         if (options.length === 0) return;
         setIsOpen((prev) => !prev);
     };
 
     const highlightText = (text: string) => {
-        const q = inputValue.trim().toLowerCase();
+        const q = selectedOption.name.trim().toLowerCase();
         const idx = text.toLowerCase().indexOf(q);
         if (idx === -1) return text;
         return (
@@ -120,22 +130,19 @@ export function ComboBox({ options, value, onInputChange, onChange, mustSelect =
         );
     };
     return (
-        <div ref={wrapperRef} className={`relative min-h-[37.6px] ${className} ${isFocused ? 'border-green-500 ring-1 ring-green-500 ring-opacity-30' : 'border-gray-300'}`}>
+        <div ref={wrapperRef} onClick={handleDropdownClick} className={`relative min-h-[37.6px] ${className} ${isFocused ? 'border-green-500 ring-1 ring-green-500 ring-opacity-30' : 'border-gray-300'}`}>
             <div ref={containerRef} className="flex items-center px-2 py-[2px] border-none ">
                 <input
                     type="text"
-                    value={inputValue}
+                    readOnly={name == 'city' ? false : true}
+                    value={selectedOption?.name || ''}
                     onChange={handleChange}
                     placeholder={placeholder}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     className="flex-1 outline-none text-main bg-transparent border-none "
                 />
-                {options.length > 0 && (
-                    <div className="ml-2 cursor-pointer border-none  select-none text-gray-400" onClick={handleDropdownClick}>
-                        ▼
-                    </div>
-                )}
+                {options.length > 0 && name != 'city' && <div className="ml-2 cursor-pointer border-none  select-none text-gray-400">▼</div>}
             </div>
             {isOpen && options.length > 0 && (
                 <ul style={dropdownStyle} className="border border-gray rounded-lg shadow-lg bg-white overflow-auto">
@@ -198,10 +205,12 @@ export default function AddressSelector({ defaultCountry, defaultState, defaultC
         <div className={`flex flex-col gap-3 w-full ${className || ''}`}>
             {/* 国家 */}
             <ComboBox
+                name="country"
+                option={{ code: '', name: '' }}
                 options={countries.map((c) => ({ code: c.code, name: c.name }))}
-                value={country}
-                onChange={(code) => {
-                    setCountry(code);
+                code={country}
+                onChange={(opt) => {
+                    setCountry(opt.code);
                     setState('');
                     setCity('');
                 }}
@@ -209,19 +218,23 @@ export default function AddressSelector({ defaultCountry, defaultState, defaultC
             />
             {/* 省份 */}
             <ComboBox
+                name="state"
+                option={{ code: '', name: '' }}
                 options={states.map((s) => ({ code: s.code, name: s.name }))}
-                value={state}
-                onChange={(code) => {
-                    setState(code);
+                code={state}
+                onChange={(opt) => {
+                    setState(opt.code);
                     setCity('');
                 }}
                 placeholder="选择省份/州"
             />
             {/* 城市 */}
             <ComboBox
+                name="city"
+                option={{ code: '', name: '' }}
                 options={cities.map((c) => ({ code: c.code, name: c.name }))}
-                value={city} //
-                onChange={(code) => setCity(code)}
+                code={city} //
+                onChange={(opt) => setCity(opt.code)}
                 placeholder="选择城市"
             />
         </div>

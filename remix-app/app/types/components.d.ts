@@ -9,7 +9,7 @@ interface AddressProps {
 interface UserInfoProps extends AddressProps {
     // price: number;
     action: (str: string) => void;
-    // attributesSort: string[];
+    defaultCountry?: CountryType;
 }
 interface BottomSheetProps {
     open: boolean;
@@ -17,10 +17,12 @@ interface BottomSheetProps {
     children: React.ReactNode;
 }
 interface ComboBoxProps {
-    options: OptionType[];
-    value?: string;
-    mustSelect?: boolean;
-    onChange?: (val: string) => void;
+    name: string;
+    options: AddressOptionType[];
+    code?: string;
+    addrName?: string;
+    option: AddressOptionType;
+    onChange?: (addr: AddressOptionType) => void;
     onInputChange?: (val: string) => void;
     placeholder?: string;
     className?: string;
