@@ -1,6 +1,7 @@
 /* @config "../tailwind.config.ts"; */
 
 @import 'tailwindcss';
+
 @import './theme/theme.css';
 
 @theme {
@@ -9,6 +10,8 @@
     --font-mono: 'Fira Code', monospace;
     --font-brand: 'PingFang SC', 'Inter', sans-serif;
 }
+
+
 /* ===== 定义 shimmer 动画 ===== */
 @keyframes shimmer {
     0% {

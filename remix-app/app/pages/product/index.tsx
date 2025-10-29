@@ -60,8 +60,8 @@ const productData = {
 };
 const ProductPage = () => {
     const [tabActiveKey, setTabActiveKey] = useState<string | null>(null);
-    const [activeIndex, setActiveIndex] = useState(0);
     // data = data.replace(/<img /g, '<img loading="lazy" ');
+    const [activeIndex, setActiveIndex] = useState(0);  
     const buyButtonRef = useRef<HTMLElement>(null); // 👈 就用 useRef
     const [open, setOpen] = useState(false);
     const reviews: ReviewType[] = [
@@ -100,7 +100,7 @@ const ProductPage = () => {
     return (
         <div className="bg-primary flex flex-col">
             <div className="h-96">
-                <SwiperImage images={images} autoPlayInterval={4000} selectIndex={activeIndex} onIndexChange={setActiveIndex} className="rounded-lg min-h-[300px]" />
+                <SwiperImage images={images} autoPlayInterval={4000} onIndexChange={setActiveIndex} className="rounded-lg min-h-[300px]" />
             </div>
             <div className="h-1"></div>
             <div className="lg:h-28 h-16">
@@ -186,7 +186,7 @@ const ProductPage = () => {
                                 />
                             ),
                         },
-                        { key: 'tab2', label: '地址 >', content: <UserInfo action={handleAction} defaultCountry="US" defaultState="AK" /> },
+                        { key: 'tab2', label: '地址 >', content: <UserInfo action={handleAction}/> },
                         { key: 'tab3', label: '支付 >', content: <Payment /> },
                     ]}
                 />

@@ -97,6 +97,7 @@ interface ProductSelectedType {
     quantity: number;
     name: string;
     price: number;
+    firstOrder: number; // 首单优惠
     image: string;
     total: number;
     discountValue: number;
@@ -117,4 +118,12 @@ interface UserInfoFormType {
     city: AddressOptionType;
 }
 
+// 定义类型
+type ShippingMethod = {
+    name: string;
+    price: number; // 按 0.1kg 价格
+    currency: 'USD' | 'CNY' | 'EUR';
+    delivery_days: string; // 例如 "3-5"
+};
 
+type ShippingOptions = Record<string, ShippingMethod[]>;

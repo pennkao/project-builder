@@ -26,16 +26,20 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
     const [isInitDone, setIsInitDone] = useState(false);
 
     const [useInfoForm, setUseInfoForm] = useState<UserInfoFormType>(initialUserInfoForm);
-
+    const [address, setAddress] = useState<AddressSelectedType>({ country: '', state: '', city: '' });
     const handleUserInfoChange = (key: keyof UserInfoFormType, value: string) => {
-
         setUseInfoForm((prev) => ({
             ...prev,
             [key]: value,
         }));
-    };
-    const handleUserAddressChange = (key: keyof UserInfoFormType, value: AddressOptionType) => {
 
+    };
+
+    const handleCity = (key: keyof UserInfoFormType, value: string) => {
+        console.log('handleCity', key, value);
+        setAddress(prev => ({ ...prev, city: value }));
+    }
+    const handleUserAddressChange = (key: keyof UserInfoFormType, value: AddressOptionType) => {
         setUseInfoForm((prev) => ({
             ...prev,
             [key]: value,
@@ -54,6 +58,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
         console.log('userInfo', userInfo);
         if (userInfo) {
             setUseInfoForm(userInfo);
+            setAddress({ country: userInfo.country.name, state: userInfo.state.name, city: userInfo.city.name });
         }
         hydratedRef.current = true;
     }, []);
@@ -65,12 +70,11 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
             setCities([]);
             return;
         }
-        // setStates([]);
-        // setCities([]);
+        setStates([]);
+        setCities([]);
 
-        // handleUserAddressChange('state', { code: '', name: '' });
-        // handleUserAddressChange('city', { code: '', name: '' });
-
+        handleUserAddressChange('state', { code: '', name: '' });
+        handleUserAddressChange('city', { code: '', name: '' });
         fetch(`/data/states/${useInfoForm.country.code}.states.json`)
             .then((res) => res.json())
             .then((data) => setStates(data))
@@ -83,16 +87,23 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
             setCities([]);
             return;
         }
-        // setCities([]);
-        // handleUserAddressChange('city', { code: '', name: '' });
+        setCities([]);
+        handleUserAddressChange('city', { code: '', name: '' });
+        setAddress(prev => ({ ...prev, state: useInfoForm.state.name }));
 
         fetch(`/data/cities/${useInfoForm.country.code}.cities.json`)
             .then((res) => res.json())
             .then((json) => json[useInfoForm.state.code] || [])
             .then((data) => setCities(data))
             .catch(() => setCities([]));
-    }, [useInfoForm.state.code]);
+    }, [useInfoForm.state]);
 
+    useEffect(() => {
+        if (!useInfoForm.city.code) {
+            return;
+        }
+        setAddress(prev => ({ ...prev, city: useInfoForm.city.name }));
+    }, [useInfoForm.city]);
     // 🔹 通知外部变更
     // useEffect(() => {
     //     onChange?.(country, state, city);
@@ -159,7 +170,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
 
                     {/* 城市 */}
                     {!isHaveState && (
-                        <input type="text" name="city" placeholder="city" value={useInfoForm?.city?.name || ''} onChange={(e) => handleUserInfoChange('city', e.target.value)} required className={className} />
+                        <input type="text" name="city" placeholder="city" value={useInfoForm?.city?.name || address?.city ||''} onChange={(e) => handleCity('city', e.target.value)} required className={className} />
                     )}
                     {isHaveState && (
                         <>
@@ -189,9 +200,9 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
                     <input type="text" name="zipCode" placeholder="Zip code" required className={className} value={useInfoForm?.zipCode || ''} onChange={(e) => handleUserInfoChange('zipCode', e.target.value)} />
                     <input type="number" name="phone" placeholder="Phone" required className={className} value={useInfoForm?.phone || ''} onChange={(e) => handleUserInfoChange('phone', e.target.value)} />
                     {/* 隐藏 input 提交 code */}
-                    <input type="hidden" name="country" value={useInfoForm?.country?.name || ''} required />
-                    <input type="hidden" name="state" value={useInfoForm?.state?.name || ''} required />
-                    {isHaveState && <input type="hidden" name="city" value={useInfoForm?.city?.name || ''} required />}
+                    <input type="hidden" name="country" value={address.country || useInfoForm.country?.name || ''} required />
+                    <input type="hidden" name="state" value={address.state || useInfoForm.state?.name || ''} required />
+                    {isHaveState && <input type="hidden" name="city" value={address.city || useInfoForm.city?.name || ''} required />}
                     {/* <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg text-sm font-medium">
                         提交
                     </button> */}

@@ -1,4 +1,4 @@
-@import '../../main.css'; /* 引入全局 CSS */
+@import '../../main.css'; 
 
 /* 所有 Tab 默认都有 2px 边框，但透明 */
 .tab-button {

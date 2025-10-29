@@ -1,3 +1,4 @@
+/* @import './bg.css'; */
 @layer components {
     /*所有输入框*/
     .input-main {
@@ -50,23 +51,63 @@
         @apply border-gray-200 border-b;
     }
 
-    /* 页面背景：用于整个页面的背景 */
-    .bg-main {
-        @apply bg-white;
+    /*=================*/
+    /* 基础背景 */
+    /* 页面主背景 */
+    .bg-page {
+        @apply bg-white; /* 页面最底层背景 */
     }
-    /* 主要内容区域：用于展示主要信息、核心功能、主要交互元素 */
+
+    /* 页面区块背景 */
+    .bg-block {
+        @apply bg-gray-50; /* 页面大区块背景，如 Header/Footer/内容区 */
+    }
+    /* 内容承载容器 */
+    .bg-container {
+        @apply bg-white; /* 默认内容容器背景 */
+    }
+
+    /* 具体模块：卡片 */
+    .bg-card {
+        @apply bg-gray-100; /* 独立信息块，卡片/面板 */
+    }
+
+    /* 具体模块：文章/文本内容 */
     .bg-content {
-        @apply bg-white;
+        @apply bg-green-50/30;
     }
-    .bg-surface {
-        @apply bg-gray-100;
+    /*分隔*/
+    .bg-spacer {
+        @apply bg-gray-200; /* 分隔线、间隔区域 */
     }
+    /* 视觉强调层 */
+    .bg-focus {
+        @apply bg-blue-600 text-white; /* CTA、品牌色区、高亮模块 */
+    }
+    /* 遮罩/浮层 */
+    .bg-overlay {
+        @apply bg-black; /* 弹窗、浮层、菜单遮罩 */
+    }
+
+    /* 临时状态层 */
+    .bg-state {
+        @apply bg-gray-200; /* hover、选中、提示状态 */
+    }
+
+    /* 反转/暗色层 */
+    .bg-reverse {
+        @apply bg-gray-800 text-white; /* 页脚、深色区块、暗黑模式 */
+    }
+    /* 选中/突出状态 */
     .bg-selected {
-        @apply bg-gray-500;
+        @apply bg-blue-500; /* 当前选中项/状态 */
     }
+
+    /* 品牌色背景 */
     .bg-brand {
-        @apply bg-blue-600;
+        @apply bg-red-600; /* 品牌模块、高亮操作 */
     }
+    /*=================*/
 
     /*产品属性*/
     .bg-content-attr {
@@ -91,5 +132,9 @@
     /* 选中状态：用于突出显示当前选中的项目、选项或状态 */
     .border-selected {
         @apply border-2 border-blue-500;
+    }
+
+    .border-main {
+        @apply border-gray-300;
     }
 }

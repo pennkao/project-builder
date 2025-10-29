@@ -51,3 +51,11 @@ interface ExchangeItemProps {
     phone: string;
     timeAgo: string;
 }
+
+interface SwiperImageProps {
+    images: string[];
+    // selectIndex?: number;
+    autoPlayInterval?: number;
+    className?: string;
+    onIndexChange?: (index: number) => void;
+}

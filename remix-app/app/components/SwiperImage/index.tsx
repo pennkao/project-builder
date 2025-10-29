@@ -1,18 +1,11 @@
 import SmartImage from '@/components/SmartImage';
 import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.css';
-interface SwiperImageProps {
-    images: string[];
-    selectIndex?: number;
-    onIndexChange?: (index: number) => void;
-    autoPlayInterval?: number;
-    className?: string;
-}
 
-export default function SwiperImage({ images, autoPlayInterval = 5000,  className = '', selectIndex, onIndexChange }: SwiperImageProps) {
+export default function SwiperImage({ images, autoPlayInterval = 5000, className = '', onIndexChange }: SwiperImageProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
-
+    const [selectIndex, setSelectIndex] = useState<number | undefined>(undefined);
     // 👇 触摸相关状态
     const [startX, setStartX] = useState(0);
     const [currentX, setCurrentX] = useState(0);
@@ -25,6 +18,7 @@ export default function SwiperImage({ images, autoPlayInterval = 5000,  classNam
         if (selectIndex !== undefined) {
             setCurrentIndex(selectIndex);
             setIsPaused(true);
+            onIndexChange?.(selectIndex);
         }
     }, [selectIndex]);
 
@@ -34,7 +28,7 @@ export default function SwiperImage({ images, autoPlayInterval = 5000,  classNam
             intervalRef.current = setInterval(() => {
                 setCurrentIndex((prev) => {
                     const next = prev === images.length - 1 ? 0 : prev + 1;
-                    onIndexChange?.(next);
+                    setSelectIndex(next);
                     return next;
                 });
             }, autoPlayInterval);
@@ -48,13 +42,13 @@ export default function SwiperImage({ images, autoPlayInterval = 5000,  classNam
 
     const goToSlide = (index: number) => {
         setCurrentIndex(index);
-        onIndexChange?.(index);
+        setSelectIndex(index);
     };
 
     const nextSlide = () => {
         setCurrentIndex((prev) => {
             const next = prev === images.length - 1 ? 0 : prev + 1;
-            onIndexChange?.(next);
+            setSelectIndex(next);
             return next;
         });
     };
@@ -62,7 +56,7 @@ export default function SwiperImage({ images, autoPlayInterval = 5000,  classNam
     const prevSlide = () => {
         setCurrentIndex((prev) => {
             const next = prev === 0 ? images.length - 1 : prev - 1;
-            onIndexChange?.(next);
+            setSelectIndex(next);
             return next;
         });
     };

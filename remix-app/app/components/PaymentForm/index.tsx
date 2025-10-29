@@ -111,7 +111,7 @@ American Express cards have a 4-digit code located on the front.`;
         <div>
             <Cards number={state.number} expiry={state.expiry} cvc={state.cvc} name={state.name} focused={focusedField} />
 
-            <div className="max-w-md mx-auto mt-2 bg-content rounded-lg p-1">
+            <div className="max-w-md mx-auto mt-2 bg-card rounded-lg p-1">
                 <form method="post" className=" border-none flex flex-col">
                     {/* Card Number */}
                     <div className="relative">

@@ -102,6 +102,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
             productId: product.id,
             name: product.name,
             sku: selectedSKU,
+            firstOrder: FirstOrder, // 首单优惠
             quantity: quantity,
             price: selectedSKU.price,
             image: selectedSKU.url || skus[0].url,
