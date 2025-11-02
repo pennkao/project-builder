@@ -1,5 +1,6 @@
 import { ComboBox, haveState } from '@/components/AddressSelector';
 import countriesJson from '@/data/countries.json';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { useEffect, useRef, useState } from 'react';
@@ -19,6 +20,7 @@ const initialUserInfoForm: UserInfoFormType = {
 };
 export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
 
     const [countries] = useState<CountryType[]>(countriesJson);
     const [states, setStates] = useState<StateType[]>([]);
@@ -32,13 +34,12 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
             ...prev,
             [key]: value,
         }));
-
     };
 
     const handleCity = (key: keyof UserInfoFormType, value: string) => {
         console.log('handleCity', key, value);
-        setAddress(prev => ({ ...prev, city: value }));
-    }
+        setAddress((prev) => ({ ...prev, city: value }));
+    };
     const handleUserAddressChange = (key: keyof UserInfoFormType, value: AddressOptionType) => {
         setUseInfoForm((prev) => ({
             ...prev,
@@ -89,7 +90,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
         }
         setCities([]);
         handleUserAddressChange('city', { code: '', name: '' });
-        setAddress(prev => ({ ...prev, state: useInfoForm.state.name }));
+        setAddress((prev) => ({ ...prev, state: useInfoForm.state.name }));
 
         fetch(`/data/cities/${useInfoForm.country.code}.cities.json`)
             .then((res) => res.json())
@@ -102,7 +103,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
         if (!useInfoForm.city.code) {
             return;
         }
-        setAddress(prev => ({ ...prev, city: useInfoForm.city.name }));
+        setAddress((prev) => ({ ...prev, city: useInfoForm.city.name }));
     }, [useInfoForm.city]);
     // 🔹 通知外部变更
     // useEffect(() => {
@@ -126,7 +127,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
         <div className="flex items-center justify-center  ">
             <div className="w-full max-w-md bg-white-1 ">
                 <form ref={formRef} className="space-y-2 p-1 gap-4 bg-content">
-                    <input type="email" name="email" placeholder="Email" required className={className} value={useInfoForm.email} onChange={(e) => handleUserInfoChange('email', e.target.value)} />
+                    <input type="email" name="email" placeholder={t('userinfo.email')} required className={className} value={useInfoForm.email} onChange={(e) => handleUserInfoChange('email', e.target.value)} />
                     <ComboBox
                         name="country"
                         option={useInfoForm.country}
@@ -141,7 +142,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
                         <input
                             type="text"
                             name="firstName"
-                            placeholder="First Name"
+                            placeholder={t('userinfo.first_name')}
                             required
                             className={`w-1/2 ${className}`}
                             value={useInfoForm.firstName || ''}
@@ -150,27 +151,28 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
                         <input
                             type="text"
                             name="lastName"
-                            placeholder="Last Name"
+                            placeholder={t('userinfo.last_name')}
                             required
                             className={`w-1/2 ${className}`}
                             value={useInfoForm.lastName || ''}
                             onChange={(e) => handleUserInfoChange('lastName', e.target.value)}
                         />
                     </div>
-                    <input type="text" name="company" placeholder="Company (Optional)" className={className} value={useInfoForm.company || ''} onChange={(e) => handleUserInfoChange('company', e.target.value)} />
-                    <input type="text" name="address" placeholder="Address" className={className} value={useInfoForm.address || ''} onChange={(e) => handleUserInfoChange('address', e.target.value)} />
-                    <input
-                        type="text"
-                        name="address2"
-                        placeholder="Apartment, suite, etc. (Optional)"
-                        className={className}
-                        value={useInfoForm.address2 || ''}
-                        onChange={(e) => handleUserInfoChange('address2', e.target.value)}
-                    />
+                    <input type="text" name="company" placeholder={t('userinfo.company')} className={className} value={useInfoForm.company || ''} onChange={(e) => handleUserInfoChange('company', e.target.value)} />
+                    <input type="text" name="address" placeholder={t('userinfo.address')} className={className} value={useInfoForm.address || ''} onChange={(e) => handleUserInfoChange('address', e.target.value)} />
+                    <input type="text" name="address2" placeholder={t('userinfo.address2')} className={className} value={useInfoForm.address2 || ''} onChange={(e) => handleUserInfoChange('address2', e.target.value)} />
 
                     {/* 城市 */}
                     {!isHaveState && (
-                        <input type="text" name="city" placeholder="city" value={useInfoForm?.city?.name || address?.city ||''} onChange={(e) => handleCity('city', e.target.value)} required className={className} />
+                        <input
+                            type="text"
+                            name="city"
+                            placeholder={t('userinfo.city')}
+                            value={useInfoForm?.city?.name || address?.city || ''}
+                            onChange={(e) => handleCity('city', e.target.value)}
+                            required
+                            className={className}
+                        />
                     )}
                     {isHaveState && (
                         <>
@@ -182,7 +184,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
                                 onChange={(opt) => {
                                     handleUserAddressChange('city', opt);
                                 }}
-                                placeholder="City"
+                                placeholder={t('userinfo.city')}
                             />
 
                             <ComboBox
@@ -193,12 +195,12 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
                                 onChange={(opt) => {
                                     handleUserAddressChange('state', opt);
                                 }}
-                                placeholder="State"
+                                placeholder={t('userinfo.state')}
                             />
                         </>
                     )}
-                    <input type="text" name="zipCode" placeholder="Zip code" required className={className} value={useInfoForm?.zipCode || ''} onChange={(e) => handleUserInfoChange('zipCode', e.target.value)} />
-                    <input type="number" name="phone" placeholder="Phone" required className={className} value={useInfoForm?.phone || ''} onChange={(e) => handleUserInfoChange('phone', e.target.value)} />
+                    <input type="text" name="zipCode" placeholder={t('userinfo.zip_code')} required className={className} value={useInfoForm?.zipCode || ''} onChange={(e) => handleUserInfoChange('zipCode', e.target.value)} />
+                    <input type="number" name="phone" placeholder={t('userinfo.phone')} required className={className} value={useInfoForm?.phone || ''} onChange={(e) => handleUserInfoChange('phone', e.target.value)} />
                     {/* 隐藏 input 提交 code */}
                     <input type="hidden" name="country" value={address.country || useInfoForm.country?.name || ''} required />
                     <input type="hidden" name="state" value={address.state || useInfoForm.state?.name || ''} required />
@@ -208,7 +210,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
                     </button> */}
                 </form>
                 <button onClick={handleSubmit} className=" mt-2 w-full button-main">
-                    继 续agc
+                    {t('product.continue')}
                 </button>
             </div>
         </div>

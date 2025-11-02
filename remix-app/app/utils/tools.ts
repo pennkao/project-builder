@@ -79,22 +79,22 @@ export function checkoutPayment(total: number, paymenAmount: number, paymentMeth
     };
 }
 
-export function checkoutPaymentFormat(num: number): string {
+export function checkoutPaymentFormat(num: number, symbol: string): string {
     if (num === 0) {
         return '--';
     }
     if (num < 0) {
-        return '-$' + Math.abs(num).toFixed(2);
+        return '-' + symbol + Math.abs(num).toFixed(2);
     }
-    return '+$' + num.toFixed(2);
+    return '+' + symbol + num.toFixed(2);
 }
 
-export function discountMoneyFormat(num: number): string {
+export function discountMoneyFormat(num: number, symbol: string): string {
     if (num === 0) {
         return '--';
     }
 
-    return '-' + num.toFixed(2);
+    return '-' + symbol + num.toFixed(2);
 }
 
 export function moneyFormat(num: number): string {

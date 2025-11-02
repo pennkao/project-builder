@@ -1,4 +1,5 @@
 import { buildJsonByOrderKeys, discount, discountMoneyFormat, moneyFormat } from '@/utils/tools';
+import { t } from 'i18next';
 import { useEffect, useMemo, useState } from 'react';
 const productSelectedKey = '--google:vtx:product:selected';
 const FirstOrder = 3;
@@ -121,11 +122,14 @@ export default function ProductSelector({ options, skus, action, product }: Prod
                     <img src={selectedSKU.url || skus[0].url} alt="product" className="w-[120px] h-[120px] object-cover rounded-md flex-shrink-0" />
                     <div className="flex-1 flex flex-col justify-center h-full pr-2">
                         <div className="flex justify-start items-center text-sm pr-5">
-                            <div className=" text-lg text-brand leading-[28px]">${discountValue.total.toFixed(2)}</div>
+                            <div className=" text-lg text-brand leading-[28px]">
+                                {t('common.symbol')}
+                                {discountValue.total.toFixed(2)}
+                            </div>
                             {/* <div className="text-lg text-red-500 font-semibold leading-[28px]">${(selectedSKU.price * quantity).toFixed(2)}</div> */}
                         </div>
                         <div className="flex items-start gap-1 mt-0 text-sm pr-1">
-                            <div className="w-8 text-xs text-left text-tip ">已选:</div>
+                            <div className="w-8 text-xs text-left text-tip ">{t('product.selected')}:</div>
                             <div className="flex-1 text-xs min-w-0 text-left">
                                 <div className="flex flex-wrap gap-x-2 gap-y-1 break-words pr-2 text-tip  overflow-hidden">
                                     {Object.entries(selectedSKU.attributes).map(([k, v]) => (
@@ -146,7 +150,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
                                 +
                             </button>
                             <div className="flex-1 text-xs text-left px-2">
-                                <span className="text-sub">剩余</span>
+                                <span className="text-sub">{t('product.stock')}</span>
                                 <span className="text-main">16</span>
                             </div>
                         </div>
@@ -190,35 +194,47 @@ export default function ProductSelector({ options, skus, action, product }: Prod
             <div className="h-2"></div>
             <div className="text-right px-3 gap-1">
                 <div className="flex justify-between text-main items-center sp-border-main py-1">
-                    <span className="text-sub-main">总金额</span>
-                    <span className="text-main line-through">${discountValue.total.toFixed(2)}</span>
-                </div>
-
-                <div className="flex justify-between text-main items-center sp-border-main py-1">
-                    <span className="text-sub-main">首次购买</span>
-                    <span className="text-main">-{FirstOrder}</span>
-                </div>
-
-                <div className="flex justify-between items-center text-main sp-border-main py-1">
-                    <span className="flex items-center text-sub-main">满减 </span>
-                    <span className="font-medium">
-                        <span className="mr-3 text-sub">
-                            {discountValue.discount <= 0
-                                ? ''
-                                : `满${discountValue.num}减${moneyFormat(discountValue.discount)},再买${discountValue.nextDiscountNum - quantity}减${moneyFormat(discountValue.nextDiscount)}`}
-                        </span>
-                        <span className="text-main">{discountMoneyFormat(discountValue.discount)}</span>
+                    <span className="text-sub-main">{t('product.total')}</span>
+                    <span className="text-main line-through">
+                        {t('common.symbol')}
+                        {discountValue.total.toFixed(2)}
                     </span>
                 </div>
 
+                <div className="flex justify-between text-main items-center sp-border-main py-1">
+                    <span className="text-sub-main">{t('product.first_order')}</span>
+                    <span className="text-main">
+                        -{t('common.symbol')}
+                        {FirstOrder}
+                    </span>
+                </div>
+
+                <div className="flex justify-between items-center text-main sp-border-main py-1">
+                    <span className="flex items-center text-sub-main w-10">{t('product.tiered_discount')} </span>
+                    <span className="flex flex-row font-medium">
+                        <span className="mr-3 text-sub"></span>
+                        <span className="text-main">{discountMoneyFormat(discountValue.discount, t('common.symbol'))}</span>
+                    </span>
+                </div>
+                <div className="flex justify-end items-center text-tip sp-border-main py-1">
+                    {discountValue.discount <= 0
+                        ? ''
+                        : t('product.tiered_discount_text', {
+                              num: discountValue.nextDiscountNum - quantity,
+                              discount: moneyFormat(discountValue.nextDiscount),
+                          })}
+                </div>
                 <div className="flex justify-between text-important">
-                    <span>总支付金额</span>
-                    <span>${discountValue.payAmount.toFixed(2)}</span>
+                    <span>{t('product.pay_amount')}</span>
+                    <span>
+                        {t('common.symbol')}
+                        {discountValue.payAmount.toFixed(2)}
+                    </span>
                 </div>
             </div>
             <div className="h-4"></div>
             <button onClick={handleSubmit} className="w-full  py-2 button-main">
-                继 续
+                {t('product.continue')}
             </button>
         </div>
     );

@@ -3,6 +3,7 @@ import PaymentForm from '@/components/PaymentForm';
 import { getShippingOptions } from '@/data/shipping';
 import UserInfo from '@/features/product/UserInfo';
 import { checkoutPayment, checkoutPaymentFormat } from '@/utils/tools';
+import { t } from 'i18next';
 import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 const CheckoutPage = ({ data }: any) => {
@@ -100,14 +101,16 @@ const CheckoutPage = ({ data }: any) => {
                             <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                         </svg>
                     </div>
-                    <span className="text-selected" onClick={() => setBottomSheetOpen(true)}>编辑</span>
+                    <span className="text-selected" onClick={() => setBottomSheetOpen(true)}>
+                        {t('checkout.edit')}
+                    </span>
                 </div>
             </div>
 
             <div className="h-2 bg-spacer"></div>
             <div onClick={handleOpen} className="flex flex-row items-center justify-between h-14 px-4 border-b border-b-gray-200 bg-content">
                 <div className="text-title">Order Summary </div>
-                <div className="text-important">${calc.payAmount.toFixed(2)}</div>
+                <div className="text-important">{t('common.symbol')}{calc.payAmount.toFixed(2)}</div>
             </div>
             <Activity mode={isOpen ? 'visible' : 'hidden'}>
                 <div className="flex flex-row justify-start px-2 text-main gap-3">
@@ -126,30 +129,30 @@ const CheckoutPage = ({ data }: any) => {
                             ))}
                         </div>
                         <div>
-                            <span className="text-main">${checkoutData?.productDetail?.price}</span> x <span className="text-main">{checkoutData?.productDetail?.quantity}</span>
+                            <span className="text-main">{t('common.symbol')}{checkoutData?.productDetail?.price}</span> x <span className="text-main">{checkoutData?.productDetail?.quantity}</span>
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col px-4">
                     <div className="flex flex-row justify-between">
-                        <div>Subtotal</div>
-                        <div className="line-through text-main">${checkoutData?.productDetail?.total}</div>
+                        <div>{t('checkout.subtotal')}</div>
+                        <div className="line-through text-main">{t('common.symbol')}{checkoutData?.productDetail?.total}</div>
                     </div>
                     <div className="flex flex-row justify-between">
-                        <div>首单</div>
-                        <div>-${checkoutData?.productDetail?.firstOrder}</div>
+                        <div>{t('checkout.first_order')}</div>
+                        <div>-{t('common.symbol')}{checkoutData?.productDetail?.firstOrder}</div>
                     </div>
                     <div className="flex flex-row justify-between">
-                        <div>优惠</div>
-                        <div>-${checkoutData?.productDetail?.discountValue.toFixed(2)}</div>
+                        <div>{t('checkout.discount')}</div>
+                        <div>-{t('common.symbol')}{checkoutData?.productDetail?.discountValue.toFixed(2)}</div>
                     </div>
                     <div className="flex flex-row justify-between">
-                        <div>支付优惠</div>
-                        <div className="text-main">{checkoutPaymentFormat(calc.paymentDiscount)}</div>
+                        <div>{t('checkout.payment_discount')}</div>
+                        <div className="text-main">{t('common.symbol')}{checkoutPaymentFormat(calc.paymentDiscount, t('common.symbol'))}</div>
                     </div>
                     <div className="flex flex-row justify-between">
-                        <div>总金额</div>
-                        <div className="text-main">${calc.payAmount.toFixed(2)}</div>
+                        <div>{t('checkout.payment_amout')}</div>
+                        <div className="text-main">{t('common.symbol')}{calc.payAmount.toFixed(2)}</div>
                     </div>
                 </div>
             </Activity>
@@ -157,22 +160,26 @@ const CheckoutPage = ({ data }: any) => {
 
             {/* 配送方式 */}
             <div className="bg-white py-3 px-4 border-t border-b border-gray-200 space-y-2">
-                <div className="text-title">配送方式</div>
+                <div className="text-title">{t('checkout.shipping')}</div>
                 <div className="flex flex-col divide-y divide-gray-100 text-sm text-gray-700">
                     <div className={`flex justify-between items-center py-2 ${ShippingMethod.name == 'free' ? 'bg-card' : ''}`}>
-                        <div className="w-35 text-label">Free</div>
-                        <div className="w-20 flex-1">15天</div>
+                        <div className="w-35 text-label">{t('common.shipping_free')}</div>
+                        <div className="w-20 flex-1">15 {t('common.unit_day')}</div>
                         <div className="flex flex-row items-center gap-4">
-                            <div>Free</div>
+                            <div>{t('common.shipping_free')}</div>
                             <input type="radio" name="shipping" value="free" checked={ShippingMethod.name == 'free'} onChange={() => handleShippingChange(freeShipping)} className="accent-blue-500" />
                         </div>
                     </div>
                     {shippings.map((item) => (
                         <div key={item.name} className={`flex justify-between items-center py-2 ${ShippingMethod.name == item.name ? 'bg-card' : ''}`}>
                             <div className="w-35 text-label">{item.name}</div>
-                            <div className="w-20 flex-1 text-sub">{item.delivery_days} 天</div>
+                            <div className="w-20 flex-1 text-sub">
+                                {item.delivery_days} {t('common.unit_day')}
+                            </div>
                             <div className="flex flex-row items-center gap-4 text-sub-main">
-                                <div>{item.fee} USD</div>
+                                <div>
+                                    {item.fee} {t('common.currency')}
+                                </div>
                                 <input type="radio" name="shipping" value={item.name} checked={ShippingMethod.name == item.name} onChange={() => handleShippingChange(item)} className="accent-blue-500" />
                             </div>
                         </div>
@@ -182,7 +189,7 @@ const CheckoutPage = ({ data }: any) => {
 
             <div className="h-2 bg-spacer"></div>
             <div className="bg-main flex flex-col justify-start px-2">
-                <div className="text-title py-3">Payment</div>
+                <div className="text-title py-3">{t('common.payment')}</div>
                 <div className="flex flex-row gap-2 py-3 justify-end text-main p-2 border-2 borderb-grenn-700 border-green-400 rounded-t-xl bg-green-50">
                     <div>
                         {creditCardPayment.name} {creditCardPayment.fee}%fee
@@ -230,30 +237,30 @@ const CheckoutPage = ({ data }: any) => {
                         ))}
                     </div>
                     <div>
-                        ${checkoutData?.productDetail?.price} x {checkoutData?.productDetail?.quantity}
+                        {t('common.symbol')}{checkoutData?.productDetail?.price} x {checkoutData?.productDetail?.quantity}
                     </div>
                 </div>
             </div>
             <div className="flex flex-col px-4 ">
                 <div className="flex flex-row justify-between">
-                    <div>Subtotal</div>
-                    <div>${checkoutData?.productDetail?.total}</div>
+                    <div>{t('checkout.subtotal')}</div>
+                    <div>{t('common.symbol')}{checkoutData?.productDetail?.total}</div>
                 </div>
                 <div className="flex flex-row justify-between">
-                    <div>首单</div>
-                    <div>-${checkoutData?.productDetail?.firstOrder}</div>
+                    <div>{t('checkout.first_order')}</div>
+                    <div>-{t('common.symbol')}{checkoutData?.productDetail?.firstOrder}</div>
                 </div>
                 <div className="flex flex-row justify-between">
-                    <div>优惠</div>
-                    <div>-${checkoutData?.productDetail?.discountValue.toFixed(2)}</div>
+                    <div>{t('checkout.discount')}</div>
+                    <div>-{t('common.symbol')}{checkoutData?.productDetail?.discountValue.toFixed(2)}</div>
                 </div>
                 <div className="flex flex-row justify-between">
-                    <div>支付优惠</div>
-                    <div>{checkoutPaymentFormat(calc.paymentDiscount)}</div>
+                    <div>{t('checkout.payment_discount')}</div>
+                    <div>{checkoutPaymentFormat(calc.paymentDiscount, t('common.symbol'))}</div>
                 </div>
                 <div className="flex flex-row justify-between">
-                    <div>总金额</div>
-                    <div className="text-important">${calc.payAmount.toFixed(2)}</div>
+                    <div>{t('checkout.total')}</div>
+                    <div className="text-important">{t('common.symbol')}{calc.payAmount.toFixed(2)}</div>
                 </div>
             </div>
             <div className="h-2 "></div>
@@ -261,9 +268,8 @@ const CheckoutPage = ({ data }: any) => {
                 <button className="button-main w-full py-2">继续支付</button>
             </div>
             <div className="h-2 "></div>
-            <BottomSheet open={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)} >
-                <div className='px-3 pt-2'>
-
+            <BottomSheet open={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>
+                <div className="px-3 pt-2">
                     <UserInfo action={() => handleAction('submit')} />
                 </div>
             </BottomSheet>
