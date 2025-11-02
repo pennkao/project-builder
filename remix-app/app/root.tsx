@@ -1,22 +1,48 @@
-import { useEffect } from 'react';
-import { Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from 'react-router';
-import type { Route } from './+types/root';
-import { detectFastestCdnOnce } from './utils/cdnChecker';
+// app/root.tsx
+import { loader } from '@/loaders/root.server'; // ✅ 只引入函数
+import { useEffect, useState } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import { Outlet, Scripts, ScrollRestoration, useLoaderData } from 'react-router';
+import { collectFingerprint } from './utils/collection';
 
-// import stylesHref from "./styles/global.module.css?url";
-import globalStylesHref from './app.css?url';
+import i18n from './i18n';
 import styles from './main.css?url';
+export { loader }; // ✅ 让 Remix 识别 loader
 
 export default function App() {
-    useEffect(() => {
-        detectFastestCdnOnce();
-    }, []);
-    return <Outlet />;
-}
+    const { lang, resources } = useLoaderData<typeof loader>();
+    const [ready, setReady] = useState(false); // 确保 i18n 初始化完成
 
-// The Layout component is a special export for the root route.
-// It acts as your document's "app shell" for all route components, HydrateFallback, and ErrorBoundary
-// For more information, see https://reactrouter.com/explanation/special-files#layout-export
+    useEffect(() => {
+        // 初始化 i18n 资源
+        i18n.services.resourceStore.data = resources;
+
+        // 异步 changeLanguage 保证不会在 render 阶段触发更新
+        i18n.changeLanguage(lang).then(() => {
+            setReady(true); // i18n 准备好后才渲染 Outlet
+        });
+
+        // 设置文档语言和 cookie
+        document.documentElement.lang = lang;
+        const clientLang = Intl.NumberFormat().resolvedOptions().locale;
+        document.cookie = `--google:vtx:lang=${clientLang}; path=/; max-age=${60 * 60 * 24 * 365}`;
+
+        collectFingerprint();
+    }, [lang, resources]);
+
+    if (!ready) {
+        // i18n 还没准备好，避免渲染 Outlet 导致错误
+        return null;
+    }
+
+    return (
+        <I18nextProvider i18n={i18n}>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+        </I18nextProvider>
+    );
+}
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
@@ -29,47 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 {children}
                 <ScrollRestoration />
                 <Scripts />
-                
             </body>
         </html>
-    );
-}
-
-// The top most error boundary for the app, rendered when your app throws an error
-// For more information, see https://reactrouter.com/start/framework/route-module#errorboundary
-function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-    let message = 'Oops!';
-    let details = 'An unexpected error occurred.';
-    let stack: string | undefined;
-
-    if (isRouteErrorResponse(error)) {
-        message = error.status === 404 ? '404' : 'Error';
-        details = error.status === 404 ? 'The requested page could not be found.6666666666' : error.statusText || details;
-    } else if (import.meta.env.DEV && error && error instanceof Error) {
-        details = error.message;
-        stack = error.stack;
-    }
-
-    return (
-        <main id="error-page">
-            <h1>{message}</h1>
-            <p>{details}</p>
-            {stack && (
-                <pre>
-                    <code>{stack}</code>
-                </pre>
-            )}
-        </main>
-    );
-}
-
-// existing imports & exports
-
-export function HydrateFallback() {
-    return (
-        <div id="loading-splash">
-            <div id="loading-splash-spinner" />
-            <p>Loading, please wait...</p>
-        </div>
     );
 }

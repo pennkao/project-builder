@@ -3,13 +3,16 @@ import imgUrl2 from '@/assets/images/s2.jpg';
 import imgUrl3 from '@/assets/images/s3.jpg';
 import imgUrl4 from '@/assets/images/s4.jpg';
 import imgUrl5 from '@/assets/images/s5.jpg';
+import { useTranslation } from 'react-i18next';
 
-import { useEffect, useRef, useState } from 'react';
 import SwiperImage from '@/components/SwiperImage';
+import { useEffect, useRef, useState } from 'react';
 
 const bannerImages = [imgUrl1, imgUrl2, imgUrl3, imgUrl4, imgUrl5];
 
 const AppHeader = ({ className }: { className?: string }) => {
+    const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
+
     const headerRef = useRef<HTMLDivElement>(null);
     const [headerHeight, setHeaderHeight] = useState(85);
     className = className || '';
@@ -34,14 +37,14 @@ const AppHeader = ({ className }: { className?: string }) => {
         <>
             <header ref={headerRef} className="fixed top-0 left-1/2 transform -translate-x-1/2 z-10 bg-red-600 text-white p-3 flex flex-col max-w-4xl w-full">
                 <div className="flex justify-between items-center mb-2 text-sm ">
-                    <span>我的账户</span>
+                    <span>{t('header.myaccount')}</span>
                     <span className="text-yellow-200 font-semibold">
-                        可用积分: <strong className="text-white">396500</strong>
+                        {t('header.score')}: <strong className="text-white">396500</strong>
                     </span>
                 </div>
 
                 <div className="flex items-center space-x-5 justify-between">
-                    <span className="font-medium text-xl text-white whitespace-nowrap">限时兑</span>
+                    <span className="font-medium text-xl text-white whitespace-nowrap">{t('header.score_limit')}</span>
 
                     {/* 搜索框容器：加 relative！ */}
                     <div className="h-8 max-w-xs flex rounded-full bg-white overflow-hidden shadow-md relative">
@@ -53,7 +56,7 @@ const AppHeader = ({ className }: { className?: string }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
 
-                        <button className="bg-orange-500 text-white px-3 py-1.5 text-sm font-medium">搜索</button>
+                        <button className="bg-orange-500 text-white px-3 py-1.5 text-sm font-medium">{t('header.search')}</button>
                     </div>
 
                     <span className="text-white text-lg whitespace-nowrap">🎧</span>
@@ -62,7 +65,7 @@ const AppHeader = ({ className }: { className?: string }) => {
             <div className={`h-[84px]`}></div>
             <section className="min-h-[170px] ">
                 {/* 占位元素：高度 = 宽度 * (高度/宽度) */}
-                <SwiperImage images={bannerImages}  autoPlayInterval={4000} className="rounded-lg" />
+                <SwiperImage images={bannerImages} autoPlayInterval={4000} className="rounded-lg" />
             </section>
         </>
     );

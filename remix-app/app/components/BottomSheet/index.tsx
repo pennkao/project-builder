@@ -13,7 +13,7 @@ export default function BottomSheet({ open, onClose, children }: BottomSheetProp
                 <button className="absolute top-0 right-0 text-gray-400 px-3 py-1" onClick={onClose}>
                     x
                 </button>
-                <div className="h-full border-none overflow-auto pt-2">{children}</div>
+                <div className="h-full border-none overflow-auto pt-6">{children}</div>
             </div>
         </div>
     );

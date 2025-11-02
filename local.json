@@ -1,0 +1,43 @@
+ {
+    br: 'Zimbabwe',
+    ko: '짐바브웨',
+    'pt-BR': 'Zimbabwe',
+    pt: 'Zimbabué',
+    nl: 'Zimbabwe',
+    hr: 'Zimbabve',
+    fa: 'زیمباوه',
+    de: 'Simbabwe',
+    es: 'Zimbabue',
+    fr: 'Zimbabwe',
+    ja: 'ジンバブエ',
+    it: 'Zimbabwe',
+    'zh-CN': '津巴布韦',
+    tr: 'Zimbabve',
+    ru: 'Зимбабве',
+    uk: 'Зімбабве',
+    pl: 'Zimbabwe',
+    hi: 'ज़िम्बाब्वे',
+    ar: 'زيمبابوي'
+  }
+
+| 语言代码  | 语言                          | 示例翻译                       |
+| ----- | --------------------------- | -------------------------- |
+| br    | 布列塔尼语（Breton）               | Sahara ar C'hornôg         |
+| ko    | 韩语（Korean）                  | 서사하라                       |
+| pt-BR | 巴西葡萄牙语（Portuguese, Brazil）  | Saara Ocidental            |
+| pt    | 葡萄牙语（Portuguese, Europe）    | Saara Ocidental            |
+| nl    | 荷兰语（Dutch）                  | Westelijke Sahara          |
+| hr    | 克罗地亚语（Croatian）             | Zapadna Sahara             |
+| fa    | 波斯语 / 法尔西语（Persian / Farsi） | جمهوری دموکراتیک عربی صحرا |
+| de    | 德语（German）                  | Westsahara                 |
+| es    | 西班牙语（Spanish）               | Sahara Occidental          |
+| fr    | 法语（French）                  | Sahara Occidental          |
+| ja    | 日语（Japanese）                | 西サハラ                       |
+| it    | 意大利语（Italian）               | Sahara Occidentale         |
+| zh-CN | 中文（简体）                      | 西撒哈拉                       |
+| tr    | 土耳其语（Turkish）               | Bati Sahra                 |
+| ru    | 俄语（Russian）                 | Западная Сахара            |
+| uk    | 乌克兰语（Ukrainian）             | Західна Сахара             |
+| pl    | 波兰语（Polish）                 | Sahara Zachodnia           |
+| hi    | 印地语（Hindi）                  | पश्चिमी सहारा              |
+| ar    | 阿拉伯语（Arabic）                | الصحراء الغربية            |

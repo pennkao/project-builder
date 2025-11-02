@@ -7,6 +7,7 @@ import url6 from '@/assets/images/product/10006.jpeg';
 import url7 from '@/assets/images/product/10007.jpeg';
 import url8 from '@/assets/images/product/10008.jpeg';
 import url9 from '@/assets/images/product/10009.jpeg';
+import BackToTopButton from '@/components/BackToTopButton';
 import BottomSheet from '@/components/BottomSheet';
 import HorizontalTabs from '@/components/HorizontalTabs';
 import SwiperImage from '@/components/SwiperImage';
@@ -61,7 +62,7 @@ const productData = {
 const ProductPage = () => {
     const [tabActiveKey, setTabActiveKey] = useState<string | null>(null);
     // data = data.replace(/<img /g, '<img loading="lazy" ');
-    const [activeIndex, setActiveIndex] = useState(0);  
+    const [activeIndex, setActiveIndex] = useState(0);
     const buyButtonRef = useRef<HTMLElement>(null); // 👈 就用 useRef
     const [open, setOpen] = useState(false);
     const reviews: ReviewType[] = [
@@ -186,11 +187,11 @@ const ProductPage = () => {
                                 />
                             ),
                         },
-                        { key: 'tab2', label: '地址 >', content: <UserInfo action={handleAction}/> },
-                        { key: 'tab3', label: '支付 >', content: <Payment /> },
+                        { key: 'tab2', label: '地址 >', content: <UserInfo action={handleAction} /> },
                     ]}
                 />
             </BottomSheet>
+            <BackToTopButton />
         </div>
     );
 };

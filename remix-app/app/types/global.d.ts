@@ -42,6 +42,7 @@ interface ProductType {
     name: string;
     image: string;
     price: number;
+    score: number;
     monthly?: string;
     tags?: string[];
     options?: ProductOptionType[];
@@ -70,6 +71,11 @@ interface DiscountInfoType {
     nextDiscount: number;
     nextDiscountNum: number;
     paymentDiscount: number;
+}
+interface CheckoutDiscountInfoType {
+    payAmount: number;
+    paymentDiscount: number;
+    shippingDiscount: number;
 }
 interface ErrorType {
     result: boolean;
@@ -121,9 +127,15 @@ interface UserInfoFormType {
 // 定义类型
 type ShippingMethod = {
     name: string;
-    price: number; // 按 0.1kg 价格
-    currency: 'USD' | 'CNY' | 'EUR';
+    fee: number; // 按 0.1kg 价格
+    currency: string;
     delivery_days: string; // 例如 "3-5"
+};
+
+type PaymentMethod = {
+    key: string;
+    name: string;
+    fee: number; // 按 0.1kg 价格
 };
 
 type ShippingOptions = Record<string, ShippingMethod[]>;

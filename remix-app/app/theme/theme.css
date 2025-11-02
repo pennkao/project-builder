@@ -46,10 +46,7 @@
     .text-selected {
         @apply text-blue-800 font-medium;
     }
-    /*底部分隔*/
-    .sp-border-main {
-        @apply border-gray-200 border-b;
-    }
+
 
     /*=================*/
     /* 基础背景 */

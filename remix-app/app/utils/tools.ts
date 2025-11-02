@@ -70,6 +70,25 @@ export function discount(num: number, price: number, payment: string, other: num
     };
 }
 
+export function checkoutPayment(total: number, paymenAmount: number, paymentMethod: number, shippingFee: number): CheckoutDiscountInfoType {
+    const paymentDiscount = total * paymentMethod;
+    return {
+        payAmount: paymenAmount + paymentDiscount + shippingFee,
+        paymentDiscount: paymentDiscount,
+        shippingDiscount: shippingFee,
+    };
+}
+
+export function checkoutPaymentFormat(num: number): string {
+    if (num === 0) {
+        return '--';
+    }
+    if (num < 0) {
+        return '-$' + Math.abs(num).toFixed(2);
+    }
+    return '+$' + num.toFixed(2);
+}
+
 export function discountMoneyFormat(num: number): string {
     if (num === 0) {
         return '--';

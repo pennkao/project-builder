@@ -1,11 +1,14 @@
 import BaseImage from '@/components/BaseImage';
 import products2 from '@/mock/products';
 
+import BackToTopButton from '@/components/BackToTopButton';
 import AppHeader from '@/features/app/AppHeader';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 const HomePage = ({ data }: any) => {
     const products = products2;
+    const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
 
     return (
         <>
@@ -32,9 +35,13 @@ const HomePage = ({ data }: any) => {
                                     <h3 className="font-medium text-gray-900 line-clamp-2 text-sm">{product.name}</h3>
 
                                     <div className="mt-2">
-                                        <div className="text-lg font-bold text-red-600">{product.points} 积分</div>
+                                        <div className="text-lg font-bold text-red-600">
+                                            {product.score} {t('common.score')}
+                                        </div>
                                         <div className="flex justify-between items-center">
-                                            <div className="text-xs text-gray-500">{product.price} 元</div>
+                                            <div className="text-xs text-gray-500">
+                                                {product.price} {t('common.currency')}
+                                            </div>
                                             <div className="text-xs text-orange-600">月兑 {product.monthly}+</div>
                                         </div>
                                     </div>
@@ -44,6 +51,9 @@ const HomePage = ({ data }: any) => {
                     ))}
                 </div>
             </div>
+            {/* <h1>{t('hello')}</h1>
+            <p>{t('welcome')}</p> */}
+            <BackToTopButton />
         </>
     );
 };
