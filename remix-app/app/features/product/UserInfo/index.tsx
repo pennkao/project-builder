@@ -1,10 +1,9 @@
 import { ComboBox, haveState } from '@/components/AddressSelector';
+import { Keys } from '@/config/keys';
 import countriesJson from '@/data/countries.json';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-
-import { useEffect, useRef, useState } from 'react';
-export const userInfoKey = '--google:vtx:user:info';
 const initialUserInfoForm: UserInfoFormType = {
     country: { code: '', name: '' },
     state: { code: '', name: '' },
@@ -51,7 +50,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
     const hydratedRef = useRef(false);
 
     useEffect(() => {
-        const stored = localStorage.getItem(userInfoKey);
+        const stored = localStorage.getItem(Keys.UseInfo);
         if (!stored) {
             return;
         }
@@ -112,7 +111,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
     const handleSubmit = () => {
         if (!formRef.current) return;
 
-        localStorage.setItem(userInfoKey, JSON.stringify(useInfoForm));
+        localStorage.setItem(Keys.UseInfo, JSON.stringify(useInfoForm));
         console.log('userInfo', useInfoForm);
         if (!useInfoForm.email || !useInfoForm.zipCode || !useInfoForm.firstName || !useInfoForm.lastName || !useInfoForm.address || !useInfoForm.country.name || !useInfoForm.city.name) {
             alert('请填写完整信息');
@@ -199,7 +198,15 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
                             />
                         </>
                     )}
-                    <input type="text" name="zipCode" placeholder={t('userinfo.zip_code')} required className={className} value={useInfoForm?.zipCode || ''} onChange={(e) => handleUserInfoChange('zipCode', e.target.value)} />
+                    <input
+                        type="text"
+                        name="zipCode"
+                        placeholder={t('userinfo.zip_code')}
+                        required
+                        className={className}
+                        value={useInfoForm?.zipCode || ''}
+                        onChange={(e) => handleUserInfoChange('zipCode', e.target.value)}
+                    />
                     <input type="number" name="phone" placeholder={t('userinfo.phone')} required className={className} value={useInfoForm?.phone || ''} onChange={(e) => handleUserInfoChange('phone', e.target.value)} />
                     {/* 隐藏 input 提交 code */}
                     <input type="hidden" name="country" value={address.country || useInfoForm.country?.name || ''} required />

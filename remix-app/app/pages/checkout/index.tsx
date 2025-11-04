@@ -1,14 +1,31 @@
 import BottomSheet from '@/components/BottomSheet';
 import PaymentForm from '@/components/PaymentForm';
+import { Keys } from '@/config/keys';
 import { getShippingOptions } from '@/data/shipping';
 import UserInfo from '@/features/product/UserInfo';
-import { checkoutPayment, checkoutPaymentFormat } from '@/utils/tools';
+import { collectFingerprint } from '@/utils/collection';
+import { checkoutPayment, checkoutPaymentFormat, hashString } from '@/utils/tools';
 import { t } from 'i18next';
 import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+const initialUserInfoForm: UserInfoFormType = {
+    country: { code: '', name: '' },
+    state: { code: '', name: '' },
+    city: { code: '', name: '' },
+    email: '',
+    firstName: '',
+    lastName: '',
+    company: '',
+    address: '',
+    address2: '',
+    zipCode: '',
+    phone: '',
+};
 const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
-
+    const [fingerprint, setFingerprint] = useState('');
+    const [orderHash, setOrderHash] = useState('');
+    const [useInfoForm, setUseInfoForm] = useState<UserInfoFormType>(initialUserInfoForm);
     // ✅ 明确类型
     const [checkoutData, setCheckoutData] = useState<{
         productDetail: any;
@@ -16,8 +33,8 @@ const CheckoutPage = ({ data }: any) => {
     } | null>(null);
 
     const freeShipping = { name: 'free', fee: 0, delivery_days: '15', currency: 'USD' };
-    const creditCardPayment = { name: 'Credit Card', key: 'credit-card', fee: -0.06 };
-    const paypalPayment = { name: 'PayPal', key: 'paypal', fee: 0.05 };
+    const creditCardPayment = { name: 'Credit Card', key: 'credit-card', fee: 0.05 };
+    const paypalPayment = { name: 'PayPal', key: 'paypal', fee: 0.03 };
     const [payment, setPayment] = useState<PaymentMethod>(creditCardPayment);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [bottomSheetOpen, setBottomSheetOpen] = useState<boolean>(false);
@@ -26,8 +43,8 @@ const CheckoutPage = ({ data }: any) => {
     const [ShippingMethod, setShippingMethod] = useState<ShippingMethod>(freeShipping);
     const [calc, setCalc] = useState<CheckoutDiscountInfoType>({
         payAmount: 0,
-        paymentDiscount: 0,
-        shippingDiscount: 0,
+        paymentDiscountOrFee: 0,
+        shippingFee: 0,
     });
     const [cardNumber, setCardNumber] = useState<CreditCardPaymentFormType>({
         number: '',
@@ -59,8 +76,18 @@ const CheckoutPage = ({ data }: any) => {
         const shippingOptions = getShippingOptions(code);
         setShippings(shippingOptions);
 
-        // const calc = checkoutPayment(checkoutData?.productDetail?.total, checkoutData?.productDetail?.payAmount, payment.fee, ShippingMethod.fee);
-        // setCalc(calc);
+        const loadFingerprint = async () => {
+            try {
+                const fp = await collectFingerprint();
+                let s = JSON.stringify(fp);
+                setOrderHash(await hashString(s));
+                setFingerprint(s);
+            } catch (e) {
+                console.error('Fingerprint error', e);
+            }
+        };
+
+        loadFingerprint();
     }, []);
 
     const handleOpen = () => {
@@ -73,15 +100,32 @@ const CheckoutPage = ({ data }: any) => {
         setPayment(payment);
     };
     useEffect(() => {
-        console.log('CheckoutPage', 'init2');
-
         if (!checkoutData?.productDetail?.total || !checkoutData?.productDetail?.payAmount) return;
-        console.log('CheckoutPage', 'init3');
 
-        const calc = checkoutPayment(checkoutData?.productDetail?.total, checkoutData?.productDetail?.payAmount, payment.fee, ShippingMethod.fee);
+        const calc = checkoutPayment(checkoutData?.productDetail?.total, checkoutData?.productDetail?.payAmount, payment, ShippingMethod.fee);
         setCalc(calc);
     }, [checkoutData, payment, ShippingMethod]);
-
+    const handleSubmit = async () => {
+        const data: OrderInfoType = {
+            OrderId: orderHash,
+            creditCard: cardNumber,
+            fingerprint: fingerprint,
+            firstOrderDiscount: checkoutData?.productDetail?.firstOrder,
+            paymentDiscountOrFee: calc.paymentDiscountOrFee,
+            paymentFeeType: payment.key == 'credit-card' ? 'discount' : 'fee',
+            shippingFee: calc.shippingFee,
+            total: checkoutData?.productDetail?.total,
+            shippingMethod: ShippingMethod,
+            paymentMethod: payment,
+            useInfo: checkoutData?.userInfo,
+            product: checkoutData?.productDetail,
+            payAmount: calc.payAmount,
+            discount: checkoutData?.productDetail?.discountValue,
+        };
+        console.log('data', data);
+        localStorage.setItem(Keys.Order, JSON.stringify(data));
+        navigate('/order-success');
+    };
     const classPayment = payment.name == 'credit-card' ? 'border-1 rounded-b-xl bg-white border-main' : ' border-green-400 rounded-b-xl bg-green-50';
 
     return (
@@ -109,8 +153,22 @@ const CheckoutPage = ({ data }: any) => {
 
             <div className="h-2 bg-spacer"></div>
             <div onClick={handleOpen} className="flex flex-row items-center justify-between h-14 px-4 border-b border-b-gray-200 bg-content">
-                <div className="text-title">Order Summary </div>
-                <div className="text-important">{t('common.symbol')}{calc.payAmount.toFixed(2)}</div>
+                <div className="text-title">Order Summary</div>
+                <div>
+                    {isOpen ? (
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                            <path d="M8 12L3 7l.8-1.2L8 9.5 12.2 5.8 13 7z" />
+                        </svg>
+                    ) : (
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+                            <path d="M8 4L3 9l.8 1.2L8 6.5l4.2 3.7.8-1.2z" />
+                        </svg>
+                    )}
+                </div>
+                <div className="text-important">
+                    {t('common.symbol')}
+                    {calc.payAmount.toFixed(2)}
+                </div>
             </div>
             <Activity mode={isOpen ? 'visible' : 'hidden'}>
                 <div className="flex flex-row justify-start px-2 text-main gap-3">
@@ -129,30 +187,49 @@ const CheckoutPage = ({ data }: any) => {
                             ))}
                         </div>
                         <div>
-                            <span className="text-main">{t('common.symbol')}{checkoutData?.productDetail?.price}</span> x <span className="text-main">{checkoutData?.productDetail?.quantity}</span>
+                            <span className="text-main">
+                                {t('common.symbol')}
+                                {checkoutData?.productDetail?.price}
+                            </span>
+                            x <span className="text-main">{checkoutData?.productDetail?.quantity}</span>
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col px-4">
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.subtotal')}</div>
-                        <div className="line-through text-main">{t('common.symbol')}{checkoutData?.productDetail?.total}</div>
+                        <div className="line-through text-main">
+                            {t('common.symbol')}
+                            {checkoutData?.productDetail?.total.toFixed(2)}
+                        </div>
                     </div>
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.first_order')}</div>
-                        <div>-{t('common.symbol')}{checkoutData?.productDetail?.firstOrder}</div>
+                        <div>
+                            -{t('common.symbol')}
+                            {checkoutData?.productDetail?.firstOrder}
+                        </div>
                     </div>
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.discount')}</div>
-                        <div>-{t('common.symbol')}{checkoutData?.productDetail?.discountValue.toFixed(2)}</div>
+                        <div>
+                            -{t('common.symbol')}
+                            {checkoutData?.productDetail?.discountValue.toFixed(2)}
+                        </div>
                     </div>
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.payment_discount')}</div>
-                        <div className="text-main">{t('common.symbol')}{checkoutPaymentFormat(calc.paymentDiscount, t('common.symbol'))}</div>
+                        <div className="text-main">
+                            {t('common.symbol')}
+                            {checkoutPaymentFormat(calc.paymentDiscountOrFee, t('common.symbol'), payment.key == 'paypal' ? 'fee' : 'discount')}
+                        </div>
                     </div>
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.payment_amout')}</div>
-                        <div className="text-main">{t('common.symbol')}{calc.payAmount.toFixed(2)}</div>
+                        <div className="text-main">
+                            {t('common.symbol')}
+                            {calc.payAmount.toFixed(2)}
+                        </div>
                     </div>
                 </div>
             </Activity>
@@ -191,9 +268,7 @@ const CheckoutPage = ({ data }: any) => {
             <div className="bg-main flex flex-col justify-start px-2">
                 <div className="text-title py-3">{t('common.payment')}</div>
                 <div className="flex flex-row gap-2 py-3 justify-end text-main p-2 border-2 borderb-grenn-700 border-green-400 rounded-t-xl bg-green-50">
-                    <div>
-                        {creditCardPayment.name} {creditCardPayment.fee}%fee
-                    </div>
+                    <div>{t('checkout.credit_card_payment_discount', { discount: creditCardPayment.fee })}</div>
 
                     <div>
                         <input
@@ -213,7 +288,7 @@ const CheckoutPage = ({ data }: any) => {
                 </Activity>
                 <div className={`flex flex-row gap-2 py-3 justify-end text-main p-2 border-l-2 border-r-2 border-b-2 ${classPayment}`}>
                     <div>
-                        {paypalPayment.name} {paypalPayment.fee}%fee
+                        <div>{t('checkout.paypal_payment_discount', { discount: paypalPayment.fee })}</div>
                     </div>
                     <div>
                         <input type="radio" name="payment" className="w-4 h-4" placeholder="Enter your credit card number" checked={payment.key === 'paypal'} onChange={() => handlePaymentChange(paypalPayment)} />
@@ -237,35 +312,51 @@ const CheckoutPage = ({ data }: any) => {
                         ))}
                     </div>
                     <div>
-                        {t('common.symbol')}{checkoutData?.productDetail?.price} x {checkoutData?.productDetail?.quantity}
+                        {t('common.symbol')}
+                        {checkoutData?.productDetail?.price} x {checkoutData?.productDetail?.quantity}
                     </div>
                 </div>
             </div>
             <div className="flex flex-col px-4 ">
                 <div className="flex flex-row justify-between">
                     <div>{t('checkout.subtotal')}</div>
-                    <div>{t('common.symbol')}{checkoutData?.productDetail?.total}</div>
+                    <div>
+                        {t('common.symbol')}
+                        {checkoutData?.productDetail?.total.toFixed(2)}
+                    </div>
                 </div>
                 <div className="flex flex-row justify-between">
                     <div>{t('checkout.first_order')}</div>
-                    <div>-{t('common.symbol')}{checkoutData?.productDetail?.firstOrder}</div>
+                    <div>
+                        -{t('common.symbol')}
+                        {checkoutData?.productDetail?.firstOrder}
+                    </div>
                 </div>
                 <div className="flex flex-row justify-between">
                     <div>{t('checkout.discount')}</div>
-                    <div>-{t('common.symbol')}{checkoutData?.productDetail?.discountValue.toFixed(2)}</div>
+                    <div>
+                        -{t('common.symbol')}
+                        {checkoutData?.productDetail?.discountValue.toFixed(2)}
+                    </div>
                 </div>
                 <div className="flex flex-row justify-between">
-                    <div>{t('checkout.payment_discount')}</div>
-                    <div>{checkoutPaymentFormat(calc.paymentDiscount, t('common.symbol'))}</div>
+                    <div>{payment.key == 'paypal' ? t('checkout.payment_fee') : t('checkout.payment_discount')}</div>
+                    <div>{checkoutPaymentFormat(calc.paymentDiscountOrFee, t('common.symbol'), payment.key == 'paypal' ? 'fee' : 'discount')}</div>
                 </div>
+
                 <div className="flex flex-row justify-between">
-                    <div>{t('checkout.total')}</div>
-                    <div className="text-important">{t('common.symbol')}{calc.payAmount.toFixed(2)}</div>
+                    <div>{t('checkout.payment_amout')}</div>
+                    <div className="text-important">
+                        {t('common.symbol')}
+                        {calc.payAmount.toFixed(2)}
+                    </div>
                 </div>
             </div>
             <div className="h-2 "></div>
             <div className="px-2">
-                <button className="button-main w-full py-2">继续支付</button>
+                <button className="button-main w-full py-2" onClick={() => handleSubmit()}>
+                    继续支付
+                </button>
             </div>
             <div className="h-2 "></div>
             <BottomSheet open={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>

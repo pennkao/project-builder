@@ -3,7 +3,6 @@ import { loader } from '@/loaders/root.server'; // ✅ 只引入函数
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Outlet, Scripts, ScrollRestoration, useLoaderData } from 'react-router';
-import { collectFingerprint } from './utils/collection';
 
 import i18n from './i18n';
 import styles from './main.css?url';
@@ -26,8 +25,7 @@ export default function App() {
         document.documentElement.lang = lang;
         const clientLang = Intl.NumberFormat().resolvedOptions().locale;
         document.cookie = `--google:vtx:lang=${clientLang}; path=/; max-age=${60 * 60 * 24 * 365}`;
-
-        collectFingerprint();
+        if (typeof window === 'undefined') return; // SSR 时跳过
     }, [lang, resources]);
 
     if (!ready) {
@@ -43,6 +41,7 @@ export default function App() {
         </I18nextProvider>
     );
 }
+
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">

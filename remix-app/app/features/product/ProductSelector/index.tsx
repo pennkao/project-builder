@@ -1,7 +1,7 @@
+import { Keys } from '@/config/keys';
 import { buildJsonByOrderKeys, discount, discountMoneyFormat, moneyFormat } from '@/utils/tools';
 import { t } from 'i18next';
 import { useEffect, useMemo, useState } from 'react';
-const productSelectedKey = '--google:vtx:product:selected';
 const FirstOrder = 3;
 export default function ProductSelector({ options, skus, action, product }: ProductSelectorProps) {
     const [quantity, setQuantity] = useState(1);
@@ -85,7 +85,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
     };
 
     useEffect(() => {
-        const productDefault = JSON.parse(localStorage.getItem(productSelectedKey) || '{}');
+        const productDefault = JSON.parse(localStorage.getItem(Keys.Product) || '{}');
 
         if (productDefault) {
             setQuantity(productDefault?.quantity || 1);
@@ -111,7 +111,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
             discountValue: discountValue.discount,
             payAmount: discountValue.payAmount,
         };
-        localStorage.setItem(productSelectedKey, JSON.stringify(productSelected));
+        localStorage.setItem(Keys.Product, JSON.stringify(productSelected));
         action('tab2');
     };
     return (

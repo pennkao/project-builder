@@ -63,11 +63,16 @@
 
     "checkout.edit": "编辑",
     "checkout.subtotal": "总计",
+
     "checkout.first_order": "首次订单",
     "checkout.discount": "优惠",
     "checkout.payment_discount": "支付优惠",
+    "checkout.payment_fee": "支付税",
+
     "checkout.payment_amout": "支付金额",
     "checkout.shipping": "配送方式",
+    "checkout.credit_card_payment_discount": "信用卡支付优惠{{discount}}%",
+    "checkout.paypal_payment_discount": "PayPal支付手续费{{discount}}%",
 
     "hello": "欢迎使用我的 DApp",
 

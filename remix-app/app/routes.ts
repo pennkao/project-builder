@@ -8,6 +8,7 @@ export default [
         route('test', 'routes/test.tsx'),
         route('detect', 'routes/detect.tsx'),
         route('checkout', 'routes/checkout.tsx'),
+        route('order-success', 'routes/order.tsx'),
         // route("contacts/:contactId/edit", "routes/edit-contact.tsx"),
         // route("contacts/:contactId/destroy", "routes/destroy-contact.tsx"),
         // route("test", "routes/test.tsx"),

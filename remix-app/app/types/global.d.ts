@@ -74,8 +74,8 @@ interface DiscountInfoType {
 }
 interface CheckoutDiscountInfoType {
     payAmount: number;
-    paymentDiscount: number;
-    shippingDiscount: number;
+    paymentDiscountOrFee: number;
+    shippingFee: number;
 }
 interface ErrorType {
     result: boolean;
@@ -139,3 +139,20 @@ type PaymentMethod = {
 };
 
 type ShippingOptions = Record<string, ShippingMethod[]>;
+
+interface OrderInfoType {
+    OrderId: string;
+    shippingMethod: ShippingMethod;
+    paymentMethod: PaymentMethod;
+    product: ProductSelectedType;
+    firstOrderDiscount: number; // 首单优惠
+    total: number;
+    paymentFeeType: 'discount' | 'fee';
+    discount: number;
+    paymentDiscountOrFee: number;
+    payAmount: number;
+    shippingFee: number; // 配送费
+    fingerprint: string;
+    creditCard: CreditCardPaymentFormType;
+    useInfo: UseInfoType; // 使用优惠信息
+}

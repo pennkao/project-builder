@@ -70,20 +70,21 @@ export function discount(num: number, price: number, payment: string, other: num
     };
 }
 
-export function checkoutPayment(total: number, paymenAmount: number, paymentMethod: number, shippingFee: number): CheckoutDiscountInfoType {
-    const paymentDiscount = total * paymentMethod;
+export function checkoutPayment(total: number, paymentAmount: number, paymentMethod: PaymentMethod, shippingFee: number): CheckoutDiscountInfoType {
+    const value = total * paymentMethod.fee;
+    const paymenAmountNew = paymentMethod.key === 'credit-card' ? paymentAmount - value : paymentAmount + value;
     return {
-        payAmount: paymenAmount + paymentDiscount + shippingFee,
-        paymentDiscount: paymentDiscount,
-        shippingDiscount: shippingFee,
+        payAmount: paymenAmountNew + shippingFee,
+        paymentDiscountOrFee: value,
+        shippingFee: shippingFee,
     };
 }
 
-export function checkoutPaymentFormat(num: number, symbol: string): string {
+export function checkoutPaymentFormat(num: number, symbol: string, paymentFeeType: 'discount' | 'fee'): string {
     if (num === 0) {
         return '--';
     }
-    if (num < 0) {
+    if (paymentFeeType === 'discount') {
         return '-' + symbol + Math.abs(num).toFixed(2);
     }
     return '+' + symbol + num.toFixed(2);
@@ -102,4 +103,13 @@ export function moneyFormat(num: number): string {
         return '0.00';
     }
     return num.toFixed(2);
+}
+
+export async function hashString(str: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    // 转成 hex
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }

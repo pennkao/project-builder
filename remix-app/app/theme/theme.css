@@ -47,7 +47,6 @@
         @apply text-blue-800 font-medium;
     }
 
-
     /*=================*/
     /* 基础背景 */
     /* 页面主背景 */
@@ -68,7 +67,10 @@
     .bg-card {
         @apply bg-gray-100; /* 独立信息块，卡片/面板 */
     }
-
+    /* 具体模块：成功状态 */
+    .bg-success {
+        @apply bg-green-50/30; /* 成功状态背景 */
+    }
     /* 具体模块：文章/文本内容 */
     .bg-content {
         @apply bg-green-50/30;
@@ -133,5 +135,13 @@
 
     .border-main {
         @apply border-gray-300;
+    }
+
+    /*特殊区域*/
+    .card-success {
+        @apply rounded-xl border-2 border-green-200 bg-green-50/30 text-black;
+    }
+    .spacer {
+        @apply w-full h-2 bg-gray-200;
     }
 }
