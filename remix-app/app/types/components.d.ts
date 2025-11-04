@@ -59,3 +59,12 @@ interface SwiperImageProps {
     className?: string;
     onIndexChange?: (index: number) => void;
 }
+
+interface MessageBoxProps {
+    message: string;
+    type?: MessageBoxType;
+    visible: boolean;
+    onClose: () => void;
+    autoCloseMs?: number;
+    exitAnimationMs?: number;
+}

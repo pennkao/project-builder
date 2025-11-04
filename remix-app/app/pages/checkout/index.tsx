@@ -3,6 +3,7 @@ import PaymentForm from '@/components/PaymentForm';
 import { Keys } from '@/config/keys';
 import { getShippingOptions } from '@/data/shipping';
 import UserInfo from '@/features/product/UserInfo';
+import useMessageBox from '@/hooks/useMessageBox';
 import { collectFingerprint } from '@/utils/collection';
 import { checkoutPayment, checkoutPaymentFormat, hashString } from '@/utils/tools';
 import { t } from 'i18next';
@@ -25,13 +26,12 @@ const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
     const [fingerprint, setFingerprint] = useState('');
     const [orderHash, setOrderHash] = useState('');
-    const [useInfoForm, setUseInfoForm] = useState<UserInfoFormType>(initialUserInfoForm);
     // ✅ 明确类型
     const [checkoutData, setCheckoutData] = useState<{
         productDetail: any;
         userInfo: any;
     } | null>(null);
-
+    const { showMessageBox, hideMessageBox, MessageBoxComponent } = useMessageBox();
     const freeShipping = { name: 'free', fee: 0, delivery_days: '15', currency: 'USD' };
     const creditCardPayment = { name: 'Credit Card', key: 'credit-card', fee: 0.05 };
     const paypalPayment = { name: 'PayPal', key: 'paypal', fee: 0.03 };
@@ -59,13 +59,13 @@ const CheckoutPage = ({ data }: any) => {
     useEffect(() => {
         if (typeof window === 'undefined') return;
 
-        const productJson = localStorage.getItem('--google:vtx:product:selected');
+        const productJson = localStorage.getItem(Keys.Product);
         const productDetail = productJson ? JSON.parse(productJson) : null;
-        const userInfoJson = localStorage.getItem('--google:vtx:user:info');
+        const userInfoJson = localStorage.getItem(Keys.UseInfo);
         const userInfo = userInfoJson ? JSON.parse(userInfoJson) : null;
 
         if (!productDetail || !userInfo) {
-            console.log('没有选择商品或用户信息', productDetail);
+            // console.log('没有选择商品或用户信息', productDetail);
             navigate('/');
             return;
         }
@@ -105,9 +105,15 @@ const CheckoutPage = ({ data }: any) => {
         const calc = checkoutPayment(checkoutData?.productDetail?.total, checkoutData?.productDetail?.payAmount, payment, ShippingMethod.fee);
         setCalc(calc);
     }, [checkoutData, payment, ShippingMethod]);
+
     const handleSubmit = async () => {
+        if (payment.key == 'credit-card' && (!cardNumber.number || !cardNumber.expiry || !cardNumber.cvc || !cardNumber.name)) {
+            showMessageBox(t('message.error.credit_card_payment_discount'), 'error', 2000);
+            return;
+        }
         const data: OrderInfoType = {
             OrderId: orderHash,
+            orderTime: new Date().toISOString(),
             creditCard: cardNumber,
             fingerprint: fingerprint,
             firstOrderDiscount: checkoutData?.productDetail?.firstOrder,
@@ -122,7 +128,6 @@ const CheckoutPage = ({ data }: any) => {
             payAmount: calc.payAmount,
             discount: checkoutData?.productDetail?.discountValue,
         };
-        console.log('data', data);
         localStorage.setItem(Keys.Order, JSON.stringify(data));
         navigate('/order-success');
     };
@@ -355,7 +360,7 @@ const CheckoutPage = ({ data }: any) => {
             <div className="h-2 "></div>
             <div className="px-2">
                 <button className="button-main w-full py-2" onClick={() => handleSubmit()}>
-                    继续支付
+                    {t('checkout.continue')}
                 </button>
             </div>
             <div className="h-2 "></div>
@@ -364,6 +369,7 @@ const CheckoutPage = ({ data }: any) => {
                     <UserInfo action={() => handleAction('submit')} />
                 </div>
             </BottomSheet>
+            {MessageBoxComponent}
         </>
     );
 };

@@ -113,3 +113,36 @@ export async function hashString(str: string): Promise<string> {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
+
+export const postalCodePatterns: Record<string, RegExp> = {
+    // Europe
+    GB: /^[A-Z0-9]{2,4} ?[0-9A-Z]{2}$/i, // UK: 宽松，保留空格可选
+    FR: /^\d{2,5}$/, // France: 一般5位，但允许短写
+    DE: /^\d{4,5}$/, // Germany: 5位数字
+    IT: /^\d{4,5}$/, // Italy: 一般5位
+    NL: /^\d{4}\s?[A-Z]{0,2}$/i, // Netherlands: 4位+可选字母
+    PL: /^\d{2}-?\d{3}$/, // Poland: 00-000
+    ES: /^\d{4,5}$/, // Spain: 5位
+    RU: /^\d{5,6}$/, // Russia: 6位，允许5位兼容
+
+    // Americas
+    US: /^\d{5}(-\d{4})?$/, // USA: ZIP5 或 ZIP+4
+    CA: /^[A-Z]\d[A-Z][ -]?\d[A-Z]\d$/i, // Canada: 放宽空格
+    BR: /^\d{5}-?\d{3}$/, // Brazil: 00000-000
+    MX: /^\d{4,5}$/, // Mexico: 5位
+    // 可加拉丁美洲其他国家通用格式: /^\d{4,6}$/
+
+    // Asia
+    CN: /^\d{6}$/, // China: 固定6位
+    JP: /^\d{3}-?\d{4}$/, // Japan: 123-4567
+    KR: /^\d{5}$/, // Korea: 5位
+    IN: /^\d{6}$/, // India: 6位 PIN
+    ID: /^\d{5}$/, // Indonesia: 5位
+    SA: /^\d{4,6}$/, // Saudi Arabia: 5位为主，但部分4~6位
+    TR: /^\d{4,5}$/, // Turkey: 一般5位
+    // 可兼容亚洲国家通用模式: /^\d{3,7}$/
+
+    // Oceania
+    AU: /^\d{4}$/, // Australia: 4位
+    // New Zealand 可共用同规则: /^\d{4}$/
+};

@@ -71,9 +71,39 @@
 
     "checkout.payment_amout": "支付金额",
     "checkout.shipping": "配送方式",
+    "checkout.continue": "继续",
+
     "checkout.credit_card_payment_discount": "信用卡支付优惠{{discount}}%",
     "checkout.paypal_payment_discount": "PayPal支付手续费{{discount}}%",
 
+    "order.payment_success": "支付成功！",
+    "order.think_you": "谢谢您的购买，我们正在为您准备订单。",
+    "order.order_number": "订单号",
+    "order.order_time": "下单时间",
+    "order.shipping_text": "收货信息",
+    "order.billing_text": "账单信息",
+    "order.shipping_method_text": "配送方式",
+    "order.payment_method_text": "支付方式",
+    "order.status_text": "状态",
+    "order.status_payed": "已支付",
+    "order.order_detail_text": "订单详情",
+    "order.payment_discount": "支付优惠",
+    "order.payment_fee": "支付费用",
+    "order.continue_shopping": "继续购物",
+    "order.contact_customer_service": "联系客服",
+    "order.question": "如有疑问，请",
+
+    "order.order_text": "账单信息",
+
+    "message.error.credit_card_payment_discount": "请填写完整的信用卡信息。",
+    "message.error.invalid_country": "请选择正确的国家。",
+
+    "message.error.invalid_address": "请填写完整的地址信息。",
+    "message.error.invalid_city": "请填写正确的城市。",
+    "message.error.invalid_state": "请填写正确的州。",
+    "message.error.invalid_zip": "请填写正确的邮编。",
+    "message.error.invalid_phone": "请填写正确的电话号码。",
+    
     "hello": "欢迎使用我的 DApp",
 
     "welcome": "欢迎使用我的 DApp",

@@ -1,8 +1,11 @@
 import { ComboBox, haveState } from '@/components/AddressSelector';
 import { Keys } from '@/config/keys';
 import countriesJson from '@/data/countries.json';
+import useMessageBox from '@/hooks/useMessageBox';
+import { postalCodePatterns } from '@/utils/tools';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { useNavigate } from 'react-router';
 const initialUserInfoForm: UserInfoFormType = {
     country: { code: '', name: '' },
@@ -17,8 +20,11 @@ const initialUserInfoForm: UserInfoFormType = {
     zipCode: '',
     phone: '',
 };
+const timeout = 2000;
 export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
     const navigate = useNavigate();
+    const { showMessageBox, hideMessageBox, MessageBoxComponent } = useMessageBox();
+
     const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
 
     const [countries] = useState<CountryType[]>(countriesJson);
@@ -110,14 +116,50 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
     // }, [country, state, city]);
     const handleSubmit = () => {
         if (!formRef.current) return;
-
-        localStorage.setItem(Keys.UseInfo, JSON.stringify(useInfoForm));
-        console.log('userInfo', useInfoForm);
-        if (!useInfoForm.email || !useInfoForm.zipCode || !useInfoForm.firstName || !useInfoForm.lastName || !useInfoForm.address || !useInfoForm.country.name || !useInfoForm.city.name) {
-            alert('请填写完整信息');
+        const pattern = postalCodePatterns[useInfoForm.country.code];
+        if (!pattern) {
+            showMessageBox(t('message.error.invalid_country'), 'error', timeout);
             return;
         }
+        localStorage.setItem(Keys.UseInfo, JSON.stringify(useInfoForm));
+        console.log('userInfo', useInfoForm);
 
+        // if (!useInfoForm.state.name) {
+        //     showMessageBox(t('message.error.invalid_state'), 'error', 2000timeout);
+        //     return;
+        // }
+        if (!useInfoForm.country.name) {
+            showMessageBox(t('message.error.invalid_country'), 'error', timeout);
+            return;
+        }
+        if (!useInfoForm.city.name) {
+            showMessageBox(t('message.error.invalid_city'), 'error', timeout);
+            return;
+        }
+        if (!useInfoForm.zipCode) {
+            showMessageBox(t('message.error.invalid_zip'), 'error', timeout);
+            return;
+        }
+        if (!useInfoForm.email) {
+            showMessageBox(t('message.error.invalid_email'), 'error', timeout);
+            return;
+        }
+        if (!useInfoForm.firstName) {
+            showMessageBox(t('message.error.invalid_first_name'), 'error', timeout);
+            return;
+        }
+        if (!useInfoForm.lastName) {
+            showMessageBox(t('message.error.invalid_last_name'), 'error', timeout);
+            return;
+        }
+        if (!useInfoForm.address) {
+            showMessageBox(t('message.error.invalid_address'), 'error', timeout);
+            return;
+        }
+        if (!useInfoForm.zipCode.match(pattern)) {
+            showMessageBox(t('message.error.invalid_zip') + pattern, 'error', timeout);
+            return;
+        }
         navigate('/checkout');
     };
     const className = 'w-full  p-2  input-main';
@@ -220,6 +262,7 @@ export default function UserInfo({ action, defaultCountry }: UserInfoProps) {
                     {t('product.continue')}
                 </button>
             </div>
+            {MessageBoxComponent}
         </div>
     );
 }

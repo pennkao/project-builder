@@ -11,6 +11,9 @@
     .text-main {
         @apply text-gray-700 font-normal text-base;
     }
+    .text-main-sm {
+        @apply text-black font-normal text-sm;
+    }
     .text-label {
         @apply text-black font-semibold text-sm;
     }

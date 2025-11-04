@@ -142,6 +142,7 @@ type ShippingOptions = Record<string, ShippingMethod[]>;
 
 interface OrderInfoType {
     OrderId: string;
+    orderTime: string; // 订单时间
     shippingMethod: ShippingMethod;
     paymentMethod: PaymentMethod;
     product: ProductSelectedType;
@@ -156,3 +157,5 @@ interface OrderInfoType {
     creditCard: CreditCardPaymentFormType;
     useInfo: UseInfoType; // 使用优惠信息
 }
+
+type MessageBoxType = 'success' | 'error' | 'info' | 'warning';
