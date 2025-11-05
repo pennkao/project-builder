@@ -159,3 +159,13 @@ interface OrderInfoType {
 }
 
 type MessageBoxType = 'success' | 'error' | 'info' | 'warning';
+
+interface CrypoType {
+    id: string;
+    name: string;
+    network: string;
+    symbol: string;
+    baseId: string;
+    address: string;
+    confirmTime: number; // 确认时间
+}

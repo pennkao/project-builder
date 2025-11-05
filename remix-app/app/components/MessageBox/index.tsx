@@ -7,7 +7,7 @@ const typeClasses: Record<MessageBoxType, string> = {
     warning: 'bg-yellow-500 text-black',
 };
 
-export default function MessageBox({ message, type = 'info', visible, onClose, autoCloseMs = 6000, exitAnimationMs = 200 }: MessageBoxProps) {
+export default function MessageBox({ message, closeButton = true, type = 'info', visible, onClose, autoCloseMs = 6000, exitAnimationMs = 200 }: MessageBoxProps) {
     const [rendered, setRendered] = useState(visible);
     const [active, setActive] = useState(false);
 
@@ -38,24 +38,26 @@ export default function MessageBox({ message, type = 'info', visible, onClose, a
         <div className="fixed inset-0 flex items-center justify-center z-[999]" aria-live="polite">
             <div
                 className={[
-                    'max-w-sm w-auto px-4 py-3 rounded-lg shadow-lg text-white flex items-center justify-between gap-3 pointer-events-auto',
+                    'max-w-[80%] w-auto px-4 py-3 rounded-lg shadow-lg text-white flex items-center justify-between gap-3 pointer-events-auto',
                     'transform transition-all duration-200 ease-out',
                     active ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3',
                     typeClasses[type],
                 ].join(' ')}
                 role="status"
             >
-                <div className="flex-1 pr-2 break-words">{message}</div>
-                <button
-                    onClick={() => {
-                        setActive(false);
-                        setTimeout(() => onClose(), exitAnimationMs);
-                    }}
-                    aria-label="Close toast"
-                    className="ml-2 text-lg leading-none select-none focus:outline-none"
-                >
-                    ✕
-                </button>
+                <div className="flex-1 pr-2 break-words text-center">{message}</div>
+                {closeButton && (
+                    <button
+                        onClick={() => {
+                            setActive(false);
+                            setTimeout(() => onClose(), exitAnimationMs);
+                        }}
+                        aria-label="Close toast"
+                        className="ml-2 text-lg leading-none select-none focus:outline-none"
+                    >
+                        ✕
+                    </button>
+                )}
             </div>
         </div>
     );

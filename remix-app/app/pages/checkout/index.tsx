@@ -3,6 +3,7 @@ import CountdownWithText from '@/components/CountdownWithText';
 import PaymentForm from '@/components/PaymentForm';
 import { Keys } from '@/config/keys';
 import { getShippingOptions } from '@/data/shipping';
+import CryptoPayment from '@/features/CryptoPayment';
 import UserInfo from '@/features/UserInfo';
 import { useJump } from '@/hooks/useJump';
 import useMessageBox from '@/hooks/useMessageBox';
@@ -11,11 +12,14 @@ import { checkoutPayment, checkoutPaymentFormat, hashString } from '@/utils/tool
 import { t } from 'i18next';
 import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+const crypt = true;
+
 const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
     const [fingerprint, setFingerprint] = useState('');
     const [orderHash, setOrderHash] = useState('');
     const { isLoading, DoJump, Loading } = useJump('checkout-user-info');
+    const { DoJump: DoJumpSuccess } = useJump('checkout');
 
     // ✅ 明确类型
     const [checkoutData, setCheckoutData] = useState<{
@@ -56,7 +60,7 @@ const CheckoutPage = ({ data }: any) => {
 
         if (!productDetail || !userInfo) {
             // console.log('没有选择商品或用户信息', productDetail);
-            navigate('/');
+            // navigate('/');
             return;
         }
         setCheckoutData({ productDetail, userInfo });
@@ -120,7 +124,8 @@ const CheckoutPage = ({ data }: any) => {
         };
         localStorage.setItem(Keys.Order, JSON.stringify(data));
         localStorage.removeItem(Keys.UseInfo);
-        DoJump();
+        // DoJump();
+        DoJumpSuccess();
         // navigate('/order-success');
     };
     const classPayment = payment.name == 'credit-card' ? 'border-1 rounded-b-xl bg-white border-main' : ' border-green-400 rounded-b-xl bg-green-50';
@@ -219,10 +224,7 @@ const CheckoutPage = ({ data }: any) => {
                     </div>
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.payment_discount')}</div>
-                        <div className="text-main">
-                            {t('common.symbol')}
-                            {checkoutPaymentFormat(calc.paymentDiscountOrFee, t('common.symbol'), payment.key == 'paypal' ? 'fee' : 'discount')}
-                        </div>
+                        <div className="text-main">{checkoutPaymentFormat(calc.paymentDiscountOrFee, t('common.symbol'), payment.key == 'paypal' ? 'fee' : 'discount')}</div>
                     </div>
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.payment_amout')}</div>
@@ -267,31 +269,33 @@ const CheckoutPage = ({ data }: any) => {
             <div className="h-2 bg-spacer"></div>
             <div className="bg-main flex flex-col justify-start px-2">
                 <div className="text-title py-3">{t('common.payment')}</div>
-                <div className="flex flex-row gap-2 py-3 justify-end text-main p-2 border-2 borderb-grenn-700 border-green-400 rounded-t-xl bg-green-50">
-                    <div>{t('checkout.credit_card_payment_discount', { discount: creditCardPayment.fee })}</div>
-
-                    <div>
-                        <input
-                            type="radio"
-                            name="payment"
-                            className="w-4 h-4"
-                            placeholder="Enter your credit card number"
-                            checked={payment.key === 'credit-card'}
-                            onChange={() => handlePaymentChange(creditCardPayment)}
-                        />
-                    </div>
+                <div className={`flex flex-row gap-2 py-3  text-main p-2 border-2 borderb-grenn-700 border-green-400 rounded-t-xl bg-green-50 ${crypt ? 'justify-center' : 'justify-end'}`}>
+                    <div>{crypt ? t('checkout.crypt_payment') : t('checkout.credit_card_payment_discount', { discount: creditCardPayment.fee })}</div>
+                    {!crypt && (
+                        <div>
+                            <input
+                                type="radio"
+                                name="payment"
+                                className="w-4 h-4"
+                                placeholder="Enter your credit card number"
+                                checked={payment.key === 'credit-card'}
+                                onChange={() => handlePaymentChange(creditCardPayment)}
+                            />
+                        </div>
+                    )}
                 </div>
                 <Activity mode={payment.key === 'credit-card' ? 'visible' : 'hidden'}>
                     <div className="bg-card border-l-2 border-r-2 border-main pt-2">
-                        <PaymentForm onChange={setCardNumber} />
+                        {!crypt && <PaymentForm onChange={setCardNumber} />}
+                        {crypt && <CryptoPayment payment={calc.payAmount.toFixed(2)} />}
                     </div>
                 </Activity>
                 <div className={`flex flex-row gap-2 py-3 justify-end text-main p-2 border-l-2 border-r-2 border-b-2 ${classPayment}`}>
+                    <div>{!crypt && <div>{t('checkout.paypal_payment_discount', { discount: paypalPayment.fee })}</div>}</div>
                     <div>
-                        <div>{t('checkout.paypal_payment_discount', { discount: paypalPayment.fee })}</div>
-                    </div>
-                    <div>
-                        <input type="radio" name="payment" className="w-4 h-4" placeholder="Enter your credit card number" checked={payment.key === 'paypal'} onChange={() => handlePaymentChange(paypalPayment)} />
+                        {!crypt && (
+                            <input type="radio" name="payment" className="w-4 h-4" placeholder="Enter your credit card number" checked={payment.key === 'paypal'} onChange={() => handlePaymentChange(paypalPayment)} />
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import MessageBox from '@/components/MessageBox';
 import { useCallback, useState } from 'react';
 
-export default function useMessageBox() {
+export default function useMessageBox(closeButton = true) {
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState('');
     const [type, setType] = useState<MessageBoxType>('info');
@@ -18,7 +18,7 @@ export default function useMessageBox() {
         setVisible(false);
     }, []);
 
-    const MessageBoxComponent = <MessageBox visible={visible} message={message} type={type} autoCloseMs={autoCloseMs} onClose={hideMessageBox} />;
+    const MessageBoxComponent = <MessageBox closeButton={closeButton} visible={visible} message={message} type={type} autoCloseMs={autoCloseMs} onClose={hideMessageBox} />;
 
     return { showMessageBox, hideMessageBox, MessageBoxComponent } as const;
 }

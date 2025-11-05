@@ -65,6 +65,7 @@ interface SwiperImageProps {
 }
 
 interface MessageBoxProps {
+    closeButton?: boolean;
     message: string;
     type?: MessageBoxType;
     visible: boolean;

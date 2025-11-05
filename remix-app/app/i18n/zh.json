@@ -73,11 +73,23 @@
 
     "checkout.payment_amout": "支付金额",
     "checkout.shipping": "配送方式",
+    "checkout.crypt_payment": "虚拟货币支付",
+    "checkout.crypt_close": "取消",
+    "checkout.crypt_paid": "我已支付",
+    "checkout.paid_success": "支付成功",
+
+    "checkout.copy_address": "复制地址",
+    "checkout.address_copied": "地址已复制",
+    "checkout.crypt_tips": "支付完成后，点击我已支付按钮，检测支付1~3分钟",
+
     "checkout.continue": "继续",
     "checkout.countdown": "订单将在<red><strong>{{seconds}}</strong></red>秒后取消",
 
     "checkout.credit_card_payment_discount": "信用卡支付优惠{{discount}}%",
     "checkout.paypal_payment_discount": "PayPal支付手续费{{discount}}%",
+    "checkout.verifying_payment": "正在验证支付，请勿关闭，预计时间{{minutes}}分钟",
+    "checkout.paid_checking_tips": "请先完成加密货币转账，再点击「我已支付」通知系统检测。请勿重复点击，以免影响检测结果。",
+    "checkout.paid_valid_tips": "多次支付可能会导致订单重复，是否继续？",
 
     "order.payment_success": "支付成功！",
     "order.think_you": "谢谢您的购买，我们正在为您准备订单。",

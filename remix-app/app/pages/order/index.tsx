@@ -17,7 +17,7 @@ const OrderPage = ({ data }: any) => {
         setOrdrerInfo(OrderInfo);
     }, []);
     return (
-        <div className="flex flex-col items-center justify-start bg-page w-full min-h-screen py-8">
+        <div className="flex flex-col items-center justify-start bg-page w-full min-h-screen pt-1">
             {/* 支付成功提示区 */}
             <div className="bg-container rounded-2xl  w-full max-w-3xl p-6 flex flex-col gap-4">
                 {/* 标题 */}
@@ -129,14 +129,14 @@ const OrderPage = ({ data }: any) => {
                 </div>
 
                 {/* 操作按钮 */}
-                <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <div className="flex flex-col sm:flex-row justify-center gap-4 ">
                     <button onClick={() => navigate('/')} className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 py-2 transition">
                         {t('order.continue_shopping')}
                     </button>
                 </div>
 
                 {/* 底部提示 */}
-                <div className="text-sm text-gray-500 text-center mt-6">
+                <div className="text-sm text-gray-500 text-center ">
                     <span>{t('order.question')}</span>
                     <a href="/contact" className="text-blue-600 underline">
                         {t('order.contact_customer_service')}
