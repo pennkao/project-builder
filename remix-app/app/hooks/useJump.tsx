@@ -43,10 +43,10 @@ export const useJump = (start: string, switcher?: (str: string) => void) => {
     };
 
     const Loading = (
-        <div className="min-h-screen flex flex-col items-center justify-center">
+        <>
             {/* 全局遮罩 */}
             <LoadingOverlay show={isLoading} />
-        </div>
+        </>
     );
     return {
         isLoading,

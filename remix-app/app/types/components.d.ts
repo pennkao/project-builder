@@ -72,3 +72,9 @@ interface MessageBoxProps {
     autoCloseMs?: number;
     exitAnimationMs?: number;
 }
+interface CountdownWithTextProps {
+    textId: string;
+    seconds?: number;
+    className?: string;
+    color?: 'red' | 'blue' | 'green' | 'gray' | 'yellow' | 'indigo' | 'purple'; // 可扩展
+}

@@ -1,4 +1,5 @@
 import BottomSheet from '@/components/BottomSheet';
+import CountdownWithText from '@/components/CountdownWithText';
 import PaymentForm from '@/components/PaymentForm';
 import { Keys } from '@/config/keys';
 import { getShippingOptions } from '@/data/shipping';
@@ -10,7 +11,6 @@ import { checkoutPayment, checkoutPaymentFormat, hashString } from '@/utils/tool
 import { t } from 'i18next';
 import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-
 const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
     const [fingerprint, setFingerprint] = useState('');
@@ -127,7 +127,10 @@ const CheckoutPage = ({ data }: any) => {
 
     return (
         <>
-            <div className="w-full flex flex-row justify-between px-4 border-b border-b-gray-200 border-t border-blue-500 border-dotted">
+            <div className="flex flex-row items-center justify-center  p-1 bg-blue-50 ">
+                <CountdownWithText seconds={300} textId="checkout.countdown" className="text-label " />
+            </div>
+            <div className="w-full flex flex-row justify-between px-4 py-2 border-b border-b-gray-200 border-t border-blue-500 border-dotted">
                 <div className="w-full h-16 flex flex-col justify-center text-main gap-1">
                     <div>
                         {checkoutData?.userInfo?.name} {checkoutData?.userInfo?.email}

@@ -74,6 +74,7 @@
     "checkout.payment_amout": "支付金额",
     "checkout.shipping": "配送方式",
     "checkout.continue": "继续",
+    "checkout.countdown": "订单将在<red><strong>{{seconds}}</strong></red>秒后取消",
 
     "checkout.credit_card_payment_discount": "信用卡支付优惠{{discount}}%",
     "checkout.paypal_payment_discount": "PayPal支付手续费{{discount}}%",
