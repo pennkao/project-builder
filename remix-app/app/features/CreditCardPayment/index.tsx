@@ -1,8 +1,9 @@
 import PaymentForm from '@/components/PaymentForm';
 import cardValidator from 'card-validator';
+import { t } from 'i18next';
 import { useState } from 'react';
 
-export default function Payment() {
+export default function CreditCardPayment() {
     const [errors, setErrors] = useState<string[]>([]);
     const [cardNumber, setCardNumber] = useState<CreditCardPaymentFormType>({
         number: '',
@@ -28,7 +29,7 @@ export default function Payment() {
         <>
             <PaymentForm onChange={setCardNumber} />
             <button type="submit" onClick={validateAll} className="w-full mt-4 text-test-500  py-2 button-main ">
-                提交
+                {t('common.submit')}
             </button>
         </>
     );

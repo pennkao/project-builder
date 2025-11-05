@@ -8,6 +8,8 @@ interface AddressProps {
 
 interface UserInfoProps extends AddressProps {
     // price: number;
+    position?: string;
+    buttonText?: string;
     action: (str: string) => void;
     defaultCountry?: CountryType;
 }
@@ -22,6 +24,8 @@ interface ComboBoxProps {
     code?: string;
     addrName?: string;
     option: AddressOptionType;
+    onUnlock?: () => void;
+    isLock?: boolean;
     onChange?: (addr: AddressOptionType) => void;
     onInputChange?: (val: string) => void;
     placeholder?: string;

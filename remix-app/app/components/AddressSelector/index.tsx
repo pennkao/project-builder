@@ -1,11 +1,10 @@
 import countriesJson from '@/data/countries.json';
 import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
-
 export const haveState = (country: string) => {
     const noStateCountry = ['FR', 'DE', 'NL', 'PL', 'SA', 'GB'];
     return !noStateCountry.includes(country);
 };
-export function ComboBox({ name, options, option, onChange, placeholder, className = '' }: ComboBoxProps) {
+export function ComboBox({ name, options, option, onChange, isLock, onUnlock, placeholder, className = '' }: ComboBoxProps) {
     const containerRef = useRef<HTMLInputElement | null>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const [selectedOption, setSelectedOption] = useState<AddressOptionType>(option);
@@ -17,6 +16,7 @@ export function ComboBox({ name, options, option, onChange, placeholder, classNa
     // setInputValue(selectedOption?.name || '');
     //设置默认值
     useEffect(() => {
+        if (!isLock && !option.code && !option.name) return;
         setSelectedOption(option);
     }, [option]);
     // const matchOption = options.find((o) => o.code === selectedOption.code)
@@ -94,6 +94,7 @@ export function ComboBox({ name, options, option, onChange, placeholder, classNa
      * @param opt - AddressOptionType 类型的地址选项对象，包含地址代码和名称等信息
      */
     const handleSelect = (opt: AddressOptionType) => {
+        onUnlock?.();
         // 触发变更回调函数，传入地址选项的代码
         onChange?.(opt);
         // 设置输入框的显示值为地址选项的名称
@@ -105,8 +106,12 @@ export function ComboBox({ name, options, option, onChange, placeholder, classNa
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedOption((prev) => ({ ...prev, name: e.target.value }));
-        // console.log('inputValue', e.target.value);
+        onUnlock?.();
+        console.log('inputValue', e.target.value);
+        if (name === 'city') {
+            setSelectedOption({ code: '', name: e.target.value });
+            onChange?.({ code: '', name: e.target.value });
+        }
         // onInputChange?.(e.target.value);
         setIsOpen(e.target.value.trim().length > 1);
     };
@@ -140,7 +145,7 @@ export function ComboBox({ name, options, option, onChange, placeholder, classNa
                     placeholder={placeholder}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    className="flex-1 outline-none text-main bg-transparent border-none "
+                    className="flex-1 outline-none text-main text-sm bg-transparent border-none "
                 />
                 {options.length > 0 && name != 'city' && <div className="ml-2 cursor-pointer border-none  select-none text-gray-400">▼</div>}
             </div>

@@ -18,8 +18,9 @@ import ProductCard from '@/features/product/ProductCard';
 import ProductDetail from '@/features/product/ProductDetail';
 import ProductSelector from '@/features/product/ProductSelector';
 import ReviewCard from '@/features/product/ReviewCard';
-import UserInfo from '@/features/product/UserInfo';
+import UserInfo from '@/features/UserInfo';
 import { useEffect, useRef, useState, type RefObject } from 'react';
+import { useNavigate } from 'react-router';
 
 import StickyBar from '@/components/StickyBar';
 import { t } from 'i18next';
@@ -61,6 +62,8 @@ const productData = {
 };
 const ProductPage = () => {
     const [tabActiveKey, setTabActiveKey] = useState<string | null>(null);
+    const navigate = useNavigate();
+
     // data = data.replace(/<img /g, '<img loading="lazy" ');
     const [activeIndex, setActiveIndex] = useState(0);
     const buyButtonRef = useRef<HTMLElement>(null); // 👈 就用 useRef
@@ -78,6 +81,7 @@ const ProductPage = () => {
         if (key) {
             setTabActiveKey(key);
         }
+        // navigate('/checkout');
     };
     async function getLocation() {
         try {
@@ -187,7 +191,7 @@ const ProductPage = () => {
                                 />
                             ),
                         },
-                        { key: 'tab2', label: t('product.use_address') + ' >', content: <UserInfo action={handleAction} /> },
+                        { key: 'tab2', label: t('product.use_address') + ' >', content: <UserInfo position="user-info" action={handleAction} /> },
                     ]}
                 />
             </BottomSheet>

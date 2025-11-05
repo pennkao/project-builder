@@ -34,6 +34,7 @@
     "common.add": "添加",
     "common.save": "保存",
     "common.back": "返回",
+    "common.continue": "继续",
 
     "product.factory_stock": "工厂直供,仅剩{{stock}}件",
     "product.limited_buy": "限量抢购",
@@ -56,8 +57,9 @@
     "userinfo.company": "公司 (可选)",
     "userinfo.address": "地址",
     "userinfo.address2": "公寓/套房等信息（非必填）",
+    "userinfo.country": "国家/地区",
     "userinfo.city": "城市",
-    "userinfo.state": "州",
+    "userinfo.state": "州/省",
     "userinfo.zip_code": "邮编",
     "userinfo.phone": "电话",
 
@@ -103,7 +105,7 @@
     "message.error.invalid_state": "请填写正确的州。",
     "message.error.invalid_zip": "请填写正确的邮编。",
     "message.error.invalid_phone": "请填写正确的电话号码。",
-    
+
     "hello": "欢迎使用我的 DApp",
 
     "welcome": "欢迎使用我的 DApp",

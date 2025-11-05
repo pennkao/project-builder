@@ -2,30 +2,21 @@ import BottomSheet from '@/components/BottomSheet';
 import PaymentForm from '@/components/PaymentForm';
 import { Keys } from '@/config/keys';
 import { getShippingOptions } from '@/data/shipping';
-import UserInfo from '@/features/product/UserInfo';
+import UserInfo from '@/features/UserInfo';
+import { useJump } from '@/hooks/useJump';
 import useMessageBox from '@/hooks/useMessageBox';
 import { collectFingerprint } from '@/utils/collection';
 import { checkoutPayment, checkoutPaymentFormat, hashString } from '@/utils/tools';
 import { t } from 'i18next';
 import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-const initialUserInfoForm: UserInfoFormType = {
-    country: { code: '', name: '' },
-    state: { code: '', name: '' },
-    city: { code: '', name: '' },
-    email: '',
-    firstName: '',
-    lastName: '',
-    company: '',
-    address: '',
-    address2: '',
-    zipCode: '',
-    phone: '',
-};
+
 const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
     const [fingerprint, setFingerprint] = useState('');
     const [orderHash, setOrderHash] = useState('');
+    const { isLoading, DoJump, Loading } = useJump('checkout-user-info');
+
     // ✅ 明确类型
     const [checkoutData, setCheckoutData] = useState<{
         productDetail: any;
@@ -52,9 +43,8 @@ const CheckoutPage = ({ data }: any) => {
         cvc: '',
         name: '',
     }); // number, expiry, cvc, name
-    const handleAction = (key: string | null) => {
-        if (key) {
-        }
+    const handleAction = (s: string) => {
+        setBottomSheetOpen(false);
     };
     useEffect(() => {
         if (typeof window === 'undefined') return;
@@ -129,7 +119,9 @@ const CheckoutPage = ({ data }: any) => {
             discount: checkoutData?.productDetail?.discountValue,
         };
         localStorage.setItem(Keys.Order, JSON.stringify(data));
-        navigate('/order-success');
+        localStorage.removeItem(Keys.UseInfo);
+        DoJump();
+        // navigate('/order-success');
     };
     const classPayment = payment.name == 'credit-card' ? 'border-1 rounded-b-xl bg-white border-main' : ' border-green-400 rounded-b-xl bg-green-50';
 
@@ -366,10 +358,11 @@ const CheckoutPage = ({ data }: any) => {
             <div className="h-2 "></div>
             <BottomSheet open={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>
                 <div className="px-3 pt-2">
-                    <UserInfo action={() => handleAction('submit')} />
+                    <UserInfo position="checkout-user-info" action={() => handleAction('ss')} buttonText={t('common.save')} />
                 </div>
             </BottomSheet>
             {MessageBoxComponent}
+            {Loading}
         </>
     );
 };

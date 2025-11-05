@@ -1,10 +1,14 @@
 import { Keys } from '@/config/keys';
+import { useJump } from '@/hooks/useJump';
 import { buildJsonByOrderKeys, discount, discountMoneyFormat, moneyFormat } from '@/utils/tools';
 import { t } from 'i18next';
 import { useEffect, useMemo, useState } from 'react';
+
 const FirstOrder = 3;
 export default function ProductSelector({ options, skus, action, product }: ProductSelectorProps) {
     const [quantity, setQuantity] = useState(1);
+    const { isLoading, DoJump, Loading } = useJump('product-selector', action);
+
     const [discountValue, setDiscountInfo] = useState<DiscountInfoType>({
         discount: 0.0,
         total: 0.0,
@@ -18,6 +22,8 @@ export default function ProductSelector({ options, skus, action, product }: Prod
     const [selectedSKU, setSelectedSKU] = useState<SKUType>(skus[0]);
     const sortAttributes = useMemo(() => options.sort((a, b) => a.sort - b.sort).map((o) => o.label), [options]); // 排序属性
     const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+    const [useInfoForm, setUseInfoForm] = useState<UserInfoFormType | null>(null);
+
     const handleOptionClick = (optionLabel: string, value: string, isSelected: boolean) => {
         setSelectedOptions((prev) => ({ ...prev, [optionLabel]: value }));
         if (isSelected) {
@@ -92,6 +98,13 @@ export default function ProductSelector({ options, skus, action, product }: Prod
             setSelectedSKU(productDefault?.sku || skus[0]);
             setSelectedOptions(productDefault?.sku?.attributes || {});
         }
+        const stored = localStorage.getItem(Keys.UseInfo);
+        if (stored) {
+            const userInfo = JSON.parse(stored || '{}');
+            if (userInfo) {
+                setUseInfoForm(userInfo);
+            }
+        }
     }, []);
 
     const handleSubmit = () => {
@@ -112,7 +125,8 @@ export default function ProductSelector({ options, skus, action, product }: Prod
             payAmount: discountValue.payAmount,
         };
         localStorage.setItem(Keys.Product, JSON.stringify(productSelected));
-        action('tab2');
+
+        DoJump();
     };
     return (
         <div className="flex flex-col justify-start w-full h-full">
@@ -236,6 +250,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
             <button onClick={handleSubmit} className="w-full  py-2 button-main">
                 {t('product.continue')}
             </button>
+            {Loading}
         </div>
     );
 }

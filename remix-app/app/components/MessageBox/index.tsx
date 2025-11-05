@@ -34,7 +34,6 @@ export default function MessageBox({ message, type = 'info', visible, onClose, a
     }, [active, autoCloseMs, exitAnimationMs, onClose]);
 
     if (!rendered) return null;
-
     return (
         <div className="fixed inset-0 flex items-center justify-center z-[999]" aria-live="polite">
             <div
