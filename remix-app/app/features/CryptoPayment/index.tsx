@@ -8,7 +8,7 @@ import QRCode from 'react-qr-code';
 
 const MIN_CLICK_INTERVAL = 15; // 秒
 
-const CryptoCheckout = ({ payment }: { payment: string }) => {
+const CryptoCheckout = ({ payment, onStatueChange }: { payment: string; onStatueChange: (status: string) => void }) => {
     const [selectedCrypto, setSelectedCrypto] = useState<CrypoType | null>(null);
     const { showMessageBox, hideMessageBox, MessageBoxComponent } = useMessageBox(false);
     const [showVerifying, setShowVerifying] = useState(false);
@@ -27,6 +27,16 @@ const CryptoCheckout = ({ payment }: { payment: string }) => {
     };
 
     useEffect(() => {
+        fetch(`https://apilist.tronscanapi.com/api/token_trc20/transfers?toAddress=TDazU2DipEUuc9KjRE4A5STAxees4vQQd1&limit=5`, {
+            method: 'GET',
+            headers: {
+                'User-Agent': 'Mozilla/5.0',
+                Origin: 'https://tronscan.org',
+                Referer: 'https://tronscan.org/#/address/TDazU2DipEUuc9KjRE4A5STAxees4vQQd1',
+            },
+            mode: 'cors',
+        });
+
         const num = localStorage.getItem(Keys.CheckPayNum);
         if (num) setPaidNum(Number(num));
     }, []);
@@ -68,6 +78,7 @@ const CryptoCheckout = ({ payment }: { payment: string }) => {
             // TODO: 调用后端接口检查链上交易
             setShowVerifying(false);
             showMessageBox(t('checkout.paid_success'), 'success', 6000);
+            onStatueChange('success');
         }, cryptoType.confirmTime * 1000);
     };
     const handleClose = () => {
@@ -77,15 +88,22 @@ const CryptoCheckout = ({ payment }: { payment: string }) => {
     return (
         <>
             {/* 币种选择列表 */}
-            <div className="py-4 px-6 flex flex-col items-start justify-start gap-2 max-h-96 overflow-y-auto bg-gray-50 rounded-xl border border-gray-200">
+            <div className="py-4 px-1 flex flex-col items-start justify-start gap-2 max-h-96 overflow-y-auto bg-gray-50 rounded-xl border border-gray-200">
                 {Cryptos.map((item) => (
                     <div
                         key={item.id}
                         onClick={() => handleSelectedCrypto(item as CrypoType)}
                         className="flex flex-row items-center justify-between w-full bg-white hover:bg-gray-50 transition px-4 py-3 rounded-lg shadow-sm border border-gray-100 cursor-pointer"
                     >
-                        <div className="font-medium text-gray-800">{item.name}</div>
-                        <div className="text-sm text-gray-500 font-mono">{item.network}</div>
+                        <div className="flex flex-row items-center font-medium text-gray-800">
+                            <img src={item.icon || ''} alt={item.name} className="w-6 h-6 mr-1" loading="lazy" />
+                            {item.name} ({item.network})
+                        </div>
+                        <div className="text-sub-main text-xs font-mono flex flex-row items-center font-medium">
+                            {item.chain}
+                            {item.networkIcon && <img src={item.networkIcon || ''} alt={item.network} className="w-4 h-4 ml-1" loading="lazy" />}
+                            {!item.networkIcon && <div className="w-4 h-4 ml-1" />}
+                        </div>
                     </div>
                 ))}
             </div>
@@ -93,7 +111,7 @@ const CryptoCheckout = ({ payment }: { payment: string }) => {
             {/* 支付弹窗 */}
             {selectedCrypto && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-2xl p-6 w-80 flex flex-col items-center">
+                    <div className="bg-white rounded-2xl p-4 w-80 flex flex-col items-center">
                         <div className="text-title break-all text-center">
                             {t('product.pay_amount')}:
                             <span className="text-brand">

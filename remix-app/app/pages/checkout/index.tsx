@@ -2,6 +2,8 @@ import BottomSheet from '@/components/BottomSheet';
 import CountdownWithText from '@/components/CountdownWithText';
 import PaymentForm from '@/components/PaymentForm';
 import { Keys } from '@/config/keys';
+import { paymentMethods } from '@/config/payment';
+import { initialCreditCardPaymentForm } from '@/data/data';
 import { getShippingOptions } from '@/data/shipping';
 import CryptoPayment from '@/features/CryptoPayment';
 import UserInfo from '@/features/UserInfo';
@@ -12,7 +14,6 @@ import { checkoutPayment, checkoutPaymentFormat, hashString } from '@/utils/tool
 import { t } from 'i18next';
 import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-const crypt = true;
 
 const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const CheckoutPage = ({ data }: any) => {
     const [orderHash, setOrderHash] = useState('');
     const { isLoading, DoJump, Loading } = useJump('checkout-user-info');
     const { DoJump: DoJumpSuccess } = useJump('checkout');
-
+    const crypt = paymentMethods.currentPyament === 'crypto';
     // ✅ 明确类型
     const [checkoutData, setCheckoutData] = useState<{
         productDetail: any;
@@ -28,9 +29,9 @@ const CheckoutPage = ({ data }: any) => {
     } | null>(null);
     const { showMessageBox, hideMessageBox, MessageBoxComponent } = useMessageBox();
     const freeShipping = { name: 'free', fee: 0, delivery_days: '15', currency: 'USD' };
-    const creditCardPayment = { name: 'Credit Card', key: 'credit-card', fee: 0.05 };
-    const paypalPayment = { name: 'PayPal', key: 'paypal', fee: 0.03 };
-    const [payment, setPayment] = useState<PaymentMethod>(creditCardPayment);
+    const creditCardPayment = paymentMethods.nomorl[0];
+    const paypalPayment = paymentMethods.nomorl[1];
+    const [payment, setPayment] = useState<PaymentMethod>(paymentMethods.currentPyament === 'crypto' ? paymentMethods.crypto : paymentMethods.nomorl[0]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [bottomSheetOpen, setBottomSheetOpen] = useState<boolean>(false);
 
@@ -41,12 +42,8 @@ const CheckoutPage = ({ data }: any) => {
         paymentDiscountOrFee: 0,
         shippingFee: 0,
     });
-    const [cardNumber, setCardNumber] = useState<CreditCardPaymentFormType>({
-        number: '',
-        expiry: '',
-        cvc: '',
-        name: '',
-    }); // number, expiry, cvc, name
+    const [isPay, setIsPay] = useState<boolean>(false);
+    const [cardNumber, setCardNumber] = useState<CreditCardPaymentFormType>(initialCreditCardPaymentForm); // number, expiry, cvc, name
     const handleAction = (s: string) => {
         setBottomSheetOpen(false);
     };
@@ -100,11 +97,46 @@ const CheckoutPage = ({ data }: any) => {
         setCalc(calc);
     }, [checkoutData, payment, ShippingMethod]);
 
-    const handleSubmit = async () => {
-        if (payment.key == 'credit-card' && (!cardNumber.number || !cardNumber.expiry || !cardNumber.cvc || !cardNumber.name)) {
-            showMessageBox(t('message.error.credit_card_payment_discount'), 'error', 2000);
-            return;
+    const onStatueChange = (status: string) => {
+        if (status == 'success') {
+            setIsPay(true);
         }
+    };
+    const checkPayment = (payment: PaymentMethod) => {
+        switch (payment.key) {
+            case 'credit-card':
+                if (!cardNumber.number || !cardNumber.expiry || !cardNumber.cvc || !cardNumber.name) {
+                    showMessageBox(t('message.error.credit_card_payment_discount'), 'error', 2000);
+                    return false;
+                }
+                return true;
+            case 'paypal':
+                if (!checkoutData?.userInfo?.email) {
+                    showMessageBox(t('message.error.paypal_payment_discount'), 'error', 2000);
+                    return false;
+                }
+                return true;
+            case 'crypto':
+                if (!isPay) {
+                    showMessageBox(t('message.error.complete_payment_tips'), 'error', 2000);
+                    return false;
+                }
+                return true;
+            default:
+                break;
+        }
+        return false;
+    };
+
+    useEffect(() => {
+        if (!isPay) return;
+        setTimeout(() => {
+            SaveOrder();
+            DoJumpSuccess();
+        }, 1000);
+    }, [isPay]);
+
+    const SaveOrder = () => {
         const data: OrderInfoType = {
             OrderId: orderHash,
             orderTime: new Date().toISOString(),
@@ -124,8 +156,14 @@ const CheckoutPage = ({ data }: any) => {
         };
         localStorage.setItem(Keys.Order, JSON.stringify(data));
         localStorage.removeItem(Keys.UseInfo);
+    };
+    const handleSubmit = async () => {
+        console.log(payment);
+        const ret = checkPayment(payment);
+        if (!ret) return;
+        SaveOrder();
         // DoJump();
-        DoJumpSuccess();
+        setIsPay(true);
         // navigate('/order-success');
     };
     const classPayment = payment.name == 'credit-card' ? 'border-1 rounded-b-xl bg-white border-main' : ' border-green-400 rounded-b-xl bg-green-50';
@@ -284,10 +322,10 @@ const CheckoutPage = ({ data }: any) => {
                         </div>
                     )}
                 </div>
-                <Activity mode={payment.key === 'credit-card' ? 'visible' : 'hidden'}>
+                <Activity mode={payment.key === 'credit-card' || payment.key === 'crypto' ? 'visible' : 'hidden'}>
                     <div className="bg-card border-l-2 border-r-2 border-main pt-2">
                         {!crypt && <PaymentForm onChange={setCardNumber} />}
-                        {crypt && <CryptoPayment payment={calc.payAmount.toFixed(2)} />}
+                        {crypt && <CryptoPayment payment={calc.payAmount.toFixed(2)} onStatueChange={onStatueChange} />}
                     </div>
                 </Activity>
                 <div className={`flex flex-row gap-2 py-3 justify-end text-main p-2 border-l-2 border-r-2 border-b-2 ${classPayment}`}>

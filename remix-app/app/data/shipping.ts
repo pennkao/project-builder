@@ -9,6 +9,8 @@ export type ShippingMethod = {
 
 export type CountryCode = 'GB' | 'JP' | 'US' | 'FR' | 'CA' | 'AU' | 'DE' | 'SA' | 'BR' | 'CN' | 'IN' | 'ID' | 'IT' | 'MX' | 'NL' | 'PL' | 'RU' | 'KR' | 'ES' | 'TR';
 
+// src/data/shipping.ts
+
 export const shippingOptions = new Map<CountryCode, ShippingMethod[]>([
     [
         'GB',
@@ -24,12 +26,12 @@ export const shippingOptions = new Map<CountryCode, ShippingMethod[]>([
     [
         'JP',
         [
-            { name: 'Japan Post', fee: 2.0, currency: 'USD', delivery_days: '5-10' },
+            { name: '日本郵便', fee: 2.0, currency: 'USD', delivery_days: '5-10' },
             { name: 'EMS', fee: 2.6, currency: 'USD', delivery_days: '4-8' },
             { name: 'DHL', fee: 3.4, currency: 'USD', delivery_days: '3-5' },
             { name: 'FedEx', fee: 3.3, currency: 'USD', delivery_days: '3-5' },
-            { name: 'Yamato', fee: 2.5, currency: 'USD', delivery_days: '5-8' },
-            { name: 'Sagawa', fee: 2.4, currency: 'USD', delivery_days: '5-8' },
+            { name: 'ヤマト運輸', fee: 2.5, currency: 'USD', delivery_days: '5-8' },
+            { name: '佐川急便', fee: 2.4, currency: 'USD', delivery_days: '5-8' },
         ],
     ],
     [
@@ -85,8 +87,8 @@ export const shippingOptions = new Map<CountryCode, ShippingMethod[]>([
     [
         'SA',
         [
-            { name: 'Saudi Post', fee: 2.6, currency: 'USD', delivery_days: '6-10' },
-            { name: 'Aramex', fee: 2.9, currency: 'USD', delivery_days: '5-9' },
+            { name: 'البريد السعودي', fee: 2.6, currency: 'USD', delivery_days: '6-10' }, // Saudi Post
+            { name: 'أرامكس', fee: 2.9, currency: 'USD', delivery_days: '5-9' }, // Aramex
             { name: 'DHL', fee: 3.5, currency: 'USD', delivery_days: '3-6' },
             { name: 'UPS', fee: 3.4, currency: 'USD', delivery_days: '3-6' },
         ],
@@ -103,9 +105,9 @@ export const shippingOptions = new Map<CountryCode, ShippingMethod[]>([
     [
         'CN',
         [
-            { name: 'China Post', fee: 1.8, currency: 'USD', delivery_days: '8-15' },
+            { name: '中国邮政', fee: 1.8, currency: 'USD', delivery_days: '8-15' },
             { name: 'EMS', fee: 2.4, currency: 'USD', delivery_days: '5-10' },
-            { name: 'SF Express', fee: 2.6, currency: 'USD', delivery_days: '4-8' },
+            { name: '顺丰速运', fee: 2.6, currency: 'USD', delivery_days: '4-8' },
             { name: 'DHL', fee: 3.2, currency: 'USD', delivery_days: '3-6' },
             { name: 'FedEx', fee: 3.1, currency: 'USD', delivery_days: '3-5' },
             { name: 'UPS', fee: 3.0, currency: 'USD', delivery_days: '3-6' },
@@ -171,7 +173,7 @@ export const shippingOptions = new Map<CountryCode, ShippingMethod[]>([
     [
         'RU',
         [
-            { name: 'Russian Post', fee: 2.3, currency: 'USD', delivery_days: '8-15' },
+            { name: 'Почта России', fee: 2.3, currency: 'USD', delivery_days: '8-15' },
             { name: 'EMS', fee: 2.6, currency: 'USD', delivery_days: '7-12' },
             { name: 'CDEK', fee: 2.9, currency: 'USD', delivery_days: '6-10' },
             { name: 'DHL', fee: 3.6, currency: 'USD', delivery_days: '4-8' },
@@ -181,8 +183,8 @@ export const shippingOptions = new Map<CountryCode, ShippingMethod[]>([
     [
         'KR',
         [
-            { name: 'Korea Post', fee: 2.0, currency: 'USD', delivery_days: '5-9' },
-            { name: 'CJ Logistics', fee: 2.4, currency: 'USD', delivery_days: '5-8' },
+            { name: '대한우편', fee: 2.0, currency: 'USD', delivery_days: '5-9' }, // Korea Post
+            { name: 'CJ대한통운', fee: 2.4, currency: 'USD', delivery_days: '5-8' }, // CJ Logistics
             { name: 'DHL', fee: 3.2, currency: 'USD', delivery_days: '3-5' },
             { name: 'FedEx', fee: 3.1, currency: 'USD', delivery_days: '3-5' },
         ],
@@ -201,8 +203,8 @@ export const shippingOptions = new Map<CountryCode, ShippingMethod[]>([
         'TR',
         [
             { name: 'PTT Posta', fee: 2.3, currency: 'USD', delivery_days: '6-10' },
-            { name: 'Yurtici', fee: 2.6, currency: 'USD', delivery_days: '5-8' },
-            { name: 'Aras', fee: 2.5, currency: 'USD', delivery_days: '5-8' },
+            { name: 'Yurtiçi Kargo', fee: 2.6, currency: 'USD', delivery_days: '5-8' },
+            { name: 'Aras Kargo', fee: 2.5, currency: 'USD', delivery_days: '5-8' },
             { name: 'DHL', fee: 3.4, currency: 'USD', delivery_days: '3-5' },
             { name: 'UPS', fee: 3.3, currency: 'USD', delivery_days: '3-6' },
         ],

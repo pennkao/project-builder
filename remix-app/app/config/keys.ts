@@ -3,4 +3,6 @@ export const Keys = {
     Product: '--google:vtx:product:selected',
     Order: '--google:vtx:order:info',
     CheckPayNum: '--google:vtx:crypt:num',
+    Lang: '--google:vtx:lang',
+    IP: '--google:vtx:ip',
 };

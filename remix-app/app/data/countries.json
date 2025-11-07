@@ -6,7 +6,7 @@
         "states": 0
     },
     {
-        "name": "Japan",
+        "name": "日本",
         "code": "JP",
         "region": "Asia",
         "states": 1
@@ -35,33 +35,30 @@
         "region": "Oceania",
         "states": 1
     },
-
     {
-        "name": "Germany",
+        "name": "Deutschland",
         "code": "DE",
         "region": "Europe",
         "states": 0
     },
     {
-        "name": "Saudi Arabia",
+        "name": "المملكة العربية السعودية",
         "code": "SA",
         "region": "Asia",
         "states": 0
     },
     {
-        "name": "Brazil",
+        "name": "Brasil",
         "code": "BR",
         "region": "Americas",
         "states": 1
     },
-
     {
-        "name": "China",
+        "name": "中国",
         "code": "CN",
         "region": "Asia",
         "states": 1
     },
-
     {
         "name": "India",
         "code": "IN",
@@ -75,50 +72,49 @@
         "states": 1
     },
     {
-        "name": "Italy",
+        "name": "Italia",
         "code": "IT",
         "region": "Europe",
         "states": 1
     },
-
     {
-        "name": "Mexico",
+        "name": "México",
         "code": "MX",
         "region": "Americas",
         "states": 1
     },
     {
-        "name": "Netherlands",
+        "name": "Nederland",
         "code": "NL",
         "region": "Europe",
         "states": 0
     },
     {
-        "name": "Poland",
+        "name": "Polska",
         "code": "PL",
         "region": "Europe",
         "states": 0
     },
     {
-        "name": "Russia",
+        "name": "Россия",
         "code": "RU",
         "region": "Europe",
         "states": 1
     },
     {
-        "name": "South Korea",
+        "name": "대한민국",
         "code": "KR",
         "region": "Asia",
         "states": 1
     },
     {
-        "name": "Spain",
+        "name": "España",
         "code": "ES",
         "region": "Europe",
         "states": 1
     },
     {
-        "name": "Turkey",
+        "name": "Türkiye",
         "code": "TR",
         "region": "Asia",
         "states": 1

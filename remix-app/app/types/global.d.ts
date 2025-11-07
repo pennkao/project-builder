@@ -121,7 +121,7 @@ interface UserInfoFormType {
     phone: string; // 电话
     country: AddressOptionType;
     state: AddressOptionType;
-    city: AddressOptionType;
+    city: string;
 }
 
 // 定义类型

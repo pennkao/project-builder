@@ -118,6 +118,7 @@
     "message.error.invalid_state": "请填写正确的州。",
     "message.error.invalid_zip": "请填写正确的邮编。",
     "message.error.invalid_phone": "请填写正确的电话号码。",
+    "message.error.complete_payment_tips": "请完成支付",
 
     "hello": "欢迎使用我的 DApp",
 

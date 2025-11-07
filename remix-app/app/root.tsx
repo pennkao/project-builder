@@ -3,7 +3,7 @@ import { loader } from '@/loaders/root.server'; // ✅ 只引入函数
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Outlet, Scripts, ScrollRestoration, useLoaderData } from 'react-router';
-
+import { Keys } from './config/keys';
 import i18n from './i18n';
 import styles from './main.css?url';
 export { loader }; // ✅ 让 Remix 识别 loader
@@ -24,9 +24,36 @@ export default function App() {
         // 设置文档语言和 cookie
         document.documentElement.lang = lang;
         const clientLang = Intl.NumberFormat().resolvedOptions().locale;
-        document.cookie = `--google:vtx:lang=${clientLang}; path=/; max-age=${60 * 60 * 24 * 365}`;
+        document.cookie = `${Keys.Lang}=${clientLang}; path=/; max-age=${60 * 60 * 24 * 365}`;
         if (typeof window === 'undefined') return; // SSR 时跳过
     }, [lang, resources]);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        // 延迟一点时间，避免与首屏加载竞争
+        setTimeout(() => {
+            const ip = localStorage.getItem(Keys.IP);
+            if (ip) {
+                return;
+            }
+            fetch('https://ipapi.co/json/')
+                .then((res) => res.json())
+                .then((data) => {
+                    if (cancelled) return;
+                    localStorage.setItem(Keys.IP, JSON.stringify(data));
+                    // console.log('ip location success, set cookie', data);
+                })
+                .catch(() => {
+                    // 不影响主页面
+                    // console.log('ip location failed, use default value');
+                });
+        }, 1000); // 延迟 0.5 秒加载
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     if (!ready) {
         // i18n 还没准备好，避免渲染 Outlet 导致错误

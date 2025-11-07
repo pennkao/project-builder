@@ -4,7 +4,7 @@ import countriesJson from '@/data/countries.json';
 import { initialUserInfoForm } from '@/data/data';
 import { useJump } from '@/hooks/useJump';
 import useMessageBox from '@/hooks/useMessageBox';
-import { fetchCities, fetchStates } from '@/utils/cities.client';
+import { fetchStates } from '@/utils/cities.client';
 import { postalCodePatterns } from '@/utils/tools';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,10 +36,6 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
         hydratedRef.current = true;
     };
 
-    const handleCity = (key: keyof UserInfoFormType, value: string) => {
-        setAddress((prev) => ({ ...prev, city: value }));
-        // handleUserAddressChange('city', { code: value, name: value });
-    };
     const handleUserAddressChange = (key: keyof UserInfoFormType, value: AddressOptionType) => {
         setUseInfoForm((prev) => ({
             ...prev,
@@ -51,15 +47,25 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
 
     useEffect(() => {
         const stored = localStorage.getItem(Keys.UseInfo);
-        if (!stored) {
+        if (stored) {
+            const userInfo = JSON.parse(stored);
+            if (userInfo) {
+                setUseInfoForm(userInfo);
+                setAddress({ country: userInfo.country.name, state: userInfo.state.name, city: userInfo.city.name });
+            }
             return;
         }
-        const userInfo = JSON.parse(stored);
-        if (userInfo) {
-            setUseInfoForm(userInfo);
-            setAddress({ country: userInfo.country.name, state: userInfo.state.name, city: userInfo.city.name });
-            // fetchStates(useInfoForm.country.code);
-            // fetchCities(useInfoForm.country.code);
+
+        const ipInfo = localStorage.getItem(Keys.IP);
+        if (ipInfo) {
+            const ipData = JSON.parse(ipInfo);
+            setUseInfoForm((prev) => ({
+                ...prev,
+                country: { code: ipData.country_code || 'US', name: ipData.country_name || 'United States' },
+                state: { code: ipData.region_code || '', name: ipData.region || '' },
+                city: ipData.city || '',
+                zipCode: ipData.postal || '',
+            }));
         }
     }, []);
 
@@ -67,20 +73,14 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
     useEffect(() => {
         if (!useInfoForm.country.code) {
             setStates([]);
-            setCities([]);
             return;
         }
-        setStates([]);
-        setCities([]);
-
-        handleUserAddressChange('state', { code: '', name: '' });
-        handleUserAddressChange('city', { code: '', name: '' });
-        // fetch(`/data/states/${useInfoForm.country.code}.states.json`)
-        //     .then((res) => res.json())
-        //     .then((data) => setStates(data))
-        //     .catch(() => setStates([]));
         fetchStates(useInfoForm.country.code).then((data) => setStates(data));
-        fetchCities(useInfoForm.country.code);
+        if (!hydratedRef.current) return; // 防止在初始化时触发
+        setStates([]);
+        useInfoForm.city = '';
+        useInfoForm.zipCode = '';
+        handleUserAddressChange('state', { code: '', name: '' });
     }, [useInfoForm.country]);
 
     // // 🔹 省份变化时加载城市
@@ -89,27 +89,9 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
             setCities([]);
             return;
         }
-        setCities([]);
-        handleUserAddressChange('city', { code: '', name: '' });
         setAddress((prev) => ({ ...prev, state: useInfoForm.state.name }));
-
-        fetchCities(useInfoForm.country.code)
-            // .then((res) => res.json())
-            .then((json) => json[useInfoForm.state.code] || [])
-            .then((data) => setCities(data));
-        // .catch(() => setCities([]));
     }, [useInfoForm.state]);
 
-    useEffect(() => {
-        if (!useInfoForm.city.code) {
-            return;
-        }
-        setAddress((prev) => ({ ...prev, city: useInfoForm.city.name }));
-    }, [useInfoForm.city]);
-    // 🔹 通知外部变更
-    // useEffect(() => {
-    //     onChange?.(country, state, city);
-    // }, [country, state, city]);
     const handleSubmit = () => {
         if (!formRef.current) return;
         const pattern = postalCodePatterns[useInfoForm.country.code];
@@ -118,20 +100,13 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
             return;
         }
 
-        // if (!useInfoForm.state.name) {
-        //     showMessageBox(t('message.error.invalid_state'), 'error', 2000timeout);
-        //     return;
-        // }
         if (!useInfoForm.country.name) {
             showMessageBox(t('message.error.invalid_country'), 'error', timeout);
             return;
         }
-        if (!useInfoForm.city.name) {
-            if (!address.city) {
-                showMessageBox(t('message.error.invalid_city'), 'error', timeout);
-                return;
-            }
-            useInfoForm.city.name = address.city;
+        if (!useInfoForm.city) {
+            showMessageBox(t('message.error.invalid_city'), 'error', timeout);
+            return;
         }
         if (isHaveState && !useInfoForm.state.name) {
             if (!address.state) {
@@ -170,7 +145,7 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
         // action('saveUserInfo');
     };
     const className = 'w-full  p-2  input-main';
-    const addressClassName = 'rounded-lg border border-gray-300 bg-white transition-colors py-1';
+    const addressClassName = 'rounded-lg border border-gray-300 bg-white transition-colors py-1 text-base';
     return (
         <>
             <div className="flex items-center justify-center  ">
@@ -220,46 +195,20 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
                             onChange={(e) => handleUserInfoChange('address2', e.target.value)}
                         />
 
-                        {/* 城市 */}
-                        {!isHaveState && (
-                            <input
-                                type="text"
-                                name="city"
-                                placeholder={t('userinfo.city')}
-                                value={useInfoForm?.city?.name || address?.city || ''}
-                                onChange={(e) => handleCity('city', e.target.value)}
-                                required
-                                className={className}
-                            />
-                        )}
+                        <input type="text" name="city" placeholder={t('userinfo.city')} value={useInfoForm?.city || ''} onChange={(e) => handleUserInfoChange('city', e.target.value)} required className={className} />
                         {isHaveState && (
-                            <>
-                                <ComboBox
-                                    name="city"
-                                    option={useInfoForm?.city}
-                                    isLock={hydratedRef.current}
-                                    onUnlock={() => handleUnlock()}
-                                    options={cities.map((c) => ({ code: c.name, name: c.name }))} //
-                                    className={addressClassName}
-                                    onChange={(opt) => {
-                                        handleUserAddressChange('city', opt);
-                                    }}
-                                    placeholder={t('userinfo.city')}
-                                />
-
-                                <ComboBox
-                                    name="state"
-                                    option={useInfoForm?.state}
-                                    onUnlock={() => handleUnlock()}
-                                    isLock={hydratedRef.current}
-                                    options={states.map((s) => ({ code: s.code, name: s.name }))}
-                                    className={addressClassName}
-                                    onChange={(opt) => {
-                                        handleUserAddressChange('state', opt);
-                                    }}
-                                    placeholder={t('userinfo.state')}
-                                />
-                            </>
+                            <ComboBox
+                                name="state"
+                                option={useInfoForm?.state}
+                                onUnlock={() => handleUnlock()}
+                                isLock={hydratedRef.current}
+                                options={states.map((s) => ({ code: s.code, name: s.name }))}
+                                className={addressClassName}
+                                onChange={(opt) => {
+                                    handleUserAddressChange('state', opt);
+                                }}
+                                placeholder={t('userinfo.state')}
+                            />
                         )}
                         <input
                             type="text"
@@ -282,10 +231,6 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
                         {/* 隐藏 input 提交 code */}
                         <input type="hidden" name="country" value={address.country || useInfoForm.country?.name || ''} required />
                         <input type="hidden" name="state" value={address.state || useInfoForm.state?.name || ''} required />
-                        {isHaveState && <input type="hidden" name="city" value={address.city || useInfoForm.city?.name || ''} required />}
-                        {/* <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg text-sm font-medium">
-                        提交
-                    </button> */}
                     </form>
                     <button onClick={handleSubmit} className=" mt-2 w-full button-main">
                         {buttonText || t('common.continue')}

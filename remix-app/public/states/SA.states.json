@@ -1,0 +1,15 @@
+[
+    { "id": 2859, "code": "11", "name": "الباحة", "type": "region" },
+    { "id": 2857, "code": "12", "name": "الجوف", "type": "region" },
+    { "id": 2851, "code": "03", "name": "المدينة المنورة", "type": "region" },
+    { "id": 2861, "code": "05", "name": "القصيم", "type": "region" },
+    { "id": 2853, "code": "14", "name": "عسير", "type": "region" },
+    { "id": 2856, "code": "04", "name": "المنطقة الشرقية", "type": "region" },
+    { "id": 2855, "code": "06", "name": "حائل", "type": "region" },
+    { "id": 2858, "code": "09", "name": "جازان", "type": "region" },
+    { "id": 2850, "code": "02", "name": "مكة المكرمة", "type": "region" },
+    { "id": 2860, "code": "10", "name": "نجران", "type": "region" },
+    { "id": 2854, "code": "08", "name": "الحدود الشمالية", "type": "region" },
+    { "id": 2849, "code": "01", "name": "الرياض", "type": "region" },
+    { "id": 2852, "code": "07", "name": "تبوك", "type": "region" }
+]

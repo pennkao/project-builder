@@ -135,7 +135,7 @@ export function ComboBox({ name, options, option, onChange, isLock, onUnlock, pl
         );
     };
     return (
-        <div ref={wrapperRef} onClick={handleDropdownClick} className={`relative min-h-[37.6px] ${className} ${isFocused ? 'border-green-500 ring-1 ring-green-500 ring-opacity-30' : 'border-gray-300'}`}>
+        <div ref={wrapperRef} onClick={handleDropdownClick} className={`relative min-h-[41.6px] ${className} ${isFocused ? 'border-green-500 ring-1 ring-green-500 ring-opacity-30' : 'border-gray-300'}`}>
             <div ref={containerRef} className="flex items-center px-2 py-[2px] border-none ">
                 <input
                     type="text"
@@ -145,7 +145,7 @@ export function ComboBox({ name, options, option, onChange, isLock, onUnlock, pl
                     placeholder={placeholder}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    className="flex-1 outline-none text-main text-sm bg-transparent border-none "
+                    className="flex-1 outline-none text-main  bg-transparent border-none "
                 />
                 {options.length > 0 && name != 'city' && <div className="ml-2 cursor-pointer border-none  select-none text-gray-400">▼</div>}
             </div>

@@ -1,0 +1,19 @@
+[
+    { "id": 3860, "code": "26", "name": "부산", "type": "metropolitan city" },
+    { "id": 3846, "code": "27", "name": "대구", "type": "metropolitan city" },
+    { "id": 3850, "code": "30", "name": "대전", "type": "metropolitan city" },
+    { "id": 3862, "code": "42", "name": "강원", "type": "special self-governing province" },
+    { "id": 3858, "code": "29", "name": "광주", "type": "metropolitan city" },
+    { "id": 3847, "code": "41", "name": "경기", "type": "province" },
+    { "id": 3848, "code": "28", "name": "인천", "type": "metropolitan city" },
+    { "id": 3853, "code": "49", "name": "제주", "type": "special self-governing province" },
+    { "id": 3854, "code": "43", "name": "충북", "type": "province" },
+    { "id": 3855, "code": "47", "name": "경북", "type": "province" },
+    { "id": 3851, "code": "45", "name": "전북", "type": "province" },
+    { "id": 3861, "code": "50", "name": "세종", "type": "special self-governing city" },
+    { "id": 3849, "code": "11", "name": "서울", "type": "special city" },
+    { "id": 3859, "code": "44", "name": "충남", "type": "province" },
+    { "id": 3857, "code": "48", "name": "경남", "type": "province" },
+    { "id": 3856, "code": "46", "name": "전남", "type": "province" },
+    { "id": 3852, "code": "31", "name": "울산", "type": "metropolitan city" }
+]

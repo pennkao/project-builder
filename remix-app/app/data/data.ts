@@ -1,7 +1,7 @@
 export const initialUserInfoForm: UserInfoFormType = {
     country: { code: '', name: '' },
     state: { code: '', name: '' },
-    city: { code: '', name: '' },
+    city: '',
     email: '',
     firstName: '',
     lastName: '',
@@ -10,4 +10,11 @@ export const initialUserInfoForm: UserInfoFormType = {
     address2: '',
     zipCode: '',
     phone: '',
+};
+
+export const initialCreditCardPaymentForm: CreditCardPaymentFormType = {
+    number: '',
+    expiry: '',
+    cvc: '',
+    name: '',
 };
