@@ -2,7 +2,6 @@ package router
 
 import (
 	"net/http"
-	"path/filepath"
 	"strings"
 
 	"github.com/cms/admin"      // admin 包接口
@@ -12,14 +11,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
-
-	// 1️⃣ 静态资源目录（React build 输出）
-	distDir := "./dist"
-	r.Static("/assets", filepath.Join(distDir, "assets"))
-	r.Static("/images", filepath.Join(distDir, "images"))
-	r.StaticFile("/favicon.png", filepath.Join(distDir, "favicon.png"))
+	// 1️⃣ 静态资源
+	r.Static("/assets",  "./dist/assets")
+	r.Static("/images",  "./dist/images")
+	r.StaticFile("/favicon.png", "./dist/favicon.png")
 
 	// 2️⃣ 前端接口，无需验证
 	frontend := r.Group("/api")
@@ -28,17 +26,17 @@ func SetupRouter() *gin.Engine {
 		frontend.GET("/product/:id", api.GetProductDetail)
 	}
 
+	r.POST("/the-door/come-in", admin.Login)
+	r.GET("/the-door/open", func(c *gin.Context) {
+		c.File("./dist/login.html")
+	})
 	// 3️⃣ 后台管理接口
 	backend := r.Group("/admin")
 	{
-		// 不需要验证的登录接口
-		backend.POST("/login", admin.AdminLogin)
-
-		// 需要验证的 SPA 路由
 		protected := backend.Group("/")
 		protected.Use(middleware.AdminAuth()) // 仅保护 SPA 页面
 		protected.GET("/*path", func(c *gin.Context) {
-			c.File(filepath.Join(distDir, "index.html"))
+			c.File("./dist/index.html")
 		})
 	}
 
@@ -46,10 +44,12 @@ func SetupRouter() *gin.Engine {
 	r.NoRoute(func(c *gin.Context) {
 		path := c.Request.URL.Path
 		if strings.HasPrefix(path, "/api/") {
-			c.JSON(http.StatusNotFound, gin.H{"error": "API not found"})
-			return
+			c.String(http.StatusNotFound, "404 Not Found")
+			c.Abort()
 		}
 		c.String(http.StatusNotFound, "404 Not Found")
+		c.Abort()
+
 	})
 
 	return r

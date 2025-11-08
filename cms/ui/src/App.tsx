@@ -2,24 +2,25 @@ import { lazy, Suspense } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 
 import { ScrollToTop } from "@/components/common/ScrollToTop";
-const Avatars = lazy(() => import("./pages/UiElements/Avatars"));
-const Badges = lazy(() => import("./pages/UiElements/Badges"));
-const Buttons = lazy(() => import("./pages/UiElements/Buttons"));
-const Videos = lazy(() => import("./pages/UiElements/Videos"));
-const AppLayout = lazy(() => import("./layout/AppLayout"));
-const SignIn = lazy(() => import("./pages/AuthPages/SignIn"));
-const SignUp = lazy(() => import("./pages/AuthPages/SignUp"));
-const Blank = lazy(() => import("./pages/Blank"));
-const Calendar = lazy(() => import("./pages/Calendar"));
-const BarChart = lazy(() => import("./pages/Charts/BarChart"));
-const LineChart = lazy(() => import("./pages/Charts/LineChart"));
-const Home = lazy(() => import("./pages/Dashboard/Home"));
-const FormElements = lazy(() => import("./pages/Forms/FormElements"));
-const NotFound = lazy(() => import("./pages/OtherPage/NotFound"));
-const BasicTables = lazy(() => import("./pages/Tables/BasicTables"));
-const Alerts = lazy(() => import("./pages/UiElements/Alerts"));
+const Avatars = lazy(() => import("@/pages/UiElements/Avatars"));
+const Badges = lazy(() => import("@/pages/UiElements/Badges"));
+const Buttons = lazy(() => import("@/pages/UiElements/Buttons"));
+const Videos = lazy(() => import("@/pages/UiElements/Videos"));
+const AppLayout = lazy(() => import("@/layout/AppLayout"));
+const Blank = lazy(() => import("@/pages/Blank"));
+const Products = lazy(() => import("@/pages/Products/Products"));
+const AddProduct = lazy(() => import("@/pages/Products/AddProduct"));
+const Calendar = lazy(() => import("@/pages/Calendar"));
+const BarChart = lazy(() => import("@/pages/Charts/BarChart"));
+const LineChart = lazy(() => import("@/pages/Charts/LineChart"));
+const Home = lazy(() => import("@/pages/Dashboard/Home"));
+const FormElements = lazy(() => import("@/pages/Forms/FormElements"));
+const NotFound = lazy(() => import("@/pages/OtherPage/NotFound"));
+const BasicTables = lazy(() => import("@/pages/Tables/BasicTables"));
+const Alerts = lazy(() => import("@/pages/UiElements/Alerts"));
 const Images = lazy(() => import("@/pages/UiElements/Images"));
-const UserProfiles = lazy(() => import("./pages/UserProfiles"));
+const UserProfiles = lazy(() => import("@/pages/UserProfiles"));
+const SignIn = lazy(() => import("@/pages/AuthPages/SignIn"));
 
 export default function App() {
   return (
@@ -49,10 +50,26 @@ export default function App() {
               }
             />
             <Route
-              path="/blank"
+              path="/products-list"
               element={
                 <Suspense fallback={<div>Loading...</div>}>
-                  <Blank />
+                  <Products />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/products-list"
+              element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Products />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/add-product"
+              element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <AddProduct />
                 </Suspense>
               }
             />
@@ -145,24 +162,6 @@ export default function App() {
               }
             />
           </Route>
-
-          {/* Auth Layout */}
-          <Route
-            path="/signin"
-            element={
-              <Suspense fallback={<div>Loading...</div>}>
-                <SignIn />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <Suspense fallback={<div>Loading...</div>}>
-                <SignUp />
-              </Suspense>
-            }
-          />
 
           {/* Fallback Route */}
           <Route
