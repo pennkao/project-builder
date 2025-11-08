@@ -114,7 +114,7 @@ const List = ({ items }: { items: Product[] }) => {
                                 }}
                             />
                         </th>
-                        <th className={className}>Product</th>
+                        <th className={className}>Product</th> 
                         <th className={className}>Category</th>
                         <th className={className}>Brand</th>
                         <th className={className}>Price</th>
