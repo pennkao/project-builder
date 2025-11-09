@@ -14,9 +14,6 @@ type Response struct {
 	Data    interface{} `json:"data,omitempty"`    // 返回数据
 }
 
-
-
-
 func Success(c *gin.Context, data interface{}) {
     c.Header("Content-Type", "application/json; charset=utf-8")
     resp := Response{Code: 0, Message: "ok", Data: data}

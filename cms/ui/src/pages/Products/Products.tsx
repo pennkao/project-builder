@@ -5,44 +5,31 @@ import Page from '@/components/page/Page';
 import PageAction from '@/components/page/PageAction';
 import Button from '@/components/ui/button/Button';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
-import { DownloadIcon, FilterIcon, PlusIcon, SearchIcon } from '@/icons';
-import { useState } from 'react';
+import { usePostApi } from '@/hooks/useApi';
+import { AngleDownIcon, AngleUpIcon, DownloadIcon, FilterIcon, PlusIcon, SearchIcon } from '@/icons';
+import { formatDate } from '@fullcalendar/core/index.js';
+import { useEffect, useMemo, useState } from 'react';
 interface Product {
     id: number;
     name: string;
     category: string;
     brand: string;
     price: string;
-    stock: string;
-    stockType: string;
-    date: string;
-    image: string;
+    sales_count: string;
+    status: number;
+    cts: string;
+    main_image_url: string;
 }
 export default function Products() {
-    const products = [
-        {
-            id: 1,
-            name: 'ASUS ROG Gaming Laptop',
-            category: 'Laptop',
-            brand: 'ASUS',
-            price: '$2,199',
-            stock: 'Out of Stock',
-            stockType: 'out',
-            date: '01 Dec, 2027',
-            image: '/images/product/product-01.jpg',
-        },
-        {
-            id: 2,
-            name: 'Airpods Pro 2nd Gen',
-            category: 'Accessories',
-            brand: 'Apple',
-            price: '$839',
-            stock: 'In Stock',
-            stockType: 'in',
-            date: '29 Jun, 2027',
-            image: '/images/product/product-02.jpg',
-        },
-    ];
+    const [products, setProducts] = useState<Product[]>([]);
+    const { refresh } = usePostApi<Product[]>('list-products');
+    useEffect(() => {
+        refresh({ a: 1, b: 2 }).then((res) => {
+            if (res) {
+                setProducts(res);
+            }
+        });
+    }, []);
 
     return (
         <Page pageTitle="Product List">
@@ -98,13 +85,52 @@ const List = ({ items }: { items: Product[] }) => {
         setCheckedItems(allSelected);
     };
 
+    const [sortingField, setSortingField] = useState<{ field: string; status: '' | 'asc' | 'desc' }>({ field: '', status: '' });
+    // ✅ 排序逻辑
+    const sortedItems = useMemo(() => {
+        if (!sortingField.field || sortingField.status === '') return [...items];
+        const field = sortingField.field as keyof Product;
+        return [...items].sort((a, b) => {
+            if (a[field] < b[field]) return sortingField.status === 'asc' ? 1 : -1;
+            if (a[field] > b[field]) return sortingField.status === 'asc' ? -1 : 1;
+            return 0;
+        });
+    }, [items, sortingField]);
+    const formatStatus = (status: number) => {
+        return status === 0 ? 'Active' : 'Inactive';
+    };
+    const handleSorting = (field: keyof Product) => {
+        if (field !== sortingField.field) {
+            setSortingField({ field, status: 'desc' });
+            return;
+        }
+        setSortingField({
+            field,
+            status: sortingField.status === '' || sortingField.status === 'asc' ? 'desc' : 'asc',
+        });
+    };
+    const FieldJsx = ({ label, field, sortingField, onClick }: { label: string; field: string; sortingField?: { field: string; status: '' | 'asc' | 'desc' }; onClick: () => void }) => {
+        console.log(sortingField);
+        const handleClick = () => {
+            onClick();
+        };
+        return (
+            <div className="flex flex-row items-center gap-2 cursor-pointer" onClick={handleClick}>
+                <div className="text-sm text-gray-500 ">{label}</div>
+                <div className="flex flex-col justify-center gap-0">
+                    <AngleUpIcon className={`w-2 h-2 ${sortingField?.status === 'asc' && sortingField.field === field ? 'text-black' : 'text-gray-500/40'}`} />
+                    <AngleDownIcon className={`w-2 h-2 ${sortingField?.status === 'desc' && sortingField.field === field ? 'text-black' : 'text-gray-500/40'}`} />
+                </div>
+            </div>
+        );
+    };
     const className = 'px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-100';
 
     return (
         <div className="rounded-lg border border-gray-200 dark:border-gray-700">
             <Table>
                 <TableHeader>
-                    <tr>
+                    <tr className="bg-gray-50 dark:bg-gray-800 text-sm">
                         <th className={className}>
                             <Checkbox
                                 checked={isAllSelected}
@@ -114,18 +140,75 @@ const List = ({ items }: { items: Product[] }) => {
                                 }}
                             />
                         </th>
-                        <th className={className}>Product</th> 
-                        <th className={className}>Category</th>
-                        <th className={className}>Brand</th>
-                        <th className={className}>Price</th>
-                        <th className={className}>Stock</th>
-                        <th className={className}>Created At</th>
-                        <th className={className}>Actions</th>
+                        <th className={className}>
+                            <FieldJsx
+                                label={'Product'}
+                                field={'name'}
+                                sortingField={sortingField}
+                                onClick={() => {
+                                    handleSorting('name');
+                                }}
+                            />
+                        </th>
+                        <th className={className}>
+                            <FieldJsx
+                                label={'Category'}
+                                field={'category'}
+                                sortingField={sortingField}
+                                onClick={() => {
+                                    handleSorting('category');
+                                }}
+                            />
+                        </th>
+                        <th className={className}>
+                            <FieldJsx
+                                label={'Brand'}
+                                field={'brand'}
+                                sortingField={sortingField}
+                                onClick={() => {
+                                    handleSorting('brand');
+                                }}
+                            />
+                        </th>
+                        <th className={className}>
+                            <FieldJsx
+                                label={'Price'}
+                                field={'price'}
+                                sortingField={sortingField}
+                                onClick={() => {
+                                    handleSorting('price');
+                                }}
+                            />
+                        </th>
+                        <th className={className}>
+                            <FieldJsx
+                                label={'Status'}
+                                field={'status'}
+                                sortingField={sortingField}
+                                onClick={() => {
+                                    handleSorting('status');
+                                }}
+                            />
+                        </th>
+                        <th className={className}>
+                            <FieldJsx
+                                label={'Date'}
+                                field={'cts'}
+                                sortingField={sortingField}
+                                onClick={() => {
+                                    handleSorting('cts');
+                                }}
+                            />
+                        </th>
+
+                        <th className={className}>
+                            <span className="text-xs text-gray-600">Actions</span>
+                        </th>
                     </tr>
                 </TableHeader>
 
                 <TableBody>
-                    {items.map((item, index) => (
+                    {sortedItems.map((item, index) => (
                         <TableRow key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
                             <TableCell className={className}>
                                 <Checkbox
@@ -139,7 +222,7 @@ const List = ({ items }: { items: Product[] }) => {
 
                             <TableCell className={className}>
                                 <div className="flex items-center gap-3">
-                                    <img src={item.image} alt={item.name} className="h-10 w-10 rounded-md object-cover" />
+                                    <img src={item.main_image_url} className="h-10 w-10 rounded-md object-cover" />
                                     <span className={className}>{item.name}</span>
                                 </div>
                             </TableCell>
@@ -151,12 +234,12 @@ const List = ({ items }: { items: Product[] }) => {
                             <TableCell className={className}>{item.price}</TableCell>
 
                             <TableCell className={className}>
-                                <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${item.stockType === 'in' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                    {item.stock}
+                                <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${item.status === 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                    {formatStatus(item.status)}
                                 </span>
                             </TableCell>
 
-                            <TableCell className={className}>{item.date}</TableCell>
+                            <TableCell className={className}>{formatDate(item.cts)}</TableCell>
 
                             <TableCell className={className}>
                                 <Button variant="outline" size="sm">

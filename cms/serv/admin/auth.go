@@ -8,7 +8,7 @@ import (
 )
 
 // 登录接口，不验证
-func Login(c *gin.Context) {
+func (t *Cms)Login(c *gin.Context) {
 	var req struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -25,7 +25,7 @@ func Login(c *gin.Context) {
 }
 
 // 需要验证
-func AdminList(c *gin.Context) {
+func (t *Cms)AdminList(c *gin.Context) {
     c.JSON(200, gin.H{"message": "AdminList placeholder"})
 	response.Success(c, gin.H{"adminList": []gin.H{
 		{"id": 1, "name": "admin1"},

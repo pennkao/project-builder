@@ -12,8 +12,10 @@ import (
 )
 
 
-func SetupRouter() *gin.Engine {
+func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 	r := gin.Default()
+	middleware.Cross(r)
+		
 	// 1️⃣ 静态资源
 	r.Static("/assets",  "./dist/assets")
 	r.Static("/images",  "./dist/images")
@@ -26,7 +28,7 @@ func SetupRouter() *gin.Engine {
 		frontend.GET("/product/:id", api.GetProductDetail)
 	}
 
-	r.POST("/the-door/come-in", admin.Login)
+	r.POST("/the-door/come-in", cms.Login)
 	r.GET("/the-door/open", func(c *gin.Context) {
 		c.File("./dist/login.html")
 	})
@@ -35,6 +37,7 @@ func SetupRouter() *gin.Engine {
 	{
 		protected := backend.Group("/")
 		protected.Use(middleware.AdminAuth()) // 仅保护 SPA 页面
+		protected.POST("/api/*path", cms.Dispatcher)
 		protected.GET("/*path", func(c *gin.Context) {
 			c.File("./dist/index.html")
 		})
