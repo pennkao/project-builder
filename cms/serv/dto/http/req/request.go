@@ -1,4 +1,4 @@
-package request
+package req
 
 import (
 	"io"
@@ -14,8 +14,7 @@ func (JsonData) Name() string {
 	return "sonic-json"
 }
 
-// Bind 解析请求体
-func (JsonData) Bind(req *http.Request, obj interface{}) error {
+func (JsonData) bind(req *http.Request, obj interface{}) error {
 	body, err := io.ReadAll(req.Body)
 	if err != nil {
 		return err
@@ -24,5 +23,5 @@ func (JsonData) Bind(req *http.Request, obj interface{}) error {
 }
 
 func Json(c *gin.Context, obj interface{}) error {
-	return JsonData{}.Bind(c.Request, obj)
+	return JsonData{}.bind(c.Request, obj)
 }

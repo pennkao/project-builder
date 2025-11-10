@@ -5,6 +5,7 @@ import { ReactComponent as AngleLeftIcon } from './angle-left.svg?react';
 import { ReactComponent as AngleRightIcon } from './angle-right.svg?react';
 import { ReactComponent as AngleUpIcon } from './angle-up.svg?react';
 import { ReactComponent as ArrowDownIcon } from './arrow-down.svg?react';
+import { ReactComponent as ArrowLeftIcon } from './arrow-left.svg?react';
 import { ReactComponent as ArrowRightIcon } from './arrow-right.svg?react';
 import { ReactComponent as ArrowUpIcon } from './arrow-up.svg?react';
 import { ReactComponent as AudioIcon } from './audio.svg?react';
@@ -67,6 +68,7 @@ export {
     AngleRightIcon,
     AngleUpIcon,
     ArrowDownIcon,
+    ArrowLeftIcon,
     ArrowRightIcon,
     ArrowUpIcon,
     AudioIcon,

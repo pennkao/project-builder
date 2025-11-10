@@ -1,10 +1,12 @@
 package admin
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/cms/db"
-	"github.com/cms/response"
+	"github.com/cms/dto/http/rep"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,6 +21,7 @@ func NewCms(query *db.Queries) *Cms {
 
 
 func (t *Cms)Dispatcher(c *gin.Context) {
+	fmt.Println("path", c.Param("path"))
 	path := c.Param("path")
 	switch path {
 	case "/list-products":
@@ -28,7 +31,7 @@ func (t *Cms)Dispatcher(c *gin.Context) {
 	case "/add-product":
 		t.AddProduct(c)
 	default:
-		response.Error(c, http.StatusNotFound, "Not Found")
+		rep.Error[any](c, http.StatusNotFound, "Not Found")
 	}
 
 }

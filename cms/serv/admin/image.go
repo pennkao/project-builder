@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/cms/db"
-	"github.com/cms/response"
+	"github.com/cms/dto/http/rep"
 	"github.com/gin-gonic/gin"
 )
 func (t *Cms)ListImages(c *gin.Context) {
@@ -13,8 +13,8 @@ func (t *Cms)ListImages(c *gin.Context) {
 		Offset: 0,
 	})
 	if err != nil {
-		response.Error(c, http.StatusInternalServerError, err.Error())
+		rep.Error[any](c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	response.Success(c, images)
+	rep.Success[any](c, images)
 }

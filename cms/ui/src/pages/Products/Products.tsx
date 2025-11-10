@@ -5,11 +5,12 @@ import Page from '@/components/page/Page';
 import PageAction from '@/components/page/PageAction';
 import Button from '@/components/ui/button/Button';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
-import { usePostApi } from '@/hooks/useApi';
+import { usePost } from '@/hooks/usePost';
 import { AngleDownIcon, AngleUpIcon, DownloadIcon, FilterIcon, PlusIcon, SearchIcon } from '@/icons';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useEffect, useMemo, useState } from 'react';
-interface Product {
+import { Pagination } from '../../components/page/Pagination';
+interface ProductType {
     id: number;
     name: string;
     category: string;
@@ -20,16 +21,28 @@ interface Product {
     cts: string;
     main_image_url: string;
 }
+interface ProductPageType {
+    page: number;
+    size: number;
+    total: number;
+    list: ProductType[];
+}
 export default function Products() {
-    const [products, setProducts] = useState<Product[]>([]);
-    const { refresh } = usePostApi<Product[]>('list-products');
+    const [page, setPage] = useState(1); // eslint-disable-next-line
+    const [result, setResult] = useState<ProductPageType>({
+        page: 1,
+        size: 10,
+        total: 0,
+        list: [],
+    });
+    const { doPost } = usePost<ProductPageType>('list-products');
+    // doLoading({}, { page, size: 10 }, (res) => setResult(res));
     useEffect(() => {
-        refresh({ a: 1, b: 2 }).then((res) => {
-            if (res) {
-                setProducts(res);
-            }
+        doPost({ querys: { page: page, size: 10 } }, (data) => {
+            console.log('✅ 产品数据:', data);
+            setResult(data);
         });
-    }, []);
+    }, [page]);
 
     return (
         <Page pageTitle="Product List">
@@ -63,12 +76,13 @@ export default function Products() {
                     </Button>
                 </div>
             </ContentAction>
-            <List items={products} />
+            <List items={result?.list || []} />
+            <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />
         </Page>
     );
 }
 
-const List = ({ items }: { items: Product[] }) => {
+const List = ({ items }: { items: ProductType[] }) => {
     const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({}); // Add this line
     const [isAllSelected, setIsAllSelected] = useState(false);
     const handleCheckboxChange = (id: number) => {
@@ -89,7 +103,7 @@ const List = ({ items }: { items: Product[] }) => {
     // ✅ 排序逻辑
     const sortedItems = useMemo(() => {
         if (!sortingField.field || sortingField.status === '') return [...items];
-        const field = sortingField.field as keyof Product;
+        const field = sortingField.field as keyof ProductType;
         return [...items].sort((a, b) => {
             if (a[field] < b[field]) return sortingField.status === 'asc' ? 1 : -1;
             if (a[field] > b[field]) return sortingField.status === 'asc' ? -1 : 1;
@@ -99,7 +113,7 @@ const List = ({ items }: { items: Product[] }) => {
     const formatStatus = (status: number) => {
         return status === 0 ? 'Active' : 'Inactive';
     };
-    const handleSorting = (field: keyof Product) => {
+    const handleSorting = (field: keyof ProductType) => {
         if (field !== sortingField.field) {
             setSortingField({ field, status: 'desc' });
             return;
@@ -125,13 +139,14 @@ const List = ({ items }: { items: Product[] }) => {
         );
     };
     const className = 'px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-100';
+    const firstRowClassName = 'px-5 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-100';
 
     return (
-        <div className="rounded-lg border border-gray-200 dark:border-gray-700">
+        <div className="w-full">
             <Table>
                 <TableHeader>
-                    <tr className="bg-gray-50 dark:bg-gray-800 text-sm">
-                        <th className={className}>
+                    <tr className="bg-gray-50 dark:bg-gray-800 text-sm h-12">
+                        <th className={firstRowClassName}>
                             <Checkbox
                                 checked={isAllSelected}
                                 onChange={() => {
@@ -209,8 +224,8 @@ const List = ({ items }: { items: Product[] }) => {
 
                 <TableBody>
                     {sortedItems.map((item, index) => (
-                        <TableRow key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
-                            <TableCell className={className}>
+                        <TableRow key={index} className=" hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
+                            <TableCell className={firstRowClassName}>
                                 <Checkbox
                                     id={`checkbox-${item.id}`}
                                     checked={!!checkedItems[item.id]}

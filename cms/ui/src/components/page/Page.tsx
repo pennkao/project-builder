@@ -13,7 +13,7 @@ export default function Page({
       <PageMeta title={pageTitle} description="" />
       <PageBreadcrumb pageTitle={pageTitle} />
 
-      <div className="min-h-screen rounded-2xl border border-gray-200 bg-white  dark:border-gray-800 dark:bg-white/[0.03] xl:px-1 xl:py-1">
+      <div className="min-h-screen rounded-2xl border border-gray-200 bg-white  dark:border-gray-800 dark:bg-white/[0.03] xl:px-0 xl:py-1">
         {children}
       </div>
     </div>
