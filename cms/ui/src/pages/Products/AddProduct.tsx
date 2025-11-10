@@ -1,31 +1,31 @@
 import Page from '@/components/page/Page';
+import ProductDescription from '@/feature/product/ProductDescription';
+import ProductMain from '@/feature/product/ProductMain';
+import UploadImage from '@/feature/product/UploadImae';
 import CheckboxComponents from '../../components/form/form-elements/CheckboxComponents';
-import DefaultInputs from '../../components/form/form-elements/DefaultInputs';
-import DropzoneComponent from '../../components/form/form-elements/DropZone';
 import FileInputExample from '../../components/form/form-elements/FileInputExample';
 import InputGroup from '../../components/form/form-elements/InputGroup';
-import InputStates from '../../components/form/form-elements/InputStates';
 import RadioButtons from '../../components/form/form-elements/RadioButtons';
-import SelectInputs from '../../components/form/form-elements/SelectInputs';
-import TextAreaInput from '../../components/form/form-elements/TextAreaInput';
 import ToggleSwitch from '../../components/form/form-elements/ToggleSwitch';
 export default function AddProduct() {
     return (
         <Page pageTitle="Add Product" showBackgroud={false}>
             <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
                 <div className="space-y-6">
-                    <DefaultInputs />
-                    <SelectInputs />
-                    <TextAreaInput />
-                    <InputStates />
+                    <ProductMain />
+                    {/* <SelectInputs /> */}
+                   
+
+                    {/* <InputStates /> */}
                 </div>
                 <div className="space-y-6">
+                    <UploadImage />
                     <InputGroup />
                     <FileInputExample />
                     <CheckboxComponents />
                     <RadioButtons />
                     <ToggleSwitch />
-                    <DropzoneComponent />
+                    <ProductDescription />
                 </div>
             </div>
         </Page>

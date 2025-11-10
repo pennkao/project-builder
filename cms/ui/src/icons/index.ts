@@ -56,6 +56,7 @@ import { ReactComponent as TableIcon } from './table.svg?react';
 import { ReactComponent as TaskIcon } from './task-icon.svg?react';
 import { ReactComponent as TimeIcon } from './time.svg?react';
 import { ReactComponent as TrashBinIcon } from './trash.svg?react';
+import { ReactComponent as UploadFileIcon } from './upload-file.svg?react';
 import { ReactComponent as UserCircleIcon } from './user-circle.svg?react';
 import { ReactComponent as UserIcon } from './user-line.svg?react';
 import { ReactComponent as VideoIcon } from './videos.svg?react';
@@ -119,6 +120,7 @@ export {
     TaskIcon,
     TimeIcon,
     TrashBinIcon,
+    UploadFileIcon,
     UserCircleIcon,
     UserIcon,
     VideoIcon,
