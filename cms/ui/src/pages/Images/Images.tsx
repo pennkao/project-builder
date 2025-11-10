@@ -1,5 +1,5 @@
 import Page from '@/components/page/Page';
-import { usePostApi } from '@/hooks/usePost';
+import { usePost } from '@/hooks/usePost';
 import { useEffect, useState } from 'react';
 
 interface Image {
@@ -13,23 +13,21 @@ interface Image {
 
 export default function Images() {
     const [images, setImages] = useState<Image[]>([]);
-    const { refresh } = usePostApi<Image[]>('list-images');
+    const { doPost } = usePost<Image[]>('list-images');
     useEffect(() => {
-        refresh().then((res) => {
-            if (res) {
-                setImages(res);
-            }
+        doPost({}, (list) => {
+            setImages(list || []);
         });
     }, []);
     const className = 'border border-gray-200 rounded-xl dark:border-gray-800 w-30 h-30';
     return (
         <>
-            <Page pageTitle="Images">
+            <Page pageTitle="Images" showBackgroud={true}>
                 <div className="flex flex-row justify-start flex-wrap  p-1 gap-1 sm:gap-1 xl:gap-1">
                     {images.length === 0 && <div className="text-center">No images found</div>}
                     {images.map((item) => (
                         <div key={item.id}>
-                            <div className={`relative border-1 border-red-500 ${className}`}>
+                            <div className={`relative border border-red-500 ${className}`}>
                                 <span className="text-xs text-gray-500 absolute top-1 left-1">
                                     {item.width}x{item.height}
                                 </span>

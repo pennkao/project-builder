@@ -1,3 +1,4 @@
+import FieldSort from '@/components/FidldSort';
 import Checkbox from '@/components/form/input/Checkbox';
 import Input from '@/components/form/input/InputField';
 import ContentAction from '@/components/page/ContentAction';
@@ -5,10 +6,13 @@ import Page from '@/components/page/Page';
 import PageAction from '@/components/page/PageAction';
 import Button from '@/components/ui/button/Button';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
+import { formatProductStatus } from '@/feature/status/product';
 import { usePost } from '@/hooks/usePost';
-import { AngleDownIcon, AngleUpIcon, DownloadIcon, FilterIcon, PlusIcon, SearchIcon } from '@/icons';
+import { DownloadIcon, FilterIcon, PlusIcon, SearchIcon } from '@/icons';
+import { sortItems } from '@/utils/sort';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useEffect, useMemo, useState } from 'react';
+import Image from '../../components/Image';
 import { Pagination } from '../../components/page/Pagination';
 interface ProductType {
     id: number;
@@ -39,13 +43,12 @@ export default function Products() {
     // doLoading({}, { page, size: 10 }, (res) => setResult(res));
     useEffect(() => {
         doPost({ querys: { page: page, size: 10 } }, (data) => {
-            console.log('✅ 产品数据:', data);
             setResult(data);
         });
     }, [page]);
 
     return (
-        <Page pageTitle="Product List">
+        <Page pageTitle="Product List" showBackgroud={true}>
             <PageAction>
                 <div>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">Products List</h3>
@@ -76,13 +79,13 @@ export default function Products() {
                     </Button>
                 </div>
             </ContentAction>
-            <List items={result?.list || []} />
+            <ListProduct items={[...(result?.list || [])]} />
             <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />
         </Page>
     );
 }
 
-const List = ({ items }: { items: ProductType[] }) => {
+const ListProduct = ({ items }: { items: ProductType[] }) => {
     const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({}); // Add this line
     const [isAllSelected, setIsAllSelected] = useState(false);
     const handleCheckboxChange = (id: number) => {
@@ -104,15 +107,9 @@ const List = ({ items }: { items: ProductType[] }) => {
     const sortedItems = useMemo(() => {
         if (!sortingField.field || sortingField.status === '') return [...items];
         const field = sortingField.field as keyof ProductType;
-        return [...items].sort((a, b) => {
-            if (a[field] < b[field]) return sortingField.status === 'asc' ? 1 : -1;
-            if (a[field] > b[field]) return sortingField.status === 'asc' ? -1 : 1;
-            return 0;
-        });
+        return sortItems(items, field, sortingField.status);
     }, [items, sortingField]);
-    const formatStatus = (status: number) => {
-        return status === 0 ? 'Active' : 'Inactive';
-    };
+
     const handleSorting = (field: keyof ProductType) => {
         if (field !== sortingField.field) {
             setSortingField({ field, status: 'desc' });
@@ -123,21 +120,7 @@ const List = ({ items }: { items: ProductType[] }) => {
             status: sortingField.status === '' || sortingField.status === 'asc' ? 'desc' : 'asc',
         });
     };
-    const FieldJsx = ({ label, field, sortingField, onClick }: { label: string; field: string; sortingField?: { field: string; status: '' | 'asc' | 'desc' }; onClick: () => void }) => {
-        console.log(sortingField);
-        const handleClick = () => {
-            onClick();
-        };
-        return (
-            <div className="flex flex-row items-center gap-2 cursor-pointer" onClick={handleClick}>
-                <div className="text-sm text-gray-500 ">{label}</div>
-                <div className="flex flex-col justify-center gap-0">
-                    <AngleUpIcon className={`w-2 h-2 ${sortingField?.status === 'asc' && sortingField.field === field ? 'text-black' : 'text-gray-500/40'}`} />
-                    <AngleDownIcon className={`w-2 h-2 ${sortingField?.status === 'desc' && sortingField.field === field ? 'text-black' : 'text-gray-500/40'}`} />
-                </div>
-            </div>
-        );
-    };
+
     const className = 'px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-100';
     const firstRowClassName = 'px-5 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-100';
 
@@ -156,7 +139,7 @@ const List = ({ items }: { items: ProductType[] }) => {
                             />
                         </th>
                         <th className={className}>
-                            <FieldJsx
+                            <FieldSort
                                 label={'Product'}
                                 field={'name'}
                                 sortingField={sortingField}
@@ -166,7 +149,7 @@ const List = ({ items }: { items: ProductType[] }) => {
                             />
                         </th>
                         <th className={className}>
-                            <FieldJsx
+                            <FieldSort
                                 label={'Category'}
                                 field={'category'}
                                 sortingField={sortingField}
@@ -176,7 +159,7 @@ const List = ({ items }: { items: ProductType[] }) => {
                             />
                         </th>
                         <th className={className}>
-                            <FieldJsx
+                            <FieldSort
                                 label={'Brand'}
                                 field={'brand'}
                                 sortingField={sortingField}
@@ -186,7 +169,7 @@ const List = ({ items }: { items: ProductType[] }) => {
                             />
                         </th>
                         <th className={className}>
-                            <FieldJsx
+                            <FieldSort
                                 label={'Price'}
                                 field={'price'}
                                 sortingField={sortingField}
@@ -196,7 +179,7 @@ const List = ({ items }: { items: ProductType[] }) => {
                             />
                         </th>
                         <th className={className}>
-                            <FieldJsx
+                            <FieldSort
                                 label={'Status'}
                                 field={'status'}
                                 sortingField={sortingField}
@@ -206,7 +189,7 @@ const List = ({ items }: { items: ProductType[] }) => {
                             />
                         </th>
                         <th className={className}>
-                            <FieldJsx
+                            <FieldSort
                                 label={'Date'}
                                 field={'cts'}
                                 sortingField={sortingField}
@@ -237,7 +220,7 @@ const List = ({ items }: { items: ProductType[] }) => {
 
                             <TableCell className={className}>
                                 <div className="flex items-center gap-3">
-                                    <img src={item.main_image_url} className="h-10 w-10 rounded-md object-cover" />
+                                    <Image src={item.main_image_url} className="h-10 w-10 rounded-md object-cover" />
                                     <span className={className}>{item.name}</span>
                                 </div>
                             </TableCell>
@@ -248,11 +231,7 @@ const List = ({ items }: { items: ProductType[] }) => {
 
                             <TableCell className={className}>{item.price}</TableCell>
 
-                            <TableCell className={className}>
-                                <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${item.status === 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                    {formatStatus(item.status)}
-                                </span>
-                            </TableCell>
+                            <TableCell className={className}>{formatProductStatus(item.status)}</TableCell>
 
                             <TableCell className={className}>{formatDate(item.cts)}</TableCell>
 

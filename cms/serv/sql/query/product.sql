@@ -1,7 +1,7 @@
 -- name: ListProducts :many
 SELECT  id,name, handle, tags, weight_g,deleted,status, brand, category, main_image_url, price,sales_count,cts
 FROM products
-ORDER BY id ASC
+ORDER BY ??
 LIMIT $1 OFFSET $2;
 -- name: GetProductCount :one
 SELECT COUNT(*) FROM products;

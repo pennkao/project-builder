@@ -1,26 +1,33 @@
-import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import PageMeta from "../../components/common/PageMeta";
-
-export default function Blank() {
-  return (
-    <div>
-      <PageMeta
-        title="React.js Blank Dashboard | TailAdmin - Next.js Admin Dashboard Template"
-        description="This is React.js Blank Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
-      />
-      <PageBreadcrumb pageTitle="Blank Page" />
-      <div className="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
-        <div className="mx-auto w-full max-w-[630px] text-center">
-          <h3 className="mb-4 font-semibold text-gray-800 text-theme-xl dark:text-white/90 sm:text-2xl">
-            Card Title Here
-          </h3>
-
-          <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-            Start putting content on grids or panels, you can also use different
-            combinations of grids.Please check out the dashboard and other pages
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+import Page from '@/components/page/Page';
+import CheckboxComponents from '../../components/form/form-elements/CheckboxComponents';
+import DefaultInputs from '../../components/form/form-elements/DefaultInputs';
+import DropzoneComponent from '../../components/form/form-elements/DropZone';
+import FileInputExample from '../../components/form/form-elements/FileInputExample';
+import InputGroup from '../../components/form/form-elements/InputGroup';
+import InputStates from '../../components/form/form-elements/InputStates';
+import RadioButtons from '../../components/form/form-elements/RadioButtons';
+import SelectInputs from '../../components/form/form-elements/SelectInputs';
+import TextAreaInput from '../../components/form/form-elements/TextAreaInput';
+import ToggleSwitch from '../../components/form/form-elements/ToggleSwitch';
+export default function AddProduct() {
+    return (
+        <Page pageTitle="Add Product" showBackgroud={false}>
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+                <div className="space-y-6">
+                    <DefaultInputs />
+                    <SelectInputs />
+                    <TextAreaInput />
+                    <InputStates />
+                </div>
+                <div className="space-y-6">
+                    <InputGroup />
+                    <FileInputExample />
+                    <CheckboxComponents />
+                    <RadioButtons />
+                    <ToggleSwitch />
+                    <DropzoneComponent />
+                </div>
+            </div>
+        </Page>
+    );
 }
