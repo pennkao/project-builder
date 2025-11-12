@@ -10,14 +10,16 @@ import (
 )
 
 type Image struct {
-	ID       int32       `json:"id"`
-	Filename string      `json:"filename"`
-	Itype    string      `json:"itype"`
-	MimeType string      `json:"mime_type"`
-	AltText  pgtype.Text `json:"alt_text"`
-	Width    pgtype.Int4 `json:"width"`
-	Height   pgtype.Int4 `json:"height"`
-	Cts      pgtype.Int8 `json:"cts"`
+	ID          int32       `json:"id"`
+	Url         pgtype.Text `json:"url"`
+	StoragePath pgtype.Text `json:"storage_path"`
+	FileName    string      `json:"file_name"`
+	FileType    string      `json:"file_type"`
+	MimeType    string      `json:"mime_type"`
+	AltText     pgtype.Text `json:"alt_text"`
+	WidthPx     pgtype.Int4 `json:"width_px"`
+	HeightPx    pgtype.Int4 `json:"height_px"`
+	Cts         pgtype.Int8 `json:"cts"`
 }
 
 type Product struct {

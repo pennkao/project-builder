@@ -2,15 +2,6 @@ import Page from '@/components/page/Page';
 import { usePost } from '@/hooks/usePost';
 import { useEffect, useState } from 'react';
 
-interface Image {
-    id: number;
-    filename: string;
-    itype: number;
-    alt_text: string;
-    width: number;
-    height: number;
-}
-
 export default function Images() {
     const [images, setImages] = useState<Image[]>([]);
     const { doPost } = usePost<Image[]>('list-images');
@@ -29,10 +20,10 @@ export default function Images() {
                         <div key={item.id}>
                             <div className={`relative border border-red-500 ${className}`}>
                                 <span className="text-xs text-gray-500 absolute top-1 left-1">
-                                    {item.width}x{item.height}
+                                    {item.width_px}x{item.height_px}
                                 </span>
                                 <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>
-                                <img src={item.filename} alt={item.alt_text} className={className} />
+                                <img src={item.url} alt={item.alt_text} className={className} />
                             </div>
                         </div>
                     ))}

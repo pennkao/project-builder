@@ -7,15 +7,9 @@ import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useS
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-type ImageItem = {
-    id: string;
-    file: File;
-    preview: string;
-};
-
 const generateId = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
 
-const SortableImage = ({ item, idx, onRemove, onSetMain }: { item: ImageItem; idx: number; onRemove: (id: string) => void; onSetMain?: (id: string) => void }) => {
+const ImageItem = ({ item, idx, onRemove, onSetMain }: { item: ImageItem; idx: number; onRemove: (id: string) => void; onSetMain?: (id: string) => void }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: item.id,
     });
@@ -63,7 +57,7 @@ const SortableImage = ({ item, idx, onRemove, onSetMain }: { item: ImageItem; id
     );
 };
 
-const DropzoneSortable = () => {
+const UploadImage = ({ onChange }: { onChange: (images: ImageItem[]) => void }) => {
     const [images, setImages] = useState<ImageItem[]>([]);
     const sensors = useSensors(useSensor(PointerSensor));
 
@@ -164,27 +158,14 @@ const DropzoneSortable = () => {
         }
     };
 
+    useEffect(() => {
+        onChange(images);
+    }, [images]);
+
     return (
         <ComponentCard title="Upload Image">
-            {/* 操作按钮 */}
-            <div className="mt-3 flex gap-0">
-                <button type="button" onClick={handleUpload} className="px-4 rounded bg-brand-500 text-white hover:opacity-95">
-                    上传全部
-                </button>
-                <button
-                    type="button"
-                    onClick={() => {
-                        // 清空并释放 URL
-                        images.forEach((i) => URL.revokeObjectURL(i.preview));
-                        setImages([]);
-                    }}
-                    className="px-4 py-2 rounded border"
-                >
-                    清空
-                </button>
-            </div>
-            {/* 下方：dropzone */}
-            <div className="transition border-2 border-gray-300 m-0 border-dashed cursor-pointer dark:hover:border-brand-500 dark:border-gray-700 hover:border-brand-500 rounded-tr-xl rounded-tl-xl">
+            {/* 上方：dropzone */}
+            <div className="transition border-4 border-gray-300 m-0 border-dashed cursor-pointer dark:hover:border-brand-500 dark:border-gray-700 hover:border-brand-500 hover:border-4 rounded-tr-xl rounded-tl-xl">
                 <form
                     {...getRootProps()}
                     className={`dropzone rounded-xl border-dashed border-gray-300 px-7 py-4 ${
@@ -200,21 +181,40 @@ const DropzoneSortable = () => {
                 </form>
             </div>
 
-            {/* 上方：图片网格（支持拖动排序） */}
+            {/* 下方：图片网格（支持拖动排序） */}
             <div className="w-full">
                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                     <SortableContext items={images.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-                        <div className="flex flex-wrap gap-2 p-4 bg-white min-h-68 border-2 border-gray-400 rounded-br-xl rounded-bl-xl border-t-0">
-                            {images.length === 0 && <div className="w-full text-sm text-gray-500">暂无图片，拖入或点击上方上传</div>}
+                        <div className="flex flex-wrap gap-2 p-4 bg-white min-h-68 border-4 border-gray-300 rounded-br-xl rounded-bl-xl border-t-0 border-dashed dark:bg-gray-800 dark:border-gray-700">
+                            {images.length === 0 && <div className="w-full text-sm text-gray-500">No images available; drag or click above to upload.</div>}
                             {images.map((item, idx) => (
-                                <SortableImage key={item.id} idx={idx} item={item} onRemove={handleRemove} onSetMain={handleSetMain} />
+                                <ImageItem key={item.id} idx={idx} item={item} onRemove={handleRemove} onSetMain={handleSetMain} />
                             ))}
                         </div>
                     </SortableContext>
                 </DndContext>
             </div>
+            {/* 操作按钮 */}
+            {images.length > 0 && (
+                <div className="mt-2 flex justify-end gap-2">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            // 清空并释放 URL
+                            images.forEach((i) => URL.revokeObjectURL(i.preview));
+                            setImages([]);
+                        }}
+                        className="px-4 py-2 rounded border"
+                    >
+                        Clean
+                    </button>
+                    <button type="button" onClick={handleUpload} className="px-4 rounded bg-brand-500 text-white hover:opacity-95">
+                        Upload All
+                    </button>
+                </div>
+            )}
         </ComponentCard>
     );
 };
 
-export default DropzoneSortable;
+export default UploadImage;

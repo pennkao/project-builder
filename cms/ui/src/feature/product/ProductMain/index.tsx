@@ -10,15 +10,12 @@ export default function ProductMain() {
         { value: 'template', label: 'Template' },
         { value: 'development', label: 'Development' },
     ];
-    const handleSelectChange = (value: string) => {
-        console.log('Selected value:', value);
-    };
 
     return (
         <ComponentCard title="Product">
             <div className="space-y-6">
                 <div>
-                    <Label htmlFor="input">Name</Label>
+                    <Label htmlFor="input">Product Name</Label>
                     <Input type="text" id="input" />
                 </div>
                 <div>

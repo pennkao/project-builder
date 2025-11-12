@@ -10,7 +10,7 @@ import (
 )
 
 const listImages = `-- name: ListImages :many
-SELECT id, filename, itype, mime_type, alt_text, width, height, cts FROM images
+SELECT id, url, storage_path, file_name, file_type, mime_type, alt_text, width_px, height_px, cts FROM images
 ORDER BY id ASC
 LIMIT $1 OFFSET $2
 `
@@ -31,12 +31,14 @@ func (q *Queries) ListImages(ctx context.Context, arg ListImagesParams) ([]Image
 		var i Image
 		if err := rows.Scan(
 			&i.ID,
-			&i.Filename,
-			&i.Itype,
+			&i.Url,
+			&i.StoragePath,
+			&i.FileName,
+			&i.FileType,
 			&i.MimeType,
 			&i.AltText,
-			&i.Width,
-			&i.Height,
+			&i.WidthPx,
+			&i.HeightPx,
 			&i.Cts,
 		); err != nil {
 			return nil, err
