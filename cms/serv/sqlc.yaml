@@ -24,3 +24,5 @@ sql:
               import: "github.com/cms/dbtypes"
               type: "JSON"
               pointer: true
+          - db_type: "text"
+            go_type: "string"

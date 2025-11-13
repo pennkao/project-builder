@@ -10,15 +10,15 @@ import (
 )
 
 type Image struct {
-	ID          int32       `json:"id"`
-	Url         pgtype.Text `json:"url"`
-	StoragePath pgtype.Text `json:"storage_path"`
+	ID          int64       `json:"id"`
+	Url         string      `json:"url"`
+	StoragePath string      `json:"storage_path"`
 	FileName    string      `json:"file_name"`
 	FileType    string      `json:"file_type"`
 	MimeType    string      `json:"mime_type"`
-	AltText     pgtype.Text `json:"alt_text"`
-	WidthPx     pgtype.Int4 `json:"width_px"`
-	HeightPx    pgtype.Int4 `json:"height_px"`
+	AltText     string      `json:"alt_text"`
+	WidthPx     int32       `json:"width_px"`
+	HeightPx    int32       `json:"height_px"`
 	Cts         pgtype.Int8 `json:"cts"`
 }
 
@@ -27,48 +27,38 @@ type Product struct {
 	Name         string         `json:"name"`
 	Handle       string         `json:"handle"`
 	Tags         []string       `json:"tags"`
-	Status       pgtype.Int2    `json:"status"`
-	Deleted      pgtype.Int2    `json:"deleted"`
-	WeightG      pgtype.Int4    `json:"weight_g"`
-	Brand        pgtype.Text    `json:"brand"`
-	Category     pgtype.Text    `json:"category"`
-	MainImageUrl pgtype.Text    `json:"main_image_url"`
-	SalesCount   pgtype.Int4    `json:"sales_count"`
+	Status       int16          `json:"status"`
+	Deleted      int16          `json:"deleted"`
+	SkuNum       int16          `json:"sku_num"`
+	WeightG      int32          `json:"weight_g"`
+	Brand        string         `json:"brand"`
+	Category     string         `json:"category"`
+	MainImageUrl string         `json:"main_image_url"`
+	SalesCount   int32          `json:"sales_count"`
+	Stock        int32          `json:"stock"`
 	Price        pgtype.Numeric `json:"price"`
 	Cts          pgtype.Int8    `json:"cts"`
 	Uts          pgtype.Int8    `json:"uts"`
 }
 
 type ProductContent struct {
-	ProductID int64       `json:"product_id"`
-	Content   pgtype.Text `json:"content"`
+	ProductID int64  `json:"product_id"`
+	Content   string `json:"content"`
 }
 
 type ProductDetail struct {
-	ProductID int64         `json:"product_id"`
-	Images    []string      `json:"images"`
-	Videos    *dbtypes.JSON `json:"videos"`
-	Specs     *dbtypes.JSON `json:"specs"`
-	Cts       pgtype.Int8   `json:"cts"`
-	Uts       pgtype.Int8   `json:"uts"`
+	ProductID int64        `json:"product_id"`
+	Images    []string     `json:"images"`
+	Videos    []string     `json:"videos"`
+	Specs     dbtypes.JSON `json:"specs"`
+	Cts       pgtype.Int8  `json:"cts"`
+	Uts       pgtype.Int8  `json:"uts"`
 }
 
 type ProductMetum struct {
-	ProductID       int64       `json:"product_id"`
-	MetaTitle       pgtype.Text `json:"meta_title"`
-	MetaDescription pgtype.Text `json:"meta_description"`
-	Keywords        pgtype.Text `json:"keywords"`
-	IsFeatured      pgtype.Bool `json:"is_featured"`
-	SortPriority    pgtype.Int4 `json:"sort_priority"`
-	ShowInSlider    pgtype.Bool `json:"show_in_slider"`
-	WarrantyMonths  pgtype.Int4 `json:"warranty_months"`
-	OriginCountry   pgtype.Text `json:"origin_country"`
-	WeightG         pgtype.Int4 `json:"weight_g"`
-	Material        pgtype.Text `json:"material"`
-	ShopifyID       pgtype.Text `json:"shopify_id"`
-	GoogleCategory  pgtype.Text `json:"google_category"`
-	Cts             pgtype.Int8 `json:"cts"`
-	Uts             pgtype.Int8 `json:"uts"`
+	ProductID   int64        `json:"product_id"`
+	Content     dbtypes.JSON `json:"content"`
+	Description string       `json:"description"`
 }
 
 type ProductOption struct {
@@ -79,14 +69,22 @@ type ProductOption struct {
 }
 
 type ProductSku struct {
-	ID        string         `json:"id"`
+	ID        int64          `json:"id"`
 	ProductID int64          `json:"product_id"`
-	Img       pgtype.Text    `json:"img"`
+	Name      string         `json:"name"`
+	Img       string         `json:"img"`
 	Price     pgtype.Numeric `json:"price"`
 	Stock     int32          `json:"stock"`
-	WeightG   pgtype.Int4    `json:"weight_g"`
+	WeightG   int32          `json:"weight_g"`
 	Attrs     dbtypes.JSON   `json:"attrs"`
-	Status    pgtype.Int2    `json:"status"`
+	Status    int16          `json:"status"`
 	Cts       pgtype.Int8    `json:"cts"`
 	Uts       pgtype.Int8    `json:"uts"`
+}
+
+type ProductSkuJson struct {
+	ProductID int64        `json:"product_id"`
+	Skus      dbtypes.JSON `json:"skus"`
+	Cts       pgtype.Int8  `json:"cts"`
+	Uts       pgtype.Int8  `json:"uts"`
 }

@@ -2,12 +2,13 @@ import { lazy, Suspense } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router';
 
 import { ScrollToTop } from '@/components/common/ScrollToTop';
+import LoadingPage from '@/components/Loading';
 const Avatars = lazy(() => import('@/pages/UiElements/Avatars'));
 const Badges = lazy(() => import('@/pages/UiElements/Badges'));
 const Buttons = lazy(() => import('@/pages/UiElements/Buttons'));
 const Videos = lazy(() => import('@/pages/UiElements/Videos'));
 const AppLayout = lazy(() => import('@/layout/AppLayout'));
-// const Blank = lazy(() => import("@/pages/Blank"));
+// import AppLayout from '@/layout/AppLayout';
 const Products = lazy(() => import('@/pages/Products/Products'));
 const AddProduct = lazy(() => import('@/pages/Products/AddProduct'));
 const Calendar = lazy(() => import('@/pages/Calendar'));
@@ -15,7 +16,6 @@ const BarChart = lazy(() => import('@/pages/Charts/BarChart'));
 const LineChart = lazy(() => import('@/pages/Charts/LineChart'));
 const Home = lazy(() => import('@/pages/Dashboard/Home'));
 const FormElements = lazy(() => import('@/pages/Forms/FormElements'));
-const NotFound = lazy(() => import('@/pages/OtherPage/NotFound'));
 const BasicTables = lazy(() => import('@/pages/Tables/BasicTables'));
 const Alerts = lazy(() => import('@/pages/UiElements/Alerts'));
 const Images = lazy(() => import('@/pages/Images/Images'));
@@ -29,6 +29,7 @@ export default function App() {
                 <ScrollToTop />
                 <Routes>
                     {/* Dashboard Layout */}
+
                     <Route element={<AppLayout />}>
                         <Route index path="/" element={<Home />} />
 
@@ -36,7 +37,7 @@ export default function App() {
                         <Route
                             path="/profile"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <UserProfiles />
                                 </Suspense>
                             }
@@ -44,7 +45,7 @@ export default function App() {
                         <Route
                             path="/calendar"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Calendar />
                                 </Suspense>
                             }
@@ -52,7 +53,7 @@ export default function App() {
                         <Route
                             path="/images"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Images />
                                 </Suspense>
                             }
@@ -60,15 +61,7 @@ export default function App() {
                         <Route
                             path="/products-list"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <Products />
-                                </Suspense>
-                            }
-                        />
-                        <Route
-                            path="/products-list"
-                            element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Products />
                                 </Suspense>
                             }
@@ -76,7 +69,15 @@ export default function App() {
                         <Route
                             path="/add-product"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
+                                    <AddProduct />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/edit-product/:id"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
                                     <AddProduct />
                                 </Suspense>
                             }
@@ -86,7 +87,7 @@ export default function App() {
                         <Route
                             path="/form-elements"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <FormElements />
                                 </Suspense>
                             }
@@ -96,7 +97,7 @@ export default function App() {
                         <Route
                             path="/basic-tables"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <BasicTables />
                                 </Suspense>
                             }
@@ -106,7 +107,7 @@ export default function App() {
                         <Route
                             path="/alerts"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Alerts />
                                 </Suspense>
                             }
@@ -114,7 +115,7 @@ export default function App() {
                         <Route
                             path="/avatars"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Avatars />
                                 </Suspense>
                             }
@@ -122,7 +123,7 @@ export default function App() {
                         <Route
                             path="/badge"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Badges />
                                 </Suspense>
                             }
@@ -130,7 +131,7 @@ export default function App() {
                         <Route
                             path="/buttons"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Buttons />
                                 </Suspense>
                             }
@@ -138,7 +139,7 @@ export default function App() {
                         <Route
                             path="/images"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Images />
                                 </Suspense>
                             }
@@ -146,7 +147,7 @@ export default function App() {
                         <Route
                             path="/videos"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <Videos />
                                 </Suspense>
                             }
@@ -156,7 +157,7 @@ export default function App() {
                         <Route
                             path="/line-chart"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <LineChart />
                                 </Suspense>
                             }
@@ -164,22 +165,20 @@ export default function App() {
                         <Route
                             path="/bar-chart"
                             element={
-                                <Suspense fallback={<div>Loading...</div>}>
+                                <Suspense fallback={<LoadingPage />}>
                                     <BarChart />
                                 </Suspense>
                             }
                         />
+                        <Route
+                            path="*"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <Home />
+                                </Suspense>
+                            }
+                        />
                     </Route>
-
-                    {/* Fallback Route */}
-                    <Route
-                        path="*"
-                        element={
-                            <Suspense fallback={<div>Loading...</div>}>
-                                <NotFound />
-                            </Suspense>
-                        }
-                    />
                 </Routes>
             </Router>
         </>

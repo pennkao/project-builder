@@ -1,10 +1,11 @@
-interface ImageItem {
+interface ImageItemType {
     id: string;
-    file: File;
+    file: File | null;
+    url: string;
     preview: string;
 }
 
-interface Image {
+interface ImageType {
     id: number;
     url: string;
     storage_path: string;
@@ -15,3 +16,5 @@ interface Image {
     width_px: number;
     height_px: number;
 }
+
+type UploadSelectType = 'single' | 'multiple';

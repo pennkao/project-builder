@@ -1,19 +1,20 @@
 // DropzoneSortable.tsx
 import ComponentCard from '@/components/common/ComponentCard';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
-
+import { isrc } from '@/utils/image';
+import { doUpload } from '@/utils/upload';
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 const generateId = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
 
-const ImageItem = ({ item, idx, onRemove, onSetMain }: { item: ImageItem; idx: number; onRemove: (id: string) => void; onSetMain?: (id: string) => void }) => {
+const ImageItem = ({ item, idx, onRemove, onSetMain }: { item: ImageItemType; idx: number; onRemove: (id: string) => void; onSetMain?: (id: string) => void }) => {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id: item.id,
     });
-    console.log(idx);
+
     const style: React.CSSProperties = {
         transform: CSS.Transform.toString(transform),
         transition,
@@ -21,11 +22,12 @@ const ImageItem = ({ item, idx, onRemove, onSetMain }: { item: ImageItem; idx: n
         boxShadow: isDragging ? '0 8px 20px rgba(0,0,0,0.15)' : undefined,
         zIndex: isDragging ? 9999 : 'auto', // 排在前面的拖动会在最下方，添加这个修复
     };
-
+    const url = item.url || item.preview;
+    const className = item.url ? '' : 'opacity-40';
     return (
         <div ref={setNodeRef} style={style} className="relative w-28 h-28 rounded-xl overflow-hidden">
-            <img src={item.preview} alt={item.file.name} className="w-full h-full object-cover cursor-grab active:cursor-grabbing" {...attributes} {...listeners} />
-            <div className="absolute top-1 left-1 bg-white/80 text-xs px-1 py-1 rounded">{idx > 0 ? idx + 1 : '✅'}</div>
+            <img src={isrc(url)} className={`w-full h-full  object-cover cursor-grab active:cursor-grabbing ${className}`} {...attributes} {...listeners} />
+            <div className="absolute top-1 left-1  bg-white/80 text-xs px-1 py-1 rounded">{idx > 0 ? idx + 1 : '✅'}</div>
             {/* overlay buttons */}
             <div className="absolute top-1 right-1 flex gap-1">
                 <button
@@ -34,7 +36,7 @@ const ImageItem = ({ item, idx, onRemove, onSetMain }: { item: ImageItem; idx: n
                         e.stopPropagation();
                         onRemove(item.id);
                     }}
-                    className="bg-black/60 text-white text-xs px-2 py-1 rounded"
+                    className="bg-black/30 text-white text-xs px-2 py-1 rounded"
                     title="Remove"
                 >
                     DEL
@@ -50,22 +52,29 @@ const ImageItem = ({ item, idx, onRemove, onSetMain }: { item: ImageItem; idx: n
                     }}
                     className="absolute left-1 bottom-1 bg-white/80 text-xs px-1 py-0.5 rounded"
                 >
-                    设为主图
+                    Set Main
                 </button>
             )}
         </div>
     );
 };
 
-const UploadImage = ({ onChange }: { onChange: (images: ImageItem[]) => void }) => {
-    const [images, setImages] = useState<ImageItem[]>([]);
+const UploadImage = ({ onChange, onOpenSelected, initImages }: { initImages: ImageItemType[]; onChange: (images: ImageItemType[]) => void; onOpenSelected?: (key: string | number | null) => void }) => {
+    const [images, setImages] = useState<ImageItemType[]>([]);
     const sensors = useSensors(useSensor(PointerSensor));
 
+    useEffect(() => {
+        setImages((prev) => [...prev, ...initImages]);
+    }, [initImages]);
+    useEffect(() => {
+        onChange(images);
+    }, [images]);
     // dropzone onDrop: create preview urls and push into state
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const newItems = acceptedFiles.map((file) => ({
             id: generateId(),
             file,
+            url: '',
             preview: URL.createObjectURL(file),
         }));
         setImages((prev) => [...prev, ...newItems]);
@@ -103,8 +112,6 @@ const UploadImage = ({ onChange }: { onChange: (images: ImageItem[]) => void }) 
     const handleSetMain = (id: string) => {
         setImages((prev) => {
             const idx = prev.findIndex((p) => p.id === id);
-            console.log(idx);
-            console.log(prev);
             if (idx <= 0) return prev;
             const item = prev[idx];
             const copy = [...prev];
@@ -129,38 +136,9 @@ const UploadImage = ({ onChange }: { onChange: (images: ImageItem[]) => void }) 
     };
 
     // example upload handler
-    const handleUpload = async () => {
-        if (images.length === 0) {
-            alert('没有图片要上传');
-            return;
-        }
-        const form = new FormData();
-        images.forEach((img, idx) => {
-            // name can be like images[], or image_0 etc depending on backend
-            form.append('images[]', img.file, img.file.name);
-        });
-
-        try {
-            // 更换为你自己的上传地址
-            const res = await fetch('/api/upload', {
-                method: 'POST',
-                body: form,
-            });
-            if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
-            const data = await res.json();
-            console.log('上传成功：', data);
-            alert('上传成功');
-            // 根据后端返回做后续处理，例如清空列表：
-            // setImages([]);
-        } catch (err) {
-            console.error(err);
-            alert('上传失败，请查看控制台');
-        }
+    const handleUpload = () => {
+        doUpload(images, setImages);
     };
-
-    useEffect(() => {
-        onChange(images);
-    }, [images]);
 
     return (
         <ComponentCard title="Upload Image">
@@ -176,7 +154,15 @@ const UploadImage = ({ onChange }: { onChange: (images: ImageItem[]) => void }) 
                     <input {...getInputProps()} />
                     <div className="dz-message flex flex-col items-center ">
                         <h4 className="font-semibold text-gray-800 text-theme-xl dark:text-white/90">{isDragActive ? 'Drop Files Here' : 'Drag & Drop Files Here'}</h4>
-                        <span className="font-medium underline text-theme-sm text-brand-500">Browse File</span>
+                        <span
+                            className="font-medium underline text-theme-sm text-brand-500"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onOpenSelected?.(null);
+                            }}
+                        >
+                            Browse Gallery
+                        </span>
                     </div>
                 </form>
             </div>
@@ -206,7 +192,7 @@ const UploadImage = ({ onChange }: { onChange: (images: ImageItem[]) => void }) 
                         }}
                         className="px-4 py-2 rounded border"
                     >
-                        Clean
+                        Clean Up
                     </button>
                     <button type="button" onClick={handleUpload} className="px-4 rounded bg-brand-500 text-white hover:opacity-95">
                         Upload All

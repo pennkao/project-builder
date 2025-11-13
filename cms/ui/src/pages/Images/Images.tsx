@@ -1,10 +1,11 @@
 import Page from '@/components/page/Page';
 import { usePost } from '@/hooks/usePost';
+import { isrc } from '@/utils/image';
 import { useEffect, useState } from 'react';
 
 export default function Images() {
-    const [images, setImages] = useState<Image[]>([]);
-    const { doPost } = usePost<Image[]>('list-images');
+    const [images, setImages] = useState<ImageType[]>([]);
+    const { doPost } = usePost<ImageType[]>('list-images');
     useEffect(() => {
         doPost({}, (list) => {
             setImages(list || []);
@@ -23,7 +24,7 @@ export default function Images() {
                                     {item.width_px}x{item.height_px}
                                 </span>
                                 <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>
-                                <img src={item.url} alt={item.alt_text} className={className} />
+                                <img src={isrc(item.url)} alt={item.alt_text} className={className} />
                             </div>
                         </div>
                     ))}

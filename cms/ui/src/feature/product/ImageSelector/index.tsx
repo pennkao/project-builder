@@ -1,24 +1,26 @@
+import Label from '@/components/form/Label';
 import ModalBase from '@/components/ModalBase';
 import { usePost } from '@/hooks/usePost';
+import { isrc } from '@/utils/image';
 import { useEffect, useState } from 'react';
-import Label from '../../../components/form/Label';
+
 const ImageSelector = ({
     uploadedImages,
-    onChange,
+    // onChange,
     isOpen,
     doAction,
     closeModal,
     selectType,
 }: {
-    selectType: 'single' | 'multiple';
-    uploadedImages: ImageItem[];
+    selectType: UploadSelectType;
+    uploadedImages: ImageItemType[];
     onChange?: (data: string[]) => void;
     isOpen: boolean;
     doAction?: (data: any) => void;
     closeModal: () => void;
 }) => {
-    const [dbImages, setDbImages] = useState<Image[]>([]);
-    const { doPost } = usePost<Image[]>('list-images');
+    const [dbImages, setDbImages] = useState<ImageType[]>([]);
+    const { doPost } = usePost<ImageType[]>('list-images');
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const handleSelectedImages = (dtype: typeof selectType, img: string) => {
         console.log(dtype, img);
@@ -41,6 +43,7 @@ const ImageSelector = ({
             setDbImages(list);
         });
     }, []);
+
     return (
         <>
             <ModalBase isOpen={isOpen} closeModal={closeModal} doAction={handleAction} onChange={(data) => console.log(data)} title="Product Image" tips="Upload product image">
@@ -50,7 +53,7 @@ const ImageSelector = ({
                         <div className="flex flex-wrap gap-2 ">
                             {uploadedImages.map((item) => (
                                 <div className="relative group">
-                                    <img key={item.id} src={item.preview} alt="" className="w-28 h-28 object-cover" onClick={() => handleSelectedImages(selectType, item.preview)} />
+                                    <img key={item.id} src={isrc(item.preview)} alt="" className="w-28 h-28 object-cover" onClick={() => handleSelectedImages(selectType, item.preview)} />
                                     {selectedImages.includes(item.preview) && <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>}
                                 </div>
                             ))}

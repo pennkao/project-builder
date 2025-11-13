@@ -5,17 +5,20 @@ import ContentCard from '@/components/common/ContentCard';
 import Label from '@/components/form/Label';
 import TagInput from '@/components/TagInput';
 import Button from '@/components/ui/button/Button';
-
+import { defaultSku } from '@/defaults/product';
 import { PencilIcon } from '@/icons';
+import { isrc } from '@/utils/image';
 import { genProductSkuByOptions } from '@/utils/product';
 import { Activity, useEffect, useState } from 'react';
 export default function ProductOptions({
     onChange,
     onOpenSelected,
+    onSkuChange,
     selectedSkuImages,
 }: {
     selectedSkuImages: { index: number; img: string };
     onChange?: (attrOptions: ProductOptionsType) => void;
+    onSkuChange?: (skuList: SkuType[]) => void;
     onOpenSelected?: (key: string | number) => void;
 }) {
     const [options, setOptions] = useState<any[]>([]);
@@ -23,7 +26,11 @@ export default function ProductOptions({
     const [skuList, setSkuList] = useState<SkuType[] | null>(null);
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const [syncValue, setSyncValue] = useState<{ price: string | number; stock: string | number }>({ price: '', stock: '' });
-
+    useEffect(() => {
+        if (skuList && skuList.length > 0) {
+            onSkuChange?.(skuList);
+        }
+    }, [skuList]);
     //只添加有value的或者修改
     const handleValueChange = (option: string, values: string[]) => {
         if (!options.includes(option)) {
@@ -45,7 +52,6 @@ export default function ProductOptions({
 
     //只删除
     useEffect(() => {
-        console.log(options, 'productoptions');
         if (options.length == 0) {
             setAttrOptions([]);
             return;
@@ -65,25 +71,20 @@ export default function ProductOptions({
         if (attrOptions.length <= 0) {
             return;
         }
-        console.log(attrOptions);
         const genSkuList = genProductSkuByOptions(attrOptions);
-        console.log(skuList);
-        const newSkuList = genSkuList.map(
-            (sku) =>
-                ({
-                    name: attrOptions.map((opt) => sku[opt.option]).join('-'),
-                    img: '',
-                    price: 10,
-                    stock: parseInt((Math.random() * 100).toFixed(2)),
-                    attrs: sku,
-                } as SkuType)
-        );
+        const newSkuList = genSkuList.map((sku, index) => ({
+            ...defaultSku,
+            id: index,
+            name: attrOptions.map((opt) => sku[opt.option]).join('-'),
+            img: '',
+            price: 10,
+            stock: parseInt((Math.random() * 100).toFixed(2)),
+            attrs: sku,
+        }));
         setSkuList(newSkuList);
     };
     useEffect(() => {
-        if (skuList) {
-            setSkuList(skuList.map((item, index) => (index === selectedSkuImages.index ? { ...item, img: selectedSkuImages.img } : item)));
-        }
+        setSkuList((prev) => prev && prev.map((item, index) => (index === selectedSkuImages.index ? { ...item, img: selectedSkuImages.img } : item)));
     }, [selectedSkuImages]);
     const handleSkuInput = (index: number, key: keyof SkuType, value: string | number) => {
         setSkuList((prev) => prev && prev.map((item, i) => (i === index ? { ...item, [key]: value } : item)));
@@ -123,29 +124,31 @@ export default function ProductOptions({
                     ))}
                 </ContentCard>
 
-                <ContentCard className="flex flex-col gap-1 w-full">
-                    <div className="flex justify-between items-center">
-                        <Label>Product Variant</Label>
-                        <div className="flex gap-2">
-                            <Button
-                                variant="outline"
-                                onClick={() => {
-                                    handleClear();
-                                }}
-                            >
-                                Clear
-                            </Button>
-                            <Button
-                                variant="primary"
-                                onClick={() => {
-                                    handleGen();
-                                }}
-                            >
-                                Generate Variants
-                            </Button>
+                <Activity mode={options && options.length > 0 ? 'visible' : 'hidden'}>
+                    <ContentCard className="flex flex-col gap-1 w-full">
+                        <div className="flex justify-between items-center">
+                            <Label>Product Variant</Label>
+                            <div className="flex gap-2">
+                                <Button
+                                    variant="outline"
+                                    onClick={() => {
+                                        handleClear();
+                                    }}
+                                >
+                                    Clean Up
+                                </Button>
+                                <Button
+                                    variant="primary"
+                                    onClick={() => {
+                                        handleGen();
+                                    }}
+                                >
+                                    Generate Variants
+                                </Button>
+                            </div>
                         </div>
-                    </div>
-                    <Activity mode={skuList && skuList.length > 0 ? 'visible' : 'hidden'}>
+
+                        {/* <Activity mode={skuList && skuList.length > 0 ? 'visible' : 'hidden'}> */}
                         <div className="h-5"></div>
                         <div className="w-full flex flex-col">
                             <div className="h-11 px-4  w-full flex  justify-between items-center bg-gray-100 dark:bg-gray-700">
@@ -171,10 +174,10 @@ export default function ProductOptions({
                                                 <div className="w-11 h-11 rounded-md" />
                                             </div>
                                             <div className="flex items-center min-w-11">
-                                                <Input type="text" className="w-11" value={syncValue.price} onChange={(e) => handleBatch('price', e.target.value)} />
+                                                <Input type="number" className="w-11 px-1 py-2" value={syncValue.price} onChange={(e) => handleBatch('price', e.target.value)} />
                                             </div>
                                             <div className="flex items-center min-w-11">
-                                                <Input type="text" className="w-11" value={syncValue.stock} onChange={(e) => handleBatch('stock', e.target.value)} />
+                                                <Input type="number" className="w-11 px-1 py-2" value={syncValue.stock} onChange={(e) => handleBatch('stock', e.target.value)} />
                                             </div>
                                             <div className="w-3"></div>
                                         </div>
@@ -197,21 +200,21 @@ export default function ProductOptions({
                                                         </button>
                                                     </div>
                                                     {sku.img ? (
-                                                        <img src={sku.img} alt="" className="w-11 h-11 flex items-center rounded-md" onChange={(e) => handleSkuInput(index, 'img', '')} />
+                                                        <img src={isrc(sku.img)} alt="" className="w-11 h-11 flex items-center rounded-md" onChange={() => handleSkuInput(index, 'img', '')} />
                                                     ) : (
                                                         <div className="w-11 h-11 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-600">Img</div>
                                                     )}
                                                 </div>
                                                 <div>
-                                                    <Input type="text" className="w-11 flex items-center" value={sku.price} onChange={(e) => handleSkuInput(index, 'price', e.target.value)} />
+                                                    <Input type="number" className="w-11 flex items-center" value={sku.price} onChange={(e) => handleSkuInput(index, 'price', e.target.value)} />
                                                 </div>
                                                 <div>
-                                                    <Input type="text" className="w-11 flex items-center" value={sku.stock} onChange={(e) => handleSkuInput(index, 'stock', e.target.value)} />
+                                                    <Input type="number" className="w-11 flex items-center" value={sku.stock} onChange={(e) => handleSkuInput(index, 'stock', e.target.value)} />
                                                 </div>
                                                 <div className="w-3">
                                                     <CloseButton
                                                         onClose={() => {
-                                                            setSkuList(skuList.filter((item, i) => i !== index));
+                                                            setSkuList(skuList.filter((_, i) => i !== index));
                                                         }}
                                                     />
                                                 </div>
@@ -221,8 +224,9 @@ export default function ProductOptions({
                                 ))}
                             </div>
                         </div>
-                    </Activity>
-                </ContentCard>
+                        {/* </Activity> */}
+                    </ContentCard>
+                </Activity>
             </ComponentCard>
         </>
     );

@@ -96,7 +96,7 @@ const navItems: NavItem[] = [
     },
 ];
 
-const AppSidebar: React.FC = () => {
+const AppSidebar = () => {
     const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
     const location = useLocation();
 
@@ -214,7 +214,9 @@ const AppSidebar: React.FC = () => {
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className={`py-8 flex ${!isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start'}`}>
-                <Link to="/"><Logo big={isExpanded || isHovered || isMobileOpen} /></Link>
+                <Link to="/">
+                    <Logo big={isExpanded || isHovered || isMobileOpen} />
+                </Link>
             </div>
             <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
                 <nav className="mb-6">

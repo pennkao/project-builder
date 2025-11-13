@@ -1,20 +1,18 @@
 package admin
 
 import (
-	"net/http"
-
 	"github.com/cms/db"
-	"github.com/cms/dto/http/rep"
+	"github.com/cms/dto/http/hp"
 	"github.com/gin-gonic/gin"
 )
 func (t *Cms)ListImages(c *gin.Context) {
-	images, err := t.DB.ListImages(c.Request.Context(), db.ListImagesParams{
+	images, err := t.Q.ListImages(c.Request.Context(), db.ListImagesParams{
 		Limit:  100,
 		Offset: 0,
 	})
 	if err != nil {
-		rep.Error[any](c, http.StatusInternalServerError, err.Error())
+		hp.Error[any](c,  err.Error())
 		return
 	}
-	rep.Success[any](c, images)
+	hp.Success[any](c, images)
 }

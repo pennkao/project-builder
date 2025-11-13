@@ -2,8 +2,8 @@
 package admin
 
 import (
-	"github.com/cms/dto/http/rep"
-	"github.com/cms/dto/http/req"
+	"github.com/cms/dto/http/hp"
+	"github.com/cms/dto/http/hq"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,21 +14,21 @@ func (t *Cms)Login(c *gin.Context) {
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
-	if err := req.Json(c, &request); err != nil {
-		rep.Error[any](c, 400, "Invalid request body")
+	if err := hq.Json(c, &request); err != nil {
+		hp.Error[any](c, "Invalid request body")
 		return
 	}
 	if request.Email != "pennkao@163.com" || request.Password != "@z90012m" {
-		rep.Error[any](c, 401, "Invalid email or password")
+		hp.Error[any](c,  "Invalid email or password")
 		return
 	}
-	rep.Success[any](c, gin.H{"token": "admin-token"})
+	hp.Success[any](c, gin.H{"token": "admin-token"})
 }
 
 // 需要验证
 func (t *Cms)AdminList(c *gin.Context) {
     c.JSON(200, gin.H{"message": "AdminList placeholder"})
-	rep.Success[any](c, gin.H{"adminList": []gin.H{
+	hp.Success[any](c, gin.H{"adminList": []gin.H{
 		{"id": 1, "name": "admin1"},
 		{"id": 2, "name": "admin2"},
 	}})

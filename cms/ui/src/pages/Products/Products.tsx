@@ -9,9 +9,11 @@ import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components
 import { formatProductStatus } from '@/feature/status/product';
 import { usePost } from '@/hooks/usePost';
 import { DownloadIcon, FilterIcon, PlusIcon, SearchIcon } from '@/icons';
+import { isrc } from '@/utils/image';
 import { sortItems } from '@/utils/sort';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useEffect, useMemo, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 import Image from '../../components/Image';
 import { Pagination } from '../../components/page/Pagination';
 interface ProductType {
@@ -32,6 +34,7 @@ interface ProductPageType {
     list: ProductType[];
 }
 export default function Products() {
+    const navigator = useNavigate();
     const [page, setPage] = useState(1); // eslint-disable-next-line
     const [result, setResult] = useState<ProductPageType>({
         page: 1,
@@ -58,11 +61,9 @@ export default function Products() {
                     <Button endIcon={<DownloadIcon className="w-5 h-5" />} variant="outline">
                         Export
                     </Button>
-                    <a>
-                        <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary">
-                            Add Product
-                        </Button>
-                    </a>
+                    <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-product')}>
+                        Add Product
+                    </Button>
                 </div>
             </PageAction>
             <ContentAction>
@@ -220,7 +221,12 @@ const ListProduct = ({ items }: { items: ProductType[] }) => {
 
                             <TableCell className={className}>
                                 <div className="flex items-center gap-3">
-                                    <Image src={item.main_image_url} className="h-10 w-10 rounded-md object-cover" />
+                                    {item.main_image_url ? (
+                                        <Image src={isrc(item.main_image_url)} className="h-10 w-10 rounded-md object-cover" />
+                                    ) : (
+                                        <div className="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-600">Img</div>
+                                    )}
+
                                     <span className={className}>{item.name}</span>
                                 </div>
                             </TableCell>
@@ -236,10 +242,9 @@ const ListProduct = ({ items }: { items: ProductType[] }) => {
                             <TableCell className={className}>{formatDate(item.cts)}</TableCell>
 
                             <TableCell className={className}>
-                                <Button variant="outline" size="sm">
-                                    Edit
-                                </Button>
-                                <Button variant="outline" size="sm">
+                                <Link to={`/edit-product/${item.id}`}>Edit</Link>
+
+                                <Button variant="outline" size="sm" className="ml-2">
                                     Delete
                                 </Button>
                             </TableCell>

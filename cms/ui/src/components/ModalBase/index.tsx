@@ -4,11 +4,11 @@ import { Modal } from '@/components/ui/modal';
 const ModalBase = ({
     isOpen,
     title,
-    onChange,
-    openModal,
+    // onChange,
+    // openModal,
     closeModal,
     tips,
-    toggleModal,
+    // toggleModal,
     doAction,
     children,
 }: {
