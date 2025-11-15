@@ -49,13 +49,14 @@ import { ReactComponent as PencilIcon } from './pencil.svg?react';
 import { ReactComponent as PieChartIcon } from './pie-chart.svg?react';
 import { ReactComponent as PlugInIcon } from './plug-in.svg?react';
 import { ReactComponent as PlusIcon } from './plus.svg?react';
+import { ReactComponent as RefreshIcon } from './refresh.svg?react';
 import { ReactComponent as SearchIcon } from './search.svg?react';
 import { ReactComponent as ShootingStarIcon } from './shooting-star.svg?react';
 import { ReactComponent as ShoppingCartIcon } from './shopping-cart.svg?react';
 import { ReactComponent as TableIcon } from './table.svg?react';
 import { ReactComponent as TaskIcon } from './task-icon.svg?react';
 import { ReactComponent as TimeIcon } from './time.svg?react';
-import { ReactComponent as TrashBinIcon } from './trash.svg?react';
+import { ReactComponent as TrashIcon } from './trash.svg?react';
 import { ReactComponent as UploadFileIcon } from './upload-file.svg?react';
 import { ReactComponent as UserCircleIcon } from './user-circle.svg?react';
 import { ReactComponent as UserIcon } from './user-line.svg?react';
@@ -113,13 +114,14 @@ export {
     PieChartIcon,
     PlugInIcon,
     PlusIcon,
+    RefreshIcon,
     SearchIcon,
     ShootingStarIcon,
     ShoppingCartIcon,
     TableIcon,
     TaskIcon,
     TimeIcon,
-    TrashBinIcon,
+    TrashIcon,
     UploadFileIcon,
     UserCircleIcon,
     UserIcon,

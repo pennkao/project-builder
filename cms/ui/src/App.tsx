@@ -2,13 +2,12 @@ import { lazy, Suspense } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router';
 
 import { ScrollToTop } from '@/components/common/ScrollToTop';
-import LoadingPage from '@/components/Loading';
+import LoadingPage from '@/components/Loading/LoadingPage';
 const Avatars = lazy(() => import('@/pages/UiElements/Avatars'));
 const Badges = lazy(() => import('@/pages/UiElements/Badges'));
 const Buttons = lazy(() => import('@/pages/UiElements/Buttons'));
 const Videos = lazy(() => import('@/pages/UiElements/Videos'));
 const AppLayout = lazy(() => import('@/layout/AppLayout'));
-// import AppLayout from '@/layout/AppLayout';
 const Products = lazy(() => import('@/pages/Products/Products'));
 const AddProduct = lazy(() => import('@/pages/Products/AddProduct'));
 const Calendar = lazy(() => import('@/pages/Calendar'));
@@ -20,7 +19,6 @@ const BasicTables = lazy(() => import('@/pages/Tables/BasicTables'));
 const Alerts = lazy(() => import('@/pages/UiElements/Alerts'));
 const Images = lazy(() => import('@/pages/Images/Images'));
 const UserProfiles = lazy(() => import('@/pages/UserProfiles'));
-// const SignIn = lazy(() => import("@/pages/AuthPages/SignIn"));
 
 export default function App() {
     return (

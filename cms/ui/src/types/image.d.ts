@@ -1,8 +1,21 @@
+// 上传状态
+type ImageStatusType = 'local' | 'upLoading' | 'upLoaded';
+
+// 核心图片类型
 interface ImageItemType {
-    id: string;
-    file: File | null;
+    id: string; // 唯一标识
+    fileName?: string; // 文件名
+    status: ImageStatusType; // 上传状态
+    url?: string; // 网络图片地址（上传后）
+    preview?: string; // 预览图（本地 file 创建的 ObjectURL 或网络缩略图）
+    file?: File | null; // 本地文件（File对象），网络图片可以不填
+    fileType?: string; // 文件类型，如 image/png
+}
+
+interface UploadResponseType {
+    id: number;
+    file_name: string;
     url: string;
-    preview: string;
 }
 
 interface ImageType {

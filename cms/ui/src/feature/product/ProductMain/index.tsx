@@ -2,57 +2,77 @@ import { Input as InputField } from '@/components/Basic/Input';
 import ComponentCard from '@/components/common/ComponentCard';
 import Input from '@/components/form/input/InputField';
 import Label from '@/components/form/Label';
-import { defaultProductMain } from '@/defaults/product';
+import Loading from '@/components/Loading/Loading';
+import { ProductContext } from '@/context/product';
 import { usePost } from '@/hooks/usePost';
 import { genHandle } from '@/utils/product';
-import { useEffect, useState } from 'react';
-export default function ProductMain({ onChange }: { onChange: (productMain: ProductMainType) => void }) {
-    const [productMain, setProductMain] = useState<ProductMainType>(defaultProductMain);
+import { formartInputNumber } from '@/utils/tools';
+import { useContext, useEffect } from 'react';
+export default function ProductMain() {
+    const context = useContext(ProductContext);
+    if (!context) {
+        return <Loading title="Product" />; // 或者其他处理方式
+    }
+    const { productId, productData, setProductData } = context;
     const { doPost } = usePost<number>('product-handle-count');
 
-    const handleCheckHandle = async () => {
-        if (!productMain.name) {
+    const setProductMainField = (field: keyof ProductMainType, value: string | string[] | number) => {
+        setProductData((prev) => ({ ...prev, main: { ...prev.main, [field]: value } }));
+    };
+
+    //update handle
+    useEffect(() => {
+        if (!productData.main.name) {
             return;
         }
-        if (!productMain.handle) {
+        if (productData.main.id && productData.main.id > 0) {
+            return;
+        }
+        setProductMainField('handle', genHandle(productData.main.name, 0));
+    }, [productData.main.name]);
+
+    const handleCheckHandle = async () => {
+        if (productData.main.id && productData.main.id > 0) {
+            return;
+        }
+        if (!productData.main.name) {
+            return;
+        }
+        if (!productData.main.handle) {
             return;
         }
         const count = await doPost({
             params: {
-                handle: productMain.handle,
+                handle: productData.main.handle,
             },
         });
         if (count && count > 0) {
-            setProductMain((prev) => ({ ...prev, handle: genHandle(productMain.name, count) }));
+            setProductMainField('handle', genHandle(productData.main.name, count));
         }
     };
-    const handleChange = (field: keyof ProductMainType, value: string) => {
-        if (field === 'tags') {
-            setProductMain((prev) => ({
-                ...prev,
-                [field]: value
+
+    const formartValue = (field: keyof ProductMainType, value: string): string | string[] | number => {
+        switch (field) {
+            case 'stock':
+            case 'weight_g':
+                return Number.parseInt(value);
+            case 'price':
+                return Number.parseFloat(value);
+            case 'tags':
+                return value
                     .trim()
                     .replace(/[，。；：！,]/g, ',')
                     .replace(',,', ',')
                     .split(',')
-                    .map((tag) => tag.trim()),
-            }));
-            return;
+                    .map((tag) => tag.trim());
+            default:
+                return value;
         }
-        if (field === 'name') {
-            setProductMain((prev) => ({ ...prev, name: value }));
-
-            return;
-        }
-        setProductMain(() => ({ ...productMain, [field]: value }));
     };
-
-    useEffect(() => {
-        setProductMain((prev) => ({ ...prev, handle: genHandle(prev.name, 0) }));
-    }, [productMain.name]);
-    useEffect(() => {
-        onChange(productMain);
-    }, [productMain]);
+    const handleChange = (field: keyof ProductMainType, value: string) => {
+        const val = formartValue(field, value);
+        setProductMainField(field, val);
+    };
 
     return (
         <ComponentCard title="Product">
@@ -64,43 +84,43 @@ export default function ProductMain({ onChange }: { onChange: (productMain: Prod
                         className="w-full px-4 py-2.5"
                         id="input"
                         placeholder="Product Name"
-                        value={productMain?.name}
+                        value={productData.main?.name}
                         onChange={(e) => handleChange('name', e.target.value)}
                         onBlur={handleCheckHandle}
                     />
                 </div>
                 <div>
                     <Label htmlFor="input">Handle</Label>
-                    <Input type="text" id="input" placeholder="Handle" value={productMain?.handle} onChange={(e) => handleChange('handle', e.target.value)} />
+                    <Input type="text" placeholder="Handle" disabled={productId > 0} value={productData.main?.handle} onChange={(e) => handleChange('handle', e.target.value)} />
                 </div>
                 <div className="flex flex-row gap-1">
                     <div className="w-1/2">
                         <Label htmlFor="inputTwo">Price</Label>
-                        <Input type="number" id="inputTwo" placeholder="Price" value={productMain?.price} onChange={(e) => handleChange('price', e.target.value)} />
+                        <Input type="number" placeholder="Price" value={formartInputNumber(productData.main?.price)} onChange={(e) => handleChange('price', e.target.value)} />
                     </div>
                     <div className="w-1/2">
                         <Label htmlFor="input">Tags</Label>
-                        <Input type="text" id="input" value={productMain?.tags?.join(',')} onChange={(e) => handleChange('tags', e.target.value)} />
+                        <Input type="text" id="input" value={productData.main?.tags?.join(',')} onChange={(e) => handleChange('tags', e.target.value)} />
                     </div>
                 </div>
                 <div className="flex flex-row gap-1">
                     <div className="w-1/2">
                         <Label htmlFor="inputTwo">Category</Label>
-                        <Input type="text" id="inputTwo" placeholder="Category" value={productMain?.category} onChange={(e) => handleChange('category', e.target.value)} />
+                        <Input type="text" placeholder="Category" value={productData.main?.category} onChange={(e) => handleChange('category', e.target.value)} />
                     </div>
                     <div className="w-1/2">
                         <Label htmlFor="inputTwo">Brand</Label>
-                        <Input type="text" id="inputTwo" placeholder="Brand" value={productMain?.brand} onChange={(e) => handleChange('brand', e.target.value)} />
+                        <Input type="text" placeholder="Brand" value={productData.main?.brand} onChange={(e) => handleChange('brand', e.target.value)} />
                     </div>
                 </div>
                 <div className="flex flex-row gap-1">
                     <div className="w-1/2">
                         <Label htmlFor="inputTwo">Stock</Label>
-                        <Input type="number" id="inputTwo" placeholder="Stock" value={productMain?.stock} onChange={(e) => handleChange('stock', e.target.value)} />
+                        <Input type="number" placeholder="Stock" value={formartInputNumber(productData.main?.stock)} onChange={(e) => handleChange('stock', e.target.value)} />
                     </div>
                     <div className="w-1/2">
                         <Label htmlFor="inputTwo">Weigth (g)</Label>
-                        <Input type="number" id="inputTwo" placeholder="Weigth" value={productMain?.weight_g} onChange={(e) => handleChange('weight_g', e.target.value)} />
+                        <Input type="number" placeholder="Weight" value={formartInputNumber(productData.main?.weight_g)} onChange={(e) => handleChange('weight_g', e.target.value)} />
                     </div>
                 </div>
             </div>

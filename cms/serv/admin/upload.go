@@ -3,6 +3,7 @@ package admin
 import (
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 
 	"github.com/cms/dto/http/hp"
@@ -12,6 +13,7 @@ import (
 
 type UploadResponse struct {
 	ID  int    `json:"id"`
+	FileName string `json:"file_name"`
 	URL string `json:"url"`
 }
 
@@ -47,9 +49,14 @@ func fileUpload(c *gin.Context) {
 
 			// 生成唯一文件名
 			ext := filepath.Ext(fileHeader.Filename)
+			log.Println(fileHeader.Filename)
 			filename := utils.SHA256(fileHeader.Filename) + ext
 			filePath := filepath.Join(saveDir, filename)
-
+			// 检查文件是否已存在
+			if _, err := os.Stat(filePath); os.IsExist(err) {
+				responses = append(responses, UploadResponse{ID: idx + 1, FileName: fileHeader.Filename, URL: filename})
+				continue
+			}
 			// 保存文件
 			if err := c.SaveUploadedFile(fileHeader, filePath); err != nil {
 				log.Println("Save file error:", err)
@@ -57,7 +64,7 @@ func fileUpload(c *gin.Context) {
 			}
 
 			// 返回 URL
-			responses = append(responses, UploadResponse{ID: idx + 1, URL: filename})
+			responses = append(responses, UploadResponse{ID: idx + 1, FileName: fileHeader.Filename, URL: filename})
 		}
 		c.JSON(http.StatusOK, ApiResponse{Code: 0, Msg: "success", Data: responses})
 

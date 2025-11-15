@@ -1,4 +1,5 @@
 interface ProductOptionType {
+    sort: number;
     option: string;
     values: string[];
 }
@@ -9,7 +10,7 @@ interface SkuType {
     id: number;
     product_id: number;
     name: string;
-    img: string;
+    image: string;
     weight_g: number; // int4 → number，单位：克
     price: number;
     stock: number;
@@ -27,9 +28,17 @@ interface ProductMainType {
     weight_g: number; // int4 → number，单位：克
     brand: string; // text，默认 ''
     category: string; // text，默认 ''
-    main_image_url: string; // text，默认 ''
+    main_image: string; // text，默认 ''
     sales_count: number; // int4 → number
     stock: number; // int4 → number
     sku_num: number; // int4 → number
     price: number; // numeric(12,2) → number（注意精度问题，见说明）
+}
+type ProductContentType = string;
+interface ProductType {
+    main: ProductMainType;
+    options: ProductOptionsType;
+    images: string[];
+    skus: SkuType[];
+    content: ProductContentType;
 }

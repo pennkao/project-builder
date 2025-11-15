@@ -1,9 +1,11 @@
+import { Confirm } from '@/components/Confirm';
 import FieldSort from '@/components/FidldSort';
 import Checkbox from '@/components/form/input/Checkbox';
 import Input from '@/components/form/input/InputField';
 import ContentAction from '@/components/page/ContentAction';
 import Page from '@/components/page/Page';
 import PageAction from '@/components/page/PageAction';
+import { Pagination } from '@/components/page/Pagination';
 import Button from '@/components/ui/button/Button';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { formatProductStatus } from '@/feature/status/product';
@@ -15,7 +17,6 @@ import { formatDate } from '@fullcalendar/core/index.js';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import Image from '../../components/Image';
-import { Pagination } from '../../components/page/Pagination';
 interface ProductType {
     id: number;
     name: string;
@@ -25,7 +26,7 @@ interface ProductType {
     sales_count: string;
     status: number;
     cts: string;
-    main_image_url: string;
+    main_image: string;
 }
 interface ProductPageType {
     page: number;
@@ -42,6 +43,7 @@ export default function Products() {
         total: 0,
         list: [],
     });
+
     const { doPost } = usePost<ProductPageType>('list-products');
     // doLoading({}, { page, size: 10 }, (res) => setResult(res));
     useEffect(() => {
@@ -49,7 +51,12 @@ export default function Products() {
             setResult(data);
         });
     }, [page]);
-
+    const handleDelete = (id: number) => {
+        setResult((prev) => ({
+            ...prev,
+            list: prev.list.filter((item) => item.id !== id),
+        }));
+    };
     return (
         <Page pageTitle="Product List" showBackgroud={true}>
             <PageAction>
@@ -80,15 +87,17 @@ export default function Products() {
                     </Button>
                 </div>
             </ContentAction>
-            <ListProduct items={[...(result?.list || [])]} />
+            <ListProduct items={[...(result?.list || [])]} onDelete={handleDelete} />
             <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />
         </Page>
     );
 }
 
-const ListProduct = ({ items }: { items: ProductType[] }) => {
+const ListProduct = ({ items, onDelete }: { items: ProductType[]; onDelete: (id: number) => void }) => {
     const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({}); // Add this line
     const [isAllSelected, setIsAllSelected] = useState(false);
+    const { doPost } = usePost<ProductPageType>('delete');
+
     const handleCheckboxChange = (id: number) => {
         setCheckedItems((prev) => ({
             ...prev,
@@ -121,7 +130,13 @@ const ListProduct = ({ items }: { items: ProductType[] }) => {
             status: sortingField.status === '' || sortingField.status === 'asc' ? 'desc' : 'asc',
         });
     };
-
+    const handleDelete = async (id: number) => {
+        const result = await Confirm('Delete selected items?', 'Cannot be undone.');
+        if (result) {
+            doPost({ params: { id: id, target: 'product' } });
+            onDelete(id);
+        }
+    };
     const className = 'px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-100';
     const firstRowClassName = 'px-5 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-100';
 
@@ -221,8 +236,8 @@ const ListProduct = ({ items }: { items: ProductType[] }) => {
 
                             <TableCell className={className}>
                                 <div className="flex items-center gap-3">
-                                    {item.main_image_url ? (
-                                        <Image src={isrc(item.main_image_url)} className="h-10 w-10 rounded-md object-cover" />
+                                    {item.main_image ? (
+                                        <Image src={isrc(item.main_image)} className="h-10 w-10 rounded-md object-cover" />
                                     ) : (
                                         <div className="w-10 h-10 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-600">Img</div>
                                     )}
@@ -244,7 +259,14 @@ const ListProduct = ({ items }: { items: ProductType[] }) => {
                             <TableCell className={className}>
                                 <Link to={`/edit-product/${item.id}`}>Edit</Link>
 
-                                <Button variant="outline" size="sm" className="ml-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="ml-2"
+                                    onClick={() => {
+                                        handleDelete(item.id); // TODO: delete product
+                                    }}
+                                >
                                     Delete
                                 </Button>
                             </TableCell>

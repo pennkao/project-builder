@@ -144,13 +144,12 @@ func (t *Cms) CreateProductSkus(c *gin.Context) {
 		}
 		req.Skus = append(req.Skus, db.CreateProductSkuParams{
 			ProductID: req.ProductID,
-			Name:      product.Name,
-			Img:       product.MainImageUrl,
+			Name:      "PRODUCT",
+			Image:     product.MainImage,
 			WeightG:   product.WeightG,
 			Price:     product.Price,
 			Stock:     product.Stock,
 			Attrs:     dbtypes.JSON([]byte("{}")), // TODO
-
 		})
 	}
 
@@ -222,7 +221,7 @@ func (t *Cms) CreateProductDetails(c *gin.Context) {
 	if len(req.Images) > 0 {
 		err = t.Q.UpdateProductMainImage(c.Request.Context(), db.UpdateProductMainImageParams{
 			ID:           req.ProductID,
-			MainImageUrl: req.Images[0],
+			MainImage:    req.Images[0],
 		})
 		if err != nil {
 			hp.Error[any](c,  err.Error())
@@ -252,3 +251,5 @@ func (t *Cms) CreateProductSkuJson(c *gin.Context) {
     }
     hp.Success[any](c, nil) // 返回产品数量
 }
+
+

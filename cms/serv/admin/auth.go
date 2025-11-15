@@ -22,13 +22,13 @@ func (t *Cms)Login(c *gin.Context) {
 		hp.Error[any](c,  "Invalid email or password")
 		return
 	}
-	hp.Success[any](c, gin.H{"token": "admin-token"})
+	hp.Success(c, gin.H{"token": "admin-token"})
 }
 
 // 需要验证
 func (t *Cms)AdminList(c *gin.Context) {
     c.JSON(200, gin.H{"message": "AdminList placeholder"})
-	hp.Success[any](c, gin.H{"adminList": []gin.H{
+	hp.Success(c, gin.H{"adminList": []gin.H{
 		{"id": 1, "name": "admin1"},
 		{"id": 2, "name": "admin2"},
 	}})

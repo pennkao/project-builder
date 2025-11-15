@@ -12,53 +12,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const createProductContent = `-- name: CreateProductContent :exec
-INSERT INTO product_content (
-    product_id,
-    content
-) VALUES (
-    $1, $2
-)
-`
-
-type CreateProductContentParams struct {
-	ProductID int64  `json:"product_id"`
-	Content   string `json:"content"`
-}
-
-func (q *Queries) CreateProductContent(ctx context.Context, arg CreateProductContentParams) error {
-	_, err := q.db.Exec(ctx, createProductContent, arg.ProductID, arg.Content)
-	return err
-}
-
-const createProductDetails = `-- name: CreateProductDetails :exec
-INSERT INTO product_details (
-    product_id,
-    images,
-    videos,
-    specs
-) VALUES (
-    $1, $2, $3, $4
-)
-`
-
-type CreateProductDetailsParams struct {
-	ProductID int64        `json:"product_id"`
-	Images    []string     `json:"images"`
-	Videos    []string     `json:"videos"`
-	Specs     dbtypes.JSON `json:"specs"`
-}
-
-func (q *Queries) CreateProductDetails(ctx context.Context, arg CreateProductDetailsParams) error {
-	_, err := q.db.Exec(ctx, createProductDetails,
-		arg.ProductID,
-		arg.Images,
-		arg.Videos,
-		arg.Specs,
-	)
-	return err
-}
-
 const createProductMain = `-- name: CreateProductMain :one
 INSERT INTO products (
     id,
@@ -68,7 +21,7 @@ INSERT INTO products (
     weight_g,
     brand,
     category,
-    main_image_url,
+    main_image,
     price,
     sku_num,
     sales_count,
@@ -80,18 +33,18 @@ RETURNING id
 `
 
 type CreateProductMainParams struct {
-	ID           int64          `json:"id"`
-	Name         string         `json:"name"`
-	Handle       string         `json:"handle"`
-	Tags         []string       `json:"tags"`
-	WeightG      int32          `json:"weight_g"`
-	Brand        string         `json:"brand"`
-	Category     string         `json:"category"`
-	MainImageUrl string         `json:"main_image_url"`
-	Price        pgtype.Numeric `json:"price"`
-	SkuNum       int16          `json:"sku_num"`
-	SalesCount   int32          `json:"sales_count"`
-	Stock        int32          `json:"stock"`
+	ID         int64          `json:"id"`
+	Name       string         `json:"name"`
+	Handle     string         `json:"handle"`
+	Tags       []string       `json:"tags"`
+	WeightG    int32          `json:"weight_g"`
+	Brand      string         `json:"brand"`
+	Category   string         `json:"category"`
+	MainImage  string         `json:"main_image"`
+	Price      pgtype.Numeric `json:"price"`
+	SkuNum     int16          `json:"sku_num"`
+	SalesCount int32          `json:"sales_count"`
+	Stock      int32          `json:"stock"`
 }
 
 func (q *Queries) CreateProductMain(ctx context.Context, arg CreateProductMainParams) (int64, error) {
@@ -103,7 +56,7 @@ func (q *Queries) CreateProductMain(ctx context.Context, arg CreateProductMainPa
 		arg.WeightG,
 		arg.Brand,
 		arg.Category,
-		arg.MainImageUrl,
+		arg.MainImage,
 		arg.Price,
 		arg.SkuNum,
 		arg.SalesCount,
@@ -112,65 +65,6 @@ func (q *Queries) CreateProductMain(ctx context.Context, arg CreateProductMainPa
 	var id int64
 	err := row.Scan(&id)
 	return id, err
-}
-
-const createProductOptions = `-- name: CreateProductOptions :exec
-INSERT INTO product_options (
-    product_id,
-    options
-) VALUES (
-    $1, $2
-)
-`
-
-type CreateProductOptionsParams struct {
-	ProductID int64        `json:"product_id"`
-	Options   dbtypes.JSON `json:"options"`
-}
-
-func (q *Queries) CreateProductOptions(ctx context.Context, arg CreateProductOptionsParams) error {
-	_, err := q.db.Exec(ctx, createProductOptions, arg.ProductID, arg.Options)
-	return err
-}
-
-const createProductSku = `-- name: CreateProductSku :exec
-INSERT INTO product_skus (
-    product_id,
-    name,
-    img,
-    price,
-    stock,
-    weight_g,
-    attrs,
-    status
-) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8
-)
-`
-
-type CreateProductSkuParams struct {
-	ProductID int64          `json:"product_id"`
-	Name      string         `json:"name"`
-	Img       string         `json:"img"`
-	Price     pgtype.Numeric `json:"price"`
-	Stock     int32          `json:"stock"`
-	WeightG   int32          `json:"weight_g"`
-	Attrs     dbtypes.JSON   `json:"attrs"`
-	Status    int16          `json:"status"`
-}
-
-func (q *Queries) CreateProductSku(ctx context.Context, arg CreateProductSkuParams) error {
-	_, err := q.db.Exec(ctx, createProductSku,
-		arg.ProductID,
-		arg.Name,
-		arg.Img,
-		arg.Price,
-		arg.Stock,
-		arg.WeightG,
-		arg.Attrs,
-		arg.Status,
-	)
-	return err
 }
 
 const createProductSkuJson = `-- name: CreateProductSkuJson :exec
@@ -192,8 +86,17 @@ func (q *Queries) CreateProductSkuJson(ctx context.Context, arg CreateProductSku
 	return err
 }
 
+const deleteProduct = `-- name: DeleteProduct :exec
+DELETE FROM products WHERE id = $1
+`
+
+func (q *Queries) DeleteProduct(ctx context.Context, id int64) error {
+	_, err := q.db.Exec(ctx, deleteProduct, id)
+	return err
+}
+
 const getProduct = `-- name: GetProduct :one
-SELECT id, name, handle, tags, status, deleted, sku_num, weight_g, brand, category, main_image_url, sales_count, stock, price, cts, uts FROM products WHERE id = $1
+SELECT id, name, handle, tags, status, deleted, sku_num, weight_g, brand, category, main_image, sales_count, stock, price, cts, uts FROM products WHERE id = $1
 `
 
 func (q *Queries) GetProduct(ctx context.Context, id int64) (Product, error) {
@@ -210,7 +113,7 @@ func (q *Queries) GetProduct(ctx context.Context, id int64) (Product, error) {
 		&i.WeightG,
 		&i.Brand,
 		&i.Category,
-		&i.MainImageUrl,
+		&i.MainImage,
 		&i.SalesCount,
 		&i.Stock,
 		&i.Price,
@@ -254,9 +157,10 @@ func (q *Queries) GetProductHandleCount(ctx context.Context, dollar_1 pgtype.Tex
 }
 
 const listProducts = `-- name: ListProducts :many
-SELECT  id,name, handle, tags, weight_g,deleted,status, brand, category, main_image_url, price,sales_count,cts
+SELECT  id,name, handle, tags, weight_g,deleted,status, brand, category, main_image, price,sales_count,cts
 FROM products
-ORDER BY id asc
+WHERE deleted = 0
+ORDER BY uts desc
 LIMIT $1 OFFSET $2
 `
 
@@ -266,19 +170,19 @@ type ListProductsParams struct {
 }
 
 type ListProductsRow struct {
-	ID           int64          `json:"id"`
-	Name         string         `json:"name"`
-	Handle       string         `json:"handle"`
-	Tags         []string       `json:"tags"`
-	WeightG      int32          `json:"weight_g"`
-	Deleted      int16          `json:"deleted"`
-	Status       int16          `json:"status"`
-	Brand        string         `json:"brand"`
-	Category     string         `json:"category"`
-	MainImageUrl string         `json:"main_image_url"`
-	Price        pgtype.Numeric `json:"price"`
-	SalesCount   int32          `json:"sales_count"`
-	Cts          pgtype.Int8    `json:"cts"`
+	ID         int64          `json:"id"`
+	Name       string         `json:"name"`
+	Handle     string         `json:"handle"`
+	Tags       []string       `json:"tags"`
+	WeightG    int32          `json:"weight_g"`
+	Deleted    int16          `json:"deleted"`
+	Status     int16          `json:"status"`
+	Brand      string         `json:"brand"`
+	Category   string         `json:"category"`
+	MainImage  string         `json:"main_image"`
+	Price      pgtype.Numeric `json:"price"`
+	SalesCount int32          `json:"sales_count"`
+	Cts        pgtype.Int8    `json:"cts"`
 }
 
 func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]ListProductsRow, error) {
@@ -300,7 +204,7 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]L
 			&i.Status,
 			&i.Brand,
 			&i.Category,
-			&i.MainImageUrl,
+			&i.MainImage,
 			&i.Price,
 			&i.SalesCount,
 			&i.Cts,
@@ -317,17 +221,17 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]L
 
 const updateProductMainImage = `-- name: UpdateProductMainImage :exec
 UPDATE products SET
-    main_image_url = $1
+    main_image = $1
 WHERE id = $2
 `
 
 type UpdateProductMainImageParams struct {
-	MainImageUrl string `json:"main_image_url"`
-	ID           int64  `json:"id"`
+	MainImage string `json:"main_image"`
+	ID        int64  `json:"id"`
 }
 
 func (q *Queries) UpdateProductMainImage(ctx context.Context, arg UpdateProductMainImageParams) error {
-	_, err := q.db.Exec(ctx, updateProductMainImage, arg.MainImageUrl, arg.ID)
+	_, err := q.db.Exec(ctx, updateProductMainImage, arg.MainImage, arg.ID)
 	return err
 }
 

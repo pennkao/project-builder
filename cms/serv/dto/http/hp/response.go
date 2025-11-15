@@ -1,6 +1,8 @@
 package hp
 
 import (
+	"database/sql"
+	"errors"
 	"net/http"
 
 	"github.com/bytedance/sonic"
@@ -33,4 +35,16 @@ func Error[T any](c *gin.Context, msg string) {
     b, _ := sonic.Marshal(resp)
     c.Writer.WriteHeader(http.StatusOK)
     c.Writer.Write(b)
+}
+
+func Response(c *gin.Context, data any, err error) {
+    if err != nil {
+		 if errors.Is(err, sql.ErrNoRows) {
+			Success(c, interface{}(nil))
+			return 
+    	}
+        Error[any](c, err.Error())
+        return
+    }
+    Success(c, data)
 }

@@ -1,0 +1,13 @@
+-- name: GetProductDetails :one
+SELECT images, videos, specs FROM product_details WHERE product_id = $1;
+
+
+-- name: CreateProductDetails :exec
+INSERT INTO product_details (
+    product_id,
+    images,
+    videos,
+    specs
+) VALUES (
+    $1, $2, $3, $4
+);

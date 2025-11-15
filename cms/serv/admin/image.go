@@ -14,5 +14,5 @@ func (t *Cms)ListImages(c *gin.Context) {
 		hp.Error[any](c,  err.Error())
 		return
 	}
-	hp.Success[any](c, images)
+	hp.Success(c, images)
 }

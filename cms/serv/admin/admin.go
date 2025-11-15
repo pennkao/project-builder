@@ -47,6 +47,10 @@ func (t *Cms) Dispatcher(c *gin.Context) {
 		t.CreateProductDetails(c)
 	case "/add-product-sku-json":
 		t.CreateProductSkuJson(c)
+	case "/delete":
+		t.Deleter(c)
+	case "/fetch":
+		t.Fetcher(c)
 	default:
 		hp.Error[any](c, "Not Found")
 	}

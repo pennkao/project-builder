@@ -9,7 +9,7 @@ export const defaultProductMain: ProductMainType = {
     brand: '', // text，默认 ''
     sku_num: 0, // int2 → number，默认 0
     category: '', // text，默认 ''
-    main_image_url: '', // text，默认 ''
+    main_image: '', // text，默认 ''
     sales_count: 0, // int4 → number，默认 0
     stock: 0, // int4 → number，默认 0
     price: 0, // numeric(12,2) → number（注意精度问题，见说明）
@@ -19,7 +19,7 @@ export const defaultSku: SkuType = {
     id: 0,
     product_id: 0,
     name: '',
-    img: '',
+    image: '',
     price: 0,
     weight_g: 0, // int4 → number，单位：克
     stock: 0,

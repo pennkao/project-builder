@@ -1,0 +1,29 @@
+package admin
+
+import (
+	"github.com/cms/dto/http/hp"
+	"github.com/cms/dto/http/hq"
+	"github.com/gin-gonic/gin"
+)
+func (t *Cms) Deleter(c *gin.Context) {
+    // 从查询参数中获取产品 handle
+    var req hq.DeleterReq
+    if err := hq.Json(c, &req); err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+
+	switch req.Target {
+	case "product":
+		err := t.Q.DeleteProduct(c.Request.Context(), req.Id)
+		if err != nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}
+		hp.Success[any](c, nil)
+	default:
+		hp.Error[any](c, "Not Found")
+	}
+
+    hp.Success[any](c, nil) // 返回产品数量
+}

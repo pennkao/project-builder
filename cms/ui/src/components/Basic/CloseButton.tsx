@@ -1,8 +1,9 @@
 import { CloseIcon } from '@/icons';
 
-const CloseButton = ({ onClose }: { onClose?: () => void }) => {
+const CloseButton = ({ disabled, onClose }: { disabled?: boolean; onClose?: () => void }) => {
     return (
         <button
+            disabled={disabled}
             className="text-sm text-white-500 cursor-pointer opacity-50 hover:opacity-100 transition"
             onClick={(e) => {
                 e.stopPropagation();

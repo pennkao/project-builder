@@ -12,3 +12,11 @@ export function obj2Array(obj: Record<string, string>) {
 export function array2Obj(arr: Record<string, string>[]) {
     return Object.fromEntries(arr.map(({ name, value }) => [name, value]));
 }
+
+
+export function formartInputNumber(value: number): string {
+    if (value === 0) {
+        return '';
+    }
+    return Number(value).toString();
+}

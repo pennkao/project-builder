@@ -10,7 +10,7 @@ CREATE TABLE products (
     weight_g        INTEGER  NOT NULL DEFAULT 0,                    -- 克重（若所有 SKU 一致）
     brand           TEXT  NOT NULL DEFAULT '',
     category        TEXT  NOT NULL DEFAULT '',                      -- 分类标识（如 'phones'）
-    main_image_url  TEXT  NOT NULL DEFAULT '',                      -- 主图 URL
+    main_image      TEXT  NOT NULL DEFAULT '',                      -- 主图 URL
     sales_count     INTEGER  NOT NULL DEFAULT 0,                    -- 销量（可定期聚合）
     stock           INTEGER  NOT NULL DEFAULT 0,                    -- 销量库存（可定期聚合）
     price           NUMERIC(12,2) NOT NULL DEFAULT 0.00,           -- 起售价 / 最低价（用于列表展示）

@@ -11,3 +11,5 @@ type ProductHandleResp struct {
 	ProductID int64 `json:"product_id"`
     Skus []db.CreateProductSkuParams `json:"skus"`
 }
+
+
