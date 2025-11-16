@@ -38,3 +38,17 @@ func (q *Queries) GetProductContent(ctx context.Context, productID int64) (strin
 	err := row.Scan(&content)
 	return content, err
 }
+
+const updateProductContent = `-- name: UpdateProductContent :exec
+UPDATE product_content SET content = $2 WHERE product_id = $1
+`
+
+type UpdateProductContentParams struct {
+	ProductID int64  `json:"product_id"`
+	Content   string `json:"content"`
+}
+
+func (q *Queries) UpdateProductContent(ctx context.Context, arg UpdateProductContentParams) error {
+	_, err := q.db.Exec(ctx, updateProductContent, arg.ProductID, arg.Content)
+	return err
+}

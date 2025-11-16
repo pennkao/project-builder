@@ -9,3 +9,8 @@ INSERT INTO product_options (
     $1, $2
 );
 
+-- name: UpdateProductOptions :exec
+UPDATE product_options
+SET
+    options = $2
+WHERE product_id = $1;

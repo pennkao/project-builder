@@ -55,3 +55,24 @@ func (q *Queries) GetProductDetails(ctx context.Context, productID int64) (GetPr
 	err := row.Scan(&i.Images, &i.Videos, &i.Specs)
 	return i, err
 }
+
+const updateProductDetail = `-- name: UpdateProductDetail :exec
+UPDATE product_details SET images = $2, videos = $3, specs = $4 WHERE product_id = $1
+`
+
+type UpdateProductDetailParams struct {
+	ProductID int64        `json:"product_id"`
+	Images    []string     `json:"images"`
+	Videos    []string     `json:"videos"`
+	Specs     dbtypes.JSON `json:"specs"`
+}
+
+func (q *Queries) UpdateProductDetail(ctx context.Context, arg UpdateProductDetailParams) error {
+	_, err := q.db.Exec(ctx, updateProductDetail,
+		arg.ProductID,
+		arg.Images,
+		arg.Videos,
+		arg.Specs,
+	)
+	return err
+}

@@ -271,6 +271,59 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]L
 	return items, nil
 }
 
+const updateProduct = `-- name: UpdateProduct :exec
+UPDATE products
+SET
+    name        = $2,
+    tags        = $3,
+    status      = $4,
+    deleted     = $5,
+    sku_num     = $6,
+    weight_g    = $7,
+    brand       = $8,
+    category    = $9,
+    main_image  = $10,
+    sales_count = $11,
+    stock       = $12,
+    price       = $13
+WHERE id = $1
+`
+
+type UpdateProductParams struct {
+	ID         int64          `json:"id"`
+	Name       string         `json:"name"`
+	Tags       []string       `json:"tags"`
+	Status     int16          `json:"status"`
+	Deleted    int16          `json:"deleted"`
+	SkuNum     int16          `json:"sku_num"`
+	WeightG    int32          `json:"weight_g"`
+	Brand      string         `json:"brand"`
+	Category   string         `json:"category"`
+	MainImage  string         `json:"main_image"`
+	SalesCount int32          `json:"sales_count"`
+	Stock      int32          `json:"stock"`
+	Price      pgtype.Numeric `json:"price"`
+}
+
+func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) error {
+	_, err := q.db.Exec(ctx, updateProduct,
+		arg.ID,
+		arg.Name,
+		arg.Tags,
+		arg.Status,
+		arg.Deleted,
+		arg.SkuNum,
+		arg.WeightG,
+		arg.Brand,
+		arg.Category,
+		arg.MainImage,
+		arg.SalesCount,
+		arg.Stock,
+		arg.Price,
+	)
+	return err
+}
+
 const updateProductMainImage = `-- name: UpdateProductMainImage :exec
 UPDATE products SET
     main_image = $1

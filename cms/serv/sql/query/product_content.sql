@@ -8,3 +8,7 @@ INSERT INTO product_content (
 ) VALUES (
     $1, $2
 );
+
+-- name: UpdateProductContent :exec
+UPDATE product_content SET content = $2 WHERE product_id = $1;
+

@@ -67,3 +67,20 @@ SELECT * FROM products;
 
 -- name: BaseProductCountSql :one
 SELECT COUNT(*) FROM products;
+
+-- name: UpdateProduct :exec
+UPDATE products
+SET
+    name        = $2,
+    tags        = $3,
+    status      = $4,
+    deleted     = $5,
+    sku_num     = $6,
+    weight_g    = $7,
+    brand       = $8,
+    category    = $9,
+    main_image  = $10,
+    sales_count = $11,
+    stock       = $12,
+    price       = $13
+WHERE id = $1;

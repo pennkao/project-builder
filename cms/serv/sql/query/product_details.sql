@@ -11,3 +11,7 @@ INSERT INTO product_details (
 ) VALUES (
     $1, $2, $3, $4
 );
+
+-- name: UpdateProductDetail :exec
+UPDATE product_details SET images = $2, videos = $3, specs = $4 WHERE product_id = $1;
+

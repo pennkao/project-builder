@@ -40,3 +40,20 @@ func (q *Queries) GetProductOptions(ctx context.Context, productID int64) (dbtyp
 	err := row.Scan(&options)
 	return options, err
 }
+
+const updateProductOptions = `-- name: UpdateProductOptions :exec
+UPDATE product_options
+SET
+    options = $2
+WHERE product_id = $1
+`
+
+type UpdateProductOptionsParams struct {
+	ProductID int64        `json:"product_id"`
+	Options   dbtypes.JSON `json:"options"`
+}
+
+func (q *Queries) UpdateProductOptions(ctx context.Context, arg UpdateProductOptionsParams) error {
+	_, err := q.db.Exec(ctx, updateProductOptions, arg.ProductID, arg.Options)
+	return err
+}
