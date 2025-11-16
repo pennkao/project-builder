@@ -5,10 +5,15 @@ import { useEffect, useState } from 'react';
 
 export default function Images() {
     const [images, setImages] = useState<ImageType[]>([]);
-    const { doPost } = usePost<ImageType[]>('list-images');
+    const { doPost } = usePost<ImageType[]>('list');
+    // doLoading({}, { page, size: 10 }, (res) => setResult(res));
     useEffect(() => {
-        doPost({}, (list) => {
-            setImages(list || []);
+        doPost({
+            params: { target: 'images', },
+            querys: { page: 1, size: 100 },
+            callback: (data) => {
+                setImages(data);
+            },
         });
     }, []);
     const className = 'border border-gray-200 rounded-xl dark:border-gray-800 w-30 h-30';

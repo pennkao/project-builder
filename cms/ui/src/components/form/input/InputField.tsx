@@ -8,6 +8,7 @@ interface InputProps {
     placeholder?: string;
     value?: string | number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     className?: string;
     min?: string;
     max?: string;
@@ -18,7 +19,7 @@ interface InputProps {
     hint?: string;
 }
 
-const Input: FC<InputProps> = ({ type = 'text', id, name, placeholder, value, onChange, className = '', min, max, step, disabled = false, success = false, error = false, hint }) => {
+const Input: FC<InputProps> = ({ type = 'text', id, name, placeholder, value, onKeyDown, onChange, className = '', min, max, step, disabled = false, success = false, error = false, hint }) => {
     let inputClasses = ` h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3  dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${className}`;
 
     if (disabled) {
@@ -33,7 +34,20 @@ const Input: FC<InputProps> = ({ type = 'text', id, name, placeholder, value, on
 
     return (
         <div className="relative">
-            <input type={type} id={id} name={name} placeholder={placeholder} value={value} onChange={onChange} min={min} max={max} step={step} disabled={disabled} className={inputClasses} />
+            <input
+                type={type}
+                id={id}
+                name={name}
+                placeholder={placeholder}
+                value={value}
+                onKeyDown={(e) => onKeyDown?.(e)}
+                onChange={onChange}
+                min={min}
+                max={max}
+                step={step}
+                disabled={disabled}
+                className={inputClasses}
+            />
 
             {hint && <p className={`mt-1.5 text-xs ${error ? 'text-error-500' : success ? 'text-success-500' : 'text-gray-500'}`}>{hint}</p>}
         </div>

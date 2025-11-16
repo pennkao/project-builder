@@ -16,6 +16,13 @@ type BatchPostOptions<T = any> = {
     options: PostOptions;
     api: string;
 };
+
+interface DoPostParams<T = any> {
+    params?: Record<string, any> | null;
+    querys?: Record<string, any> | null;
+    callback?: (data: T) => void;
+}
+
 const defaultBaseUrl = config.apiBaseUrl;
 
 /**
@@ -27,9 +34,10 @@ export function usePost<T = any>(api: string) {
     const [error, setError] = useState<Error | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const Params = (PostOptions: PostOptions) => {
+    const Params = (options: PostOptions, callback?: (data: T) => void) => {
         return {
-            PostOptions,
+            options: { params: options.params, query: options.querys },
+            callback,
         };
     };
     /**
@@ -38,15 +46,15 @@ export function usePost<T = any>(api: string) {
      * @param querys URL 查询参数（如 { page: 1, size: 10 }）
      * @param callback 成功时返回 data
      */
-    const doPost = async (options: PostOptions, callback?: (data: T) => void) => {
+    const doPost = async ({ params, querys, callback }: DoPostParams<T>) => {
         setError(null);
         setLoading(true);
 
         try {
             // 拼接完整 URL
             let url = `${defaultBaseUrl}${api}`;
-            if (options.querys && Object.keys(options.querys).length) {
-                url += '?' + new URLSearchParams(options.querys).toString();
+            if (querys && Object.keys(querys).length) {
+                url += '?' + new URLSearchParams(querys).toString();
             }
 
             const token = typeof window !== 'undefined' ? localStorage.getItem('--vxtn:token') : null;
@@ -58,9 +66,12 @@ export function usePost<T = any>(api: string) {
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 credentials: 'include',
-                body: options.params ? JSON.stringify(options.params) : '{}',
+                body: params ? JSON.stringify(params) : '{}',
             });
-
+            console.log({
+                'Content-Type': 'application/json',
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            });
             if (!res.ok) {
                 const text = await res.text().catch(() => '');
                 throw new Error(`HTTP ${res.status}: ${text}`);

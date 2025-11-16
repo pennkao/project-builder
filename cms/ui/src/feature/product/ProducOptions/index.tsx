@@ -13,7 +13,7 @@ import { isrc } from '@/utils/image';
 import { genProductSkuByOptions } from '@/utils/product';
 import { Activity, useContext, useEffect, useRef, useState } from 'react';
 
-export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { selectedSkuImages: { index: number; img: string }; onOpenSelected?: (key: string | number) => void }) {
+export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { selectedSkuImages: SkuSeletedImageType; onOpenSelected?: (key: number) => void }) {
     // const [options, setOptions] = useState<any[]>([]);
 
     const context = useContext(ProductContext);
@@ -117,7 +117,8 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
         setSkuList(newSkuList);
     };
     useEffect(() => {
-        setSkuList((prev) => prev && prev.map((item, index) => (index === selectedSkuImages.index ? { ...item, img: selectedSkuImages.img } : item)));
+        console.log(selectedSkuImages);
+        setSkuList((prev) => prev && prev.map((item, index) => (index === selectedSkuImages.index ? { ...item, image: selectedSkuImages.image } : item)));
     }, [selectedSkuImages]);
 
     //输入金额等

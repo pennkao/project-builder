@@ -9,6 +9,52 @@ import (
 	"context"
 )
 
+const baseImageCountSql = `-- name: BaseImageCountSql :one
+SELECT COUNT(*) FROM images
+`
+
+func (q *Queries) BaseImageCountSql(ctx context.Context) (int64, error) {
+	row := q.db.QueryRow(ctx, baseImageCountSql)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+const baseImageListSql = `-- name: BaseImageListSql :many
+SELECT id, url, storage_path, file_name, file_type, mime_type, alt_text, width_px, height_px, cts FROM images
+`
+
+func (q *Queries) BaseImageListSql(ctx context.Context) ([]Image, error) {
+	rows, err := q.db.Query(ctx, baseImageListSql)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Image
+	for rows.Next() {
+		var i Image
+		if err := rows.Scan(
+			&i.ID,
+			&i.Url,
+			&i.StoragePath,
+			&i.FileName,
+			&i.FileType,
+			&i.MimeType,
+			&i.AltText,
+			&i.WidthPx,
+			&i.HeightPx,
+			&i.Cts,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listImages = `-- name: ListImages :many
 SELECT id, url, storage_path, file_name, file_type, mime_type, alt_text, width_px, height_px, cts FROM images
 ORDER BY id ASC

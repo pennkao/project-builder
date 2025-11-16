@@ -58,3 +58,12 @@ WHERE id = $2;
 DELETE FROM products WHERE id = $1;
 
 
+-- name: BatchDeleteProducts :batchexec
+DELETE FROM products WHERE id = $1;
+
+
+-- name: BaseProductListSql :many
+SELECT * FROM products;
+
+-- name: BaseProductCountSql :one
+SELECT COUNT(*) FROM products;

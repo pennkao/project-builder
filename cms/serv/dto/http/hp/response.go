@@ -18,6 +18,7 @@ type response[T any] struct {
 }
 
 func Success[T any](c *gin.Context, data T) {
+	c.ShouldBindJSON(&data)
     c.Header("Content-Type", "application/json; charset=utf-8")
     resp := response[T]{Code: 0, Message: "ok", Data: data}
     b, err := sonic.Marshal(resp)

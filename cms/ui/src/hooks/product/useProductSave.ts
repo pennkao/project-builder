@@ -1,0 +1,85 @@
+import { Confirm } from '@/components/Confirm';
+import { useBatchPost } from '@/hooks/usePost';
+import { fnv1a32 } from '@/utils/product';
+export function useProductSave(productId: number, productData: ProductType, navigate: Function) {
+    const { doBatchPost, Params } = useBatchPost();
+
+    const message = async (message: string) => {
+        const confirm = await Confirm('Error', message, { confirmText: 'Confirm', cancelText: 'Cancel', danger: true });
+        if (!confirm) return false;
+        return true;
+    };
+
+    const checkParams = (data: ProductType) => {
+        const rules = [
+            { valid: !!data.main.name, msg: 'Please enter name' },
+            { valid: !!data.main.handle, msg: 'Please enter handle' },
+            { valid: data.images.length > 0, msg: 'Please upload main image' },
+        ];
+
+        const failed = rules.find((r) => !r.valid);
+        return failed ? failed.msg : null; // return null 表示全部通过
+    };
+
+    const saveProduct = async () => {
+        const valid = checkParams(productData);
+        if (valid) {
+            await message(valid);
+            return;
+        }
+
+        const id = fnv1a32(productData.main.handle);
+        productData.main.id = id;
+
+        const res = await doBatchPost([
+            Params('add-product', { params: productData.main }),
+            Params('add-product-details', { params: { product_id: id, images: productData.images, videos: [], specs: {} } }),
+            Params('add-product-skus', { params: { product_id: id, skus: productData.skus } }),
+            Params('add-product-options', { params: { product_id: id, options: productData.options } }),
+            Params('add-product-sku-json', { params: { product_id: id, skus: productData.skus } }),
+        ]);
+
+        if (!res) {
+            await message('Add product failed');
+            return;
+        }
+        const ok = res[0] !== null && res.slice(1).every((item) => item === null);
+        if (!ok) {
+            await message('Add product failed');
+            return;
+        }
+        navigate('/products-list');
+    };
+
+    const updateProduct = async () => {
+        const valid = checkParams(productData);
+        if (valid) {
+            await message(valid);
+            return;
+        }
+
+        const res = await doBatchPost([
+            Params('update-product', { params: productData.main }),
+            Params('update-product-details', { params: { product_id: productId, images: productData.images, videos: [], specs: {} } }),
+            Params('update-product-skus', { params: { product_id: productId, skus: productData.skus } }),
+            Params('update-product-options', { params: { product_id: productId, options: productData.options } }),
+            Params('update-product-sku-json', { params: { product_id: productId, skus: productData.skus } }),
+        ]);
+
+        if (!res) {
+            await message('Update product failed');
+            return;
+        }
+        const ok = res[0] !== null && res.slice(1).every((item) => item === null);
+        if (!ok) {
+            await message('Update product failed');
+            return;
+        }
+        navigate('/products-list');
+    };
+
+    const test = async () => {
+        const res = await doBatchPost([Params('list', { params: { target: 'products', params: { price: 1 } }, querys: { page: 1, size: 10 } })]);
+    };
+    return { saveProduct, updateProduct, test };
+}

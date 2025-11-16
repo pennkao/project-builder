@@ -18,6 +18,11 @@ interface UploadResponseType {
     url: string;
 }
 
+interface SkuSeletedImageType {
+    index: number;
+    image: string;
+}
+
 interface ImageType {
     id: number;
     url: string;

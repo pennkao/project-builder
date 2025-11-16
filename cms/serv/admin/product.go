@@ -46,7 +46,7 @@ func (t *Cms)ListProducts(c *gin.Context) {
 func (t *Cms) CheckProductHandle(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req hq.ProductHandleReq
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }
@@ -61,7 +61,7 @@ func (t *Cms) CheckProductHandle(c *gin.Context) {
 func (t *Cms) GetProductHandleCount(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req hq.ProductHandleReq
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c, err.Error())
         return
     }
@@ -76,7 +76,7 @@ func (t *Cms) GetProductHandleCount(c *gin.Context) {
 func (t *Cms) CreateProductMain(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req db.CreateProductMainParams
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }
@@ -104,7 +104,7 @@ func (t *Cms) CreateProductMain(c *gin.Context) {
 func (t *Cms) CreateProductOptions(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req db.CreateProductOptionsParams
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }
@@ -120,7 +120,7 @@ func (t *Cms) CreateProductOptions(c *gin.Context) {
 func (t *Cms) CreateProductSkus(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req hq.ProductHandleResp
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }
@@ -181,7 +181,7 @@ func (t *Cms) CreateProductSkus(c *gin.Context) {
 func (t *Cms) CreateProductContent(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req db.CreateProductContentParams
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }
@@ -196,7 +196,7 @@ func (t *Cms) CreateProductContent(c *gin.Context) {
 func (t *Cms) CreateProductDetails(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req db.CreateProductDetailsParams
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }
@@ -240,7 +240,7 @@ func (t *Cms) CreateProductDetails(c *gin.Context) {
 func (t *Cms) CreateProductSkuJson(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req db.CreateProductSkuJsonParams
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }

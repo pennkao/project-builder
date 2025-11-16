@@ -27,10 +27,13 @@ func (t *Cms) Dispatcher(c *gin.Context) {
 	switch path {
 	case "/file/upload":
 		fileUpload(c)
+	case "/list":
+		t.Lister(c)
 	case "/list-products":
 		t.ListProducts(c)
 	case "/list-images":
 		t.ListImages(c)
+
 	case "/product-handle-check":
 		t.CheckProductHandle(c)
 	case "/product-handle-count":

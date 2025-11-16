@@ -35,10 +35,29 @@ interface ProductMainType {
     price: number; // numeric(12,2) → number（注意精度问题，见说明）
 }
 type ProductContentType = string;
+
 interface ProductType {
     main: ProductMainType;
     options: ProductOptionsType;
     images: string[];
     skus: SkuType[];
     content: ProductContentType;
+}
+
+interface ProductItemType {
+    id: number;
+    name: string;
+    category: string;
+    brand: string;
+    price: string;
+    sales_count: string;
+    status: number;
+    cts: string;
+    main_image: string;
+}
+interface PageListDataType<T> {
+    page: number;
+    size: number;
+    total: number;
+    list: T[];
 }

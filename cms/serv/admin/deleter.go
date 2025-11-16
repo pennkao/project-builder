@@ -8,7 +8,7 @@ import (
 func (t *Cms) Deleter(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req hq.DeleterReq
-    if err := hq.Json(c, &req); err != nil {
+    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }

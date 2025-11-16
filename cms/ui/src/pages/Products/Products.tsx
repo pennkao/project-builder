@@ -2,6 +2,7 @@ import { Confirm } from '@/components/Confirm';
 import FieldSort from '@/components/FidldSort';
 import Checkbox from '@/components/form/input/Checkbox';
 import Input from '@/components/form/input/InputField';
+import Image from '@/components/Image';
 import ContentAction from '@/components/page/ContentAction';
 import Page from '@/components/page/Page';
 import PageAction from '@/components/page/PageAction';
@@ -9,6 +10,7 @@ import { Pagination } from '@/components/page/Pagination';
 import Button from '@/components/ui/button/Button';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { formatProductStatus } from '@/feature/status/product';
+import { useProductList } from '@/hooks/product/useProductList';
 import { usePost } from '@/hooks/usePost';
 import { DownloadIcon, FilterIcon, PlusIcon, SearchIcon } from '@/icons';
 import { isrc } from '@/utils/image';
@@ -16,47 +18,27 @@ import { sortItems } from '@/utils/sort';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import Image from '../../components/Image';
-interface ProductType {
-    id: number;
-    name: string;
-    category: string;
-    brand: string;
-    price: string;
-    sales_count: string;
-    status: number;
-    cts: string;
-    main_image: string;
-}
-interface ProductPageType {
-    page: number;
-    size: number;
-    total: number;
-    list: ProductType[];
-}
+
 export default function Products() {
     const navigator = useNavigate();
-    const [page, setPage] = useState(1); // eslint-disable-next-line
-    const [result, setResult] = useState<ProductPageType>({
-        page: 1,
-        size: 10,
-        total: 0,
-        list: [],
-    });
-
-    const { doPost } = usePost<ProductPageType>('list-products');
-    // doLoading({}, { page, size: 10 }, (res) => setResult(res));
+    const [search, setSearch] = useState('');
+    const { result, setResult, setParamFilter, setParamSort, setPage, fetchList } = useProductList();
     useEffect(() => {
-        doPost({ querys: { page: page, size: 10 } }, (data) => {
-            setResult(data);
-        });
-    }, [page]);
+        fetchList();
+    }, []);
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            setParamFilter([{ field: 'name', operator: 'like', value: search }]);
+        }
+    };
     const handleDelete = (id: number) => {
         setResult((prev) => ({
             ...prev,
             list: prev.list.filter((item) => item.id !== id),
         }));
     };
+
     return (
         <Page pageTitle="Product List" showBackgroud={true}>
             <PageAction>
@@ -79,7 +61,7 @@ export default function Products() {
                         <SearchIcon className="w-5 h-5 fill-current" />
                     </span>
 
-                    <Input placeholder="Search..." className="pl-11 sm:w-[300px] sm:min-w-[300px]" />
+                    <Input placeholder="Search..." value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} className="pl-11 sm:w-[300px] sm:min-w-[300px]" />
                 </div>
                 <div className="relative">
                     <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
@@ -87,16 +69,16 @@ export default function Products() {
                     </Button>
                 </div>
             </ContentAction>
-            <ListProduct items={[...(result?.list || [])]} onDelete={handleDelete} />
+            <ListProduct items={[...(result?.list || [])]} onDelete={(id) => handleDelete(id)} />
             <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />
         </Page>
     );
 }
 
-const ListProduct = ({ items, onDelete }: { items: ProductType[]; onDelete: (id: number) => void }) => {
+const ListProduct = ({ items, onDelete }: { onDelete: (id: number) => void; items: ProductItemType[] }) => {
     const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({}); // Add this line
     const [isAllSelected, setIsAllSelected] = useState(false);
-    const { doPost } = usePost<ProductPageType>('delete');
+    const { doPost } = usePost<PageListDataType<ProductItemType>>('delete');
 
     const handleCheckboxChange = (id: number) => {
         setCheckedItems((prev) => ({
@@ -116,11 +98,11 @@ const ListProduct = ({ items, onDelete }: { items: ProductType[]; onDelete: (id:
     // ✅ 排序逻辑
     const sortedItems = useMemo(() => {
         if (!sortingField.field || sortingField.status === '') return [...items];
-        const field = sortingField.field as keyof ProductType;
-        return sortItems(items, field, sortingField.status);
+        const field = sortingField.field as keyof ProductItemType;
+        return sortItems<ProductItemType>(items, field, sortingField.status);
     }, [items, sortingField]);
 
-    const handleSorting = (field: keyof ProductType) => {
+    const handleSorting = (field: keyof ProductItemType) => {
         if (field !== sortingField.field) {
             setSortingField({ field, status: 'desc' });
             return;

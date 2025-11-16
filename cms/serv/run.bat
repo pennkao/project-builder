@@ -1,0 +1,1 @@
+ go run -tags="sonic avx" main.go

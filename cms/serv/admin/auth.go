@@ -3,7 +3,6 @@ package admin
 
 import (
 	"github.com/cms/dto/http/hp"
-	"github.com/cms/dto/http/hq"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +13,7 @@ func (t *Cms)Login(c *gin.Context) {
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
-	if err := hq.Json(c, &request); err != nil {
+	if err := c.ShouldBindJSON(&request); err != nil {
 		hp.Error[any](c, "Invalid request body")
 		return
 	}
