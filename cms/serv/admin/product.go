@@ -5,41 +5,14 @@ import (
 	"fmt"
 	"math/rand"
 
-	"github.com/cms/com"
+	"github.com/cms/admin/dto/hp"
+	"github.com/cms/admin/dto/hq"
+	"github.com/cms/admin/logic"
 	"github.com/cms/db"
-	"github.com/cms/dbtypes"
-	"github.com/cms/dto/http/hp"
-	"github.com/cms/dto/http/hq"
 	"github.com/cms/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgtype"
 )
-
-// 登录接口，不验证
-// Products 函数处理产品相关的请求，返回产品列表
-func (t *Cms)ListProducts(c *gin.Context) {
-	// 从查询参数中获取当前页码和每页显示数量，默认为1和10	
-	var params db.ListProductsParams
-
-	page := com.NewPage(c)
-	params.Limit = page.GetLimit()
-	params.Offset = page.GetOffset() // 偏移量
-
-	products, err := t.Q.ListProducts(c.Request.Context(), params)
-	if err != nil {
-		hp.Error[any](c,  err.Error())
-		return
-	}
-	total, err := t.Q.GetProductCount(c.Request.Context())
-	if err != nil {
-		hp.Error[any](c,  err.Error())
-		return
-	}
-	page.SetTotal(int(total)) // 设置总记录数
-	page.SetList(products) // 设置产品列表
-     // 定义并初始化一个产品切片，包含多个产品信息
-	hp.Success[any](c, page)
-}
 
 
 
@@ -101,6 +74,28 @@ func (t *Cms) CreateProductMain(c *gin.Context) {
     hp.Success[any](c, id) // 返回产品数量
 }
 
+func (t *Cms) UpdateProductMain(c *gin.Context) {
+    // 从查询参数中获取产品 handle
+    var req db.UpdateProductMainParams
+    if err := c.ShouldBindJSON(&req); err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+	fmt.Println(req)
+	if (req.Stock == 0) {
+		req.Stock = int32(99999)  ////////todo
+	}
+
+	req.SalesCount = int32(10 + rand.Intn(2000-10+1)) // 随机生成一个10到2000之间的整数
+
+    err := t.Q.UpdateProductMain(c.Request.Context(), req)
+    if err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+    hp.Success[any](c, req.ID) // 返回产品数量
+}
+
 func (t *Cms) CreateProductOptions(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req db.CreateProductOptionsParams
@@ -117,13 +112,44 @@ func (t *Cms) CreateProductOptions(c *gin.Context) {
     hp.Success[any](c, nil) // 返回产品数量
 }
 
-func (t *Cms) CreateProductSkus(c *gin.Context) {
+func (t *Cms) UpdateProductOptions(c *gin.Context) {
     // 从查询参数中获取产品 handle
-    var req hq.ProductHandleResp
+    var req db.UpdateProductOptionsParams
     if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error())
         return
     }
+    err := t.Q.UpdateProductOptions(c.Request.Context(), req)
+    if err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+    hp.Success[any](c, nil) // 返回产品数量
+}
+
+
+
+func (t *Cms) CreateProductSkus(c *gin.Context) {
+    // 从查询参数中获取产品 handle
+    var req hq.ProductSkusReq
+    if err := c.ShouldBindJSON(&req); err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+
+	product,err:= t.Q.GetProduct(c.Request.Context(), req.ProductID)
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+
+
+	toCreate, err := logic.ProcessCreateSkus(product, req.Skus)
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+
 	tx, err := t.Db.Begin(c.Request.Context()) // database/sql 风格
 	if err != nil {
 		hp.Error[any](c,  err.Error())
@@ -136,31 +162,13 @@ func (t *Cms) CreateProductSkus(c *gin.Context) {
 	}()
 
 
-	if len(req.Skus) == 0 {
-		var product, err = t.Q.GetProduct(c.Request.Context(), req.ProductID)
+	t.Q.BatchCreateProductSkus(c.Request.Context(), toCreate).Exec(func(i int, err error) {
 		if err != nil {
 			hp.Error[any](c,  err.Error())
 			return
 		}
-		req.Skus = append(req.Skus, db.CreateProductSkuParams{
-			ProductID: req.ProductID,
-			Name:      "PRODUCT",
-			Image:     product.MainImage,
-			WeightG:   product.WeightG,
-			Price:     product.Price,
-			Stock:     product.Stock,
-			Attrs:     dbtypes.JSON([]byte("{}")), // TODO
-		})
-	}
+	})
 
-	for _, sku := range req.Skus {
-		sku.ProductID = req.ProductID
-	     err = t.Q.CreateProductSku(c.Request.Context(), sku)
-		 if err != nil {
-			hp.Error[any](c,  err.Error())
-			return
-		 }
-	}
 	err = t.Q.UpdateProductMainSkuNum(c.Request.Context(), db.UpdateProductMainSkuNumParams{
 			ID:        req.ProductID,
 			SkuNum:    int16(len(req.Skus)),
@@ -178,6 +186,97 @@ func (t *Cms) CreateProductSkus(c *gin.Context) {
     hp.Success[any](c, nil) // 返回产品数量
 }
 
+
+
+func (t *Cms) UpdateProductSkus(c *gin.Context) {
+    // 从查询参数中获取产品 handle
+    var req hq.ProductSkusReq
+    if err := c.ShouldBindJSON(&req); err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+
+	product,err:= t.Q.GetProduct(c.Request.Context(), req.ProductID)
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+	if len(req.Skus) == 0 {
+		hp.Error[any](c,  "empty skus")
+		return
+	}
+	dbSkus,err:=t.Q.GetProductSkus(c.Request.Context(), req.ProductID)
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+	toCreate,toUpdate,toDelete,err := logic.ProcessUpdateSkus(product,req.Skus, dbSkus)
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+	skuNum := len(dbSkus) - len(toDelete) + len(toCreate)
+	tx, err := t.Db.Begin(c.Request.Context()) // database/sql 风格
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+	defer func() {
+		if err != nil {
+			tx.Rollback(c.Request.Context())
+		}
+	}()
+	
+	//删除
+	err = t.Q.DeleteProductSku(c.Request.Context(), db.DeleteProductSkuParams{
+		ProductID: req.ProductID,
+		Column2:   toDelete,
+	})
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+
+
+	results1 := t.Q.BatchUpdateProductSkus(c.Request.Context(), toUpdate)
+	results1.Exec(func(i int, err error) {
+		if err != nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}
+	})
+	results2 := t.Q.BatchCreateProductSkus(c.Request.Context(), toCreate)
+	results2.Exec(func(i int, err error) {
+		fmt.Println(i, err)
+		if err != nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}
+	})
+
+	err = t.Q.UpdateProductSkuStored(c.Request.Context(), req.ProductID)
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+
+	err = t.Q.UpdateProductMainSkuNum(c.Request.Context(), db.UpdateProductMainSkuNumParams{
+			ID:        req.ProductID,
+			SkuNum:    int16(skuNum),
+	})
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+
+	err = tx.Commit(c.Request.Context())
+	if err != nil {
+		hp.Error[any](c, "事务提交失败: "+err.Error())
+		return
+	}
+    hp.Success[any](c, nil) // 返回产品数量
+}
+
 func (t *Cms) CreateProductContent(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req db.CreateProductContentParams
@@ -186,6 +285,21 @@ func (t *Cms) CreateProductContent(c *gin.Context) {
         return
     }
     err := t.Q.CreateProductContent(c.Request.Context(), req)
+    if err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+    hp.Success[any](c, nil) // 返回产品数量
+}
+
+func (t *Cms) UpdateProductContent(c *gin.Context) {
+    // 从查询参数中获取产品 handle
+    var req db.UpdateProductContentParams
+    if err := c.ShouldBindJSON(&req); err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+    err := t.Q.UpdateProductContent(c.Request.Context(), req)
     if err != nil {
         hp.Error[any](c,  err.Error())
         return
@@ -237,6 +351,54 @@ func (t *Cms) CreateProductDetails(c *gin.Context) {
     hp.Success[any](c, nil) // 返回产品数量
 }
 
+func (t *Cms) UpdateProductDetails(c *gin.Context) {
+    // 从查询参数中获取产品 handle
+    var req db.UpdateProductDetailsParams
+    if err := c.ShouldBindJSON(&req); err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+	fmt.Println(req)
+	tx, err := t.Db.Begin(c.Request.Context()) // database/sql 风格
+	if err != nil {
+		hp.Error[any](c,  err.Error())
+		return
+	}
+
+	defer func() {
+		fmt.Println(1111)
+		if err != nil {
+			tx.Rollback(c.Request.Context())
+		}
+	}()
+
+
+    err = t.Q.UpdateProductDetails(c.Request.Context(), req)
+    if err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+		fmt.Println(22222222222)
+	if len(req.Images) > 0 {
+		err = t.Q.UpdateProductMainImage(c.Request.Context(), db.UpdateProductMainImageParams{
+			ID:           req.ProductID,
+			MainImage:    req.Images[0],
+		})
+		if err != nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}
+	}
+	fmt.Println(333333333444)
+	// 关键：手动提交
+	err = tx.Commit(c.Request.Context())
+	if err != nil {
+		hp.Error[any](c, "事务提交失败: "+err.Error())
+		return
+	}
+    hp.Success[any](c, nil) // 返回产品数量
+}
+
 func (t *Cms) CreateProductSkuJson(c *gin.Context) {
     // 从查询参数中获取产品 handle
     var req db.CreateProductSkuJsonParams
@@ -245,6 +407,21 @@ func (t *Cms) CreateProductSkuJson(c *gin.Context) {
         return
     }
     err := t.Q.CreateProductSkuJson(c.Request.Context(), req)
+    if err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+    hp.Success[any](c, nil) // 返回产品数量
+}
+
+func (t *Cms) UpdateProductSkuJson(c *gin.Context) {
+    // 从查询参数中获取产品 handle
+    var req db.UpdateProductSkuJsonParams
+    if err := c.ShouldBindJSON(&req); err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+    err := t.Q.UpdateProductSkuJson(c.Request.Context(), req)
     if err != nil {
         hp.Error[any](c,  err.Error())
         return

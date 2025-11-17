@@ -41,3 +41,8 @@ func SHA256(s string) string {
     sum := sha256.Sum256([]byte(s))
     return hex.EncodeToString(sum[:])
 }
+
+func Md5Salt(s string, salt string) string {
+    sum := md5.Sum([]byte(s + salt))
+    return hex.EncodeToString(sum[:])
+}

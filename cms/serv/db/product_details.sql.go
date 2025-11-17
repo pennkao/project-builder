@@ -56,19 +56,19 @@ func (q *Queries) GetProductDetails(ctx context.Context, productID int64) (GetPr
 	return i, err
 }
 
-const updateProductDetail = `-- name: UpdateProductDetail :exec
+const updateProductDetails = `-- name: UpdateProductDetails :exec
 UPDATE product_details SET images = $2, videos = $3, specs = $4 WHERE product_id = $1
 `
 
-type UpdateProductDetailParams struct {
+type UpdateProductDetailsParams struct {
 	ProductID int64        `json:"product_id"`
 	Images    []string     `json:"images"`
 	Videos    []string     `json:"videos"`
 	Specs     dbtypes.JSON `json:"specs"`
 }
 
-func (q *Queries) UpdateProductDetail(ctx context.Context, arg UpdateProductDetailParams) error {
-	_, err := q.db.Exec(ctx, updateProductDetail,
+func (q *Queries) UpdateProductDetails(ctx context.Context, arg UpdateProductDetailsParams) error {
+	_, err := q.db.Exec(ctx, updateProductDetails,
 		arg.ProductID,
 		arg.Images,
 		arg.Videos,

@@ -72,12 +72,16 @@ type ProductSku struct {
 	ID        int64          `json:"id"`
 	ProductID int64          `json:"product_id"`
 	Name      string         `json:"name"`
+	Code      string         `json:"code"`
 	Image     string         `json:"image"`
 	Price     pgtype.Numeric `json:"price"`
 	Stock     int32          `json:"stock"`
 	WeightG   int32          `json:"weight_g"`
-	Attrs     dbtypes.JSON   `json:"attrs"`
 	Status    int16          `json:"status"`
+	Stored    int16          `json:"stored"`
+	Ukey      string         `json:"ukey"`
+	Akey      string         `json:"akey"`
+	Attrs     dbtypes.JSON   `json:"attrs"`
 	Cts       pgtype.Int8    `json:"cts"`
 	Uts       pgtype.Int8    `json:"uts"`
 }

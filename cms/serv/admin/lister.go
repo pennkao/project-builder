@@ -3,20 +3,18 @@ package admin
 import (
 	"context"
 
+	"github.com/cms/admin/dto/hp"
+	"github.com/cms/admin/dto/hq"
 	"github.com/cms/com"
-	"github.com/cms/dto/http/hp"
-	"github.com/cms/dto/http/hq"
 	"github.com/cms/utils"
 	"github.com/gin-gonic/gin"
 )
-type QQQ struct {
-	Price int64 `json:"price"`
-}
+
 func (t *Cms) Lister(c *gin.Context) {
 
 	page := com.NewPage(c)
 
-	var req hq.ListParamsReq
+	var req hq.ListerParamsReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		hp.Error[any](c, err.Error())
 		return

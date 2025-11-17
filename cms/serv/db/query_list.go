@@ -4,9 +4,6 @@ import (
 	"context"
 )
 
-var a = batchCreateProductSku
-
-
 func (q *Queries) QueryImageCount(ctx context.Context,where string, args []interface{}) (int64, error) {
 	row := q.db.QueryRow(ctx, baseImageCountSql+ where, args...)
 	var count int64

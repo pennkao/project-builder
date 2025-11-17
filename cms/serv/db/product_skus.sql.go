@@ -7,53 +7,24 @@ package db
 
 import (
 	"context"
-
-	"github.com/cms/dbtypes"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const createProductSku = `-- name: CreateProductSku :exec
-INSERT INTO product_skus (
-    product_id,
-    name,
-    image,
-    price,
-    stock,
-    weight_g,
-    attrs,
-    status
-) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8
-)
+const deleteProductSku = `-- name: DeleteProductSku :exec
+DELETE FROM product_skus WHERE product_id = $1 and id = ANY($2::bigint[])
 `
 
-type CreateProductSkuParams struct {
-	ProductID int64          `json:"product_id"`
-	Name      string         `json:"name"`
-	Image     string         `json:"image"`
-	Price     pgtype.Numeric `json:"price"`
-	Stock     int32          `json:"stock"`
-	WeightG   int32          `json:"weight_g"`
-	Attrs     dbtypes.JSON   `json:"attrs"`
-	Status    int16          `json:"status"`
+type DeleteProductSkuParams struct {
+	ProductID int64   `json:"product_id"`
+	Column2   []int64 `json:"column_2"`
 }
 
-func (q *Queries) CreateProductSku(ctx context.Context, arg CreateProductSkuParams) error {
-	_, err := q.db.Exec(ctx, createProductSku,
-		arg.ProductID,
-		arg.Name,
-		arg.Image,
-		arg.Price,
-		arg.Stock,
-		arg.WeightG,
-		arg.Attrs,
-		arg.Status,
-	)
+func (q *Queries) DeleteProductSku(ctx context.Context, arg DeleteProductSkuParams) error {
+	_, err := q.db.Exec(ctx, deleteProductSku, arg.ProductID, arg.Column2)
 	return err
 }
 
 const getProductSkus = `-- name: GetProductSkus :many
-SELECT id, product_id, name, image, price, stock, weight_g, attrs, status, cts, uts FROM product_skus WHERE product_id = $1
+SELECT id, product_id, name, code, image, price, stock, weight_g, status, stored, ukey, akey, attrs, cts, uts FROM product_skus WHERE product_id = $1
 `
 
 func (q *Queries) GetProductSkus(ctx context.Context, productID int64) ([]ProductSku, error) {
@@ -69,12 +40,16 @@ func (q *Queries) GetProductSkus(ctx context.Context, productID int64) ([]Produc
 			&i.ID,
 			&i.ProductID,
 			&i.Name,
+			&i.Code,
 			&i.Image,
 			&i.Price,
 			&i.Stock,
 			&i.WeightG,
-			&i.Attrs,
 			&i.Status,
+			&i.Stored,
+			&i.Ukey,
+			&i.Akey,
+			&i.Attrs,
 			&i.Cts,
 			&i.Uts,
 		); err != nil {
@@ -86,4 +61,53 @@ func (q *Queries) GetProductSkus(ctx context.Context, productID int64) ([]Produc
 		return nil, err
 	}
 	return items, nil
+}
+
+const getSkuByIds = `-- name: GetSkuByIds :many
+SELECT id, product_id, name, code, image, price, stock, weight_g, status, stored, ukey, akey, attrs, cts, uts FROM product_skus WHERE id = ANY($1::bigint[])
+`
+
+func (q *Queries) GetSkuByIds(ctx context.Context, dollar_1 []int64) ([]ProductSku, error) {
+	rows, err := q.db.Query(ctx, getSkuByIds, dollar_1)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ProductSku
+	for rows.Next() {
+		var i ProductSku
+		if err := rows.Scan(
+			&i.ID,
+			&i.ProductID,
+			&i.Name,
+			&i.Code,
+			&i.Image,
+			&i.Price,
+			&i.Stock,
+			&i.WeightG,
+			&i.Status,
+			&i.Stored,
+			&i.Ukey,
+			&i.Akey,
+			&i.Attrs,
+			&i.Cts,
+			&i.Uts,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const updateProductSkuStored = `-- name: UpdateProductSkuStored :exec
+UPDATE product_skus SET stored = 1 WHERE product_id = $1
+`
+
+func (q *Queries) UpdateProductSkuStored(ctx context.Context, productID int64) error {
+	_, err := q.db.Exec(ctx, updateProductSkuStored, productID)
+	return err
 }

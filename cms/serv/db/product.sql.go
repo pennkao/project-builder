@@ -8,7 +8,6 @@ package db
 import (
 	"context"
 
-	"github.com/cms/dbtypes"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -117,25 +116,6 @@ func (q *Queries) CreateProductMain(ctx context.Context, arg CreateProductMainPa
 	var id int64
 	err := row.Scan(&id)
 	return id, err
-}
-
-const createProductSkuJson = `-- name: CreateProductSkuJson :exec
-INSERT INTO product_sku_json (
-    product_id,
-    skus
-) VALUES (
-    $1, $2
-)
-`
-
-type CreateProductSkuJsonParams struct {
-	ProductID int64        `json:"product_id"`
-	Skus      dbtypes.JSON `json:"skus"`
-}
-
-func (q *Queries) CreateProductSkuJson(ctx context.Context, arg CreateProductSkuJsonParams) error {
-	_, err := q.db.Exec(ctx, createProductSkuJson, arg.ProductID, arg.Skus)
-	return err
 }
 
 const deleteProduct = `-- name: DeleteProduct :exec
@@ -271,7 +251,7 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]L
 	return items, nil
 }
 
-const updateProduct = `-- name: UpdateProduct :exec
+const updateProductMain = `-- name: UpdateProductMain :exec
 UPDATE products
 SET
     name        = $2,
@@ -289,7 +269,7 @@ SET
 WHERE id = $1
 `
 
-type UpdateProductParams struct {
+type UpdateProductMainParams struct {
 	ID         int64          `json:"id"`
 	Name       string         `json:"name"`
 	Tags       []string       `json:"tags"`
@@ -305,8 +285,8 @@ type UpdateProductParams struct {
 	Price      pgtype.Numeric `json:"price"`
 }
 
-func (q *Queries) UpdateProduct(ctx context.Context, arg UpdateProductParams) error {
-	_, err := q.db.Exec(ctx, updateProduct,
+func (q *Queries) UpdateProductMain(ctx context.Context, arg UpdateProductMainParams) error {
+	_, err := q.db.Exec(ctx, updateProductMain,
 		arg.ID,
 		arg.Name,
 		arg.Tags,

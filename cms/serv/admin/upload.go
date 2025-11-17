@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/cms/dto/http/hp"
+	"github.com/cms/admin/dto/hp"
 	"github.com/cms/utils"
 	"github.com/gin-gonic/gin"
 )

@@ -13,7 +13,7 @@ CREATE TABLE products (
     main_image      TEXT  NOT NULL DEFAULT '',                      -- 主图 URL
     sales_count     INTEGER  NOT NULL DEFAULT 0,                    -- 销量（可定期聚合）
     stock           INTEGER  NOT NULL DEFAULT 0,                    -- 销量库存（可定期聚合）
-    price           NUMERIC(12,2) NOT NULL DEFAULT 0.00,           -- 起售价 / 最低价（用于列表展示）
+    price           NUMERIC(12,3) NOT NULL DEFAULT 0.00,           -- 起售价 / 最低价（用于列表展示）
     cts             BIGINT DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT,
     uts             BIGINT DEFAULT (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT   
 );

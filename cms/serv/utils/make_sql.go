@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/cms/admin/dto/hq"
 	"github.com/cms/com"
-	"github.com/cms/dto/http/hq"
 )
 func BuildDynamicQuery(filters []hq.FilterItem, sorts []hq.SortItem, page *com.PageResponse, defaultSortField string) (string, string, []interface{}) {
     var (

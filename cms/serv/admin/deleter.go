@@ -1,8 +1,8 @@
 package admin
 
 import (
-	"github.com/cms/dto/http/hp"
-	"github.com/cms/dto/http/hq"
+	"github.com/cms/admin/dto/hp"
+	"github.com/cms/admin/dto/hq"
 	"github.com/gin-gonic/gin"
 )
 func (t *Cms) Deleter(c *gin.Context) {

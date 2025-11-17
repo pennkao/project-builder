@@ -18,58 +18,70 @@ var (
 	ErrBatchAlreadyClosed = errors.New("batch already closed")
 )
 
-const batchCreateProductSku = `-- name: BatchCreateProductSku :batchexec
+const batchCreateProductSkus = `-- name: BatchCreateProductSkus :batchexec
 INSERT INTO product_skus (
     product_id,
     name,
+    code,
     image,
     price,
     stock,
     weight_g,
-    attrs,
-    status
+    status,
+    stored,
+    ukey,
+    akey,
+    attrs
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
 )
 `
 
-type BatchCreateProductSkuBatchResults struct {
+type BatchCreateProductSkusBatchResults struct {
 	br     pgx.BatchResults
 	tot    int
 	closed bool
 }
 
-type BatchCreateProductSkuParams struct {
+type BatchCreateProductSkusParams struct {
 	ProductID int64          `json:"product_id"`
 	Name      string         `json:"name"`
+	Code      string         `json:"code"`
 	Image     string         `json:"image"`
 	Price     pgtype.Numeric `json:"price"`
 	Stock     int32          `json:"stock"`
 	WeightG   int32          `json:"weight_g"`
-	Attrs     dbtypes.JSON   `json:"attrs"`
 	Status    int16          `json:"status"`
+	Stored    int16          `json:"stored"`
+	Ukey      string         `json:"ukey"`
+	Akey      string         `json:"akey"`
+	Attrs     dbtypes.JSON   `json:"attrs"`
 }
 
-func (q *Queries) BatchCreateProductSku(ctx context.Context, arg []BatchCreateProductSkuParams) *BatchCreateProductSkuBatchResults {
+func (q *Queries) BatchCreateProductSkus(ctx context.Context, arg []BatchCreateProductSkusParams) *BatchCreateProductSkusBatchResults {
 	batch := &pgx.Batch{}
 	for _, a := range arg {
 		vals := []interface{}{
 			a.ProductID,
 			a.Name,
+			a.Code,
 			a.Image,
 			a.Price,
 			a.Stock,
 			a.WeightG,
-			a.Attrs,
 			a.Status,
+			a.Stored,
+			a.Ukey,
+			a.Akey,
+			a.Attrs,
 		}
-		batch.Queue(batchCreateProductSku, vals...)
+		batch.Queue(batchCreateProductSkus, vals...)
 	}
 	br := q.db.SendBatch(ctx, batch)
-	return &BatchCreateProductSkuBatchResults{br, len(arg), false}
+	return &BatchCreateProductSkusBatchResults{br, len(arg), false}
 }
 
-func (b *BatchCreateProductSkuBatchResults) Exec(f func(int, error)) {
+func (b *BatchCreateProductSkusBatchResults) Exec(f func(int, error)) {
 	defer b.br.Close()
 	for t := 0; t < b.tot; t++ {
 		if b.closed {
@@ -85,7 +97,7 @@ func (b *BatchCreateProductSkuBatchResults) Exec(f func(int, error)) {
 	}
 }
 
-func (b *BatchCreateProductSkuBatchResults) Close() error {
+func (b *BatchCreateProductSkusBatchResults) Close() error {
 	b.closed = true
 	return b.br.Close()
 }
@@ -129,6 +141,81 @@ func (b *BatchDeleteProductsBatchResults) Exec(f func(int, error)) {
 }
 
 func (b *BatchDeleteProductsBatchResults) Close() error {
+	b.closed = true
+	return b.br.Close()
+}
+
+const batchUpdateProductSkus = `-- name: BatchUpdateProductSkus :batchexec
+UPDATE product_skus
+SET
+    name       = $1,
+    code       = $2,
+    image      = $3,
+    price      = $4,
+    stock      = $5,
+    weight_g   = $6,
+    status     = $7,
+    uts        = $8 
+WHERE product_id = $9 AND id = $10
+`
+
+type BatchUpdateProductSkusBatchResults struct {
+	br     pgx.BatchResults
+	tot    int
+	closed bool
+}
+
+type BatchUpdateProductSkusParams struct {
+	Name      string         `json:"name"`
+	Code      string         `json:"code"`
+	Image     string         `json:"image"`
+	Price     pgtype.Numeric `json:"price"`
+	Stock     int32          `json:"stock"`
+	WeightG   int32          `json:"weight_g"`
+	Status    int16          `json:"status"`
+	Uts       pgtype.Int8    `json:"uts"`
+	ProductID int64          `json:"product_id"`
+	ID        int64          `json:"id"`
+}
+
+func (q *Queries) BatchUpdateProductSkus(ctx context.Context, arg []BatchUpdateProductSkusParams) *BatchUpdateProductSkusBatchResults {
+	batch := &pgx.Batch{}
+	for _, a := range arg {
+		vals := []interface{}{
+			a.Name,
+			a.Code,
+			a.Image,
+			a.Price,
+			a.Stock,
+			a.WeightG,
+			a.Status,
+			a.Uts,
+			a.ProductID,
+			a.ID,
+		}
+		batch.Queue(batchUpdateProductSkus, vals...)
+	}
+	br := q.db.SendBatch(ctx, batch)
+	return &BatchUpdateProductSkusBatchResults{br, len(arg), false}
+}
+
+func (b *BatchUpdateProductSkusBatchResults) Exec(f func(int, error)) {
+	defer b.br.Close()
+	for t := 0; t < b.tot; t++ {
+		if b.closed {
+			if f != nil {
+				f(t, ErrBatchAlreadyClosed)
+			}
+			continue
+		}
+		_, err := b.br.Exec()
+		if f != nil {
+			f(t, err)
+		}
+	}
+}
+
+func (b *BatchUpdateProductSkusBatchResults) Close() error {
 	b.closed = true
 	return b.br.Close()
 }

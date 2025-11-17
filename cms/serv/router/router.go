@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/cms/admin"      // admin 包接口
-	"github.com/cms/api"        // 前端接口
-	"github.com/cms/middleware" // AdminAuth 中间件
+	"github.com/cms/admin"            // admin 包接口
+	"github.com/cms/admin/middleware" // AdminAuth 中间件
+	"github.com/cms/api"              // 前端接口
 
 	"github.com/gin-gonic/gin"
 )

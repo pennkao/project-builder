@@ -2,7 +2,7 @@
 package admin
 
 import (
-	"github.com/cms/dto/http/hp"
+	"github.com/cms/admin/dto/hp"
 
 	"github.com/gin-gonic/gin"
 )

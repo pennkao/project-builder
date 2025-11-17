@@ -35,13 +35,7 @@ INSERT INTO products (
 )
 RETURNING id;
 
--- name: CreateProductSkuJson :exec
-INSERT INTO product_sku_json (
-    product_id,
-    skus
-) VALUES (
-    $1, $2
-);
+
 
 
 -- name: UpdateProductMainSkuNum :exec
@@ -68,7 +62,7 @@ SELECT * FROM products;
 -- name: BaseProductCountSql :one
 SELECT COUNT(*) FROM products;
 
--- name: UpdateProduct :exec
+-- name: UpdateProductMain :exec
 UPDATE products
 SET
     name        = $2,
