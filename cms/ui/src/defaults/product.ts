@@ -20,9 +20,12 @@ export const defaultSku: SkuType = {
     product_id: 0,
     name: '',
     image: '',
+    akey: '',
+    ukey: '',
+    stored: 0,
     price: 0,
     weight_g: 0, // int4 → number，单位：克
     stock: 0,
     status: 0, // int2 → number，通常表示枚举（如 0: 下架, 1: 上架）
-    attrs: {} as SkuAttrObjType,
+    attrs: [] as SkuAttrItemType[],
 };

@@ -14,12 +14,12 @@ const empty = '';
 interface ImageUploaderProps {
     upLoadUrl: string;
     aotoUpLoad?: boolean;
-    selected?: string[];
+    outSelected?: ImageChannelType;
     images?: string[]; //初始化
     onChange: (images: string[]) => void;
-    onOpenSelected?: (key: string | number | null) => void;
+    onOpenSelected?: (target: ImageTargetType) => void;
 }
-const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images, selected }: ImageUploaderProps) => {
+const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images, outSelected }: ImageUploaderProps) => {
     const [internalImages, setInternalImages] = useState<ImageItemType[]>([]);
     const sensors = useSensors(useSensor(PointerSensor));
     //init
@@ -32,8 +32,8 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
     }, [images]);
 
     useEffect(() => {
-        setInternalImages((prev) => [...prev, ...(selected || []).map((s) => makeNetImage(s, s.split('/').pop() || ''))]);
-    }, [selected]);
+        setInternalImages((prev) => [...prev, ...(outSelected?.images || []).map((s) => makeNetImage(s, s.split('/').pop() || ''))]);
+    }, [outSelected]);
 
     useEffect(() => {
         // return ;
@@ -167,7 +167,7 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
                             className="font-medium underline text-theme-sm text-brand-500"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onOpenSelected?.(null);
+                                onOpenSelected?.({ target: 'product_image', limit: null });
                             }}
                         >
                             Browse Gallery

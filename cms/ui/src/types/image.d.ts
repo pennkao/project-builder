@@ -36,3 +36,17 @@ interface ImageType {
 }
 
 type UploadSelectType = 'single' | 'multiple';
+
+interface ImageTargetType {
+    target: 'sku_image' | 'product_image' | 'category_image' | 'attr_image' | 'attr_value_image' | '';
+    limit: null | number; //数量限制
+    index?: number;
+    selector?: Record<string, string>;
+}
+
+interface ImageChannelType {
+    target?: 'sku_image' | 'product_image' | 'category_image' | 'attr_image' | 'attr_value_image' | '';
+    index?: number;
+    selector?: Record<string, string>;
+    images: string[];
+}

@@ -13,6 +13,10 @@ export function useProduct(productId: number) {
     const [productDataInit, setProductDataInit] = useState<ProductType>(productData);
 
     const setByKey = (key: keyof ProductType, value: any) => {
+        if (key === 'images') {
+            setProductData((prev) => ({ ...prev, images: value }));
+            return;
+        }
         setProductData((prev) => ({ ...prev, [key]: value }));
     };
     const setInitByKey = (key: keyof ProductType, value: any) => {

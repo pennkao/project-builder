@@ -19,12 +19,10 @@ export default function AddProduct() {
 
     // const { doBatchPost, Params } = useBatchPost();
     const { productData, setProductData, productDataInit, setByKey } = useProduct(product_id);
-    const { saveProduct, updateProduct ,test} = useProductSave(product_id, productData, navigate);
-    const { selectedSkuImages, galleryImages, handleSelectedImages, openSingleImage, openGallery, isOpen, closeModal, uploadType } = useProductImages();
+    const { saveProduct, updateProduct, test } = useProductSave(product_id, productData, productDataInit, navigate);
+    const { imagesChannel, handleSelectedImages, openImageSelector, isOpen, closeModal, uploadType } = useProductImages();
 
     const handleSave = (product_id: number) => {
-        test();
-        return;
         if (product_id > 0) {
             updateProduct();
         } else {
@@ -46,10 +44,10 @@ export default function AddProduct() {
                             aotoUpLoad={true}
                             images={productDataInit.images}
                             onChange={(images) => setByKey('images', images)}
-                            selected={galleryImages}
-                            onOpenSelected={openGallery}
+                            outSelected={imagesChannel}
+                            onOpenSelected={openImageSelector}
                         />
-                        <ProductOptions selectedSkuImages={selectedSkuImages} onOpenSelected={(key) => openSingleImage(key)} />
+                        <ProductOptions selectedSkuImages={imagesChannel} onOpenSelected={(key) => openImageSelector(key)} />
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-2 mt-6 bg-white p-4 rounded-lg">4444444444444</div>
@@ -62,7 +60,7 @@ export default function AddProduct() {
                     </Button>
                 </PageFooterAction>
 
-                <ImageSelector doAction={handleSelectedImages} selectType={uploadType} isOpen={isOpen} closeModal={closeModal} />
+                <ImageSelector doAction={handleSelectedImages} productImages={productData.images} selectType={uploadType} isOpen={isOpen} closeModal={closeModal} />
             </Page>
         </ProductContext.Provider>
     );

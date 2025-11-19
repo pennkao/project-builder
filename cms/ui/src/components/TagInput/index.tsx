@@ -2,7 +2,6 @@ import TextTag from '@/components/TextTag';
 import { useRef, useState } from 'react';
 const TagInput = ({
     tags,
-    initTags,
     disabled,
     onChange,
     onRemove,
@@ -31,9 +30,6 @@ const TagInput = ({
             e.preventDefault();
 
             if (inputValue.length === 0) {
-                initTags?.forEach((tag) => {
-                    onChange(tag);
-                });//////////////////////
                 onRemove?.('');
             }
             if (inputValue.length > 0) {

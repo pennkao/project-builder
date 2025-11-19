@@ -10,12 +10,15 @@ interface SkuType {
     id: number;
     product_id: number;
     name: string;
+    akey: string;
+    ukey: string;
     image: string;
     weight_g: number; // int4 → number，单位：克
     price: number;
+    stored: number; //
     stock: number;
     status: number; // int2 → number，通常表示枚举（如 0: 下架, 1: 上架）
-    attrs: SkuAttrObjType;
+    attrs: SkuAttrItemType[];
 }
 
 interface ProductMainType {
@@ -38,7 +41,7 @@ type ProductContentType = string;
 
 interface ProductType {
     main: ProductMainType;
-    options: ProductOptionsType;
+    options: ProductAttrType;
     images: string[];
     skus: SkuType[];
     content: ProductContentType;

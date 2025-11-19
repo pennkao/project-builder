@@ -5,8 +5,7 @@ import Label from '@/components/form/Label';
 import Loading from '@/components/Loading/Loading';
 import { ProductContext } from '@/context/product';
 import { usePost } from '@/hooks/usePost';
-import { genHandle } from '@/utils/product';
-import { formartInputNumber } from '@/utils/tools';
+import { formartValue, formInput, genHandle, keyDownNumberInput } from '@/utils/product';
 import { useContext, useEffect } from 'react';
 export default function ProductMain() {
     const context = useContext(ProductContext);
@@ -51,27 +50,8 @@ export default function ProductMain() {
         }
     };
 
-    const formartValue = (field: keyof ProductMainType, value: string): string | string[] | number => {
-        switch (field) {
-            case 'stock':
-            case 'weight_g':
-                return Number.parseInt(value);
-            case 'price':
-                return Number.parseFloat(value);
-            case 'tags':
-                return value
-                    .trim()
-                    .replace(/[，。；：！,]/g, ',')
-                    .replace(',,', ',')
-                    .split(',')
-                    .map((tag) => tag.trim());
-            default:
-                return value;
-        }
-    };
     const handleChange = (field: keyof ProductMainType, value: string) => {
-        const val = formartValue(field, value);
-        setProductMainField(field, val);
+        setProductMainField(field, formartValue(field, value));
     };
 
     return (
@@ -96,11 +76,11 @@ export default function ProductMain() {
                 <div className="flex flex-row gap-1">
                     <div className="w-1/2">
                         <Label htmlFor="inputTwo">Price</Label>
-                        <Input type="number" placeholder="Price" value={formartInputNumber(productData.main?.price)} onChange={(e) => handleChange('price', e.target.value)} />
+                        <Input type="number" placeholder="Price" min={'1'} step={5} value={formInput(productData.main?.price || '')} onChange={(e) => handleChange('price', e.target.value)} />
                     </div>
                     <div className="w-1/2">
                         <Label htmlFor="input">Tags</Label>
-                        <Input type="text" id="input" value={productData.main?.tags?.join(',')} onChange={(e) => handleChange('tags', e.target.value)} />
+                        <Input type="text" id="input" value={(productData.main?.tags ?? []).join(',')} placeholder="Tags" onChange={(e) => handleChange('tags', e.target.value)} />
                     </div>
                 </div>
                 <div className="flex flex-row gap-1">
@@ -116,11 +96,19 @@ export default function ProductMain() {
                 <div className="flex flex-row gap-1">
                     <div className="w-1/2">
                         <Label htmlFor="inputTwo">Stock</Label>
-                        <Input type="number" placeholder="Stock" value={formartInputNumber(productData.main?.stock)} onChange={(e) => handleChange('stock', e.target.value)} />
+                        <Input type="number" placeholder="Stock" min={'500'} step={100} onKeyDown={keyDownNumberInput} value={formInput(productData.main?.stock)} onChange={(e) => handleChange('stock', e.target.value)} />
                     </div>
                     <div className="w-1/2">
                         <Label htmlFor="inputTwo">Weigth (g)</Label>
-                        <Input type="number" placeholder="Weight" value={formartInputNumber(productData.main?.weight_g)} onChange={(e) => handleChange('weight_g', e.target.value)} />
+                        <Input
+                            type="number"
+                            placeholder="Weight"
+                            min={'100'}
+                            step={50}
+                            onKeyDown={keyDownNumberInput}
+                            value={formInput(productData.main?.weight_g)}
+                            onChange={(e) => handleChange('weight_g', e.target.value)}
+                        />
                     </div>
                 </div>
             </div>
