@@ -62,7 +62,6 @@ export async function detectFastestCdnOnce(): Promise<string> {
 }
 
 export function getFastestCdn(): string {
-    console.log('import.meta.env.VITE_APP_ENV', import.meta.env.VITE_APP_ENV);
     if (import.meta.env.VITE_APP_ENV === 'DEV') return Cdn_Config.devBase;
     if (cachedBase) return cachedBase;
     if (typeof window === 'undefined') return Cdn_Config.defaultBase;

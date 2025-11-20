@@ -1,6 +1,5 @@
 // DropzoneSortable.tsx
 import ComponentCard from '@/components/common/ComponentCard';
-import { Confirm } from '@/components/Confirm';
 import { ItemLoading } from '@/components/Loading/ItemLoading';
 import Button from '@/components/ui/button/Button';
 import { TrashIcon, UploadFileIcon } from '@/icons';
@@ -69,7 +68,6 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
         return () => {
             internalImages.forEach((img) => URL.revokeObjectURL(img?.preview || ''));
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // when removing single item, revoke
@@ -118,17 +116,25 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
         if (filterd.length == 0) {
             return;
         }
-        doUpload(filterd, (uploadedImages) => {
-            setInternalImages((prev) =>
-                prev.map((img) => {
-                    const match = uploadedImages.find((r) => r.file_name === img.file?.name);
-                    return match ? makeNetImage(match.url, match.file_name) : img;
-                })
-            );
-        });
+        doUpload(
+            filterd,
+            'images',
+            (uploadedImages) => {
+                setInternalImages((prev) =>
+                    prev.map((img) => {
+                        const match = uploadedImages.find((r) => r.file_name === img.file?.name);
+                        return match ? makeNetImage(match.url, match.file_name) : img;
+                    })
+                );
+            },
+            (err) => {
+                updateStatus(filterd, 'local');
+                console.error(err);
+            }
+        );
     };
 
-    const doUpload = async (images: ImageItemType[], onChange?: (images: UploadResponseType[]) => void) => {
+    const doUpload = async (images: ImageItemType[], dir: string, onSuccess?: (images: UploadResponseType[]) => void, onError?: (err: Error) => void) => {
         if (images.length === 0) {
             return;
         }
@@ -136,16 +142,16 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
         images.forEach((img, idx) => {
             form.append('images[]', img.file || new Blob([], { type: 'image/png' }), img.file?.name || `image_${idx}`);
         });
-
+        form.append('dir', dir);
         try {
             const res = await fetch(upLoadUrl, { method: 'POST', body: form });
             if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
             const data = await res.json(); // 假设 data.data 是数组
-            if (data && data.data) onChange?.(data.data);
-            // alert('上传成功');
+            if (!data || data.code !== 0 || !Array.isArray(data.data)) throw new Error('Invalid response format');
+            if (!data || !data.data) throw new Error('Invalid response format');
+            if (data && data.data) onSuccess?.(data.data);
         } catch (err) {
-            console.error(err);
-            Confirm('Upload failed, please check the console for more details');
+            onError?.(err as Error);
         }
     };
 

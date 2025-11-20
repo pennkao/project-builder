@@ -47,18 +47,3 @@ export default function BaseImage({ src, alt = '', isUrl = false, className = ''
         </div>
     );
 }
-
-export const Image = ({ src, alt = '', className = '', skeletonClassName = '', ...rest }: SImageProps) => {
-
-    let baseUrl = '';
-    if (import.meta.env.VITE_ENV === 'DEV') {
-        baseUrl = Cdn_Config.defaultBase;
-    } else {
-        baseUrl = Cdn_Config.devBase;
-    }
-    if (src && !src.startsWith('http')) {
-        src = baseUrl + src;
-    }
-
-    return <img src={src} alt={alt} className={className} {...rest} />;
-};

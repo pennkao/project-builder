@@ -1,7 +1,7 @@
 export const Cdn_Config = {
-    devBase: 'http://localhost:8080/images/',
-    defaultBase: 'http://localhost:8080/images/',
-    siteBase: 'http://localhost:5173/app/assets/images/',
+    devBase: import.meta.env.VITE_APP_IMAGE_URL,
+    defaultBase: import.meta.env.VITE_APP_IMAGE_URL,
+    siteBase: import.meta.env.VITE_APP_IMAGE_URL,
     fallbacks: [
         'https://cdn1.example.com/', //
         'https://cdn2.example.com/',

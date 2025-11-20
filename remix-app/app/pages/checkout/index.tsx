@@ -10,11 +10,11 @@ import UserInfo from '@/features/UserInfo';
 import { useJump } from '@/hooks/useJump';
 import useMessageBox from '@/hooks/useMessageBox';
 import { collectFingerprint } from '@/utils/collection';
+import { isrc } from '@/utils/images';
 import { checkoutPayment, checkoutPaymentFormat, hashString } from '@/utils/tools';
 import { t } from 'i18next';
 import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-
 const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
     const [fingerprint, setFingerprint] = useState('');
@@ -216,7 +216,7 @@ const CheckoutPage = ({ data }: any) => {
             <Activity mode={isOpen ? 'visible' : 'hidden'}>
                 <div className="flex flex-row justify-start px-2 text-main gap-3">
                     <div className="w-32 h-32 p-3">
-                        <img src={checkoutData?.productDetail?.image} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
+                        <img src={isrc(checkoutData?.productDetail?.image)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
                     </div>
                     <div className="flex-1 flex flex-col justify-center gap-2">
                         <div className="text-main">{checkoutData?.productDetail?.name}</div>
@@ -340,7 +340,7 @@ const CheckoutPage = ({ data }: any) => {
             <div className="h-2 "></div>
             <div className="flex flex-row justify-start px-2 text-main gap-3">
                 <div className="w-32 h-32 p-3">
-                    <img src={checkoutData?.productDetail?.image} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
+                    <img src={isrc(checkoutData?.productDetail?.image)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
                 </div>
                 <div className="flex-1 flex flex-col justify-center gap-2">
                     <div>{checkoutData?.productDetail?.name}</div>

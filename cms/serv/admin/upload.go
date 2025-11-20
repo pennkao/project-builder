@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"slices"
 
 	"github.com/cms/admin/dto/hp"
 	"github.com/cms/utils"
@@ -22,14 +23,32 @@ type ApiResponse struct {
 	Msg  string           `json:"message"`
 	Data []UploadResponse `json:"data"`
 }
-const saveDir = "./dist/images"
+const (
+	saveDir = "./public")
+var (
+	dirs = []string{"images","files", "css", "js"}
+)
 func fileUpload(c *gin.Context) {
+	
+		dir := c.PostForm("dir")
+		if !slices.Contains(dirs, dir) {
+			hp.Error[any](c,  "Invalid directory")
+			return
+		}
+
 		// Multipart form 最大 10MB
 		if err := c.Request.ParseMultipartForm(10 << 20); err != nil {
 			hp.Error[any](c,  "Parse form error: " + err.Error())
 			return
 		}
 
+		saveDir := filepath.Join(saveDir, dir)
+		// 创建目录（如果不存在）
+		if err := os.MkdirAll(saveDir, 0755); err != nil {
+			hp.Error[any](c,  "Create directory error: " + err.Error())
+			return
+		}
+		
 		form, _ := c.MultipartForm()
 		files := form.File["images[]"]
 		if len(files) == 0 {
@@ -49,7 +68,6 @@ func fileUpload(c *gin.Context) {
 
 			// 生成唯一文件名
 			ext := filepath.Ext(fileHeader.Filename)
-			log.Println(fileHeader.Filename)
 			filename := utils.SHA256(fileHeader.Filename) + ext
 			filePath := filepath.Join(saveDir, filename)
 			// 检查文件是否已存在

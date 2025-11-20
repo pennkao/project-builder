@@ -6,3 +6,17 @@
 /build/
 gitpushed.log 
 .vercel
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.preview.local
+.env.analyze.local
+.env.analyze.dev.local
+.env.analyze.prod.local
+.env.analyze.preview.local
+.env.analyze.staging.local
+.env.analyze.staging.preview.local
+.env.analyze.staging.prod.local
+.env.analyze.staging.test.local
+.env.analyze.staging.development.local

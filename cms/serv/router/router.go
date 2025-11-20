@@ -17,6 +17,7 @@ func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 	middle.Cross(r)
 		
 	// 1️⃣ 静态资源
+	r.Static("/public",  "./public")
 	r.Static("/assets",  "./dist/assets")
 	r.Static("/images",  "./dist/images")
 	r.StaticFile("/favicon.png", "./dist/favicon.png")

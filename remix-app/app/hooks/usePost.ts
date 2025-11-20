@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/api';
+const baseUrl = import.meta.env.VITE_APP_API_URL;
 export const usePost = async <T>(api: string, callback: (data: T) => void) => {
     const res = await fetch(`${baseUrl}/${api}`, {
         method: 'POST',
@@ -14,7 +14,7 @@ export const usePost = async <T>(api: string, callback: (data: T) => void) => {
             callback(result.data as T);
         }
     } else {
-        console.error('CORS or Network Error', res);    
+        console.error('CORS or Network Error', res);
         const errorText = await res.text();
         console.error('Error Text:', errorText);
     }

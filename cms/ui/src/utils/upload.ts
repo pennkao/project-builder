@@ -1,32 +1,20 @@
-import { config } from '@/config/config';
-
-export const doUpload = async (images: ImageItemType[], onChange?: (images: UploadResponseType[]) => void) => {
+export const doUpload = async (url: string, images: ImageItemType[], dir: string, onSuccess?: (images: UploadResponseType[]) => void, onError?: (err: Error) => void) => {
     if (images.length === 0) {
-        // alert('没有图片要上传');
         return;
     }
-
     const form = new FormData();
-    // return ;
-    const filterd = images.filter((img) => img.file && img.file.size > 0 && img?.url?.length == 0);
-    if (filterd.length == 0) {
-        // alert('没有图片要上传');
-        return;
-    }
-    filterd.forEach((img, idx) => {
+    images.forEach((img, idx) => {
         form.append('images[]', img.file || new Blob([], { type: 'image/png' }), img.file?.name || `image_${idx}`);
     });
-
+    form.append('dir', dir);
     try {
-        const res = await fetch(config.apiBaseUrl + 'file/upload', { method: 'POST', body: form });
+        const res = await fetch(url, { method: 'POST', body: form });
         if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
         const data = await res.json(); // 假设 data.data 是数组
-
-        // 映射后端返回 URL
-        if (data && data.data) onChange?.(data.data);
-        // alert('上传成功');
+        if (!data || data.code !== 0 || !Array.isArray(data.data)) throw new Error('Invalid response format');
+        if (!data || !data.data) throw new Error('Invalid response format');
+        if (data && data.data) onSuccess?.(data.data);
     } catch (err) {
-        console.error(err);
-        alert('上传失败，请查看控制台');
+        onError?.(err as Error);
     }
 };
