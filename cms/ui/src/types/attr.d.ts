@@ -15,13 +15,13 @@ interface AttrType {
     display: AttrDisplayType; // 指定value的显示方式
     sort: number; // 排序
     values: AttrValueType[]; // 单选/多选可有选项
-};
+}
 /** SKU 属性引用结构 */
 interface SkuAttrItemType {
     name: string; // 属性名，如 size
     value: string; // 属性值，如 '500g'
     attr_id: string; // 属性 ID，如 size
     value_id: string; // 选项 ID，如 201
-};
+}
 type ProductAttrType = AttrType[];
 type SkuAttrType = SkuAttrItemType[];

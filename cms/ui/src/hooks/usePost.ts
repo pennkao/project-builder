@@ -63,6 +63,7 @@ export function usePost<T = any>(api: string) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    // 'X-Timestamp': Date.now().toString(),
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 credentials: 'include',

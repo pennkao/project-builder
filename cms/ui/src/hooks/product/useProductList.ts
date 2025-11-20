@@ -7,7 +7,7 @@ export const useProductList = () => {
     const [listQueryParams, setlistQueryParams] = useState<ListQueryParamsType>({ ...defaultQueryParams, target: 'products' });
     const [result, setResult] = useState<PageListDataType<ProductItemType>>(defaultPageDataList);
 
-    const { doPost, Params } = usePost<PageListDataType<ProductItemType>>('list');
+    const { doPost } = usePost<PageListDataType<ProductItemType>>('list');
 
     const fetchList = async () => {
         doPost({

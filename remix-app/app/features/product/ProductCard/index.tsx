@@ -1,18 +1,18 @@
-export default function ProductCard({ data }: { data: Product | null }) {
+export default function ProductCard({ data }: { data: ProductMainType | null }) {
     return (
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
             {/* 顶部红色横幅 */}
             <div className="bg-red-500 text-white p-3 flex justify-between items-center">
                 <div>
                     <div className="text-lg font-bold">
-                        18500积分<span className="text-yellow-200">+138元</span>
-                        <span className="text-sm ml-1 text-red-100">¥680</span>
+                        {data?.stock}积分<span className="text-yellow-200">+{(data?.stock || 0 )/ 100}元</span>
+                        <span className="text-sm ml-1 text-red-100">¥{data?.price}</span>
                     </div>
                     <div className="text-xs text-red-100 mt-1">积分已节省542元</div>
                 </div>
                 <div className="flex flex-col items-end">
                     <div className="text-sm font-medium">限⚡兑换</div>
-                    <div className="text-xs text-red-100 mt-1">🔥月热度3.1万</div>
+                    <div className="text-xs text-red-100 mt-1">🔥月热度{data?.sales_count}万</div>
                 </div>
             </div>
 
@@ -25,8 +25,7 @@ export default function ProductCard({ data }: { data: Product | null }) {
 
                 {/* 商品标题 */}
                 <div className="text-sm leading-tight">
-                    <span className="text-main">【家用智能扫拖一体机】</span>
-                    扫吸拖擦一步到位 大容量电池长续航 智能清扫遇障掉头 让清洁更持久
+                    <span className="text-main">{data?.name}</span>
                 </div>
             </div>
         </div>

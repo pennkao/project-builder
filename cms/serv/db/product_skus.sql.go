@@ -7,6 +7,9 @@ package db
 
 import (
 	"context"
+
+	"github.com/cms/dbtypes"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const deleteProductSku = `-- name: DeleteProductSku :exec
@@ -21,6 +24,46 @@ type DeleteProductSkuParams struct {
 func (q *Queries) DeleteProductSku(ctx context.Context, arg DeleteProductSkuParams) error {
 	_, err := q.db.Exec(ctx, deleteProductSku, arg.ProductID, arg.Column2)
 	return err
+}
+
+const fetchProductSkus = `-- name: FetchProductSkus :many
+SELECT id,product_id,name,image,price,attrs FROM product_skus WHERE product_id = $1
+`
+
+type FetchProductSkusRow struct {
+	ID        int64          `json:"id"`
+	ProductID int64          `json:"product_id"`
+	Name      string         `json:"name"`
+	Image     string         `json:"image"`
+	Price     pgtype.Numeric `json:"price"`
+	Attrs     dbtypes.JSON   `json:"attrs"`
+}
+
+func (q *Queries) FetchProductSkus(ctx context.Context, productID int64) ([]FetchProductSkusRow, error) {
+	rows, err := q.db.Query(ctx, fetchProductSkus, productID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []FetchProductSkusRow
+	for rows.Next() {
+		var i FetchProductSkusRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.ProductID,
+			&i.Name,
+			&i.Image,
+			&i.Price,
+			&i.Attrs,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getProductSkus = `-- name: GetProductSkus :many

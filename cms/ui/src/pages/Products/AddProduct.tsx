@@ -19,7 +19,7 @@ export default function AddProduct() {
 
     // const { doBatchPost, Params } = useBatchPost();
     const { productData, setProductData, productDataInit, setByKey } = useProduct(product_id);
-    const { saveProduct, updateProduct, test } = useProductSave(product_id, productData, productDataInit, navigate);
+    const { saveProduct, updateProduct } = useProductSave(product_id, productData, productDataInit, navigate);
     const { imagesChannel, handleSelectedImages, openImageSelector, isOpen, closeModal, uploadType } = useProductImages();
 
     const handleSave = (product_id: number) => {

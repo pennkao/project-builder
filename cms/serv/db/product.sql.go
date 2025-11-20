@@ -127,6 +127,84 @@ func (q *Queries) DeleteProduct(ctx context.Context, id int64) error {
 	return err
 }
 
+const fetchProductById = `-- name: FetchProductById :one
+SELECT id,name,handle,main_image,tags,sales_count,price,stock FROM products WHERE id = $1
+`
+
+type FetchProductByIdRow struct {
+	ID         int64          `json:"id"`
+	Name       string         `json:"name"`
+	Handle     string         `json:"handle"`
+	MainImage  string         `json:"main_image"`
+	Tags       []string       `json:"tags"`
+	SalesCount int32          `json:"sales_count"`
+	Price      pgtype.Numeric `json:"price"`
+	Stock      int32          `json:"stock"`
+}
+
+func (q *Queries) FetchProductById(ctx context.Context, id int64) (FetchProductByIdRow, error) {
+	row := q.db.QueryRow(ctx, fetchProductById, id)
+	var i FetchProductByIdRow
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Handle,
+		&i.MainImage,
+		&i.Tags,
+		&i.SalesCount,
+		&i.Price,
+		&i.Stock,
+	)
+	return i, err
+}
+
+const fetchProductList = `-- name: FetchProductList :many
+SELECT name,handle,main_image,tags,sales_count,price,stock FROM products ORDER BY uts DESC LIMIT $1 OFFSET $2
+`
+
+type FetchProductListParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+type FetchProductListRow struct {
+	Name       string         `json:"name"`
+	Handle     string         `json:"handle"`
+	MainImage  string         `json:"main_image"`
+	Tags       []string       `json:"tags"`
+	SalesCount int32          `json:"sales_count"`
+	Price      pgtype.Numeric `json:"price"`
+	Stock      int32          `json:"stock"`
+}
+
+func (q *Queries) FetchProductList(ctx context.Context, arg FetchProductListParams) ([]FetchProductListRow, error) {
+	rows, err := q.db.Query(ctx, fetchProductList, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []FetchProductListRow
+	for rows.Next() {
+		var i FetchProductListRow
+		if err := rows.Scan(
+			&i.Name,
+			&i.Handle,
+			&i.MainImage,
+			&i.Tags,
+			&i.SalesCount,
+			&i.Price,
+			&i.Stock,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getProduct = `-- name: GetProduct :one
 SELECT id, name, handle, tags, status, deleted, sku_num, weight_g, brand, category, main_image, sales_count, stock, price, cts, uts FROM products WHERE id = $1
 `
@@ -333,5 +411,21 @@ type UpdateProductMainSkuNumParams struct {
 
 func (q *Queries) UpdateProductMainSkuNum(ctx context.Context, arg UpdateProductMainSkuNumParams) error {
 	_, err := q.db.Exec(ctx, updateProductMainSkuNum, arg.SkuNum, arg.ID)
+	return err
+}
+
+const updateProductStatus = `-- name: UpdateProductStatus :exec
+UPDATE products SET
+    status = $2
+WHERE id = $1
+`
+
+type UpdateProductStatusParams struct {
+	ID     int64 `json:"id"`
+	Status int16 `json:"status"`
+}
+
+func (q *Queries) UpdateProductStatus(ctx context.Context, arg UpdateProductStatusParams) error {
+	_, err := q.db.Exec(ctx, updateProductStatus, arg.ID, arg.Status)
 	return err
 }

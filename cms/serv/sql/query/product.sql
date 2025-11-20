@@ -35,9 +35,6 @@ INSERT INTO products (
 )
 RETURNING id;
 
-
-
-
 -- name: UpdateProductMainSkuNum :exec
 UPDATE products SET
     sku_num = $1
@@ -78,3 +75,15 @@ SET
     stock       = $12,
     price       = $13
 WHERE id = $1;
+
+-- name: UpdateProductStatus :exec
+UPDATE products SET
+    status = $2
+WHERE id = $1;
+
+
+-- name: FetchProductList :many
+SELECT name,handle,main_image,tags,sales_count,price,stock FROM products ORDER BY uts DESC LIMIT $1 OFFSET $2;
+
+-- name: FetchProductById :one
+SELECT id,name,handle,main_image,tags,sales_count,price,stock FROM products WHERE id = $1;

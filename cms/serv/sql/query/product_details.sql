@@ -15,3 +15,6 @@ INSERT INTO product_details (
 -- name: UpdateProductDetails :exec
 UPDATE product_details SET images = $2, videos = $3, specs = $4 WHERE product_id = $1;
 
+-- name: FetchProductDetail :one
+SELECT images,videos,specs FROM product_details WHERE product_id = $1;
+

@@ -22,7 +22,7 @@ import { Link, useNavigate } from 'react-router';
 export default function Products() {
     const navigator = useNavigate();
     const [search, setSearch] = useState('');
-    const { result, setResult, setParamFilter, setParamSort, setPage, fetchList } = useProductList();
+    const { result, setResult, setParamFilter, setPage, fetchList } = useProductList();
     useEffect(() => {
         fetchList();
     }, []);

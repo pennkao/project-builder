@@ -14,3 +14,7 @@ UPDATE product_options
 SET
     options = $2
 WHERE product_id = $1;
+
+-- name: FetchProductOptions :one
+SELECT options FROM product_options WHERE product_id = $1;
+

@@ -62,3 +62,4 @@ func (t *Cms) QueryImagestList(ctx context.Context, where,fullWhere string, args
 		page.SetTotal(int(count)) // 设置总记录数
 		page.SetList(data) // 设置产品列表
 }
+

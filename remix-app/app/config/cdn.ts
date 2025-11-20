@@ -1,6 +1,6 @@
 export const Cdn_Config = {
-    devBase: 'http://localhost:5173',
-    defaultBase: 'http://localhost:5173',
+    devBase: 'http://localhost:8080/images/',
+    defaultBase: 'http://localhost:8080/images/',
     siteBase: 'http://localhost:5173/app/assets/images/',
     fallbacks: [
         'https://cdn1.example.com/', //

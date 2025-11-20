@@ -33,7 +33,9 @@ func (t *Cms) Dispatcher(c *gin.Context) {
 		t.Fetcher(c)
 	case "/list":
 		t.Lister(c)
-
+	case "updater":
+		t.Updater(c)
+		
 	case "/product-handle-check":
 		t.CheckProductHandle(c)
 	case "/product-handle-count":

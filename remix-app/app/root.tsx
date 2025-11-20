@@ -2,7 +2,10 @@
 import { loader } from '@/loaders/root.server'; // ✅ 只引入函数
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { Outlet, Scripts, ScrollRestoration, useLoaderData } from 'react-router';
+import { isRouteErrorResponse, Outlet, Scripts, ScrollRestoration } from 'react-router';
+import type { Route } from './+types/root';
+
+import { useLoaderData } from 'react-router';
 import { Keys } from './config/keys';
 import i18n from './i18n';
 import styles from './main.css?url';
@@ -83,5 +86,40 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Scripts />
             </body>
         </html>
+    );
+}
+
+function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+    let message = 'Oops!';
+    let details = 'An unexpected error occurred.';
+    let stack: string | undefined;
+
+    if (isRouteErrorResponse(error)) {
+        message = error.status === 404 ? '404' : 'Error';
+        details = error.status === 404 ? 'The requested page could not be found.6666666666' : error.statusText || details;
+    } else if (import.meta.env.DEV && error && error instanceof Error) {
+        details = error.message;
+        stack = error.stack;
+    }
+
+    return (
+        <main id="error-page">
+            <h1>{message}</h1>
+            <p>{details}</p>
+            {stack && (
+                <pre>
+                    <code>{stack}</code>
+                </pre>
+            )}
+        </main>
+    );
+}
+
+export function HydrateFallback() {
+    return (
+        <div id="loading-splash">
+            <div id="loading-splash-spinner" />
+            <p>Loading, please wait...</p>
+        </div>
     );
 }

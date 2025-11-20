@@ -39,6 +39,23 @@ func (q *Queries) CreateProductDetails(ctx context.Context, arg CreateProductDet
 	return err
 }
 
+const fetchProductDetail = `-- name: FetchProductDetail :one
+SELECT images,videos,specs FROM product_details WHERE product_id = $1
+`
+
+type FetchProductDetailRow struct {
+	Images []string     `json:"images"`
+	Videos []string     `json:"videos"`
+	Specs  dbtypes.JSON `json:"specs"`
+}
+
+func (q *Queries) FetchProductDetail(ctx context.Context, productID int64) (FetchProductDetailRow, error) {
+	row := q.db.QueryRow(ctx, fetchProductDetail, productID)
+	var i FetchProductDetailRow
+	err := row.Scan(&i.Images, &i.Videos, &i.Specs)
+	return i, err
+}
+
 const getProductDetails = `-- name: GetProductDetails :one
 SELECT images, videos, specs FROM product_details WHERE product_id = $1
 `

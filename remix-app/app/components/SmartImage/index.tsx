@@ -14,7 +14,10 @@ export default function SmartImage({ src, alt = '', className = '', ...rest }: S
     useEffect(() => {
         if (!src) return;
         const base = getFastestCdn();
-        setUrl(base + src);
+        if (src && !src.startsWith('http')) {
+            src = base + src;
+        }
+        setUrl(src);
     }, [src]);
 
     return (

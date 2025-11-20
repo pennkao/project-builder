@@ -9,13 +9,14 @@ interface SImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 export default function BaseImage({ src, alt = '', isUrl = false, className = '', skeletonClassName = '', ...rest }: SImageProps) {
     const [loaded, setLoaded] = useState(false);
     const imgRef = useRef<HTMLImageElement>(null);
-
-    if (!isUrl) {
-        if (import.meta.env.VITE_ENV === 'PROD') {
-            src = Cdn_Config.defaultBase + src;
-        } else {
-            src = Cdn_Config.devBase + src;
-        }
+    let baseUrl = '';
+    if (import.meta.env.VITE_ENV === 'DEV') {
+        baseUrl = Cdn_Config.defaultBase;
+    } else {
+        baseUrl = Cdn_Config.devBase;
+    }
+    if (src && !src.startsWith('http')) {
+        src = baseUrl + src;
     }
     // 如果图片缓存中已加载完，直接设置 loaded
     useEffect(() => {
@@ -46,3 +47,18 @@ export default function BaseImage({ src, alt = '', isUrl = false, className = ''
         </div>
     );
 }
+
+export const Image = ({ src, alt = '', className = '', skeletonClassName = '', ...rest }: SImageProps) => {
+
+    let baseUrl = '';
+    if (import.meta.env.VITE_ENV === 'DEV') {
+        baseUrl = Cdn_Config.defaultBase;
+    } else {
+        baseUrl = Cdn_Config.devBase;
+    }
+    if (src && !src.startsWith('http')) {
+        src = baseUrl + src;
+    }
+
+    return <img src={src} alt={alt} className={className} {...rest} />;
+};

@@ -3,7 +3,7 @@ import { useImages } from '@/hooks/product/useImages';
 
 import { isrc } from '@/utils/image';
 export default function Images() {
-    const { data, setData, page, setPage } = useImages();
+    const { data  } = useImages();
 
     const className = 'border border-gray-200 rounded-xl dark:border-gray-800 w-30 h-30';
     return (

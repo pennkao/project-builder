@@ -18,7 +18,7 @@ const ImageSelector = ({
     closeModal: () => void;
     productImages: string[];
 }) => {
-    const { data, setData, page, setPage } = useImages();
+    const { data } = useImages();
 
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const handleSelectedImages = (dtype: typeof selectType, img: string) => {

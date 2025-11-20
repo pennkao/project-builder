@@ -52,7 +52,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
     }, [productDataInit.skus, productDataInit.options]);
 
     const makeNewAttr = (option: string) => ({ attr_id: 'a' + '#' + Md5.hashStr(option), name: option, label: option, display: 'text', sort: 0, values: [] } as AttrType);
-    const makeNewAttrValue = (option: string, value: string) => ({ value_id: 'v' + '#' + Md5.hashStr(option + ':' + value), value: value, label: value, content: value, sort: 0 } as AttrValueType);
+    const makeNewAttrValue = (option: string, value: string) => ({ value_id: 'v' + '#' + Md5.hashStr(option + ':' + value), value: value, label: value, content: value } as AttrValueType);
     const handleOption = (option: string) => {
         if (productAttr.length >= 3) {
             Confirm('Error', '最多只能添加三个维度');
@@ -78,7 +78,8 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
     };
 
     useEffect(() => {
-        setProductData((prev) => ({ ...prev, options: productAttr }));
+        const sortProductAttr = productAttr.map((item, index) => ({ ...item, sort: index }));
+        setProductData((prev) => ({ ...prev, options: sortProductAttr }));
         setTimeout(() => {
             if (productId > 0) {
                 return;
@@ -163,11 +164,11 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
         );
     };
 
-    const handleChangeLabel = (index: number, label: string, attrIndex?: number) => {
-        if (attrIndex === null || attrIndex === undefined) {
-            setProductAttr((prev) => prev.map((item, i) => (i === index ? { ...item, label: label } : item)));
-            return;
-        }
+    const handleOptionLabel = (index: number, label: string) => {
+        setProductAttr((prev) => prev.map((item, i) => (i === index ? { ...item, label: label } : item)));
+    };
+
+    const handleChangeValue = (attrIndex: number, index: number, field: string, label: string) => {
         setProductAttr((prev) =>
             prev.map((item, i) => {
                 if (i === attrIndex) {
@@ -176,6 +177,9 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                     const updatedValues = item.values.map((value, j) => {
                         if (j === index) {
                             // 对value进行浅拷贝并更新label
+                            if (field === 'color') {
+                                return { ...value, content: label };
+                            }
                             return { ...value, label: label };
                         }
                         return value;
@@ -187,7 +191,6 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                 return item; // 如果没有匹配的attrIndex，保持原来的item不变
             })
         );
-        console.log(index, attrIndex, 5);
     };
 
     //重新生成sku&&同步
@@ -204,7 +207,6 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                 return false;
             }
         }
-        console.log(3333);
         //delete 删除option
         if (option === '' && tag === '') {
             setProductAttr((prev) => prev.slice(0, -1));
@@ -220,17 +222,9 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                     return item;
                 })
             );
-            // setProductAttr((prev) =>
-            //     prev.map((item) =>
-            //         item.name === option
-            //             ? { ...item, values: item.values.slice(0, -1) } // 去掉最后一个元素
-            //             : item
-            //     )
-            // );
 
             return;
         }
-        console.log(88888888888888888);
         //delete 删除option
         if (option === '') {
             setProductAttr((prev) => prev.filter((x) => x.name !== tag));
@@ -312,7 +306,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                                                         type="text"
                                                         custom={true}
                                                         value={item.label}
-                                                        onChange={(e) => handleChangeLabel(index, e.target.value)}
+                                                        onChange={(e) => handleOptionLabel(index, e.target.value)}
                                                         className="w-28 h-6 px-2 py-1 text-sm font-medium border-none text-gray-900 rounded-sm"
                                                     />
                                                 </div>
@@ -433,10 +427,22 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                                                         </div>
                                                     ) : item.display === 'color' ? (
                                                         // <div className="flex items-center justify-start gap-5">
-                                                        <Input type="text" className="w-28 h-8 px-1 py-1 rounded-sm" custom={true} value={value.label} onChange={(e) => handleChangeLabel(idx, e.target.value, index)} />
+                                                        <Input
+                                                            type="text"
+                                                            className="w-28 h-8 px-1 py-1 rounded-sm"
+                                                            custom={true}
+                                                            value={value.content}
+                                                            onChange={(e) => handleChangeValue(index, idx, 'color', e.target.value)}
+                                                        />
                                                     ) : (
                                                         // </div>
-                                                        <Input type="text" className="w-28 h-8 px-1 py-1 rounded-sm" custom={true} value={value.label} onChange={(e) => handleChangeLabel(idx, e.target.value, index)} />
+                                                        <Input
+                                                            type="text"
+                                                            className="w-28 h-8 px-1 py-1 rounded-sm"
+                                                            custom={true}
+                                                            value={value.label}
+                                                            onChange={(e) => handleChangeValue(index, idx, 'label', e.target.value)}
+                                                        />
                                                     )}
                                                 </div>
                                             </div>

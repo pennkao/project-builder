@@ -30,6 +30,17 @@ func (q *Queries) CreateProductOptions(ctx context.Context, arg CreateProductOpt
 	return err
 }
 
+const fetchProductOptions = `-- name: FetchProductOptions :one
+SELECT options FROM product_options WHERE product_id = $1
+`
+
+func (q *Queries) FetchProductOptions(ctx context.Context, productID int64) (dbtypes.JSON, error) {
+	row := q.db.QueryRow(ctx, fetchProductOptions, productID)
+	var options dbtypes.JSON
+	err := row.Scan(&options)
+	return options, err
+}
+
 const getProductOptions = `-- name: GetProductOptions :one
 SELECT options FROM product_options WHERE product_id = $1
 `

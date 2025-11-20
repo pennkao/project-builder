@@ -104,52 +104,51 @@ export function genAttrId() {
 }
 
 // 将中文转换成英文 key，例如 "口味" → "kouwei"
-const toPinyinSlug = (str: string) =>
-    str
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/\s+/g, '_')
-        .toLowerCase();
+// const toPinyinSlug = (str: string) =>
+//     str
+//         .normalize('NFD')
+//         .replace(/[\u0300-\u036f]/g, '')
+//         .replace(/\s+/g, '_')
+//         .toLowerCase();
 
-export function makeProductAttrs(options: ProductOptionsType, skuList: SkuType[]) {
-    const productAttrs = options.map((opt) => {
-        return {
-            attr_id: 'attr_' + nanoid(), // 新属性 ID
-            name: opt.option, // 可选转换，不喜欢可以换成 nanoid
-            label: opt.option, // 显示名
-            type: 'single', // 默认 single（你可以根据需要修改）
-            sort: opt.sort,
-            values: opt.values.map((v) => ({
-                value_id: 'val_' + nanoid(),
-                value: v,
-                label: v,
-            })),
-        };
-    });
+// export function makeProductAttrs(options: ProductOptionsType, skuList: SkuType[]) {
+// const productAttrs = options.map((opt) => {
+//     return {
+//         attr_id: 'attr_' + nanoid(), // 新属性 ID
+//         name: opt.option, // 可选转换，不喜欢可以换成 nanoid
+//         label: opt.option, // 显示名
+//         type: 'single', // 默认 single（你可以根据需要修改）
+//         sort: opt.sort,
+//         values: opt.values.map((v) => ({
+//             value_id: 'val_' + nanoid(),
+//             value: v,
+//             label: v,
+//         })),
+//     };
+// });
 
-    // skuList.map((sku) => {
-    //     console.log(sku.attrs);
-    //     let attrItems: SkuAttrItemType[] = [];
-    //     Object.keys(sku.attrs).forEach((key) => {
-    //         // console.log(key, sku.attrs[key]);
-    //         const attr = productAttrs.find((a) => a.name === key);
-    //         if (attr) {
-    //             const value = attr.values.find((v) => v.value === sku.attrs[key]);
-    //             console.log(attr.attr_id, value?.value_id, value?.value);
-    //             if (value) {
-    //                 attrItems.push({
-    //                     name: attr.name,
-    //                     attr_id: attr.attr_id,
-    //                     value_id: value.value_id,
-    //                     value: value.value,
-    //                 });
-    //             }
-    //         }
-    //     });
+// skuList.map((sku) => {
+//     console.log(sku.attrs);
+//     let attrItems: SkuAttrItemType[] = [];
+//     Object.keys(sku.attrs).forEach((key) => {
+//         // console.log(key, sku.attrs[key]);
+//         const attr = productAttrs.find((a) => a.name === key);
+//         if (attr) {
+//             const value = attr.values.find((v) => v.value === sku.attrs[key]);
+//             console.log(attr.attr_id, value?.value_id, value?.value);
+//             if (value) {
+//                 attrItems.push({
+//                     name: attr.name,
+//                     attr_id: attr.attr_id,
+//                     value_id: value.value_id,
+//                     value: value.value,
+//                 });
+//             }
+//         }
+//     });
 
-        // sku.attrs = attrItems;
-        // console.log(attrItems);
-        // console.log('========================================');
-    // );
-}
-
+// sku.attrs = attrItems;
+// console.log(attrItems);
+// console.log('========================================');
+// );
+// }

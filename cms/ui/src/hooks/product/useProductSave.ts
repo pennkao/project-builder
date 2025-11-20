@@ -1,6 +1,6 @@
 import { Confirm } from '@/components/Confirm';
 import { useBatchPost } from '@/hooks/usePost';
-import { makeProductAttrs } from '@/utils/attrs';
+// import { makeProductAttrs } from '@/utils/attrs';
 import { formatNumbers } from '@/utils/pre';
 import { fnv1a32 } from '@/utils/product';
 export function useProductSave(productId: number, productData: ProductType, productDataInit: ProductType, navigate: Function) {
@@ -85,8 +85,6 @@ export function useProductSave(productId: number, productData: ProductType, prod
         navigate('/products-list');
     };
 
-    const test = async () => {
-        const res = await doBatchPost([Params('list', { params: { target: 'products', params: { price: 1 } }, querys: { page: 1, size: 10 } })]);
-    };
-    return { saveProduct, updateProduct, test };
+    
+    return { saveProduct, updateProduct };
 }

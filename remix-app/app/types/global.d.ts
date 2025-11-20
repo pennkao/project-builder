@@ -37,16 +37,14 @@ interface CreditCardPaymentFormType {
     name: string;
 }
 
-interface ProductType {
-    id: string;
+interface ProductItemType {
     name: string;
-    image: string;
+    handle: string;
+    main_image: string;
+    tags: string[];
     price: number;
-    score: number;
-    monthly?: string;
-    tags?: string[];
-    options?: ProductOptionType[];
-    skus?: SKUType[];
+    sales_count: number;
+    stock: number;
 }
 
 interface ProductOptionType {
@@ -168,4 +166,24 @@ interface CrypoType {
     baseId: string;
     address: string;
     confirmTime: number; // 确认时间
+}
+
+interface ProductMainType {
+    handle: string;
+    id: number;
+    main_image: string;
+    name: string;
+    price: number;
+    sales_count: number;
+    stock: number;
+    tags: string[];
+}
+interface ProductDetailsType {
+    images: string[];
+    videos: string[];
+    specs: string[];
+}
+
+interface ProductOptionsType {
+    options: AttrType[];
 }

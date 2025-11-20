@@ -1,0 +1,1 @@
+import{a as c,u as i}from"./image-BZXwNT0K.js";import{r as s}from"./chunk-UIGDSWPH-DpLL6DXr.js";const p=()=>{const[e,a]=s.useState({...c,size:100}),[t,o]=s.useState(1),{doPost:r}=i("list");return s.useEffect(()=>{r({params:{target:"images"},querys:{page:t,size:100},callback:u=>{a(u)}})},[t]),{data:e,setData:a,page:t,setPage:o}};export{p as u};
