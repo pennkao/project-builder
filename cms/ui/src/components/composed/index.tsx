@@ -1,4 +1,4 @@
-export { default as Confirm } from '../../utils/Confirm';
+export { default as Confirm } from './Confirm';
 export { default as ModalBase } from './ModalBase';
 export { default as Popover } from './Popover';
 export { default as TagInput } from './TagInput';

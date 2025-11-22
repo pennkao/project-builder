@@ -1,6 +1,6 @@
+import { Confirm } from '@/components/composed';
 import { defaultPageDataList, defaultQueryParams } from '@/defaults';
 import { usePost } from '@/hooks/usePost';
-import Confirm from '@/utils/Confirm';
 import { useEffect, useState } from 'react';
 
 const message = async (message: string) => {

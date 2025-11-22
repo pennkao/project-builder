@@ -1,5 +1,5 @@
+import { Confirm } from '@/components/composed';
 import { useBatchPost } from '@/hooks/usePost';
-import Confirm from '@/utils/Confirm';
 // import { makeProductAttrs } from '@/utils/attrs';
 import { formatNumbers } from '@/utils/pre';
 import { fnv1a32 } from '@/utils/product';
