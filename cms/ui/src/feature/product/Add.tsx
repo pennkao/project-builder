@@ -1,4 +1,4 @@
-import Button from '@/components/ui/button/Button';
+import { Button } from '@/components/elements';
 import { config } from '@/config/config';
 import { Content, Footer, Page } from '@/feature/common/layout';
 import { ProductContext } from './context';

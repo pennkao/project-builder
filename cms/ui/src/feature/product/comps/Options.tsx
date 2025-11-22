@@ -3,18 +3,17 @@ import { Input } from '@/components/Basic/Input';
 import { Card } from '@/feature/common/layout';
 
 import ContentCard from '@/components/common/ContentCard';
-import { Confirm } from '@/components/Confirm';
+import { Confirm, TagInput } from '@/components/composed';
 import RadioSm from '@/components/form/input/RadioSm';
 import Label from '@/components/form/Label';
 import Loading from '@/components/Loading/Loading';
-import TagInput from '@/components/TagInput';
 import { defaultSku } from '@/defaults/product';
-import { ProductContext } from '../context';
 import { PencilIcon, RefreshIcon } from '@/icons';
 import { makeSkuListByAttrs } from '@/utils/attrs';
 import { isrc } from '@/utils/image';
 import { formartValue, keyDownNumberInput } from '@/utils/product';
 import { Md5 } from 'ts-md5';
+import { ProductContext } from '../context';
 
 import { Activity, useContext, useEffect, useRef, useState } from 'react';
 

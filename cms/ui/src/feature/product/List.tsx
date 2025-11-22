@@ -1,6 +1,4 @@
-import SearchInput from '@/components/elements/SearchInput';
-import Image from '@/components/Image';
-import Button from '@/components/ui/button/Button';
+import { Button, Image, SearchInput } from '@/components/elements';
 import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
 import { List, Pagination, type ListColumn } from '@/feature/common/list';
 import { DownloadIcon, FilterIcon, PlusIcon } from '@/icons';

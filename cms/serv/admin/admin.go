@@ -42,7 +42,8 @@ func (t *Cms) Dispatcher(c *gin.Context) {
 		t.CheckProductHandle(c)
 	case "/product-handle-count":
 		t.GetProductHandleCount(c)
-
+	case "/add-product/reivews":
+		CrawlProductReviwes(c)
 	case "/add-product":
 		t.CreateProductMain(c)
 	case "/update-product":

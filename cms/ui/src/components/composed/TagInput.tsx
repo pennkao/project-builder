@@ -1,4 +1,4 @@
-import TextTag from '@/components/TextTag';
+import TextTag from '@/components/composed/TextTag';
 import { useRef, useState } from 'react';
 const TagInput = ({
     tags,

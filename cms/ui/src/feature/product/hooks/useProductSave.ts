@@ -1,5 +1,5 @@
-import { Confirm } from '@/components/Confirm';
 import { useBatchPost } from '@/hooks/usePost';
+import Confirm from '@/utils/Confirm';
 // import { makeProductAttrs } from '@/utils/attrs';
 import { formatNumbers } from '@/utils/pre';
 import { fnv1a32 } from '@/utils/product';
@@ -85,6 +85,5 @@ export function useProductSave(productId: number, productData: ProductType, prod
         navigate('/products-list');
     };
 
-    
     return { saveProduct, updateProduct };
 }

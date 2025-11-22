@@ -1,6 +1,6 @@
 // DropzoneSortable.tsx
 import { ItemLoading } from '@/components/Loading/ItemLoading';
-import Button from '@/components/ui/button/Button';
+import { Button } from '@/components/elements';
 import { Card } from '@/feature/common/layout';
 
 import { TrashIcon, UploadFileIcon } from '@/icons';

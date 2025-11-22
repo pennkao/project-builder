@@ -1,6 +1,6 @@
+import { Popover } from '@/components/composed';
+import { Button } from '@/components/elements';
 import TextArea from '@/components/form/input/TextArea';
-import Popover from '@/components/Popover';
-import Button from '@/components/ui/button/Button';
 import { Content, FooterPage, Header, Page } from '@/feature/common/layout';
 
 import { MainIcon, PlusIcon } from '@/icons';

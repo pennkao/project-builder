@@ -1,4 +1,4 @@
-import Button from '@/components/ui/button/Button';
+import {Button} from '@/components/elements';
 import { Modal } from '@/components/ui/modal';
 
 const ModalBase = ({

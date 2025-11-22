@@ -2,7 +2,6 @@ package admin
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/cms/admin/dto/hp"
@@ -30,7 +29,6 @@ func (t *Cms) Lister(c *gin.Context) {
 	case "images":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "cts")
 			t.QueryImagestList(c.Request.Context(), where,fullWhere, args, page)
-			fmt.Println(page)
 			hp.Success[any](c, page)
 	default:
 		hp.Error[any](c, "Not Found")

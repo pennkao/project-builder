@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 )
 
 func (q *Queries) QueryImageCount(ctx context.Context,where string, args []interface{}) (int64, error) {
@@ -57,7 +56,6 @@ func (q *Queries) QueryProductList(ctx context.Context, where string, args []int
 }
 
 func (q *Queries) QueryImageList(ctx context.Context, where string, args []interface{}) ([]Image, error) {
-	fmt.Println(baseImageListSql + where)
 	rows, err := q.db.Query(ctx, baseImageListSql + where, args...)
 	if err != nil {
 		return nil, err

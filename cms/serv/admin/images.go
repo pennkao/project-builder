@@ -20,7 +20,12 @@ func (t *Cms) AddImages(c *gin.Context) {
 		hp.Error[any](c, "images is empty")
 		return
 	}
-
+	// reviews, err := reviews.FetchProductReview(req.Images[0], 10, "1-5", true, true)
+	// if err!= nil {
+	// 	hp.Error[any](c,  err.Error())
+	// 	return
+	// }
+	// fmt.Println(reviews)
 	params := make([]db.BatchCreateImagesParams, 0, len(req.Images))
 	for _, v := range req.Images {
 		err, filename, info := utils.DownloadImage(v, "./public/images")

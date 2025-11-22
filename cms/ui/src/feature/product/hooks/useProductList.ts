@@ -1,7 +1,7 @@
 import { defaultPageDataList, defaultQueryParams } from '@/defaults';
 import { usePost } from '@/hooks/usePost';
+import Confirm from '@/utils/Confirm';
 import { useEffect, useState } from 'react';
-import { Confirm } from '@/components/Confirm';
 
 const message = async (message: string) => {
     const confirm = await Confirm('Error', message, { confirmText: 'Confirm', cancelText: 'Cancel', danger: true });

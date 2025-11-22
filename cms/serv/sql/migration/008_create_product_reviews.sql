@@ -6,6 +6,7 @@ CREATE TABLE product_reviews (
     content TEXT NOT NULL DEFAULT '',     -- 评论正文
     rating SMALLINT NOT NULL DEFAULT 0,
     images TEXT[] NOT NULL DEFAULT '{}',  -- 评论图片 URL 数组
+    sort  SMALLINT NOT NULL DEFAULT 0,
     status  SMALLINT NOT NULL DEFAULT 0,
 	cts int8 DEFAULT (EXTRACT(epoch FROM now()) * 1000::numeric)::bigint NULL
 );
