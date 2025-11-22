@@ -1,38 +1,28 @@
 import SearchInput from '@/components/elements/SearchInput';
+import Image from '@/components/Image';
 import Button from '@/components/ui/button/Button';
 import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
 import { List, Pagination, type ListColumn } from '@/feature/common/list';
 import { DownloadIcon, FilterIcon, PlusIcon } from '@/icons';
-import  Image  from '@/components/Image';
-import { useState } from 'react';
-import { formatDate } from '@fullcalendar/core/index.js';
 import { isrc } from '@/utils/image';
+import { formatDate } from '@fullcalendar/core/index.js';
+import { useState } from 'react';
 
-import {StatusLabel} from './comps'
 import { Link, useNavigate } from 'react-router';
+import { StatusLabel } from './comps';
 import { useProductList } from './hooks';
 export default function Products() {
     const navigator = useNavigate();
     const [search, setSearch] = useState('');
-    const { result, setResult, setParamFilter, setPage } = useProductList();
+    const { result, Delete, setParamFilter, setPage } = useProductList();
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             setParamFilter([{ field: 'name', operator: 'like', value: search }]);
         }
     };
-    const handleDelete = (id: number) => {
-        setResult((prev) => ({
-            ...prev,
-            list: prev.list.filter((item) => item.id !== id),
-        }));
-    };
+
     const productColumns: ListColumn<ProductItemType>[] = [
-        {
-            key: 'index',
-            label: '',
-            sortable: false,
-        },
         {
             key: 'name',
             label: 'Product',
@@ -63,10 +53,21 @@ export default function Products() {
                         size="sm"
                         className="ml-2"
                         onClick={() => {
-                            handleDelete(item?.id || 0); // TODO: delete product
+                            Delete(item?.id || 0); // TODO: delete product
                         }}
                     >
                         Delete
+                    </Button>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="ml-2"
+                        onClick={() => {
+                            // Delete(item?.id || 0); // TODO: delete product
+                        }}
+                    >
+                        Import
                     </Button>
                 </div>
             ),

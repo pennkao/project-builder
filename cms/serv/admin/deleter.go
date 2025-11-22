@@ -20,10 +20,9 @@ func (t *Cms) Deleter(c *gin.Context) {
 			hp.Error[any](c,  err.Error())
 			return
 		}
-		hp.Success[any](c, nil)
 	default:
 		hp.Error[any](c, "Not Found")
 	}
 
-    hp.Success[any](c, nil) // 返回产品数量
+    hp.Success[any](c, nil) // 返回产品数
 }

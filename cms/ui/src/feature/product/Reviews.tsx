@@ -19,7 +19,7 @@ export type ListColumn<T> = {
 };
 
 const Reviews = () => {
-    const { result, setResult, setParamFilter, setPage } = useProductList();
+    const { result, setParamFilter, setPage } = useProductList();
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {

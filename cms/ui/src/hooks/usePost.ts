@@ -20,7 +20,7 @@ type BatchPostOptions<T = any> = {
 interface DoPostParams<T = any> {
     params?: Record<string, any> | null;
     querys?: Record<string, any> | null;
-    callback?: (data: T) => void;
+    callback?: (data?: T) => void;
 }
 
 const defaultBaseUrl = config.apiBaseUrl;
@@ -84,7 +84,13 @@ export function usePost<T = any>(api: string) {
                 throw new Error(json.message || 'api error!');
             }
 
-            if (callback && json.data) callback(json.data);
+            if (callback) {
+                if (json.data) {
+                    callback(json.data);
+                } else {
+                    callback();
+                }
+            }
             return json.data;
         } catch (err: any) {
             console.error('❌ API error:', err.message);
@@ -104,7 +110,7 @@ export function useBatchPost() {
     /**
      * 单接口 POST
      */
-    const doPost = async <T = any>(api: string, options: PostOptions, callback?: (data: T) => void): Promise<T | null> => {
+    const doPost = async <T = any>(api: string, options: PostOptions, callback?: (data?: T) => void): Promise<T | null> => {
         setError(null);
         try {
             let url = `${defaultBaseUrl}${api}`;
@@ -134,7 +140,13 @@ export function useBatchPost() {
             if (json.code !== 0) {
                 throw new Error(json.message || 'api error!');
             }
-            if (callback && json.data) callback(json.data);
+            if (callback){
+                if (json.data) {
+                    callback(json.data);
+                } else {
+                    callback();
+                }
+            }
             return json.data || null;
         } catch (err: any) {
             console.error('❌ API error:', err.message);

@@ -17,7 +17,7 @@ export const useImages = () => {
             params: { target: 'images' },
             querys: { page: page, size: 100 },
             callback: (res) => {
-                setData(res);
+                if (res) setData(res);
             },
         });
     };
