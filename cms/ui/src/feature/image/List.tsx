@@ -5,29 +5,19 @@ import { Content, FooterPage, Header, Page } from '@/feature/common/layout';
 
 import { MainIcon, PlusIcon } from '@/icons';
 import { isrc } from '@/utils/image';
-import { isValidUrl } from '@/utils/tools';
 import { useState } from 'react';
 import { useImages } from './hooks/useImages';
 
 export default function List() {
-    const { data, addImages, doLoadIamges } = useImages();
+    const { data, handlePageChange, handleSubmit } = useImages();
     const [images, setImages] = useState('');
     const [toClose, setToClose] = useState<number | null>(null);
-    const handleSubmit = async () => {
-        // alert(images);
-        const imageArr = images
-            .trim()
-            .split('\n')
-            .map((item) => item.trim())
-            .filter((item) => isValidUrl(item));
-        if (imageArr.length === 0) {
-            return;
-        }
+
+    const doSubmit = (images: string) => {
         setToClose((prev) => (prev === null ? 0 : prev + 1));
-        addImages(imageArr, () => {
-            doLoadIamges();
-        });
+        handleSubmit(images);
     };
+
     const className = 'border border-gray-200 rounded-xl dark:border-gray-800 w-30 h-30';
     return (
         <>
@@ -43,7 +33,7 @@ export default function List() {
                     >
                         <div className="flex flex-col justify-start flex-wrap gap-6 sm:gap-1 md:gap-5 xl:gap-2.5 w-[450px]">
                             <TextArea placeholder="Images" rows={4} value={images} onChange={(value) => setImages(value)} />
-                            <Button variant="primary" onClick={handleSubmit} startIcon={<MainIcon className="w-5 h-5" fill="white" />}>
+                            <Button variant="primary" onClick={() => doSubmit(images)} startIcon={<MainIcon className="w-5 h-5" fill="white" />}>
                                 Save
                             </Button>
                         </div>
@@ -65,7 +55,7 @@ export default function List() {
                         ))}
                     </div>
                 </Content>
-                <FooterPage currentPage={data?.page} pageSize={10} totalCount={200} onPageChange={doLoadIamges} />
+                <FooterPage currentPage={data?.page} pageSize={data?.size} totalCount={data?.total} onPageChange={handlePageChange} />
             </Page>
         </>
     );

@@ -1,7 +1,7 @@
 import { defaultPageDataList } from '@/defaults';
 import { usePost } from '@/hooks/usePost';
 import { useEffect, useState } from 'react';
-
+import { isValidUrl } from '@/utils/tools';
 export const useImages = () => {
     const [data, setData] = useState<PageListDataType<ImageType>>({ ...defaultPageDataList, size: 100 });
     const [page, setPage] = useState(1);
@@ -29,5 +29,27 @@ export const useImages = () => {
             },
         });
     };
-    return { data, setData, page, setPage, doLoadIamges, addImages };
+
+    const handlePageChange = (page: number | string) => {
+        if (typeof page === 'string') {
+            return;
+        }
+        setPage(page);
+    };
+
+    const handleSubmit = async (images: string) => {
+        // alert(images);
+        const imageArr = images
+            .trim()
+            .split('\n')
+            .map((item) => item.trim())
+            .filter((item) => isValidUrl(item));
+        if (imageArr.length === 0) {
+            return;
+        }
+        addImages(imageArr, () => {
+            doLoadIamges();
+        });
+    };
+    return { data, handlePageChange, handleSubmit };
 };
