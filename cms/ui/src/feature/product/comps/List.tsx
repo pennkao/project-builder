@@ -1,5 +1,5 @@
 import { Confirm } from '@/components/Confirm';
-import FieldSort from '@/components/FidldSort';
+import FieldSort from '@/feature/common/list/FieldSort';
 import Checkbox from '@/components/form/input/Checkbox';
 import Image from '@/components/Image';
 import Button from '@/components/ui/button/Button';

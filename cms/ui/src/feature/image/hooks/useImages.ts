@@ -30,13 +30,6 @@ export const useImages = () => {
         });
     };
 
-    const handlePageChange = (page: number | string) => {
-        if (typeof page === 'string') {
-            return;
-        }
-        setPage(page);
-    };
-
     const handleSubmit = async (images: string) => {
         // alert(images);
         const imageArr = images
@@ -51,5 +44,5 @@ export const useImages = () => {
             doLoadIamges();
         });
     };
-    return { data, handlePageChange, handleSubmit };
+    return { data, setPage, handleSubmit };
 };

@@ -29,7 +29,6 @@ export function useProductImages() {
         closeModal();
     };
     const openImageSelector = (target: ImageTargetType) => {
-        console.log('openImageSelector', target);
         if (!target.limit || target.limit > 1) {
             setUploadType('multiple');
         } else {

@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useImages } from './hooks/useImages';
 
 export default function List() {
-    const { data, handlePageChange, handleSubmit } = useImages();
+    const { data, setPage, handleSubmit } = useImages();
     const [images, setImages] = useState('');
     const [toClose, setToClose] = useState<number | null>(null);
 
@@ -55,7 +55,7 @@ export default function List() {
                         ))}
                     </div>
                 </Content>
-                <FooterPage currentPage={data?.page} pageSize={data?.size} totalCount={data?.total} onPageChange={handlePageChange} />
+                <FooterPage currentPage={data?.page} pageSize={data?.size} totalCount={data?.total} onPageChange={setPage} />
             </Page>
         </>
     );

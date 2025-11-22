@@ -7,7 +7,7 @@ interface PaginationProps {
     totalCount: number;
     pageSize: number;
     showText?: boolean;
-    onPageChange: (page: number|string) => void;
+    onPageChange: (page: number) => void;
 }
 
 const PageRange = (currentPage: number, totalCount: number, pageSize: number) => {
@@ -39,9 +39,16 @@ const PageRange = (currentPage: number, totalCount: number, pageSize: number) =>
     return [1, DOTS, ...Array.from({ length: rightSiblingIndex - leftSiblingIndex + 1 }, (_, i) => leftSiblingIndex + i), DOTS, totalPages];
 };
 
-export const FooterPage = ({ currentPage, totalCount, pageSize, showText = true, onPageChange }: PaginationProps) => {
+export const Pagination  = ({ currentPage, totalCount, pageSize, showText = true, onPageChange }: PaginationProps) => {
     const totalPages = Math.ceil(totalCount / pageSize);
     if (totalCount <= pageSize) return null;
+    const handlePageChange = (page: number | string) => {
+        if (typeof page === 'string') {
+            return;
+        }
+        if (page < 1 || page > totalPages) return;
+        onPageChange(Number(page));
+    };
     // 生成页码按钮
     const pages = useMemo(() => PageRange(currentPage, totalCount, pageSize), [currentPage, totalCount, pageSize]);
     return (
@@ -55,7 +62,7 @@ export const FooterPage = ({ currentPage, totalCount, pageSize, showText = true,
                 {/* 上一页 */}
 
                 <button
-                    onClick={() => onPageChange(currentPage - 1)}
+                    onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage <= 1}
                     className="w-10 h-10 rounded-md border text-sm font-medium 
                    bg-white dark:bg-gray-800 p-2.5
@@ -70,7 +77,7 @@ export const FooterPage = ({ currentPage, totalCount, pageSize, showText = true,
                 {pages.map((page, index) => (
                     <button
                         key={index}
-                        onClick={() => onPageChange(page)}
+                        onClick={() => handlePageChange(page)}
                         className={`w-10 h-10 rounded-md border text-sm font-medium 
             ${currentPage === page ? 'bg-blue-600 text-white border-blue-600' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
                     >
@@ -80,7 +87,7 @@ export const FooterPage = ({ currentPage, totalCount, pageSize, showText = true,
 
                 {/* 下一页 */}
                 <button
-                    onClick={() => onPageChange(currentPage + 1)}
+                    onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage >= totalPages}
                     className="w-10 h-10 rounded-md border text-sm font-medium 
                    bg-white dark:bg-gray-800 
@@ -94,4 +101,4 @@ export const FooterPage = ({ currentPage, totalCount, pageSize, showText = true,
         </div>
     );
 };
-export default FooterPage;
+export default Pagination ;

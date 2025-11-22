@@ -1,7 +1,7 @@
 import Button from '@/components/ui/button/Button';
 import { config } from '@/config/config';
-import { ProductContext } from '@/context/product';
 import { Content, Footer, Page } from '@/feature/common/layout';
+import { ProductContext } from './context';
 
 import { useNavigate, useParams } from 'react-router';
 import { ImageSelector, ImageUploder, Options, Product, Seo } from './comps';

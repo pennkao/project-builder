@@ -1,19 +1,20 @@
 import SearchInput from '@/components/elements/SearchInput';
 import Button from '@/components/ui/button/Button';
-import { Action, Content, FooterPage, Header, Page } from '@/feature/common/layout';
+import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
+import { List, Pagination, type ListColumn } from '@/feature/common/list';
 import { DownloadIcon, FilterIcon, PlusIcon } from '@/icons';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import { List } from './comps';
-import { useProductList } from './hooks';
+import  Image  from '@/components/Image';
+import { useState } from 'react';
+import { formatDate } from '@fullcalendar/core/index.js';
+import { isrc } from '@/utils/image';
 
+import {StatusLabel} from './comps'
+import { Link, useNavigate } from 'react-router';
+import { useProductList } from './hooks';
 export default function Products() {
     const navigator = useNavigate();
     const [search, setSearch] = useState('');
-    const { result, setResult, setParamFilter, setPage, fetchList } = useProductList();
-    useEffect(() => {
-        fetchList();
-    }, []);
+    const { result, setResult, setParamFilter, setPage } = useProductList();
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -26,7 +27,51 @@ export default function Products() {
             list: prev.list.filter((item) => item.id !== id),
         }));
     };
-
+    const productColumns: ListColumn<ProductItemType>[] = [
+        {
+            key: 'index',
+            label: '',
+            sortable: false,
+        },
+        {
+            key: 'name',
+            label: 'Product',
+            sortable: true,
+            render: (item) => (
+                <div className="flex items-center gap-3">
+                    <Link to={`/collections/${item?.handle}`}>
+                        <Image src={isrc(item?.main_image || '')} className="h-10 w-10 rounded-md object-cover" />
+                    </Link>
+                    {item?.name || '-'}
+                </div>
+            ),
+        },
+        { key: 'category', label: 'Category', sortable: true },
+        { key: 'brand', label: 'Brand', sortable: true },
+        { key: 'price', label: 'Price', sortable: true },
+        { key: 'status', label: 'Status', sortable: false, render: (item?: ProductItemType) => <StatusLabel status={item?.status || 0} /> },
+        { key: 'cts', label: 'Date', sortable: false, render: (item?: ProductItemType) => formatDate(item?.cts || 0) },
+        {
+            key: 'action',
+            label: 'Action',
+            sortable: false,
+            render: (item?: ProductItemType) => (
+                <div className="flex items-center gap-1">
+                    <Link to={`/edit-product/${item?.id}`}>Edit</Link>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="ml-2"
+                        onClick={() => {
+                            handleDelete(item?.id || 0); // TODO: delete product
+                        }}
+                    >
+                        Delete
+                    </Button>
+                </div>
+            ),
+        },
+    ];
     return (
         <Page title="Product List" showBackgroud={true}>
             <Header title="Products" desc="Track your store's progress to boost your sales.">
@@ -44,9 +89,11 @@ export default function Products() {
                 </Button>
             </Action>
             <Content>
-                <List items={[...(result?.list || [])]} onDelete={(id) => handleDelete(id)} />
+                <List<ProductItemType> rowKey="id" fields={productColumns} items={result?.list || []} />
             </Content>
-            <FooterPage currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />
+            <Footer>
+                <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />
+            </Footer>
         </Page>
     );
 }
