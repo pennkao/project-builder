@@ -10,6 +10,7 @@ const Videos = lazy(() => import('@/pages/UiElements/Videos'));
 const AppLayout = lazy(() => import('@/layout/AppLayout'));
 const Products = lazy(() => import('@/pages/Products/Products'));
 const AddProduct = lazy(() => import('@/pages/Products/AddProduct'));
+const Reviews = lazy(() => import('@/pages/Products/Reviews'));
 const Calendar = lazy(() => import('@/pages/Calendar'));
 const BarChart = lazy(() => import('@/pages/Charts/BarChart'));
 const LineChart = lazy(() => import('@/pages/Charts/LineChart'));
@@ -37,6 +38,14 @@ export default function App() {
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <UserProfiles />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/reviews"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <Reviews />
                                 </Suspense>
                             }
                         />

@@ -7,6 +7,8 @@ package db
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const baseImageCountSql = `-- name: BaseImageCountSql :one
@@ -21,18 +23,44 @@ func (q *Queries) BaseImageCountSql(ctx context.Context) (int64, error) {
 }
 
 const baseImageListSql = `-- name: BaseImageListSql :many
-SELECT id, url, storage_path, file_name, file_type, mime_type, alt_text, width_px, height_px, cts FROM images
+SELECT 
+    id,
+    CASE 
+        WHEN url = '' THEN file_name  ELSE url 
+    END AS url,
+    storage_path,
+    file_name,
+    file_type,
+    mime_type,
+    alt_text,
+    width_px,
+    height_px,
+    cts
+FROM images
 `
 
-func (q *Queries) BaseImageListSql(ctx context.Context) ([]Image, error) {
+type BaseImageListSqlRow struct {
+	ID          int64       `json:"id"`
+	Url         interface{} `json:"url"`
+	StoragePath string      `json:"storage_path"`
+	FileName    string      `json:"file_name"`
+	FileType    string      `json:"file_type"`
+	MimeType    string      `json:"mime_type"`
+	AltText     string      `json:"alt_text"`
+	WidthPx     int32       `json:"width_px"`
+	HeightPx    int32       `json:"height_px"`
+	Cts         pgtype.Int8 `json:"cts"`
+}
+
+func (q *Queries) BaseImageListSql(ctx context.Context) ([]BaseImageListSqlRow, error) {
 	rows, err := q.db.Query(ctx, baseImageListSql)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Image
+	var items []BaseImageListSqlRow
 	for rows.Next() {
-		var i Image
+		var i BaseImageListSqlRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Url,
@@ -57,7 +85,7 @@ func (q *Queries) BaseImageListSql(ctx context.Context) ([]Image, error) {
 
 const listImages = `-- name: ListImages :many
 SELECT id, url, storage_path, file_name, file_type, mime_type, alt_text, width_px, height_px, cts FROM images
-ORDER BY id ASC
+ORDER BY cts DESC
 LIMIT $1 OFFSET $2
 `
 

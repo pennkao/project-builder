@@ -42,6 +42,7 @@ import { ReactComponent as InfoIcon } from './info.svg?react';
 import { ReactComponent as ListIcon } from './list.svg?react';
 import { ReactComponent as LockIcon } from './lock.svg?react';
 import { ReactComponent as MailIcon } from './mail-line.svg?react';
+import { ReactComponent as MainIcon } from './main.svg?react';
 import { ReactComponent as MoreDotIcon } from './moredot.svg?react';
 import { ReactComponent as PageIcon } from './page.svg?react';
 import { ReactComponent as PaperPlaneIcon } from './paper-plane.svg?react';
@@ -107,6 +108,7 @@ export {
     ListIcon,
     LockIcon,
     MailIcon,
+    MainIcon,
     MoreDotIcon,
     PageIcon,
     PaperPlaneIcon,

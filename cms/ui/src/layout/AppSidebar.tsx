@@ -2,99 +2,100 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 
 // Assume these icons are imported from an icon library
+import { navItems } from '@/config/menu';
 import { useSidebar } from '../context/SidebarContext';
-import { BoxCubeIcon, CalenderIcon, ChevronDownIcon, GridIcon, HorizontaLDots, ImageIcon, ListIcon, PageIcon, PieChartIcon, ShoppingCartIcon, TableIcon, UserCircleIcon } from '../icons';
+import { ChevronDownIcon, HorizontaLDots } from '../icons';
 import Logo from './Logo';
 // import SidebarWidget from "./SidebarWidget.tsx3";
 
-type NavItem = {
-    name: string;
-    icon: React.ReactNode;
-    path?: string;
-    subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
-};
+// type NavItem = {
+//     name: string;
+//     icon: React.ReactNode;
+//     path?: string;
+//     subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
+// };
 
-const navItems: NavItem[] = [
-    //   {
-    //     icon: <GridIcon />,
-    //     name: "Dashboard",
-    //     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
-    //   },
-    {
-        icon: <GridIcon />,
-        name: 'Dashboard',
-        path: '/',
-    },
-    {
-        name: 'E-commerce',
-        icon: <ShoppingCartIcon />,
-        subItems: [
-            { name: 'Products', path: '/products-list', pro: false },
-            { name: 'Add Product', path: '/add-product', pro: false },
-        ],
-    },
-    {
-        name: 'Gallery',
-        icon: <ImageIcon />,
-        subItems: [{ name: 'Images', path: '/images', pro: false }],
-    },
-    {
-        name: 'Forms',
-        icon: <ListIcon />,
-        subItems: [{ name: 'Form Elements', path: '/form-elements', pro: false }],
-    },
-    {
-        name: 'Tables',
-        icon: <TableIcon />,
-        subItems: [{ name: 'Basic Tables', path: '/basic-tables', pro: false }],
-    },
-    {
-        name: 'Pages',
-        icon: <PageIcon />,
-        subItems: [
-            { name: 'Blank Page', path: '/blank', pro: false },
-            //   { name: "404 Error", path: "/error-404", pro: false },
-        ],
-    },
-    {
-        icon: <PieChartIcon />,
-        name: 'Charts',
-        subItems: [
-            { name: 'Line Chart', path: '/line-chart', pro: false },
-            { name: 'Bar Chart', path: '/bar-chart', pro: false },
-        ],
-    },
-    {
-        icon: <BoxCubeIcon />,
-        name: 'UI Elements',
-        subItems: [
-            { name: 'Alerts', path: '/alerts', pro: false },
-            { name: 'Avatar', path: '/avatars', pro: false },
-            { name: 'Badge', path: '/badge', pro: false },
-            { name: 'Buttons', path: '/buttons', pro: false },
-            { name: 'Images1', path: '/images1', pro: false },
-            { name: 'Videos', path: '/videos', pro: false },
-        ],
-    },
-    //   {
-    //     icon: <PlugInIcon />,
-    //     name: "Authentication",
-    //     subItems: [
-    //       { name: "Sign In", path: "/signin", pro: false },
-    //       { name: "Sign Up", path: "/signup", pro: false },
-    //     ],
-    //   },
-    {
-        icon: <CalenderIcon />,
-        name: 'Calendar',
-        path: '/calendar',
-    },
-    {
-        icon: <UserCircleIcon />,
-        name: 'User Profile',
-        path: '/profile',
-    },
-];
+// const navItems: NavItem[] = [
+//     //   {
+//     //     icon: <GridIcon />,
+//     //     name: "Dashboard",
+//     //     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+//     //   },
+//     {
+//         icon: <GridIcon />,
+//         name: 'Dashboard',
+//         path: '/',
+//     },
+//     {
+//         name: 'E-commerce',
+//         icon: <ShoppingCartIcon />,
+//         subItems: [
+//             { name: 'Products', path: '/products-list', pro: false },
+//             { name: 'Add Product', path: '/add-product', pro: false },
+//         ],
+//     },
+//     {
+//         name: 'Gallery',
+//         icon: <ImageIcon />,
+//         subItems: [{ name: 'Images', path: '/images', pro: false }],
+//     },
+//     {
+//         name: 'Forms',
+//         icon: <ListIcon />,
+//         subItems: [{ name: 'Form Elements', path: '/form-elements', pro: false }],
+//     },
+//     {
+//         name: 'Tables',
+//         icon: <TableIcon />,
+//         subItems: [{ name: 'Basic Tables', path: '/basic-tables', pro: false }],
+//     },
+//     {
+//         name: 'Pages',
+//         icon: <PageIcon />,
+//         subItems: [
+//             { name: 'Blank Page', path: '/blank', pro: false },
+//             //   { name: "404 Error", path: "/error-404", pro: false },
+//         ],
+//     },
+//     {
+//         icon: <PieChartIcon />,
+//         name: 'Charts',
+//         subItems: [
+//             { name: 'Line Chart', path: '/line-chart', pro: false },
+//             { name: 'Bar Chart', path: '/bar-chart', pro: false },
+//         ],
+//     },
+//     {
+//         icon: <BoxCubeIcon />,
+//         name: 'UI Elements',
+//         subItems: [
+//             { name: 'Alerts', path: '/alerts', pro: false },
+//             { name: 'Avatar', path: '/avatars', pro: false },
+//             { name: 'Badge', path: '/badge', pro: false },
+//             { name: 'Buttons', path: '/buttons', pro: false },
+//             { name: 'Images1', path: '/images1', pro: false },
+//             { name: 'Videos', path: '/videos', pro: false },
+//         ],
+//     },
+//     //   {
+//     //     icon: <PlugInIcon />,
+//     //     name: "Authentication",
+//     //     subItems: [
+//     //       { name: "Sign In", path: "/signin", pro: false },
+//     //       { name: "Sign Up", path: "/signup", pro: false },
+//     //     ],
+//     //   },
+//     {
+//         icon: <CalenderIcon />,
+//         name: 'Calendar',
+//         path: '/calendar',
+//     },
+//     {
+//         icon: <UserCircleIcon />,
+//         name: 'User Profile',
+//         path: '/profile',
+//     },
+// ];
 
 const AppSidebar = () => {
     // const [isLoadingSidebar, setIsLoadingSidebar] = useState(true);
@@ -215,10 +216,6 @@ const AppSidebar = () => {
                                     <li key={subItem.name}>
                                         <Link to={subItem.path} className={`menu-dropdown-item ${isActive(subItem.path) ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'}`}>
                                             {subItem.name}
-                                            <span className="flex items-center gap-1 ml-auto">
-                                                {subItem.new && <span className={`ml-auto ${isActive(subItem.path) ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive'} menu-dropdown-badge`}>new</span>}
-                                                {subItem.pro && <span className={`ml-auto ${isActive(subItem.path) ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive'} menu-dropdown-badge`}>pro</span>}
-                                            </span>
                                         </Link>
                                     </li>
                                 ))}

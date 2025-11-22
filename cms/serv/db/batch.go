@@ -18,6 +18,71 @@ var (
 	ErrBatchAlreadyClosed = errors.New("batch already closed")
 )
 
+const batchCreateImages = `-- name: BatchCreateImages :batchexec
+INSERT INTO images (
+    storage_path,
+    file_name,
+    file_type,
+    mime_type,
+    height_px,
+    width_px
+)
+VALUES ($1, $2, $3, $4, $5, $6)
+`
+
+type BatchCreateImagesBatchResults struct {
+	br     pgx.BatchResults
+	tot    int
+	closed bool
+}
+
+type BatchCreateImagesParams struct {
+	StoragePath string `json:"storage_path"`
+	FileName    string `json:"file_name"`
+	FileType    string `json:"file_type"`
+	MimeType    string `json:"mime_type"`
+	HeightPx    int32  `json:"height_px"`
+	WidthPx     int32  `json:"width_px"`
+}
+
+func (q *Queries) BatchCreateImages(ctx context.Context, arg []BatchCreateImagesParams) *BatchCreateImagesBatchResults {
+	batch := &pgx.Batch{}
+	for _, a := range arg {
+		vals := []interface{}{
+			a.StoragePath,
+			a.FileName,
+			a.FileType,
+			a.MimeType,
+			a.HeightPx,
+			a.WidthPx,
+		}
+		batch.Queue(batchCreateImages, vals...)
+	}
+	br := q.db.SendBatch(ctx, batch)
+	return &BatchCreateImagesBatchResults{br, len(arg), false}
+}
+
+func (b *BatchCreateImagesBatchResults) Exec(f func(int, error)) {
+	defer b.br.Close()
+	for t := 0; t < b.tot; t++ {
+		if b.closed {
+			if f != nil {
+				f(t, ErrBatchAlreadyClosed)
+			}
+			continue
+		}
+		_, err := b.br.Exec()
+		if f != nil {
+			f(t, err)
+		}
+	}
+}
+
+func (b *BatchCreateImagesBatchResults) Close() error {
+	b.closed = true
+	return b.br.Close()
+}
+
 const batchCreateProductSkus = `-- name: BatchCreateProductSkus :batchexec
 INSERT INTO product_skus (
     product_id,

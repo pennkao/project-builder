@@ -13,6 +13,7 @@ func Cross(r *gin.Engine) {
         AllowOrigins: []string{
             "http://localhost:3000",     // React 默认端口
             "http://127.0.0.1:3000",
+            "http://127.0.0.1:5174",
             "http://localhost:5173",     // Vite 默认端口
             "https://yourdomain.com",    // 生产环境域名
         },
@@ -29,6 +30,7 @@ func Cross(r *gin.Engine) {
             "Accept",
             "Authorization",
             "X-Requested-With",
+			"X-Requested-Time",
         },
 
         // 是否允许携带凭证（cookies、authorization headers 等）

@@ -12,3 +12,16 @@ export function obj2Array(obj: Record<string, string>) {
 export function array2Obj(arr: Record<string, string>[]) {
     return Object.fromEntries(arr.map(({ name, value }) => [name, value]));
 }
+
+// utils/isUrl.ts
+export function isValidUrl(str: string): boolean {
+    try {
+        // 如果没有协议头，自动补全 https://（可选）
+        const urlStr = str.trim();
+        if (!urlStr) return false;
+        new URL(urlStr);
+        return true;
+    } catch {
+        return false;
+    }
+}

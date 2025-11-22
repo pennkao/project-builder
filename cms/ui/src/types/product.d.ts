@@ -49,6 +49,7 @@ interface ProductType {
 
 interface ProductItemType {
     id: number;
+    handle: string;
     name: string;
     category: string;
     brand: string;

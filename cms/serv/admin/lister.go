@@ -2,6 +2,8 @@ package admin
 
 import (
 	"context"
+	"fmt"
+	"log"
 
 	"github.com/cms/admin/dto/hp"
 	"github.com/cms/admin/dto/hq"
@@ -28,6 +30,7 @@ func (t *Cms) Lister(c *gin.Context) {
 	case "images":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "cts")
 			t.QueryImagestList(c.Request.Context(), where,fullWhere, args, page)
+			fmt.Println(page)
 			hp.Success[any](c, page)
 	default:
 		hp.Error[any](c, "Not Found")
@@ -37,11 +40,14 @@ func (t *Cms) Lister(c *gin.Context) {
 func (t *Cms) QueryProductList(ctx context.Context, where,fullWhere string, args []interface{}, page *com.PageResponse) {
 		count, err := t.Q.QueryProductCount(ctx, where, args)
 		if err != nil || count<=0 {
+			
+			log.Println(err)
 			return
 		}	
 
 		data,err:=t.Q.QueryProductList(ctx, fullWhere , args)
 		if err!= nil{
+			log.Println(err)
 			return
 		}
 		page.SetTotal(int(count)) // 设置总记录数
@@ -52,11 +58,13 @@ func (t *Cms) QueryProductList(ctx context.Context, where,fullWhere string, args
 func (t *Cms) QueryImagestList(ctx context.Context, where,fullWhere string, args []interface{}, page *com.PageResponse) {
 		count, err := t.Q.QueryImageCount(ctx, where, args)
 		if err != nil || count<=0 {
+			log.Println(err)
 			return
 		}	
 
 		data,err:=t.Q.QueryImageList(ctx, fullWhere , args)
 		if err!= nil{
+			log.Println(err)
 			return
 		}
 		page.SetTotal(int(count)) // 设置总记录数

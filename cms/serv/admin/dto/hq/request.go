@@ -81,3 +81,7 @@ type SkuItemReq struct {
 	Status    int16          `json:"status"`
 	Stored    int16          `json:"stored"`
 }
+
+type ImagesReq struct {
+	Images      []string `json:"images"`
+}
