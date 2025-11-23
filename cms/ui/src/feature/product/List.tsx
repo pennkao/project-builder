@@ -50,21 +50,20 @@ export default function Products() {
                         size="sm"
                         className="ml-2"
                         onClick={() => {
-                            Delete(item?.id || 0); // TODO: delete product
+                            // Delete(item?.id || 0); // TODO: delete product
                         }}
                     >
-                        Delete
+                        Import
                     </Button>
-
                     <Button
                         variant="outline"
                         size="sm"
                         className="ml-2"
                         onClick={() => {
-                            // Delete(item?.id || 0); // TODO: delete product
+                            Delete(item?.id || 0); // TODO: delete product
                         }}
                     >
-                        Import
+                        Delete
                     </Button>
                 </div>
             ),

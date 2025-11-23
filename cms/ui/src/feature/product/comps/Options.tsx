@@ -1,19 +1,15 @@
 import { Input } from '@/components/Basic/Input';
-import { CloseButton } from '@/components/elements';
-import { Card } from '@/feature/common/layout';
-
 import ContentCard from '@/components/common/ContentCard';
 import { Confirm, TagInput } from '@/components/composed';
-import Label from '@/components/elements/Label';
-import RadioSm from '@/components/elements/RadioSm';
+import { CloseButton, Label, RadioSm } from '@/components/elements';
 import Loading from '@/components/Loading/Loading';
 import { defaultSku } from '@/defaults/product';
+import { Card } from '@/feature/common/layout';
 import { PencilIcon, RefreshIcon } from '@/icons';
-import { makeSkuListByAttrs } from '@/utils/attrs';
-import { isrc } from '@/utils/image';
-import { formartValue, keyDownNumberInput } from '@/utils/product';
+import { formartValue, isrc, keyDownNumberInput } from '@/utils';
 import { Md5 } from 'ts-md5';
 import { ProductContext } from '../context';
+import { makeSkuListByAttrs } from '../utils/attrs';
 
 import { Activity, useContext, useEffect, useRef, useState } from 'react';
 

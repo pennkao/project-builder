@@ -33,12 +33,6 @@ const Reviews = () => {
     };
     const productColumns: ListColumn<ProductItemType>[] = [
         {
-            key: 'index',
-            label: '',
-            sortable: false,
-        },
-
-        {
             key: 'name',
             label: 'Product',
             sortable: true,

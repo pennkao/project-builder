@@ -37,12 +37,3 @@ export function makeNetImage(url: string, fileName: string): ImageItemType {
 
     return imageItem;
 }
-
-// interface ImageItemType {
-//     id: string; // 唯一标识
-//     status: ImageStatusType; // 上传状态
-//     url?: string; // 网络图片地址（上传后）
-//     preview?: string; // 预览图（本地 file 创建的 ObjectURL 或网络缩略图）
-//     file?: File; // 本地文件（File对象），网络图片可以不填
-//     fileType?: string; // 文件类型，如 image/png
-// }

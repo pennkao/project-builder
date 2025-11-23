@@ -4,7 +4,7 @@ import { Button } from '@/components/elements';
 import { Card } from '@/feature/common/layout';
 
 import { TrashIcon, UploadFileIcon } from '@/icons';
-import { isrc, makeLocalImage, makeNetImage } from '@/utils/image';
+import { isrc, makeLocalImage, makeNetImage } from '@/utils';
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';

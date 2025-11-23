@@ -140,7 +140,7 @@ export function useBatchPost() {
             if (json.code !== 0) {
                 throw new Error(json.message || 'api error!');
             }
-            if (callback){
+            if (callback) {
                 if (json.data) {
                     callback(json.data);
                 } else {

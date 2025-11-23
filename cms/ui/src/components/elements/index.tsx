@@ -12,7 +12,7 @@ export { default as Image } from './Image';
 export { default as Input } from './InputField';
 export { default as Label } from './Label';
 export { default as Radio } from './Radio';
-export { default as RadioSelect } from './RadioSm';
+export { default as RadioSelect, default as RadioSm } from './RadioSm';
 export { default as Switch } from './Switch';
 export * from './Table';
 export { default as TextArea } from './TextArea';
