@@ -69,10 +69,6 @@ export function usePost<T = any>(api: string) {
                 credentials: 'include',
                 body: params ? JSON.stringify(params) : '{}',
             });
-            console.log({
-                'Content-Type': 'application/json',
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            });
             if (!res.ok) {
                 const text = await res.text().catch(() => '');
                 throw new Error(`HTTP ${res.status}: ${text}`);
