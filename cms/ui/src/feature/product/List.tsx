@@ -5,7 +5,6 @@ import { DownloadIcon, FilterIcon, PlusIcon } from '@/icons';
 import { isrc } from '@/utils/image';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
-
 import { Link, useNavigate } from 'react-router';
 import { StatusLabel } from './comps';
 import { useProductList } from './hooks';
@@ -77,6 +76,7 @@ export default function Products() {
                 <Button endIcon={<DownloadIcon className="w-5 h-5" />} variant="outline">
                     Export
                 </Button>
+
                 <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-product')}>
                     Add Product
                 </Button>

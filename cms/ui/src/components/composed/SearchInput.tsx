@@ -1,4 +1,4 @@
-import Input from '@/components/form/input/InputField';
+import Input from '@/components/elements/InputField';
 import { SearchIcon } from '@/icons';
 
 interface SearchInputProps {

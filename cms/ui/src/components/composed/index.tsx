@@ -1,5 +1,10 @@
 export { default as Confirm } from './Confirm';
+export { default as DatePicker } from './date-picker';
 export { default as ModalBase } from './ModalBase';
+export { default as MultiSelect } from './MultiSelect';
+export { default as PhoneInput } from './PhoneInput';
 export { default as Popover } from './Popover';
+export { default as SearchInput } from './SearchInput';
+export { default as Select } from './Select';
 export { default as TagInput } from './TagInput';
 export { default as TextTag } from './TextTag';

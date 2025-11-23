@@ -1,5 +1,5 @@
 import { ModalBase } from '@/components/composed';
-import Label from '@/components/form/Label';
+import Label from '@/components/elements/Label';
 import { isrc } from '@/utils/image';
 import { useState } from 'react';
 import { useImages } from '../hooks/useImages';

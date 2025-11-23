@@ -1,11 +1,11 @@
-import CloseButton from '@/components/Basic/CloseButton';
 import { Input } from '@/components/Basic/Input';
+import { CloseButton } from '@/components/elements';
 import { Card } from '@/feature/common/layout';
 
 import ContentCard from '@/components/common/ContentCard';
 import { Confirm, TagInput } from '@/components/composed';
-import RadioSm from '@/components/form/input/RadioSm';
-import Label from '@/components/form/Label';
+import Label from '@/components/elements/Label';
+import RadioSm from '@/components/elements/RadioSm';
 import Loading from '@/components/Loading/Loading';
 import { defaultSku } from '@/defaults/product';
 import { PencilIcon, RefreshIcon } from '@/icons';

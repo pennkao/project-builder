@@ -1,4 +1,4 @@
-import CloseButton from '@/components/Basic/CloseButton';
+import CloseButton from '@/components/elements/CloseButton';
 const TextTag = ({ tag, onRemove, disabled }: { disabled?: boolean; tag: string; onRemove: (tag: string) => void }) => {
     if (!tag) return null;
     if (disabled) {

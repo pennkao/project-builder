@@ -1,7 +1,7 @@
-import Label from '@/components/form/Label';
-import Checkbox from '@/components/form/input/Checkbox';
-import Input from '@/components/form/input/InputField';
-import Button from '@/components/ui/button/Button';
+import { Button } from '@/components/elements';
+import Checkbox from '@/components/elements/Checkbox';
+import Input from '@/components/elements/InputField';
+import Label from '@/components/elements/Label';
 import { EyeCloseIcon, EyeIcon } from '@/icons';
 import { useState } from 'react';
 import { Link } from 'react-router';

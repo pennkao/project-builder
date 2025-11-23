@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/elements';
-import Checkbox from '@/components/form/input/Checkbox';
+import Checkbox from '@/components/elements/Checkbox';
 import { FieldSort } from '@/feature/common/list';
 import { sortItems } from '@/utils/sort';
 import { useMemo, useState } from 'react';

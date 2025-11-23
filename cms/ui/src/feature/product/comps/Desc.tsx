@@ -1,5 +1,5 @@
-import TextArea from '@/components/form/input/TextArea';
-import Label from '@/components/form/Label';
+import Label from '@/components/elements/Label';
+import TextArea from '@/components/elements/TextArea';
 import { Card } from '@/feature/common/layout';
 import { useState } from 'react';
 export default function ProductDescription() {

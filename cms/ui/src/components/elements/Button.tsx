@@ -11,7 +11,7 @@ interface ButtonProps {
     className?: string; // Disabled state
 }
 
-const Button: React.FC<ButtonProps> = ({ children, size = 'md', variant = 'primary', startIcon, endIcon, onClick, className = '', disabled = false }) => {
+const Button = ({ children, size = 'md', variant = 'primary', startIcon, endIcon, onClick, className = '', disabled = false }: ButtonProps) => {
     // Size Classes
     const sizeClasses = {
         sm: 'px-4 py-3 text-sm',

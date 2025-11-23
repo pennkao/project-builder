@@ -1,12 +1,11 @@
 import { Input as InputField } from '@/components/Basic/Input';
-import Input from '@/components/form/input/InputField';
-import Label from '@/components/form/Label';
 import Loading from '@/components/Loading/Loading';
+import { Label,Input } from '@/components/elements';
 import { Card } from '@/feature/common/layout';
-import { ProductContext } from '../context';
 import { usePost } from '@/hooks/usePost';
 import { formartValue, formInput, genHandle, keyDownNumberInput } from '@/utils/product';
 import { useContext, useEffect } from 'react';
+import { ProductContext } from '../context';
 export default function ProductMain() {
     const context = useContext(ProductContext);
     if (!context) {

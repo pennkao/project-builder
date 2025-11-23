@@ -1,5 +1,4 @@
-import Input from '@/components/form/input/InputField';
-import Label from '@/components/form/Label';
+import { Input, Label } from '@/components/elements';
 import { defaultProductMain } from '@/defaults/product';
 import { Card } from '@/feature/common/layout';
 import { genHandle } from '@/utils/product';

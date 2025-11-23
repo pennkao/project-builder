@@ -1,5 +1,5 @@
+import { SearchInput } from '@/components/composed';
 import { Button, Image } from '@/components/elements';
-import SearchInput from '@/components/elements/SearchInput';
 import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
 import { List, Pagination } from '@/feature/common/list';
 import { isrc } from '@/utils/image';
