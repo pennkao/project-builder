@@ -2,7 +2,7 @@ import BaseImage from '@/components/BaseImage';
 
 import BackToTopButton from '@/components/BackToTopButton';
 import AppHeader from '@/features/app/AppHeader';
-import { usePost } from '@/hooks/usePost';
+import { doList } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
@@ -10,12 +10,20 @@ const HomePage = ({ data }: any) => {
     // const products = products2;
     const [products, setProducts] = useState<ProductItemType[]>([]);
     const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
-    
+
     const product = async () => {
-        usePost<ProductItemType[]>('products', (data) => {
-            setProducts(data);
+        doList<ProductItemType[]>('products', 1, (data) => {
+            console.log('doList', data);
+            if (data && data.length) {
+                setProducts(data);
+                console.log(data);
+            }
         });
     };
+
+    useEffect(()=>{
+        console.log(products);
+    },[products]);
 
     useEffect(() => {
         product();

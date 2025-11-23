@@ -6,7 +6,7 @@ import { discount, discountMoneyFormat, moneyFormat } from '@/utils/tools';
 import { t } from 'i18next';
 import { useEffect, useMemo, useState } from 'react';
 const FirstOrder = 3;
-export default function ProductSelector({ options, skus, action, product }: ProductSelectorProps) {
+export default function ProductSelector({ action, product }: ProductSelectorProps) {
     const [quantity, setQuantity] = useState(1);
     const { isLoading, DoJump, Loading } = useJump('product-selector', action);
 
@@ -19,14 +19,14 @@ export default function ProductSelector({ options, skus, action, product }: Prod
         nextDiscountNum: 0,
         paymentDiscount: 0.0,
     });
-    skus.sort((a, b) => a.price - b.price); // 按价格排序
-    const [selectedSKU, setSelectedSKU] = useState<SkuType>(skus[0]);
+    product.skus.sort((a, b) => a.price - b.price); // 按价格排序
+    const [selectedSKU, setSelectedSKU] = useState<SkuType>(product.skus[0]);
     const [sortedOptions, sortedAttrIds] = useMemo(() => {
         const attrIdSort = new Map<string, number>();
-        const newOptions = (options || []).sort((a, b) => a.sort - b.sort).filter((x) => x.values.length > 0);
+        const newOptions = (product.options || []).sort((a, b) => a.sort - b.sort).filter((x) => x.values.length > 0);
         newOptions.map((x) => attrIdSort.set(x.attr_id, x.sort));
         return [newOptions, attrIdSort];
-    }, [options]);
+    }, [product.options]);
     const [selectedValues, setSelecedValues] = useState<string[]>(Array.from({ length: sortedOptions.length }, () => ''));
 
     const handleOptionClick = (index: number, value_id: string, isSelected: boolean) => {
@@ -44,19 +44,19 @@ export default function ProductSelector({ options, skus, action, product }: Prod
     const [attr2SkuMap, attrHaveSku] = useMemo(() => {
         const map = new Map<string, SkuType>();
         let attrHaveSku = new Map<string, number>(); // key: "尺码S", value: Set["颜色红", "颜色蓝"]
-        skus.forEach((sku) => {
+        product.skus.forEach((sku) => {
             const attrKey = sku.attrs
                 .sort((a, b) => (sortedAttrIds.get(a.attr_id) || 0) - (sortedAttrIds.get(b.attr_id) || 0))
                 .map((x) => x.value_id)
                 .join('#');
             map.set(attrKey, sku);
-            sku.attrs.map((attr) => {
+            sku?.attrs.map((attr) => {
                 attrHaveSku.set(attr.value_id, 1);
             });
         });
 
         return [map, attrHaveSku];
-    }, [skus]); // ⚠️ 别忘了 sortAttributes 也在依赖中！
+    }, [product.skus]); // ⚠️ 别忘了 sortAttributes 也在依赖中！
 
     const isDisabled = (attr_id: string, value_id: string) => {
         const h = attrHaveSku.get(value_id);
@@ -71,7 +71,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
         const sku = productDefault?.sku as SkuType;
         if (productDefault) {
             setQuantity(productDefault?.quantity || 1);
-            setSelectedSKU(productDefault?.sku || skus[0]);
+            setSelectedSKU(productDefault?.sku || product.skus[0]);
             setSelecedValues(sku?.attrs?.sort((a, b) => (sortedAttrIds.get(a.attr_id) || 0) - (sortedAttrIds.get(b.attr_id) || 0)).map((x) => x.value_id) || []);
         }
     }, []);
@@ -80,12 +80,12 @@ export default function ProductSelector({ options, skus, action, product }: Prod
     useEffect(() => {
         for (let i = 0; i < selectedValues.length; i++) {
             if (selectedValues[i] === '') {
-                setSelectedSKU(skus[0]);
+                setSelectedSKU(product.skus[0]);
                 return;
             }
         }
         const attrKey = selectedValues.join('#');
-        setSelectedSKU(attr2SkuMap.get(attrKey) || skus[0]);
+        setSelectedSKU(attr2SkuMap.get(attrKey) || product.skus[0]);
     }, [selectedValues]);
 
     const handleSubmit = () => {
@@ -93,13 +93,13 @@ export default function ProductSelector({ options, skus, action, product }: Prod
             return;
         }
         const productSelected = {
-            productId: product.id,
-            name: product.name,
+            productId: product.main.id,
+            name: product.main.name,
             sku: selectedSKU,
             firstOrder: FirstOrder, // 首单优惠
             quantity: quantity,
             price: selectedSKU.price,
-            image: selectedSKU.image || skus[0].image,
+            image: selectedSKU.image || product.skus[0].image,
             total: discountValue.total, // 折扣后的总价
             discountValue: discountValue.discount,
             payAmount: discountValue.payAmount,
@@ -176,7 +176,7 @@ export default function ProductSelector({ options, skus, action, product }: Prod
                     {/* 第一行：图片 + 价格 + 数量 */}
                     <div className="flex items-center gap-3">
                         <div className="w-[120px] h-[120px]">
-                            <BaseImage src={selectedSKU.image || skus[0].image} isUrl={true} alt="product" className="w-[120px] h-[120px] object-cover rounded-md flex-shrink-0" />
+                            <BaseImage src={selectedSKU.image || product.skus[0].image} isUrl={true} alt="product" className="w-[120px] h-[120px] object-cover rounded-md flex-shrink-0" />
                         </div>
                         <div className="flex-1 flex flex-col justify-center h-full pr-2">
                             <div className="flex justify-start items-center text-sm pr-5">

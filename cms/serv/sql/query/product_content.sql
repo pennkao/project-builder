@@ -12,3 +12,5 @@ INSERT INTO product_content (
 -- name: UpdateProductContent :exec
 UPDATE product_content SET content = $2 WHERE product_id = $1;
 
+-- name: FetchProductContent :one
+SELECT content FROM product_content WHERE product_id = $1;

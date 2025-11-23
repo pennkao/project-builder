@@ -68,6 +68,19 @@ type ProductOption struct {
 	Uts       pgtype.Int8  `json:"uts"`
 }
 
+type ProductReview struct {
+	ProductID  int64       `json:"product_id"`
+	UserName   string      `json:"user_name"`
+	UserAvatar string      `json:"user_avatar"`
+	Title      string      `json:"title"`
+	Content    string      `json:"content"`
+	Rating     int16       `json:"rating"`
+	Images     []string    `json:"images"`
+	Sort       int16       `json:"sort"`
+	Status     int16       `json:"status"`
+	Cts        pgtype.Int8 `json:"cts"`
+}
+
 type ProductSku struct {
 	ID        int64          `json:"id"`
 	ProductID int64          `json:"product_id"`

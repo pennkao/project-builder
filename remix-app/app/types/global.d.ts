@@ -47,20 +47,6 @@ interface ProductItemType {
     stock: number;
 }
 
-interface ProductOptionType {
-    sort: number;
-    label: string;
-    values?: string[];
-}
-
-interface SKUType {
-    id: string;
-    url: string;
-    price: number;
-    stock: number;
-    attributes: Record<string, string>; // e.g. { 尺码: "M", 颜色: "红" }
-}
-
 interface DiscountInfoType {
     discount: number;
     total: number;
@@ -168,6 +154,15 @@ interface CrypoType {
     confirmTime: number; // 确认时间
 }
 
+interface ProductType {
+    main: ProductMainType;
+    skus: SkuType[];
+    options: AttrType[];
+    videos: string[];
+    images: string[];
+    specs: Record<string, string>;
+}
+
 interface ProductMainType {
     handle: string;
     id: number;
@@ -178,12 +173,14 @@ interface ProductMainType {
     stock: number;
     tags: string[];
 }
-interface ProductDetailsType {
-    images: string[];
-    videos: string[];
-    specs: string[];
-}
 
-interface ProductOptionsType {
-    options: AttrType[];
+interface ProductReview {
+    product_id: bigint; // 对应 products 表的 id
+    user_name: string; // 评论用户 ID
+    user_avatar: string; // 评论用户头像
+    title: string; // 评论标题，可选
+    content: string; // 评论正文
+    rating: number; // 评分，0-5 或者 0-10，取决于业务
+    images: string[]; // 评论图片 URL 数组
+    sort: number; // 排序字段
 }

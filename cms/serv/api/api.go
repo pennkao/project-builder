@@ -2,8 +2,6 @@
 package api
 
 import (
-	"fmt"
-
 	"github.com/cms/api/dto/resp"
 	"github.com/cms/db"
 	"github.com/gin-gonic/gin"
@@ -26,26 +24,24 @@ func NewApi(db *pgxpool.Pool, query *db.Queries) *API {
 func (t *API) Dispatcher(c *gin.Context) {
 	path := c.Param("path")
 	switch path {
-	case "products":
-		t.GetProductList(c)
+	case "product":
+		t.GetProduct(c)
+	case "content":
+		t.GetProductContent(c)
 	default:
-		resp.Error[any](c, "not found")
+		resp.Error[any](c, "")
 	}
 }
 
-func (t *API) DispatchDetail(c *gin.Context) {
-	fmt.Println("path", c.Param("path"))
+func (t *API) DispatchList(c *gin.Context) {
 	path := c.Param("path")
 	switch path {
-	case "product": 
-		t.GetProductByHandle(c)
-	case "product-detail":
-		t.GetProductDetails(c)
-		case "product-options":
-		t.GetProductOptions(c)
-		case "product-skus":
-			t.GetProductSkus(c)
+	case "products": 
+		t.GetProductList(c)
+	case "collections":
+		t.GetProductList(c)
 	default:
-		resp.Error[any](c, "not found111")
+		resp.Error[any](c, "")
 	}
 }
+

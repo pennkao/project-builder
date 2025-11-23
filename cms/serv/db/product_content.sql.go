@@ -28,6 +28,17 @@ func (q *Queries) CreateProductContent(ctx context.Context, arg CreateProductCon
 	return err
 }
 
+const fetchProductContent = `-- name: FetchProductContent :one
+SELECT content FROM product_content WHERE product_id = $1
+`
+
+func (q *Queries) FetchProductContent(ctx context.Context, productID int64) (string, error) {
+	row := q.db.QueryRow(ctx, fetchProductContent, productID)
+	var content string
+	err := row.Scan(&content)
+	return content, err
+}
+
 const getProductContent = `-- name: GetProductContent :one
 SELECT content FROM product_content WHERE product_id = $1
 `

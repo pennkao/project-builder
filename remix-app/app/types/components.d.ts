@@ -32,8 +32,8 @@ interface ComboBoxProps {
     className?: string;
 }
 interface ProductSelectorProps {
-    options: ProductAttrType;
-    skus: SkuType[];
+    // options: ProductAttrType;
+    // skus: SkuType[];
     action: (str: string) => void;
     product: ProductType;
 }

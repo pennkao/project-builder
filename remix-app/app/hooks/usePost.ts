@@ -14,8 +14,9 @@ export const usePost = async <T>(api: string, callback: (data: T) => void) => {
             callback(result.data as T);
         }
     } else {
-        console.error('CORS or Network Error', res);
+        // console.error('CORS or Network Error', res);
         const errorText = await res.text();
-        console.error('Error Text:', errorText);
+        console.log(errorText);
+        // console.error('Error Text:', errorText);
     }
 };

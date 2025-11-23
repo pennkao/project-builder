@@ -25,8 +25,8 @@ func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 	// 2️⃣ 前端接口，无需验证
 	frontend := r.Group("/api")
 	{
-		frontend.POST("/:path/:id",api.DispatchDetail)
-		frontend.POST("/:path", api.Dispatcher)
+		frontend.POST("/:path",api.DispatchList)
+		frontend.POST("/:path/:id",api.Dispatcher)
 	}
 
 	r.POST("/the-door/come-in", cms.Login)

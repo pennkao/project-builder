@@ -146,3 +146,18 @@ export const postalCodePatterns: Record<string, RegExp> = {
     AU: /^\d{4}$/, // Australia: 4位
     // New Zealand 可共用同规则: /^\d{4}$/
 };
+
+export function fnv1a32(handle: string): number {
+    let hash = 0x811c9dc5;
+    const prime = 0x01000193;
+    const encoder = new TextEncoder(); // ✅ 按 UTF-8 编码
+    const bytes = encoder.encode(handle); // Uint8Array
+
+    for (let i = 0; i < bytes.length; i++) {
+        hash ^= bytes[i];
+        hash = Math.imul(hash, prime); // ✅ 保持 32 位整数乘法
+        hash >>>= 0; // ✅ 保持无符号
+    }
+
+    return hash >>> 0;
+}
