@@ -22,6 +22,16 @@ type Image struct {
 	Cts         pgtype.Int8 `json:"cts"`
 }
 
+type Log struct {
+	ID     int64        `json:"id"`
+	Ukey   string       `json:"ukey"`
+	Source string       `json:"source"`
+	Ts     int64        `json:"ts"`
+	Fps    dbtypes.JSON `json:"fps"`
+	Ips    dbtypes.JSON `json:"ips"`
+	Cts    pgtype.Int8  `json:"cts"`
+}
+
 type Product struct {
 	ID         int64          `json:"id"`
 	Name       string         `json:"name"`

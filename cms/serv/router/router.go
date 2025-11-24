@@ -50,6 +50,7 @@ func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 		if strings.HasPrefix(path, "/api/") {
 			c.String(http.StatusNotFound, "404 Not Found")
 			c.Abort()
+			return
 		}
 		c.String(http.StatusNotFound, "404 Not Found")
 		c.Abort()

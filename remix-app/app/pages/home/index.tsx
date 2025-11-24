@@ -13,17 +13,13 @@ const HomePage = ({ data }: any) => {
 
     const product = async () => {
         doList<ProductItemType[]>('products', 1, (data) => {
-            console.log('doList', data);
             if (data && data.length) {
                 setProducts(data);
-                console.log(data);
+            
             }
         });
     };
 
-    useEffect(()=>{
-        console.log(products);
-    },[products]);
 
     useEffect(() => {
         product();
@@ -40,7 +36,7 @@ const HomePage = ({ data }: any) => {
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 auto-rows-min">
                     {products.map((product, idx) => (
                         <div key={product.handle} data-idx={idx} className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow duration-200 flex flex-col">
-                            <Link to={`/collections/${product.handle}`} className="flex flex-col">
+                            <Link to={`/products/${product.handle}`} className="flex flex-col">
                                 {/* 图片容器 */}
                                 <div className="relative w-full aspect-[1/1] min-h-[200px] overflow-hidden">
                                     <BaseImage src={product.main_image} alt={product.name} className="w-full h-full object-cover" isUrl={true} />

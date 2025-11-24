@@ -21,6 +21,8 @@ func NewApi(db *pgxpool.Pool, query *db.Queries) *API {
     }
 }
 
+
+// /:path/:id
 func (t *API) Dispatcher(c *gin.Context) {
 	path := c.Param("path")
 	switch path {
@@ -33,9 +35,12 @@ func (t *API) Dispatcher(c *gin.Context) {
 	}
 }
 
+// /:path
 func (t *API) DispatchList(c *gin.Context) {
 	path := c.Param("path")
 	switch path {
+	case "google":
+		t.CreateLogs(c)
 	case "products": 
 		t.GetProductList(c)
 	case "collections":

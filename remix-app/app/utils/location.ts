@@ -1,7 +1,4 @@
-import { collectFingerprint } from '@/utils/collection';
 import { DateTime } from 'luxon';
-
-
 
 export async function detect() {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -9,11 +6,6 @@ export async function detect() {
     const offset = new Date().getTimezoneOffset();
     const lang = Intl.NumberFormat().resolvedOptions().locale;
     console.log('lang', lang, 'offset', offset, 'tz', tz);
-    // WebRTC 获取公网IP（可选）
-    // const webrtcIp = await getWebRTCIP();
-    // console.log('webrtcIp', webrtcIp);
-    const fp = await collectFingerprint();
-    console.log(fp);
 
     const res = await fetch('/detect', {
         method: 'POST',
@@ -21,7 +13,7 @@ export async function detect() {
         headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
-    if (data.risk > 1) {
+    if (data?.risk > 1) {
         // window.location.href = "https://www.baidu.com";
     }
 }
@@ -37,7 +29,6 @@ export function calcTimezoneDiff(serverTz: string | undefined, offsetMinutes: nu
         const browserTime = nowUTC.minus({ minutes: offsetMinutes });
         // 差值（小时）
         const diff = Math.abs(serverTime.hour - browserTime.hour);
-        console.log('calcTimezoneDiff', serverTz, offsetMinutes, diff);
         return diff;
     } catch (e) {
         return 99;

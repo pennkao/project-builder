@@ -1,14 +1,10 @@
-const makeParams = (api: string, page?: number, id?: number) => {
+const makeParams = (api: string, page?: number, id?: number, body?: Record<string, any>) => {
     let url = `http://localhost:8080/api/${api}`;
 
-    if (id && id !== undefined) {
-        url += `/${id}`;
-    }
-    if (page && page !== undefined) {
-        url += `?page=${page}`;
-    }
+    if (id) url += `/${id}`;
+    if (page) url += `?page=${page}`;
 
-    const params = {
+    const params: RequestInit = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,7 +13,11 @@ const makeParams = (api: string, page?: number, id?: number) => {
         credentials: 'include',
     };
 
-    return [url, params];
+    if (body) {
+        params.body = JSON.stringify(body);
+    }
+
+    return [url, params] as const;
 };
 
 export const doList = async <T = any>(api: string, page: number, callback?: (data?: T) => void): Promise<T> => {
@@ -77,4 +77,8 @@ export const doGet = async <T = any>(api: string, id: number, callback?: (data?:
     } finally {
     }
     return null as T;
+};
+export const doPut = async (api: string, body: Record<string, any>) => {
+    const [url, params] = makeParams(api, undefined, undefined, body);
+    return fetch(url, params);
 };

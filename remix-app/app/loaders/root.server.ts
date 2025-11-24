@@ -13,7 +13,6 @@ export async function loader({ request }: { request: Request }) {
     if (!lang) {
         lang = 'en';
     }
-    console.log('lang', lang, '555');
     const serverI18n = await initServerI18n(lang);
 
     return {

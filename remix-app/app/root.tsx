@@ -1,12 +1,12 @@
 // app/root.tsx
+import Skeleton from '@/components/Skeleton';
 import { loader } from '@/loaders/root.server'; // ✅ 只引入函数
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { isRouteErrorResponse, Outlet, Scripts, ScrollRestoration } from 'react-router';
+import { isRouteErrorResponse, Outlet, Scripts, ScrollRestoration, useLoaderData, useLocation } from 'react-router';
 import type { Route } from './+types/root';
-
-import { useLoaderData } from 'react-router';
 import { Keys } from './config/keys';
+
 import i18n from './i18n';
 import styles from './main.css?url';
 export { loader }; // ✅ 让 Remix 识别 loader
@@ -14,6 +14,7 @@ export { loader }; // ✅ 让 Remix 识别 loader
 export default function App() {
     const { lang, resources } = useLoaderData<typeof loader>();
     const [ready, setReady] = useState(false); // 确保 i18n 初始化完成
+    const location = useLocation();
 
     useEffect(() => {
         // 初始化 i18n 资源
@@ -31,36 +32,41 @@ export default function App() {
         if (typeof window === 'undefined') return; // SSR 时跳过
     }, [lang, resources]);
 
-    useEffect(() => {
-        let cancelled = false;
-
-        // 延迟一点时间，避免与首屏加载竞争
-        setTimeout(() => {
-            const ip = localStorage.getItem(Keys.IP);
-            if (ip) {
-                return;
-            }
-            fetch('https://ipapi.co/json/')
-                .then((res) => res.json())
-                .then((data) => {
-                    if (cancelled) return;
-                    localStorage.setItem(Keys.IP, JSON.stringify(data));
-                    // console.log('ip location success, set cookie', data);
-                })
-                .catch(() => {
-                    // 不影响主页面
-                    // console.log('ip location failed, use default value');
-                });
-        }, 1000); // 延迟 0.5 秒加载
-
-        return () => {
-            cancelled = true;
-        };
-    }, []);
-
     if (!ready) {
         // i18n 还没准备好，避免渲染 Outlet 导致错误
-        return null;
+        if (location.pathname === '/') {
+            return (
+                <div className="space-y-1">
+                    <Skeleton className="w-full h-[84px]" />
+                    <Skeleton className="w-full h-[170px]" />
+                    <div className="grid grid-cols-2 p-2 gap-x-1 gap-y-25">
+                        <Skeleton className="w-[180px] h-[200px] rounded-md" />
+                        <Skeleton className="w-[180px] h-[200px] rounded-md" />
+                        <Skeleton className="w-[180px] h-[200px] rounded-md" />
+                        <Skeleton className="w-[180px] h-[200px] rounded-md" />
+                    </div>
+                </div>
+            );
+        }
+        if (location.pathname.startsWith('/products/')) {
+            return (
+                <div className="space-y-1 p-1">
+                    <Skeleton className="w-full h-[384px] rounded-md" />
+                    <div className="w-full h-[64px] px-5 flex justify-center gap-2">
+                        <Skeleton className="w-[64px] h-[64px] rounded-md" />
+                        <Skeleton className="w-[64px] h-[64px] rounded-md" />
+                        <Skeleton className="w-[64px] h-[64px] rounded-md" />
+                        <Skeleton className="w-[64px] h-[64px] rounded-md" />
+                    </div>
+
+                    <Skeleton className="w-full h-[64px] rounded-md" />
+                    <Skeleton className="w-full h-[73px] rounded-md" />
+                    <Skeleton className="w-full h-[67px] rounded-md" />
+                    <Skeleton className="w-full h-[40px] rounded-md" />
+                </div>
+            );
+        }
+        return <Skeleton className="w-full h-full" />;
     }
 
     return (
@@ -89,7 +95,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
     );
 }
 
-function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+function ErrorBoundary({ error }: { error: Error }) {
+    console.error(error);
+    return (
+        <div className="p-6 text-red-600">
+            <h2 className="text-xl font-bold">页面加载失败</h2>
+            <p>{error.message}</p>
+        </div>
+    );
+}
+
+function ErrorBoundary1({ error }: Route.ErrorBoundaryProps) {
     let message = 'Oops!';
     let details = 'An unexpected error occurred.';
     let stack: string | undefined;

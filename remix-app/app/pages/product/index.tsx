@@ -42,33 +42,15 @@ const ProductPage = ({ productData }: { productData: ProductType }) => {
         }
         // navigate('/checkout');
     };
-    async function getLocation() {
-        try {
-            const res = await fetch('https://ipapi.co/json/');
-            const data = await res.json();
-            console.log(data);
-            return {
-                country: data.country_code, // CN, US...
-                state: data.region_code, // 州/省缩写
-                city: data.city, // 城市
-            };
-        } catch (err) {
-            console.error('IP定位失败', err);
-            return null;
-        }
-    }
 
-    useEffect(() => {
-        getLocation();
-    }, []);
     return (
         <div className="bg-primary flex flex-col">
             <div className="h-96">
-                <SwiperImage images={productData.images} autoPlayInterval={4000} onIndexChange={setActiveIndex} className="rounded-lg min-h-[300px]" />
+                <SwiperImage images={productData?.images || []} autoPlayInterval={4000} onIndexChange={setActiveIndex} className="rounded-lg min-h-[300px]" />
             </div>
             <div className="h-1"></div>
             <div className="lg:h-28 h-16">
-                <ThumbGallery images={productData.images} activeIndex={activeIndex} onClick={setActiveIndex} />
+                <ThumbGallery images={productData?.images || []} activeIndex={activeIndex} onClick={setActiveIndex} />
             </div>
             <div className="p-1 py-1">
                 <ProductCard data={productData.main} />

@@ -33,8 +33,6 @@ export async function collectFingerprint() {
 
     const navigatorAny: any = navigator as any;
     const fingerprint: any = {
-        ts: Date.now(),
-
         // 浏览器 & 系统
         language: safeSync(() => navigator.language),
         languages: safeSync(() => navigator.languages),
