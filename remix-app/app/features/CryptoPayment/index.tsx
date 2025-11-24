@@ -26,20 +26,20 @@ const CryptoCheckout = ({ payment, onStatueChange }: { payment: string; onStatue
         });
     };
 
-    useEffect(() => {
-        fetch(`https://apilist.tronscanapi.com/api/token_trc20/transfers?toAddress=TDazU2DipEUuc9KjRE4A5STAxees4vQQd1&limit=5`, {
-            method: 'GET',
-            headers: {
-                'User-Agent': 'Mozilla/5.0',
-                Origin: 'https://tronscan.org',
-                Referer: 'https://tronscan.org/#/address/TDazU2DipEUuc9KjRE4A5STAxees4vQQd1',
-            },
-            mode: 'cors',
-        });
+    // useEffect(() => {
+    //     fetch(`https://apilist.tronscanapi.com/api/token_trc20/transfers?toAddress=TDazU2DipEUuc9KjRE4A5STAxees4vQQd1&limit=5`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'User-Agent': 'Mozilla/5.0',
+    //             Origin: 'https://tronscan.org',
+    //             Referer: 'https://tronscan.org/#/address/TDazU2DipEUuc9KjRE4A5STAxees4vQQd1',
+    //         },
+    //         mode: 'cors',
+    //     });
 
-        const num = localStorage.getItem(Keys.CheckPayNum);
-        if (num) setPaidNum(Number(num));
-    }, []);
+    //     const num = localStorage.getItem(Keys.CheckPayNum);
+    //     if (num) setPaidNum(Number(num));
+    // }, []);
 
     const handleSelectedCrypto = (cryptoType: CrypoType) => {
         setSelectedCrypto(cryptoType);

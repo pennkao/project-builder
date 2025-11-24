@@ -1,7 +1,8 @@
 // hooks/useElementVisibility.ts
 import LoadingOverlay from '@/components/LoadingOverlay';
 import { Keys } from '@/config/keys';
-import CryptoJS from 'crypto-js';
+import { hashString } from '@/utils/tools';
+// import { console } from 'inspector';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 export const useJump = (start: string, switcher?: (str: string) => void) => {
@@ -10,16 +11,14 @@ export const useJump = (start: string, switcher?: (str: string) => void) => {
 
     const DoJump = async () => {
         setIsLoading(true);
-        const hash = CryptoJS.MD5(new Date().toISOString().substring(0, 10)).toString();
-        // await new Promise((res) => setTimeout(res, 2000)); // 模拟等待2秒
+        const hash = await hashString(new Date().toISOString().substring(0, 10));
         setTimeout(() => {
-            console.log('timeout triggered');
-
             setIsLoading(false);
         }, 2000);
 
         if (start === 'product-selector') {
             const stored = localStorage.getItem(Keys.UseInfo);
+
             if (stored) {
                 navigate(`/checkout/${hash}`);
                 return;
@@ -39,7 +38,7 @@ export const useJump = (start: string, switcher?: (str: string) => void) => {
             switcher?.('');
             return;
         }
-        // navigate('/target');
+        navigate('/target');
     };
 
     const Loading = (

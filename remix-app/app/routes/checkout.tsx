@@ -12,7 +12,7 @@ export default function Checkout({ loaderData }: Route.ComponentProps) {
     const data = loaderData;
     return (
         <>
-            <CheckoutPage data={data} />
+            <CheckoutPage data={null} />
         </>
     );
 }

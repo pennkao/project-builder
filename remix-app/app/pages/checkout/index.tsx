@@ -74,11 +74,14 @@ const CheckoutPage = ({ data }: any) => {
                 setOrderHash(await hashString(s));
                 setFingerprint(s);
             } catch (e) {
-                console.error('Fingerprint error', e);
+                alert(e);
+                console.log('Fingerprint error', e);
             }
         };
-
-        loadFingerprint();
+        const uuid = localStorage.getItem(Keys.UUID);
+        if (!uuid) {
+            loadFingerprint();
+        }
     }, []);
 
     const handleOpen = () => {
@@ -158,7 +161,7 @@ const CheckoutPage = ({ data }: any) => {
         localStorage.removeItem(Keys.UseInfo);
     };
     const handleSubmit = async () => {
-        console.log(payment);
+        // console.log(payment);
         const ret = checkPayment(payment);
         if (!ret) return;
         SaveOrder();
@@ -216,7 +219,7 @@ const CheckoutPage = ({ data }: any) => {
             <Activity mode={isOpen ? 'visible' : 'hidden'}>
                 <div className="flex flex-row justify-start px-2 text-main gap-3">
                     <div className="w-32 h-32 p-3">
-                        <img src={isrc(checkoutData?.productDetail?.image)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
+                        <img src={isrc(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
                     </div>
                     <div className="flex-1 flex flex-col justify-center gap-2">
                         <div className="text-main">{checkoutData?.productDetail?.name}</div>
@@ -340,7 +343,7 @@ const CheckoutPage = ({ data }: any) => {
             <div className="h-2 "></div>
             <div className="flex flex-row justify-start px-2 text-main gap-3">
                 <div className="w-32 h-32 p-3">
-                    <img src={isrc(checkoutData?.productDetail?.image)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
+                    <img src={isrc(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
                 </div>
                 <div className="flex-1 flex flex-col justify-center gap-2">
                     <div>{checkoutData?.productDetail?.name}</div>

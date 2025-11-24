@@ -11,7 +11,6 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
 
 export default function Product({ loaderData }: Route.ComponentProps) {
     const data = loaderData;
-    console.log('detail:', data);
     return (
         <>
             <ProductPage productData={data} />

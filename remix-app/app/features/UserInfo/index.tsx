@@ -120,6 +120,7 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
             return;
         }
         if (!useInfoForm.email) {
+            alert(222222222);
             showMessageBox(t('message.error.invalid_email'), 'error', timeout);
             return;
         }
