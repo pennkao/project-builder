@@ -33,4 +33,5 @@ interface SkuType {
     price: number; // 价格
     image: string;
     attrs: SkuAttrType; // 属性引用
+    akey: string;
 }

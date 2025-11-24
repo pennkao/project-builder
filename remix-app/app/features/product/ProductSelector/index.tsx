@@ -19,9 +19,14 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
         nextDiscountNum: 0,
         paymentDiscount: 0.0,
     });
-    product.skus.sort((a, b) => a.price - b.price); // 按价格排序
+    if (product.skus.length > 1) {
+        product.skus.sort((a, b) => a.price - b.price); // 按价格排序
+    }
     const [selectedSKU, setSelectedSKU] = useState<SkuType>(product.skus[0]);
     const [sortedOptions, sortedAttrIds] = useMemo(() => {
+        if (!product.options || product.options.length === 0) {
+            return [[], new Map<string, number>()];
+        }
         const attrIdSort = new Map<string, number>();
         const newOptions = (product.options || []).sort((a, b) => a.sort - b.sort).filter((x) => x.values.length > 0);
         newOptions.map((x) => attrIdSort.set(x.attr_id, x.sort));
@@ -45,14 +50,19 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
         const map = new Map<string, SkuType>();
         let attrHaveSku = new Map<string, number>(); // key: "尺码S", value: Set["颜色红", "颜色蓝"]
         product.skus.forEach((sku) => {
-            const attrKey = sku.attrs
+            if (!sku.attrs || sku.attrs.length === 0 || sku.akey == 'default') {
+                return;
+            }
+            const attrKey = sku?.attrs
                 .sort((a, b) => (sortedAttrIds.get(a.attr_id) || 0) - (sortedAttrIds.get(b.attr_id) || 0))
                 .map((x) => x.value_id)
                 .join('#');
             map.set(attrKey, sku);
-            sku?.attrs.map((attr) => {
-                attrHaveSku.set(attr.value_id, 1);
-            });
+            if (sku.attrs.length > 0) {
+                sku?.attrs.map((attr) => {
+                    attrHaveSku.set(attr.value_id, 1);
+                });
+            }
         });
 
         return [map, attrHaveSku];
@@ -72,7 +82,9 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
         if (productDefault) {
             setQuantity(productDefault?.quantity || 1);
             setSelectedSKU(productDefault?.sku || product.skus[0]);
-            setSelecedValues(sku?.attrs?.sort((a, b) => (sortedAttrIds.get(a.attr_id) || 0) - (sortedAttrIds.get(b.attr_id) || 0)).map((x) => x.value_id) || []);
+            if (sku.attrs.length > 0) {
+                setSelecedValues(sku?.attrs?.sort((a, b) => (sortedAttrIds.get(a.attr_id) || 0) - (sortedAttrIds.get(b.attr_id) || 0)).map((x) => x.value_id) || []);
+            }
         }
     }, []);
 
@@ -190,11 +202,12 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                                 <div className="w-8 text-xs text-left text-tip ">{t('product.selected')}:</div>
                                 <div className="flex-1 text-xs min-w-0 text-left">
                                     <div className="flex flex-wrap gap-x-2 gap-y-1 break-words pr-2 text-tip overflow-hidden">
-                                        {selectedSKU.attrs.map((attr) => (
-                                            <span key={attr.value_id} className="whitespace-nowrap">
-                                                {`${attr.name}:${attr.value}`}
-                                            </span>
-                                        ))}
+                                        {selectedSKU.attrs.length > 0 &&
+                                            selectedSKU.attrs.map((attr) => (
+                                                <span key={attr.value_id} className="whitespace-nowrap">
+                                                    {`${attr.name}:${attr.value}`}
+                                                </span>
+                                            ))}
                                     </div>
                                 </div>
                             </div>

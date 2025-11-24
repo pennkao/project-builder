@@ -45,7 +45,7 @@ SELECT * FROM product_skus WHERE id = ANY($1::bigint[]);
 DELETE FROM product_skus WHERE product_id = $1 and id = ANY($2::bigint[]);
 
 -- name: FetchProductSkus :many
-SELECT id,product_id,name,image,price,attrs FROM product_skus WHERE product_id = $1;
+SELECT id,product_id,name,image,price,attrs,akey FROM product_skus WHERE product_id = $1;
 
 
 
