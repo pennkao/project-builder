@@ -31,7 +31,7 @@ const RichTextEditor = ({ url }: { url: string }) => {
                 icons_url: '/plugins/tinymce/icons/default/icons.min.js',
                 promotion: false,
                 branding: false,
-                height: 600,
+                height: 500,
                 menubar: false,
                 automatic_uploads: true, // 默认 true
                 image_caption: true,
@@ -50,8 +50,11 @@ const RichTextEditor = ({ url }: { url: string }) => {
                         lastModified: Date.now(),
                     });
                     const url = await doUpload(file); // 自定义上传处理函数
+                    if (progress) {
+                        progress(0);
+                    }
                     return url || '';
-                }, // 自定义上传处理函数
+                },
             }}
         />
     );

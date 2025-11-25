@@ -46,7 +46,6 @@ export default function Add() {
                         />
                         <Options selectedSkuImages={imagesChannel} onOpenSelected={(key) => openImageSelector(key)} />
                     </div>
-                    <div className="flex flex-col items-center justify-center gap-2 mt-6 bg-white p-4 rounded-lg">4444444444444</div>
                 </Content>
 
                 <Footer className="flex justify-end gap-2 ">
