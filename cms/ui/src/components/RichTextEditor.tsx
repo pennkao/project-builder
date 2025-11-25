@@ -1,8 +1,16 @@
 // src/components/RichTextEditor.jsx
 import { isrc } from '@/utils';
 import { Editor } from '@tinymce/tinymce-react';
+import { useEffect, useState } from 'react';
 
-const RichTextEditor = ({ url }: { url: string }) => {
+const RichTextEditor = ({ url, onChange, initData }: { url: string; onChange?: (newContent: string) => void; initData?: string }) => {
+    const [content, setContent] = useState(initData || '');
+    useEffect(() => {
+        if (initData) {
+            console.log('initData', initData);
+            setContent(initData);
+        }
+    }, [initData]);
     const doUpload = async (file: File) => {
         if (!file) {
             return;
@@ -26,6 +34,17 @@ const RichTextEditor = ({ url }: { url: string }) => {
     return (
         <Editor
             tinymceScriptSrc="/plugins/tinymce/tinymce.js"
+            value={content}
+            onEditorChange={(newContent) => {
+                setContent(newContent); // HTML
+                if (onChange) {
+                    onChange(newContent);
+                }
+                // console.log('HTML 内容:', newContent);
+
+                // const plain = editor.getContent({ format: 'text' });
+                // console.log('纯文本:', plain);
+            }}
             init={{
                 skin_url: '/plugins/tinymce/skins/ui/oxide',
                 icons_url: '/plugins/tinymce/icons/default/icons.min.js',

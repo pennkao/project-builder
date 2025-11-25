@@ -36,6 +36,7 @@ export function useProductSave(productId: number, productData: ProductType, prod
         // return;
         const res = await doBatchPost([
             Params('add-product', { params: formatNumbers(productData.main) }),
+            Params('add-product-content', { params: { product_id: id, content: productData.content } }),
             Params('add-product-details', { params: { product_id: id, images: Array.from(new Set(productData.images)), videos: [], specs: {} } }),
             Params('add-product-skus', { params: { product_id: id, skus: formatNumbers(productData.skus) } }),
             Params('add-product-options', { params: { product_id: id, options: productData.options } }),
@@ -67,6 +68,7 @@ export function useProductSave(productId: number, productData: ProductType, prod
         }
         const res = await doBatchPost([
             Params('update-product', { params: formatNumbers(productData.main) }),
+            Params('update-product-content', { params: { product_id: productId, content: productData.content } }),
             Params('update-product-details', { params: { product_id: productId, images: Array.from(new Set(productData.images)), videos: [], specs: {} } }),
             Params('update-product-skus', { params: { product_id: productId, skus: formatNumbers(productData.skus) } }),
             Params('update-product-options', { params: { product_id: productId, options: productData.options } }),

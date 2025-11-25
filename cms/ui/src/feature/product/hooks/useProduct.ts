@@ -45,8 +45,9 @@ export function useProduct(productId: number) {
                     setInitByKey('images', res.images);
                 }),
                 Params('fetch', { params: { id: productId, target: 'product-content' } }, (res) => {
-                    setByKey('content', res.content);
-                    setInitByKey('content', res.content);
+                    console.log('product-content', res);
+                    setByKey('content', res);
+                    setInitByKey('content', res);
                 }),
             ]);
         }

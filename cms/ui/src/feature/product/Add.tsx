@@ -33,7 +33,13 @@ export default function Add() {
                     <div className="space-y-6">
                         <Product />
                         <Seo />
-                        <RichTextEditor  url={config.apiBaseUrl + 'file/upload'} />
+                        <RichTextEditor
+                            url={config.apiBaseUrl + 'file/upload'}
+                            onChange={(value) => {
+                                setProductData({ ...productData, content: value });
+                            }}
+                            initData={productDataInit.content}
+                        />
                     </div>
                     <div className="space-y-6">
                         <ImageUploder
