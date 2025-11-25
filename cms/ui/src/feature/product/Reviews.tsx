@@ -4,6 +4,7 @@ import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
 import { List, Pagination } from '@/feature/common/list';
 import { isrc } from '@/utils/image';
 import { formatDate } from '@fullcalendar/core/index.js';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { StatusLabel } from './comps';
 import { useProductList } from './hooks';
@@ -18,14 +19,16 @@ export type ListColumn<T> = {
 };
 
 const Reviews = () => {
-    const { result, setParamFilter, setPage } = useProductList();
+    const { result, setParamFilter } = useProductList();
 
+    const [search, setSearch] = useState('');
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            // setParamFilter([{ field: 'name', operator: 'like', value: search }]);
+            setParamFilter([{ field: 'name', operator: 'like', value: search }]);
         }
     };
     const handleDelete = (id: number) => {
+        console.log(id);
         // setResult((prev) => ({
         //     ...prev,
         //     list: prev.list.filter((item) => item.id !== id),
@@ -79,7 +82,7 @@ const Reviews = () => {
                 <Button variant="primary">Add Product</Button>
             </Header>
             <Action>
-                <SearchInput value={''} onKeyDown={handleKeyDown} onChange={(e) => {}} />
+                <SearchInput value={''} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
                 <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
                     Filter
                 </Button>

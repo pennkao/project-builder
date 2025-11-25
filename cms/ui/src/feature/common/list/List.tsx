@@ -14,10 +14,9 @@ export interface ListColumn<T> {
 interface ListProps<T> {
     items: T[];
     fields: ListColumn<T>[];
-    onDelete?: (id: number) => void; // 可选操作
     rowKey?: keyof T; // 用于 TableRow key
 }
-const List = <T extends { id: number }>({ items = [], fields = [], onDelete, rowKey = 'id' as keyof T }: ListProps<T>) => {
+const List = <T extends { id: number }>({ items = [], fields = []}: ListProps<T>) => {
     const [sortingField, setSortingField] = useState<{ field: string; status: '' | 'asc' | 'desc' }>({ field: '', status: '' });
     const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({}); // Add this line
 

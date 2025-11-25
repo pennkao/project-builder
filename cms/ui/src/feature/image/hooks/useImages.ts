@@ -1,7 +1,7 @@
 import { defaultPageDataList } from '@/defaults';
 import { usePost } from '@/hooks/usePost';
-import { useEffect, useState } from 'react';
 import { isValidUrl } from '@/utils/tools';
+import { useEffect, useState } from 'react';
 export const useImages = () => {
     const [data, setData] = useState<PageListDataType<ImageType>>({ ...defaultPageDataList, size: 100 });
     const [page, setPage] = useState(1);
@@ -17,7 +17,9 @@ export const useImages = () => {
             params: { target: 'images' },
             querys: { page: page, size: 100 },
             callback: (res) => {
-                setData(res);
+                if (res) {
+                    setData(res);
+                }
             },
         });
     };

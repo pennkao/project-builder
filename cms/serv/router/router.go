@@ -16,11 +16,12 @@ func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 	r := gin.Default()
 	middle.Cross(r)
 		
-	// 1️⃣ 静态资源
+	// 1️⃣ 静态资源 开放
 	r.Static("/public",  "./public")
+
 	r.Static("/assets",  "./dist/assets")
 	r.Static("/images",  "./dist/images")
-	r.StaticFile("/favicon.png", "./dist/favicon.png")
+	r.Static("/plugins", "./dist/plugins")
 
 	// 2️⃣ 前端接口，无需验证
 	frontend := r.Group("/api")

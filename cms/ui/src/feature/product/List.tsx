@@ -87,7 +87,7 @@ export default function Products() {
                 </Button>
             </Action>
             <Content>
-                <List<ProductItemType> rowKey="id" fields={productColumns} items={result?.list || []} />
+                <List<ProductItemType> fields={productColumns} items={result?.list || []} />
             </Content>
             <Footer>
                 <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />

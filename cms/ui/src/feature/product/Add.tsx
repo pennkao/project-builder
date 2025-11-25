@@ -1,10 +1,10 @@
 import { Button } from '@/components/elements';
+import RichTextEditor from '@/components/RichTextEditor';
 import { config } from '@/config/config';
 import { Content, Footer, Page } from '@/feature/common/layout';
-import { ProductContext } from './context';
-
 import { useNavigate, useParams } from 'react-router';
 import { ImageSelector, ImageUploder, Options, Product, Seo } from './comps';
+import { ProductContext } from './context';
 import { useProduct, useProductImages, useProductSave } from './hooks';
 export default function Add() {
     const navigate = useNavigate();
@@ -33,6 +33,7 @@ export default function Add() {
                     <div className="space-y-6">
                         <Product />
                         <Seo />
+                        <RichTextEditor  url={config.apiBaseUrl + 'file/upload'} />
                     </div>
                     <div className="space-y-6">
                         <ImageUploder
