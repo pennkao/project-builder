@@ -51,6 +51,20 @@
     "product.tiered_discount_text": "再买{{num}}件,再减{{discount}}元",
     "product.continue": "继续",
     "product.pay_amount": "支付金额",
+
+    "product.detail.marketing.label1": "超值兑",
+    "product.detail.marketing.label2": "可积分抵扣",
+    "product.detail.marketing.limit": "限⚡兑换",
+    "product.detail.marketing.monthlySales": "🔥月热度{{sales_count}}万",
+    "product.detail.marketing.save": "积分已节省{{save}}元",
+
+    "product.detail.change-product": "兑换该商品",
+    "product.detail.title": "产品详情",
+    "product.detail.label": "消费提醒",
+    "product.detail.tips1": "1. 产品安全：请在使用前查看产品安全说明，确保符合使用要求。",
+    "product.detail.tips2": "2. 注意事项：在使用产品时，注意事项请参考使用说明。",
+    "product.detail.tips3": "3. 注意事项：在使用产品时，注意事项请参考使用说明。",
+
     "userinfo.email": "邮件",
     "userinfo.first_name": "姓",
     "userinfo.last_name": "名",

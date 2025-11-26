@@ -1,9 +1,10 @@
+import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 
 // 假设 ExchangeItem 已定义（或内联）
 const ExchangeItem = ({ name, phone, timeAgo }: { name: string; phone: string; timeAgo: string }) => (
     <div className="text-tip text-xs">
-        {name} {phone} {timeAgo} 兑换该商品
+        {name} {phone} {timeAgo} {t('product.detail.change-product')}
     </div>
 );
 
