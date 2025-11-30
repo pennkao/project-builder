@@ -8,7 +8,7 @@ export interface ListColumn<T> {
     key: string | keyof T;
     label?: string; // 表头
     sortable?: boolean; // 是否可排序
-    render?: (item?: T) => React.ReactNode; // 自定义单元格渲染
+    render?: (item?: T, index?: number) => React.ReactNode; // 自定义单元格渲染
     className?: string;
 }
 interface ListProps<T> {
@@ -16,7 +16,7 @@ interface ListProps<T> {
     fields: ListColumn<T>[];
     rowKey?: keyof T; // 用于 TableRow key
 }
-const List = <T extends { id: number }>({ items = [], fields = []}: ListProps<T>) => {
+const List = <T extends { id: number }>({ items = [], fields = [] }: ListProps<T>) => {
     const [sortingField, setSortingField] = useState<{ field: string; status: '' | 'asc' | 'desc' }>({ field: '', status: '' });
     const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({}); // Add this line
 
@@ -98,7 +98,7 @@ const List = <T extends { id: number }>({ items = [], fields = []}: ListProps<T>
                         </TableCell>
                         {fields.map((col, idx) => (
                             <TableCell key={idx} className={col?.className ? col.className : defaultClassName}>
-                                {col.render ? col.render(item) : (item[col.key as keyof typeof item] as any)}
+                                {col.render ? col.render(item, index) : (item[col.key as keyof typeof item] as any)}
                             </TableCell>
                         ))}
                     </TableRow>

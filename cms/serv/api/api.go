@@ -39,12 +39,16 @@ func (t *API) Dispatcher(c *gin.Context) {
 func (t *API) DispatchList(c *gin.Context) {
 	path := c.Param("path")
 	switch path {
+	case "orders":
+		t.CreateOrder(c)
 	case "google":
 		t.CreateLogs(c)
 	case "products": 
 		t.GetProductList(c)
 	case "collections":
 		t.GetProductList(c)
+	case "chat":
+		Chat(c)
 	default:
 		resp.Error[any](c, "")
 	}

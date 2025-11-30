@@ -1,25 +1,18 @@
 import { SearchInput } from '@/components/composed';
 import { Button, Image } from '@/components/elements';
 import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
-import { List, Pagination } from '@/feature/common/list';
+import { List, Pagination, type ListColumn } from '@/feature/common/list';
 import { isrc } from '@/utils/image';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { StatusLabel } from './comps';
-import { useProductList } from './hooks';
+import { useReviews } from './hooks';
 
 import { FilterIcon } from '@/icons';
-export type ListColumn<T> = {
-    key: keyof T | string; // 字段名或标识
-    label: string; // 列标题
-    sortable?: boolean; // 是否可排序
-    render?: (item?: T) => React.ReactNode; // 自定义单元格渲染
-    className?: string; // 可选样式
-};
 
 const Reviews = () => {
-    const { result, setParamFilter } = useProductList();
+    const { result, setParamFilter } = useReviews();
 
     const [search, setSearch] = useState('');
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -34,7 +27,7 @@ const Reviews = () => {
         //     list: prev.list.filter((item) => item.id !== id),
         // }));
     };
-    const productColumns: ListColumn<ProductItemType>[] = [
+    const productColumns: ListColumn<ProductReviewType>[] = [
         {
             key: 'name',
             label: 'Product',
@@ -48,16 +41,17 @@ const Reviews = () => {
                 </div>
             ),
         },
-        { key: 'category', label: 'Category', sortable: true },
-        { key: 'brand', label: 'Brand', sortable: true },
-        { key: 'price', label: 'Price', sortable: true },
-        { key: 'status', label: 'Status', sortable: false, render: (item?: ProductItemType) => <StatusLabel status={item?.status || 0} /> },
-        { key: 'cts', label: 'Date', sortable: false, render: (item?: ProductItemType) => formatDate(item?.cts || 0) },
+        { key: 'rating', label: 'Rating', sortable: true },
+        { key: 'total', label: 'Total', sortable: true },
+        { key: 'count', label: 'Count', sortable: true },
+        { key: 'avg', label: 'Avg', sortable: true },
+        { key: 'status', label: 'Status', sortable: false, render: (item?: ProductReviewType) => <StatusLabel status={item?.status || 0} /> },
+        { key: 'cts', label: 'Date', sortable: false, render: (item?: ProductReviewType) => formatDate(item?.cts || 0) },
         {
             key: 'action',
             label: 'Action',
             sortable: false,
-            render: (item?: ProductItemType) => (
+            render: (item?: ProductReviewType) => (
                 <div className="flex items-center gap-1">
                     <Link to={`/edit-product/${item?.id}`}>Edit</Link>
                     <Button
@@ -77,18 +71,18 @@ const Reviews = () => {
 
     return (
         <Page title="Reviews" showBackgroud={true}>
-            <Header title="Products" desc="Track your store's progress to boost your sales.">
+            <Header title="Reviews" desc="Track your store's progress to boost your sales.">
                 <Button variant="outline">Export</Button>
                 <Button variant="primary">Add Product</Button>
             </Header>
             <Action>
-                <SearchInput value={''} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
+                <SearchInput value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
                 <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
                     Filter
                 </Button>
             </Action>
             <Content>
-                <List<ProductItemType> rowKey="id" fields={productColumns} items={result?.list || []} />
+                <List<ProductReviewType> rowKey="id" fields={productColumns} items={result?.list || []} />
             </Content>
             <Footer>
                 <Pagination currentPage={1} totalCount={100} pageSize={10} onPageChange={() => {}} />

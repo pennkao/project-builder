@@ -11,6 +11,21 @@
     --font-brand: 'PingFang SC', 'Inter', sans-serif;
 }
 
+/* Chat bubble fade + slide animation */
+@keyframes chatMessage {
+    0% {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-chatIn {
+    animation: chatIn 0.22s ease-out;
+}
 
 /* ===== 定义 shimmer 动画 ===== */
 @keyframes shimmer {

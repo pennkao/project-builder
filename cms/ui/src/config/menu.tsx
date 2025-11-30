@@ -23,6 +23,7 @@ export const navItems: NavItem[] = [
             { name: 'Products', path: '/products-list' },
             { name: 'Add Product', path: '/add-product' },
             { name: 'Reviews', path: '/reviews' },
+            { name: 'Orders', path: '/orders' },
         ],
     },
     {
@@ -31,9 +32,9 @@ export const navItems: NavItem[] = [
         subItems: [{ name: 'Images', path: '/images' }],
     },
     {
-        name: 'Forms',
+        name: 'Logs',
         icon: <ListIcon />,
-        subItems: [{ name: 'Form Elements', path: '/form-elements' }],
+        subItems: [{ name: 'Site Logs', path: '/logs' }],
     },
     {
         name: 'Tables',

@@ -11,7 +11,50 @@ import (
 	"github.com/cms/dbtypes"
 )
 
-const createLog = `-- name: CreateLog :exec
+const baseLogsCountSql = `-- name: BaseLogsCountSql :one
+SELECT count(*) FROM logs
+`
+
+func (q *Queries) BaseLogsCountSql(ctx context.Context) (int64, error) {
+	row := q.db.QueryRow(ctx, baseLogsCountSql)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+const baseLogsListSql = `-- name: BaseLogsListSql :many
+SELECT id, ukey, source, ts, fps, ips, cts FROM logs
+`
+
+func (q *Queries) BaseLogsListSql(ctx context.Context) ([]Log, error) {
+	rows, err := q.db.Query(ctx, baseLogsListSql)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Log
+	for rows.Next() {
+		var i Log
+		if err := rows.Scan(
+			&i.ID,
+			&i.Ukey,
+			&i.Source,
+			&i.Ts,
+			&i.Fps,
+			&i.Ips,
+			&i.Cts,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const createLogs = `-- name: CreateLogs :exec
 INSERT INTO logs (
     ukey,
     source,
@@ -22,7 +65,7 @@ INSERT INTO logs (
 VALUES ($1, $2, $3, $4, $5)
 `
 
-type CreateLogParams struct {
+type CreateLogsParams struct {
 	Ukey   string       `json:"ukey"`
 	Source string       `json:"source"`
 	Ts     int64        `json:"ts"`
@@ -30,8 +73,8 @@ type CreateLogParams struct {
 	Ips    dbtypes.JSON `json:"ips"`
 }
 
-func (q *Queries) CreateLog(ctx context.Context, arg CreateLogParams) error {
-	_, err := q.db.Exec(ctx, createLog,
+func (q *Queries) CreateLogs(ctx context.Context, arg CreateLogsParams) error {
+	_, err := q.db.Exec(ctx, createLogs,
 		arg.Ukey,
 		arg.Source,
 		arg.Ts,

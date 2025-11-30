@@ -9,36 +9,39 @@ export const useJump = (start: string, switcher?: (str: string) => void) => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const DoJump = async () => {
+    const DoJump = async (orderId?: string) => {
         setIsLoading(true);
         const hash = await hashString(new Date().toISOString().substring(0, 10));
         setTimeout(() => {
             setIsLoading(false);
-        }, 2000);
 
-        if (start === 'product-selector') {
-            const stored = localStorage.getItem(Keys.UseInfo);
+            if (start === 'product-selector') {
+                const stored = localStorage.getItem(Keys.UseInfo);
 
-            if (stored) {
+                if (stored) {
+                    navigate(`/checkout/${hash}`);
+                    return;
+                }
+                switcher?.('tab2');
+                return;
+            }
+            if (start === 'checkout') {
+                if (!orderId) {
+                    return;
+                }
+                navigate(`/order-success/${orderId}`);
+                return;
+            }
+            if (start === 'user-info') {
                 navigate(`/checkout/${hash}`);
                 return;
             }
-            switcher?.('tab2');
-            return;
-        }
-        if (start === 'checkout') {
-            navigate(`/order-success/${hash}`);
-            return;
-        }
-        if (start === 'user-info') {
-            navigate(`/checkout/${hash}`);
-            return;
-        }
-        if (start === 'checkout-user-info') {
-            switcher?.('');
-            return;
-        }
-        navigate('/target');
+            if (start === 'checkout-user-info') {
+                switcher?.('');
+                return;
+            }
+            navigate('/target');
+        }, 1000);
     };
 
     const Loading = (

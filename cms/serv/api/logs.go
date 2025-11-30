@@ -12,7 +12,7 @@ import (
 var cache map[string]time.Time
 
 func (t *API) CreateLogs(c *gin.Context) {
-	var req db.CreateLogParams
+	var req db.CreateLogsParams
 	    if err := c.ShouldBindJSON(&req); err != nil {
         hp.Error[any](c,  err.Error()+"55555555555555")
         return
@@ -27,7 +27,7 @@ func (t *API) CreateLogs(c *gin.Context) {
 	// 	return
 	// }
 	// 从查询参数中获取产品 handle
-	err:=t.Q.CreateLog(c, req)
+	err:=t.Q.CreateLogs(c, req)
 	if err != nil {
 		log.Println(err)
 	}

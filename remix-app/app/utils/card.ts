@@ -1,5 +1,5 @@
 import cardValidator from 'card-validator';
-
+import { t } from 'i18next';
 export const formatExpireDateInput = (input: string) => {
     // 去掉非数字
     let v = input.replace(/\D/g, '');
@@ -37,26 +37,26 @@ export function checkExpiredDate(expiredAt: string): ErrorType {
     };
     expiredAt = expiredAt.trim().replace('/', '');
     if (expiredAt === '') {
-        result.message = '请输入有效日期';
+        result.message = t('message.card.invalidExpiry');
         return result;
     }
     if (expiredAt.length !== 4) {
-        result.message = '请输入4位有效日期';
+        result.message = t('message.card.invalidExpiry');
         return result;
     }
     if (parseInt(expiredAt.slice(0, 2)) > 12) {
-        result.message = '请输入正确的到期月';
+        result.message = t('message.card.invalidExpiry');
         return result;
     }
     console.log(new Date().getFullYear());
     if (parseInt(expiredAt.slice(2, 4)) < new Date().getFullYear() % 100) {
-        // result.message = '请输入正确的到期年';
-        // return result;
+        result.message = t('message.card.invalidExpiry');
+        return result;
     }
     const expValidation = cardValidator.expirationDate(expiredAt);
     console.log(expiredAt, expValidation);
     if (!expValidation.isValid) {
-        result.message = '请输入正确的到期日期';
+        result.message = t('message.card.invalidExpiry');
         return result;
     }
     result.result = true;
@@ -68,7 +68,7 @@ export function checkNumber(number: string): ErrorType {
     if (!numberValidation.isValid) {
         return {
             result: false,
-            message: '请输入正确的卡号',
+            message: t('message.card.invalidNumber'),
         };
     }
     return {
@@ -83,7 +83,7 @@ export function checkName(name: string): ErrorType {
     const trimmed = name.trim();
     let errorMessage: ErrorType = {
         result: false,
-        message: '请输入有效姓名',
+        message: t('message.card.invalidName'),
     };
     // 长度检查
     if (trimmed.length < 2 || trimmed.length > 35) {
@@ -109,9 +109,6 @@ export function checkName(name: string): ErrorType {
         if (trimmed.includes(word)) return errorMessage;
     }
 
-    // 至少两个单词
-    const parts = trimmed.split(/\s+/);
-    if (parts.length < 2) return errorMessage;
     return {
         result: true,
         message: '',
@@ -122,20 +119,20 @@ export function checkCvv(cvv: string): ErrorType {
     if (cvv.trim() === '') {
         return {
             result: false,
-            message: '请输入卡号CVC',
+            message: t('message.card.invalidCVC'),
         };
     }
     if (cvv.length < 3 || cvv.length > 4) {
         return {
             result: false,
-            message: '请输入正确的卡号CVC',
+            message: t('message.card.invalidCVC'),
         };
     }
     const numberValidation = cardValidator.cvv(cvv);
     if (!numberValidation.isValid) {
         return {
             result: false,
-            message: '请输入正确的卡号CVC',
+            message: t('message.card.invalidCVC'),
         };
     }
     return {

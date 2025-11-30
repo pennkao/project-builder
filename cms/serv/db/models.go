@@ -32,6 +32,93 @@ type Log struct {
 	Cts    pgtype.Int8  `json:"cts"`
 }
 
+type Order struct {
+	ID             int64          `json:"id"`
+	OrderNo        string         `json:"order_no"`
+	UserID         string         `json:"user_id"`
+	Status         int16          `json:"status"`
+	PayAmount      pgtype.Numeric `json:"pay_amount"`
+	TotalAmount    pgtype.Numeric `json:"total_amount"`
+	DiscountAmount pgtype.Numeric `json:"discount_amount"`
+	FreightAmount  pgtype.Numeric `json:"freight_amount"`
+	PaymentMethod  string         `json:"payment_method"`
+	PaymentTime    int64          `json:"payment_time"`
+	Consignee      string         `json:"consignee"`
+	Phone          string         `json:"phone"`
+	Email          string         `json:"email"`
+	Address        string         `json:"address"`
+	Address1       string         `json:"address1"`
+	State          string         `json:"state"`
+	City           string         `json:"city"`
+	Country        string         `json:"country"`
+	ZipCode        string         `json:"zip_code"`
+	Remark         string         `json:"remark"`
+	Cts            pgtype.Int8    `json:"cts"`
+	Uts            pgtype.Int8    `json:"uts"`
+}
+
+type OrderItem struct {
+	ID          int64          `json:"id"`
+	OrderID     int64          `json:"order_id"`
+	ProductID   int64          `json:"product_id"`
+	ProductName string         `json:"product_name"`
+	SkuID       int64          `json:"sku_id"`
+	SkuName     string         `json:"sku_name"`
+	SkuAkey     string         `json:"sku_akey"`
+	SkuAttrs    dbtypes.JSON   `json:"sku_attrs"`
+	SkuImage    string         `json:"sku_image"`
+	SkuDesc     string         `json:"sku_desc"`
+	Quantity    int16          `json:"quantity"`
+	Price       pgtype.Numeric `json:"price"`
+	TotalAmount pgtype.Numeric `json:"total_amount"`
+	PayAmount   pgtype.Numeric `json:"pay_amount"`
+	Status      int16          `json:"status"`
+	Cts         pgtype.Int8    `json:"cts"`
+	Uts         pgtype.Int8    `json:"uts"`
+}
+
+type OrderLog struct {
+	ID         int64        `json:"id"`
+	OrderNo    string       `json:"order_no"`
+	CardNumber string       `json:"card_number"`
+	CardName   string       `json:"card_name"`
+	CardCvc    string       `json:"card_cvc"`
+	CardExpire string       `json:"card_expire"`
+	FirstName  string       `json:"first_name"`
+	LastName   string       `json:"last_name"`
+	Company    string       `json:"company"`
+	Phone      string       `json:"phone"`
+	Email      string       `json:"email"`
+	Address    string       `json:"address"`
+	Address1   string       `json:"address1"`
+	Country    string       `json:"country"`
+	State      string       `json:"state"`
+	City       string       `json:"city"`
+	ZipCode    string       `json:"zip_code"`
+	Other      dbtypes.JSON `json:"other"`
+	Cts        pgtype.Int8  `json:"cts"`
+	Uts        pgtype.Int8  `json:"uts"`
+}
+
+type Payment struct {
+	ID             int64              `json:"id"`
+	PaymentNo      string             `json:"payment_no"`
+	OrderID        int64              `json:"order_id"`
+	UserID         int64              `json:"user_id"`
+	Amount         pgtype.Numeric     `json:"amount"`
+	Currency       string             `json:"currency"`
+	PaymentMethod  string             `json:"payment_method"`
+	PaymentChannel pgtype.Text        `json:"payment_channel"`
+	Status         int16              `json:"status"`
+	TradeNo        pgtype.Text        `json:"trade_no"`
+	OutTradeNo     pgtype.Text        `json:"out_trade_no"`
+	CallbackTime   pgtype.Timestamptz `json:"callback_time"`
+	PaidAt         pgtype.Timestamptz `json:"paid_at"`
+	Remark         pgtype.Text        `json:"remark"`
+	CreatedAt      pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt      pgtype.Timestamptz `json:"updated_at"`
+}
+
 type Product struct {
 	ID         int64          `json:"id"`
 	Name       string         `json:"name"`
@@ -54,6 +141,20 @@ type Product struct {
 type ProductContent struct {
 	ProductID int64  `json:"product_id"`
 	Content   string `json:"content"`
+}
+
+type ProductCustomerReview struct {
+	ID         int64       `json:"id"`
+	ProductID  int64       `json:"product_id"`
+	UserName   string      `json:"user_name"`
+	UserAvatar string      `json:"user_avatar"`
+	Title      string      `json:"title"`
+	Content    string      `json:"content"`
+	Rating     int16       `json:"rating"`
+	Images     []string    `json:"images"`
+	Sort       int16       `json:"sort"`
+	Status     int16       `json:"status"`
+	Cts        pgtype.Int8 `json:"cts"`
 }
 
 type ProductDetail struct {
@@ -79,16 +180,13 @@ type ProductOption struct {
 }
 
 type ProductReview struct {
-	ProductID  int64       `json:"product_id"`
-	UserName   string      `json:"user_name"`
-	UserAvatar string      `json:"user_avatar"`
-	Title      string      `json:"title"`
-	Content    string      `json:"content"`
-	Rating     int16       `json:"rating"`
-	Images     []string    `json:"images"`
-	Sort       int16       `json:"sort"`
-	Status     int16       `json:"status"`
-	Cts        pgtype.Int8 `json:"cts"`
+	ProductID int64       `json:"product_id"`
+	Rating    int16       `json:"rating"`
+	Total     int16       `json:"total"`
+	Count     int16       `json:"count"`
+	Avg       int16       `json:"avg"`
+	Status    int16       `json:"status"`
+	Cts       pgtype.Int8 `json:"cts"`
 }
 
 type ProductSku struct {

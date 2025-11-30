@@ -58,7 +58,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                 .map((x) => x.value_id)
                 .join('#');
             map.set(attrKey, sku);
-            if (sku.attrs.length > 0) {
+            if (sku && sku?.attrs.length > 0) {
                 sku?.attrs.map((attr) => {
                     attrHaveSku.set(attr.value_id, 1);
                 });
@@ -82,7 +82,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
         if (productDefault) {
             setQuantity(productDefault?.quantity || 1);
             setSelectedSKU(productDefault?.sku || product.skus[0]);
-            if (sku.attrs.length > 0) {
+            if (sku && sku?.attrs.length > 0) {
                 setSelecedValues(sku?.attrs?.sort((a, b) => (sortedAttrIds.get(a.attr_id) || 0) - (sortedAttrIds.get(b.attr_id) || 0)).map((x) => x.value_id) || []);
             }
         }

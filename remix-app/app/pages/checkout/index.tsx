@@ -9,20 +9,26 @@ import CryptoPayment from '@/features/CryptoPayment';
 import UserInfo from '@/features/UserInfo';
 import { useJump } from '@/hooks/useJump';
 import useMessageBox from '@/hooks/useMessageBox';
-import { collectFingerprint } from '@/utils/collection';
+import { doPut } from '@/utils/api';
+import { encryptData } from '@/utils/hash';
 import { isrc } from '@/utils/images';
-import { checkoutPayment, checkoutPaymentFormat, hashString } from '@/utils/tools';
+
+// 表单错误信息状态
+import { checkoutPayment, checkoutPaymentFormat } from '@/utils/tools';
 import { t } from 'i18next';
+// 表单数据状态
 import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
-    const [fingerprint, setFingerprint] = useState('');
-    const [orderHash, setOrderHash] = useState('');
-    const { isLoading, DoJump, Loading } = useJump('checkout-user-info');
-    const { DoJump: DoJumpSuccess } = useJump('checkout');
+    // const { DoJump } = useJump('checkout-user-info');
+    const { DoJump: DoJumpSuccess, Loading } = useJump('checkout');
+    // 安全码提示信息
     const crypt = paymentMethods.currentPyament === 'crypto';
+    const [errors, setErrors] = useState<CardErrorType>({ number: '', expiry: '', cvc: '', name: '' } as CardErrorType);
+
     // ✅ 明确类型
+    // 格式化过期日期输入的函数（已注释）
     const [checkoutData, setCheckoutData] = useState<{
         productDetail: any;
         userInfo: any;
@@ -32,8 +38,13 @@ const CheckoutPage = ({ data }: any) => {
     const creditCardPayment = paymentMethods.nomorl[0];
     const paypalPayment = paymentMethods.nomorl[1];
     const [payment, setPayment] = useState<PaymentMethod>(paymentMethods.currentPyament === 'crypto' ? paymentMethods.crypto : paymentMethods.nomorl[0]);
+    /**
+     * 处理输入框内容变化
+     * @param e - 输入框变化事件
+     */
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [bottomSheetOpen, setBottomSheetOpen] = useState<boolean>(false);
+    // 根据不同字段类型进行特殊处理
 
     const [shippings, setShippings] = useState<ShippingMethod[]>([]);
     const [ShippingMethod, setShippingMethod] = useState<ShippingMethod>(freeShipping);
@@ -66,22 +77,6 @@ const CheckoutPage = ({ data }: any) => {
         const code = userInfo?.country?.code as string; // TypeScript 编译器会自动推断出 `code` 的类型为 `string | undefined`
         const shippingOptions = getShippingOptions(code);
         setShippings(shippingOptions);
-
-        const loadFingerprint = async () => {
-            try {
-                const fp = await collectFingerprint();
-                let s = JSON.stringify(fp);
-                setOrderHash(await hashString(s));
-                setFingerprint(s);
-            } catch (e) {
-                alert(e);
-                console.log('Fingerprint error', e);
-            }
-        };
-        const uuid = localStorage.getItem(Keys.UUID);
-        if (!uuid) {
-            loadFingerprint();
-        }
     }, []);
 
     const handleOpen = () => {
@@ -95,7 +90,6 @@ const CheckoutPage = ({ data }: any) => {
     };
     useEffect(() => {
         if (!checkoutData?.productDetail?.total || !checkoutData?.productDetail?.payAmount) return;
-
         const calc = checkoutPayment(checkoutData?.productDetail?.total, checkoutData?.productDetail?.payAmount, payment, ShippingMethod.fee);
         setCalc(calc);
     }, [checkoutData, payment, ShippingMethod]);
@@ -130,21 +124,33 @@ const CheckoutPage = ({ data }: any) => {
         }
         return false;
     };
+    const randomInt = (min: number, max: number): number => {
+        if (min > max) {
+            [min, max] = [max, min];
+        }
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
 
     useEffect(() => {
         if (!isPay) return;
+        // localStorage.removeItem(Keys.UseInfo);
+
         setTimeout(() => {
-            SaveOrder();
-            DoJumpSuccess();
-        }, 1000);
+            const orderId = localStorage.getItem(Keys.UUID);
+            if (!orderId) {
+                // showMessageBox(t('message.error.order_id_not_found'), 'error', 2000);
+                return;
+            }
+            SaveOrder(orderId);
+            DoJumpSuccess(orderId);
+        }, 500);
     }, [isPay]);
 
-    const SaveOrder = () => {
+    const SaveOrder = (orderId: string) => {
         const data: OrderInfoType = {
-            OrderId: orderHash,
-            orderTime: new Date().toISOString(),
+            OrderId: orderId,
+            orderTime: new Date().getTime(),
             creditCard: cardNumber,
-            fingerprint: fingerprint,
             firstOrderDiscount: checkoutData?.productDetail?.firstOrder,
             paymentDiscountOrFee: calc.paymentDiscountOrFee,
             paymentFeeType: payment.key == 'credit-card' ? 'discount' : 'fee',
@@ -157,17 +163,41 @@ const CheckoutPage = ({ data }: any) => {
             payAmount: calc.payAmount,
             discount: checkoutData?.productDetail?.discountValue,
         };
-        localStorage.setItem(Keys.Order, JSON.stringify(data));
-        localStorage.removeItem(Keys.UseInfo);
+
+        const s = randomInt(0, orderId.length - 17);
+        const e = s + 16;
+
+        const encrypted = encryptData(data, orderId.slice(0, 17), orderId.slice(s, e));
+        const p = { order_id: orderId, uuid: encrypted, product: checkoutData?.productDetail, v: randomInt(0, orderId.length), f: randomInt(0, orderId.length), s: s, e: e };
+        doPut('orders', p);
+        localStorage.setItem(orderId, JSON.stringify(data));
     };
     const handleSubmit = async () => {
-        // console.log(payment);
         const ret = checkPayment(payment);
         if (!ret) return;
-        SaveOrder();
+
+        let ck = true;
+        Object.keys(errors).forEach((key) => {
+            const value = (errors as any)[key];
+            if (value !== '') {
+                showMessageBox(value, 'error', 2000);
+                ck = false;
+                return;
+            }
+        });
+
+        // if (!ck) return; //todo
+
+        const orderId = localStorage.getItem(Keys.UUID);
+        if (!orderId) {
+            showMessageBox(t('message.error.order_id_not_found'), 'error', 2000);
+            return;
+        }
+        //
+        SaveOrder(orderId);
         // DoJump();
         setIsPay(true);
-        // navigate('/order-success');
+        // navigate(`/order-success/${orderId}`);
     };
     const classPayment = payment.name == 'credit-card' ? 'border-1 rounded-b-xl bg-white border-main' : ' border-green-400 rounded-b-xl bg-green-50';
 
@@ -327,7 +357,7 @@ const CheckoutPage = ({ data }: any) => {
                 </div>
                 <Activity mode={payment.key === 'credit-card' || payment.key === 'crypto' ? 'visible' : 'hidden'}>
                     <div className="bg-card border-l-2 border-r-2 border-main pt-2">
-                        {!crypt && <PaymentForm onChange={setCardNumber} />}
+                        {!crypt && <PaymentForm onChange={setCardNumber} onErrors={(errors) => setErrors(errors)} />}
                         {crypt && <CryptoPayment payment={calc.payAmount.toFixed(2)} onStatueChange={onStatueChange} />}
                     </div>
                 </Activity>
@@ -403,7 +433,8 @@ const CheckoutPage = ({ data }: any) => {
                     {t('checkout.continue')}
                 </button>
             </div>
-            <div className="h-2 "></div>
+            <div className="h-2"></div>
+
             <BottomSheet open={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>
                 <div className="px-3 pt-2">
                     <UserInfo position="checkout-user-info" action={() => handleAction('ss')} buttonText={t('common.save')} />

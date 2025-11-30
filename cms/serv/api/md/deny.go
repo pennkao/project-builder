@@ -1,4 +1,4 @@
-package middle
+package md
 
 import (
 	"github.com/gin-gonic/gin"

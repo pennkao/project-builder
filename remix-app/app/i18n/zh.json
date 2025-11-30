@@ -134,6 +134,11 @@
     "message.error.invalid_phone": "请填写正确的电话号码。",
     "message.error.complete_payment_tips": "请完成支付",
 
+    "message.card.invalidNumber": "请输入有效卡号",
+    "message.card.invalidName": "请输入有效姓名",
+    "message.card.invalidCVC": "请输入卡号CVC",
+    "message.card.invalidExpiry": "请输入正确的过期日期",
+
     "hello": "欢迎使用我的 DApp",
 
     "welcome": "欢迎使用我的 DApp",

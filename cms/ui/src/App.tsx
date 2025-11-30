@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router';
 
 import { ScrollToTop } from '@/components/common/ScrollToTop';
 import LoadingPage from '@/components/Loading/LoadingPage';
+const Orders = lazy(() => import('./pages/Orders/Orders'));
 const Avatars = lazy(() => import('@/pages/UiElements/Avatars'));
 const Badges = lazy(() => import('@/pages/UiElements/Badges'));
 const Buttons = lazy(() => import('@/pages/UiElements/Buttons'));
@@ -15,7 +16,7 @@ const Calendar = lazy(() => import('@/pages/Calendar'));
 const BarChart = lazy(() => import('@/pages/Charts/BarChart'));
 const LineChart = lazy(() => import('@/pages/Charts/LineChart'));
 const Home = lazy(() => import('@/pages/Dashboard/Home'));
-const FormElements = lazy(() => import('@/pages/Forms/FormElements'));
+const Logs = lazy(() => import('@/pages/Logs/SiteLogs'));
 const BasicTables = lazy(() => import('@/pages/Tables/BasicTables'));
 const Alerts = lazy(() => import('@/pages/UiElements/Alerts'));
 const Images = lazy(() => import('@/pages/Images/Images'));
@@ -46,6 +47,14 @@ export default function App() {
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <Reviews />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/orders"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <Orders />
                                 </Suspense>
                             }
                         />
@@ -90,12 +99,12 @@ export default function App() {
                             }
                         />
 
-                        {/* Forms */}
+                        {/* Logs */}
                         <Route
-                            path="/form-elements"
+                            path="/logs"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
-                                    <FormElements />
+                                    <Logs />
                                 </Suspense>
                             }
                         />

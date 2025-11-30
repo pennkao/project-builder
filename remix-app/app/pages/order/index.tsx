@@ -1,23 +1,30 @@
-import { Keys } from '@/config/keys';
+import ChatWidget from '@/components/Chat/Chat';
+import { isrc } from '@/utils/images';
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-
-const OrderPage = ({ data }: any) => {
+const OrderPage = ({ orderId }: any) => {
     const navigate = useNavigate();
-
     const [orderInfo, setOrdrerInfo] = useState({} as OrderInfoType);
+    const [isOpen, setIsOpen] = useState(false);
     const [productSelected, setProductSelected] = useState<ProductSelectedType>({} as ProductSelectedType);
     useEffect(() => {
         // const userInfo = JSON.parse(localStorage.getItem(userInfoKey) || '{}');
-        const OrderInfo = JSON.parse(localStorage.getItem(Keys.Order) || '{}');
+        const orderInfoStr = localStorage.getItem(orderId);
+        if (!orderInfoStr) {
+            // navigate('/');
+        }
+        const OrderInfo = JSON.parse(orderInfoStr || '{}');
         if (!OrderInfo) {
             navigate('/');
         }
         setOrdrerInfo(OrderInfo);
     }, []);
+    const url = 'http://localhost:8080/api/upload';
     return (
         <div className="flex flex-col items-center justify-start bg-page w-full min-h-screen pt-1">
+            <ChatWidget clientId={orderId}  url={url} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+
             {/* 支付成功提示区 */}
             <div className="bg-container rounded-2xl  w-full max-w-3xl p-6 flex flex-col gap-4">
                 {/* 标题 */}
@@ -29,9 +36,11 @@ const OrderPage = ({ data }: any) => {
                 {/* 基本信息 */}
                 <div className="flex flex-col sm:flex-row justify-between text-sm text-gray-700 border-b border-gray-200 pb-3">
                     <span>
-                        {t('order.order_number')}：<strong>{orderInfo?.OrderId?.substring(0, 24) || ''}</strong>
+                        {t('order.order_number')}：<strong>{orderInfo?.OrderId?.substring(0, 16) || ''}</strong>
                     </span>
-                    <span>{t('order.order_time')}：{orderInfo?.orderTime?.substring(0, 10) || ''}</span>
+                    <span>
+                        {t('order.order_time')}：{new Date(orderInfo?.orderTime || 0).toISOString() || ''}
+                    </span>
                 </div>
 
                 {/* 收货信息 + 账单信息 */}
@@ -67,14 +76,13 @@ const OrderPage = ({ data }: any) => {
                         </div>
                     </div>
                 </div>
-
                 {/* 商品列表 */}
                 <div className="bg-card rounded-xl p-4 ">
                     <h3 className="text-title mb-3">{t('order.order_detail_text')}</h3>
                     <div className="divide-y divide-gray-200">
                         <div className="flex justify-between py-2">
                             <div className="flex items-center gap-3">
-                                <img src={orderInfo?.product?.sku?.url || ''} alt="" className="w-14 h-14 rounded-md object-cover" />
+                                <img src={isrc(orderInfo?.product?.sku?.image || null)} alt="" className="w-14 h-14 rounded-md object-cover" />
                                 <div>
                                     <p className="text-sm font-medium text-gray-800">{orderInfo?.product?.name || ''}</p>
                                     <p className="text-xs text-gray-500">
@@ -138,7 +146,7 @@ const OrderPage = ({ data }: any) => {
                 {/* 底部提示 */}
                 <div className="text-sm text-gray-500 text-center ">
                     <span>{t('order.question')}</span>
-                    <a href="/contact" className="text-blue-600 underline">
+                    <a href="#" className="text-blue-600 underline" onClick={() => setIsOpen(true)}>
                         {t('order.contact_customer_service')}
                     </a>
                     。

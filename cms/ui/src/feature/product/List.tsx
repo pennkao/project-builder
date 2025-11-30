@@ -69,6 +69,7 @@ export default function Products() {
             ),
         },
     ];
+
     return (
         <Page title="Product List" showBackgroud={true}>
             <Header title="Products" desc="Track your store's progress to boost your sales.">

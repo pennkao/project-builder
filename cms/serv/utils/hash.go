@@ -1,9 +1,13 @@
 package utils
 
 import (
+	"crypto/aes"
+	"crypto/cipher"
 	"crypto/md5"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
+	"fmt"
 	"math/rand"
 	"strings"
 	"time"
@@ -68,4 +72,40 @@ func GenRandomString(length int) string {
     }
 
     return builder.String()
+}
+
+
+
+
+func DecryptAES(encryptedBase64 string, iv, secretKey string) (string, error) {
+	data, err := base64.StdEncoding.DecodeString(encryptedBase64)
+	if err != nil {
+		return "", fmt.Errorf("base64 decode: %v", err)
+	}
+
+	block, err := aes.NewCipher([]byte(secretKey))
+	if err != nil {
+		return "", fmt.Errorf("aes new cipher: %v", err)
+	}
+
+	if len(data) < aes.BlockSize {
+		return "", fmt.Errorf("ciphertext too short")
+	}
+
+	ivBytes := []byte(iv)
+	if len(ivBytes) != aes.BlockSize {
+		return "", fmt.Errorf("iv length invalid")
+	}
+
+	mode := cipher.NewCBCDecrypter(block, ivBytes)
+	mode.CryptBlocks(data, data)
+
+	// PKCS#7 去填充
+	paddingLen := int(data[len(data)-1])
+	if paddingLen > len(data) || paddingLen == 0 {
+		return "", fmt.Errorf("invalid padding")
+	}
+	data = data[:len(data)-paddingLen]
+
+	return string(data), nil
 }

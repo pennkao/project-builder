@@ -3,8 +3,15 @@ import { useState } from 'react';
 import Cards from 'react-credit-cards-3';
 
 import 'react-credit-cards-3/dist/es/styles-compiled.css';
-const PaymentForm = ({ onChange }: { onChange: (state: CreditCardPaymentFormType) => void }) => {
+/**
+ * 支付表单组件
+ * @param onChange - 表单状态变化时的回调函数
+ * @param onErrors - 表单验证错误时的回调函数
+ */
+const PaymentForm = ({ onChange, onErrors }: { onChange: (state: CreditCardPaymentFormType) => void; onErrors: (errors: CardErrorType) => void }) => {
+    // 焦点字段状态
     const [focusedField, setFocusedField] = useState<Focused>('');
+    // 安全码可见性状态
     const [isVisible, setIsVisible] = useState(false);
     const [errors, setErrors] = useState<CardErrorType>({ number: '', expiry: '', cvc: '', name: '' });
 
@@ -18,15 +25,15 @@ const PaymentForm = ({ onChange }: { onChange: (state: CreditCardPaymentFormType
 usually found on the back of your card.
 American Express cards have a 4-digit code located on the front.`;
 
-    const formatExpireInput = (input: string) => {
-        // 去掉非数字
-        let v = input.replace(/\D/g, '');
-        // 限制为4位数字
-        if (v.length > 4) v = v.slice(0, 4);
-        // 自动插入 /
-        if (v.length > 2) v = `${v.slice(0, 2)}/${v.slice(2)}`;
-        return v;
-    };
+    // const formatExpireInput = (input: string) => {
+    //     // 去掉非数字
+    //     let v = input.replace(/\D/g, '');
+    //     // 限制为4位数字
+    //     if (v.length > 4) v = v.slice(0, 4);
+    //     // 自动插入 /
+    //     if (v.length > 2) v = `${v.slice(0, 2)}/${v.slice(2)}`;
+    //     return v;
+    // };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         if (name === 'expiry') {
@@ -68,23 +75,34 @@ American Express cards have a 4-digit code located on the front.`;
             case 'number':
                 const numberValidation = checkNumber(state.number);
                 error.number = numberValidation.message;
-                if (!numberValidation.result) setErrors(error);
+                if (!numberValidation.result) {
+                    setErrors(error);
+                    onErrors(error);
+                }
                 return;
             case 'expiry':
                 const expValidation = checkExpiredDate(state.expiry);
-                console.log(expValidation);
                 error.expiry = expValidation.message;
-                if (!expValidation.result) setErrors(error);
+                if (!expValidation.result) {
+                    setErrors(error);
+                    onErrors(error);
+                }
                 return;
             case 'cvc':
                 const cvcValidation = checkCvv(state.cvc);
                 error.cvc = cvcValidation.message;
-                if (!cvcValidation.result) setErrors(error);
+                if (!cvcValidation.result) {
+                    setErrors(error);
+                    onErrors(error);
+                }
                 return;
             case 'name':
                 const nameValidation = checkName(state.name);
                 error.name = nameValidation.message;
-                if (!nameValidation.result) setErrors(error);
+                if (!nameValidation.result) {
+                    setErrors(error);
+                    onErrors(error);
+                }
                 return;
             default:
                 break;
@@ -101,9 +119,6 @@ American Express cards have a 4-digit code located on the front.`;
         validateAll(e.target.name as Focused);
     };
 
-    const handleError = (name: Focused) => {
-        // return errors[name] !== '' ? errors[name] : '';
-    };
     const errorLineClassName = 'px-1 text-sm h-6 text-error';
     const className = 'w-full px-4 py-2 input-main';
 

@@ -59,6 +59,7 @@ export function discount(num: number, price: number, payment: string, other: num
 
     const paymentDiscount = payment === 'credit-card' ? total * 0.05 : 0;
     let payAmount = total - discount - paymentDiscount - other;
+    payAmount = payAmount < 0 ? 0 : payAmount;
     return {
         total,
         payAmount,

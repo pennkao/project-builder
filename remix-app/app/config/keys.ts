@@ -6,4 +6,5 @@ export const Keys = {
     CheckPayNum: '--google:vtx:crypt:num',
     Lang: '--google:vtx:lang',
     IP: '--google:vtx:ip',
+    ChatMsg: '--google:vtx:msg',
 };

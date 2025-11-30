@@ -126,7 +126,7 @@ type ShippingOptions = Record<string, ShippingMethod[]>;
 
 interface OrderInfoType {
     OrderId: string;
-    orderTime: string; // 订单时间
+    orderTime: number; // 订单时间
     shippingMethod: ShippingMethod;
     paymentMethod: PaymentMethod;
     product: ProductSelectedType;
@@ -137,7 +137,6 @@ interface OrderInfoType {
     paymentDiscountOrFee: number;
     payAmount: number;
     shippingFee: number; // 配送费
-    fingerprint: string;
     creditCard: CreditCardPaymentFormType;
     useInfo: UseInfoType; // 使用优惠信息
 }
