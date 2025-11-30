@@ -23,12 +23,11 @@ export function useWS(clientId: string, url?: string) {
         ws.current.onopen = () => {
             console.log('WS opened');
         };
-
     }, []);
 
-    function send(to: string, text: string) {
+    function send(to: string, text: string, type: 'text' | 'image' = 'text') {
         if (!ws.current || ws.current.readyState !== WebSocket.OPEN) return;
-        const msg = { from: clientId, url: '', source: role, to: to, text: text, type: 'text', ts: Date.now() } as MessageType;
+        const msg = { from: clientId, url: '', source: role, to: to, text: text, type: type, ts: Date.now() } as MessageType;
         ws.current.send(JSON.stringify(msg));
         msg.me = 1;
         setMessages((prev) => [...prev, msg]);

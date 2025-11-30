@@ -49,6 +49,8 @@ func Websocket(c *gin.Context) {
     for {
         _, msgBytes, err := conn.ReadMessage()
         if err != nil {
+			pool.Remove(conn.RemoteAddr().String())
+			broadcastClientsToAdmin()
             log.Println("connection closed:", err)
             break
         }
@@ -68,6 +70,7 @@ func Websocket(c *gin.Context) {
 		data, _ := sonic.Marshal(resp)
         // 如果是普通客户端，发送给所有 admin
         if source != "admin" {
+			pool.Upadte(conn.RemoteAddr().String())
 			admins.Broadcast(data)
         }else{
 			pool.SendTo(msg.To, data)
@@ -78,7 +81,11 @@ func Websocket(c *gin.Context) {
 
 func broadcastClientsToAdmin() {
     clientList := []*Client{}
-    for _, c := range pool.Pool {
+    for k, c := range pool.Pool {
+		if time.Until(c.T) > 30*time.Minute {
+			pool.Remove(k)
+			continue
+		}	
         clientList = append(clientList, c)
     }
 	var resp = RespMessage{

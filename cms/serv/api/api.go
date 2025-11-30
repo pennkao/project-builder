@@ -47,8 +47,6 @@ func (t *API) DispatchList(c *gin.Context) {
 		t.GetProductList(c)
 	case "collections":
 		t.GetProductList(c)
-	case "chat":
-		Chat(c)
 	default:
 		resp.Error[any](c, "")
 	}

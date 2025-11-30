@@ -13,6 +13,8 @@ export default function ChatWidget({ clientId, url, isOpen, onClose }: ChatWidge
     const { messages, send } = useWS(clientId);
     const [input, setInput] = useState('');
     const bottomRef = useRef<HTMLDivElement>(null);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
+
     const sendMessage = async () => {
         if (!input.trim()) return;
         // if (!url) return;
@@ -25,51 +27,55 @@ export default function ChatWidget({ clientId, url, isOpen, onClose }: ChatWidge
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    const handlePaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
-        const items = e.clipboardData?.items;
-        if (!items) return;
-
+    const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+        const items = e.clipboardData.items;
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             if (item.type.indexOf('image') !== -1) {
                 const file = item.getAsFile();
-                if (!file) continue;
-
-                // 上传图片
-                const formData = new FormData();
-                formData.append('file', file);
-
-                const res = await fetch('http://localhost:8080/api/upload', {
-                    method: 'POST',
-                    body: formData,
-                });
-                const data = await res.json();
-
-                // 把图片消息添加到聊天框
-                // setMessages((m) => [...m, { from: 'user', type: 'image', url: data.url } as MessageType]);
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        send('admin', event.target?.result as string, 'image');
+                    };
+                    reader.readAsDataURL(file);
+                }
             }
         }
     };
+
     const messageItem = (m: MessageType, idx: number) => {
-        if (!m.text && !m.url) return null;
+        if (!m.text) return null;
         if (m.me === 1) {
             return (
                 <div key={idx} className="flex justify-end">
                     <div></div>
-                    <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-blue-500 text-white ml-auto text-right">{m.text}</div>
+                    {m.type === 'image' ? (
+                        <img src={m.text} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
+                    ) : (
+                        <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-blue-500 text-white ml-auto text-right">{m.text}</div>
+                    )}
                 </div>
             );
         }
         return (
             <div key={idx} className="flex justify-start">
-                <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-gray-200 text-gray-900">{m.text}</div>
+                {m.type === 'image' ? (
+                    <img src={m.text} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
+                ) : (
+                    <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-gray-200 text-gray-900">{m.text}</div>
+                )}
                 <div></div>
             </div>
         );
     };
-
     return (
         <Activity mode={`${isOpen ? 'visible' : 'hidden'}`}>
+            {previewImage && (
+                <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-9999" onClick={() => setPreviewImage(null)}>
+                    <img src={previewImage} className="max-w-[90%] max-h-[90%] rounded-lg" />
+                </div>
+            )}
             <div className="fixed bottom-10 right-0 w-[350px] max-w-md h-[450px] flex flex-col shadow-xl rounded-2xl border border-gray-300 bg-white z-1000">
                 {/* Header */}
                 <div className="p-4 border-b border-gray-300 font-semibold text-lg bg-gray-300/20 rounded-t-2xl flex items-center justify-between">

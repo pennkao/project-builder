@@ -19,6 +19,17 @@ type Client struct {
 	Conn *websocket.Conn 
 }
 
+type Message struct {
+    TS   int64   `json:"ts"`             // 时间戳
+	Source string `json:"source"`
+    From string  `json:"from,omitempty"`           // 发送者
+    To string    `json:"to,omitempty"`             // 接收者
+    Text string  `json:"text,omitempty"`           // 消息内容
+    Type *string `json:"type,omitempty"` // 可选类型，例如 "text" 或 "image"
+    URL  *string `json:"url,omitempty"`  // 可选图片或文件 URL
+}
+
+
 func (c *Client) Send(message []byte) error {
 	return c.Conn.WriteMessage(websocket.TextMessage, message)
 }
@@ -49,6 +60,23 @@ func (c *ClientPool) Add(key string, client *Client) {
 	c.Pool[key] = client
 }
 
+func (c *ClientPool)Upadte(key string){
+	c.Mutx.Lock()
+	defer c.Mutx.Unlock()
+	if _,ok:=c.Pool[key];ok{
+		c.Pool[key].T = time.Now()	
+	}
+}
+
+func (c *ClientPool)Remove(key string){
+	c.Mutx.Lock()
+	defer c.Mutx.Unlock()
+	if v,ok:=c.Pool[key];ok{
+		v.Close()
+		delete(c.Pool, key)	
+	}
+}
+
 func (c *ClientPool) Broadcast(message []byte) {
 	c.Mutx.Lock()
 	defer c.Mutx.Unlock()
@@ -76,12 +104,3 @@ func (c *ClientPool) Cleanup() {
 	}
 }
 
-type Message struct {
-    TS   int64   `json:"ts"`             // 时间戳
-	Source string `json:"source"`
-    From string  `json:"from,omitempty"`           // 发送者
-    To string    `json:"to,omitempty"`             // 接收者
-    Text string  `json:"text,omitempty"`           // 消息内容
-    Type *string `json:"type,omitempty"` // 可选类型，例如 "text" 或 "image"
-    URL  *string `json:"url,omitempty"`  // 可选图片或文件 URL
-}

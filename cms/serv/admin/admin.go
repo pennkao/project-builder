@@ -33,8 +33,6 @@ func (t *Cms) Dispatcher(c *gin.Context) {
 		t.Fetcher(c)
 	case "/list":
 		t.Lister(c)
-	case "/chat":
-		t.Chat(c)
 	case "/updater":
 		t.Updater(c)
 	case "/add-images":

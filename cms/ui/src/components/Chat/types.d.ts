@@ -8,3 +8,9 @@ interface MessageType {
     type?: string; // 可选类型 (text | image | file ...)
     url?: string; // 可选图片/文件 URL
 }
+
+interface ClientType {
+    t: string; // 时间戳
+    source: string;
+    addr: string;
+}

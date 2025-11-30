@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 export function useWS(clientId: string, url?: string) {
     const ws = useRef<WebSocket | null>(null);
     const [messages, setMessages] = useState<Record<string, MessageType[]>>({});
-    const [clients, setClients] = useState<any[]>([]);
+    const [clients, setClients] = useState<ClientType[]>([]);
     const role = 'admin';
     useEffect(() => {
         if (ws.current) return;
@@ -35,9 +35,9 @@ export function useWS(clientId: string, url?: string) {
         // return () => ws.current?.close();
     }, []);
 
-    function send(to: string, text: string) {
+    function send(to: string, text: string, type: 'text' | 'image' = 'text') {
         if (!ws.current || ws.current.readyState !== WebSocket.OPEN) return;
-        const msg = { from: '', url: '', source: role, to: to, text: text, type: 'text', ts: Date.now() } as MessageType;
+        const msg = { from: '', url: '', source: role, to: to, text: text, type: type, ts: Date.now() } as MessageType;
 
         ws.current.send(JSON.stringify(msg));
         msg.me = 1;

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/cms/admin"
 	"github.com/cms/api"
@@ -11,6 +12,10 @@ import (
 )
 
 func main() {
+	// 在程序启动时设置时区
+	if loc, err := time.LoadLocation("Asia/Shanghai"); err == nil {
+		time.Local = loc
+	}
 	ctx := context.Background()
 	dsn := "postgres://dproot:123456@localhost:5432/vtx_cms?sslmode=disable"
 	db,query, err := database.NewPool(ctx, dsn)

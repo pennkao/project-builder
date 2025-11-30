@@ -2,16 +2,16 @@ import { Activity, useRef, useState } from 'react';
 import { useWS } from './useWs';
 
 interface ChatProps {
-    title: string;
     url?: string;
 }
 
-export function Chat({ url, title }: ChatProps) {
+export function Chat({ url }: ChatProps) {
     const { messages, clients, send } = useWS('admin');
     const [isOpen, setIsOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [currentUser, setCurrentUser] = useState<string | null>(null);
     const bottomRef = useRef<HTMLDivElement>(null);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     const onToggle = () => {
         setIsOpen(true);
@@ -25,25 +25,67 @@ export function Chat({ url, title }: ChatProps) {
         setInputValue('');
     };
 
+    const title = () => {
+        if (!currentUser) return <div></div>;
+        const client = clients.find((c) => c.addr === currentUser);
+        if (!client) return <div></div>;
+        return client?.source + ' ' + (currentUser || '') + '     -------' + client?.t.slice(11, 19);
+    };
+
+    const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+        const items = e.clipboardData.items;
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            if (item.type.indexOf('image') !== -1) {
+                const file = item.getAsFile();
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        console.log(event.target?.result);
+                        if (currentUser) {
+                            send(currentUser, event.target?.result as string, 'image');
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    };
+
     const messageItem = (m: MessageType, idx: number) => {
         if (!m.text) return null;
         if (m.me === 1) {
             return (
                 <div key={idx} className="flex justify-end">
                     <div></div>
-                    <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-blue-500 text-white ml-auto text-right">{m.text}</div>
+                    {m.type === 'image' ? (
+                        <img src={m.text} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
+                    ) : (
+                        <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-blue-500 text-white ml-auto text-right">{m.text}</div>
+                    )}
                 </div>
             );
         }
         return (
             <div key={idx} className="flex justify-start">
-                <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-gray-200 text-gray-900">{m.text}</div>
+                {m.type === 'image' ? (
+                    <img src={m.text} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
+                ) : (
+                    <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-gray-200 text-gray-900">{m.text}</div>
+                )}
                 <div></div>
             </div>
         );
     };
+
     return (
         <>
+            {previewImage && (
+                <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-9999" onClick={() => setPreviewImage(null)}>
+                    <img src={previewImage} className="max-w-[90%] max-h-[90%] rounded-lg" />
+                </div>
+            )}
+
             <button
                 onClick={onToggle}
                 aria-expanded={isOpen}
@@ -88,8 +130,7 @@ export function Chat({ url, title }: ChatProps) {
                                    ${currentUser === item.addr ? 'bg-blue-600 text-white font-semibold' : 'border-gray-300'}
                                `}
                                     >
-                                        {/* {item.source}-{item.client.slice(0, 4)} */}
-                                        {item.source}-{item.addr}
+                                        {item.addr}
                                     </div>
                                 ))}
                         </div>
@@ -99,7 +140,7 @@ export function Chat({ url, title }: ChatProps) {
                     <div className="flex-1 flex flex-col">
                         {/* Header */}
                         <div className="p-4 border-b border-gray-300 font-semibold text-lg bg-gray-300/20 flex items-center justify-between">
-                            {title}
+                            {title()}
                             <button onClick={onClose} className="bg-red-500 w-5 h-5 text-white rounded-full p-1 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M18 6 6 18" />
@@ -119,8 +160,9 @@ export function Chat({ url, title }: ChatProps) {
                             <input
                                 className="flex-1 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 placeholder="Type your message..."
+                                disabled={currentUser == '' || currentUser == null}   
                                 value={inputValue}
-                                // onPaste={(e) => handlePaste(e)}
+                                onPaste={(e) => handlePaste(e)}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
                             />
