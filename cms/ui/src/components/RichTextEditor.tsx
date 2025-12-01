@@ -1,5 +1,5 @@
 // src/components/RichTextEditor.jsx
-import { isrc } from '@/utils';
+import { SRC } from '@/lib/image';
 import { Editor } from '@tinymce/tinymce-react';
 import { useEffect, useState } from 'react';
 
@@ -7,7 +7,6 @@ const RichTextEditor = ({ url, onChange, initData }: { url: string; onChange?: (
     const [content, setContent] = useState(initData || '');
     useEffect(() => {
         if (initData) {
-            console.log('initData', initData);
             setContent(initData);
         }
     }, [initData]);
@@ -25,7 +24,7 @@ const RichTextEditor = ({ url, onChange, initData }: { url: string; onChange?: (
             const data = await res.json(); // 假设 data.data 是数组
             if (!data || data.code !== 0 || !Array.isArray(data.data)) throw new Error('Invalid response format');
             if (!data || !data.data) throw new Error('Invalid response format');
-            return isrc(data.data[0].url);
+            return SRC(data.data[0].url);
         } catch (err) {
             console.log(err);
         }

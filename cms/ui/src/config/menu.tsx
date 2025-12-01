@@ -21,7 +21,6 @@ export const navItems: NavItem[] = [
         icon: <ShoppingCartIcon />,
         subItems: [
             { name: 'Products', path: '/products-list' },
-            { name: 'Add Product', path: '/add-product' },
             { name: 'Reviews', path: '/reviews' },
             { name: 'Orders', path: '/orders' },
         ],

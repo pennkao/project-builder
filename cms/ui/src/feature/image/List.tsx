@@ -4,7 +4,7 @@ import TextArea from '@/components/elements/TextArea';
 import { Content, FooterPage, Header, Page } from '@/feature/common/layout';
 
 import { MainIcon, PlusIcon } from '@/icons';
-import { isrc } from '@/lib/image';
+import { SRC } from '@/lib/image';
 import { useState } from 'react';
 import { useImages } from './hooks/useImages';
 
@@ -49,7 +49,7 @@ export default function List() {
                                         {item.width_px}x{item?.height_px || ''}
                                     </span>
                                     <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>
-                                    <img src={isrc(item.url)} alt={item.alt_text} className={className} />
+                                    <img src={SRC(item.url)} alt={item.alt_text} className={className} />
                                 </div>
                             </div>
                         ))}

@@ -14,6 +14,7 @@ import ProductDetail from '@/features/product/ProductDetail';
 import ProductSelector from '@/features/product/ProductSelector';
 import ReviewCard from '@/features/product/ReviewCard';
 import UserInfo from '@/features/UserInfo';
+import { decontent } from '@/lib/content';
 import { t } from 'i18next';
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { useNavigate } from 'react-router';
@@ -78,7 +79,7 @@ const ProductPage = ({ productData }: { productData: ProductType }) => {
             <div className="h-3"></div>
             <ReviewCard reviews={reviews} />
             <div className="px-2">
-                <ProductDetail data={content} />
+                <ProductDetail data={decontent(content)} />
             </div>
 
             <StickyBar ref={buyButtonRef as RefObject<HTMLDivElement>}>

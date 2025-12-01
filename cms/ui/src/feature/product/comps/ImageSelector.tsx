@@ -1,6 +1,6 @@
 import { ModalBase } from '@/components/composed';
 import Label from '@/components/elements/Label';
-import { isrc } from '@/lib/image';
+import { SRC } from '@/lib/image';
 import { useState } from 'react';
 import { useImages } from '../hooks/useImages';
 
@@ -41,7 +41,7 @@ const ImageSelector = ({
                         <div className="flex flex-wrap gap-2 ">
                             {productImages.map((image, index) => (
                                 <div key={index} className="relative group">
-                                    <img src={isrc(image)} className="w-28 h-28 object-cover" onClick={() => handleSelectedImages(selectType, image)} />
+                                    <img src={SRC(image)} className="w-28 h-28 object-cover" onClick={() => handleSelectedImages(selectType, image)} />
                                     {selectedImages.includes(image) && <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>}
                                 </div>
                             ))}
@@ -51,7 +51,7 @@ const ImageSelector = ({
                         <div className="flex flex-wrap gap-2 ">
                             {data.list.map((item, index) => (
                                 <div key={index} className="relative group">
-                                    <img src={isrc(item.url)} alt={item.alt_text} className="w-28 h-28 object-cover" onClick={() => handleSelectedImages(selectType, item.url)} />
+                                    <img src={SRC(item.url)} alt={item.alt_text} className="w-28 h-28 object-cover" onClick={() => handleSelectedImages(selectType, item.url)} />
                                     {selectedImages.includes(item.url) && <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>}
                                 </div>
                             ))}

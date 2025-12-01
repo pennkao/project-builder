@@ -2,9 +2,9 @@
 import { ItemLoading } from '@/components/Loading/ItemLoading';
 import { Button } from '@/components/elements';
 import { Card } from '@/feature/common/layout';
-
+import { SRC } from '@/lib/image';
 import { TrashIcon, UploadFileIcon } from '@/icons';
-import { isrc, makeLocalImage, makeNetImage } from '@/utils';
+import { makeLocalImage, makeNetImage } from '@/utils';
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -237,7 +237,7 @@ const ImageItem = ({ item, idx, onRemove, onSetMain }: { item: ImageItemType; id
 
     return (
         <div ref={setNodeRef} style={style} className="relative w-28 h-28 rounded-xl overflow-hidden">
-            <img src={isrc(url)} className={`w-full h-full  object-cover cursor-grab active:cursor-grabbing ${className}`} {...attributes} {...listeners} />
+            <img src={SRC(url)} className={`w-full h-full  object-cover cursor-grab active:cursor-grabbing ${className}`} {...attributes} {...listeners} />
             <div className="absolute top-1 left-1  bg-white/80 text-xs px-1 py-1 rounded">{idx > 0 ? idx + 1 : '✅'}</div>
             <div className="absolute w-28 h-28 flex inset-0 items-center pointer-events-none justify-center">{item.status === 'upLoading' && <ItemLoading />}</div>
             {/* overlay buttons */}

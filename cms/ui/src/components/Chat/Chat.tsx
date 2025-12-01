@@ -1,4 +1,4 @@
-import { isrc } from '@/utils';
+import { SRC } from '@/lib/image';
 import { Activity, useRef, useState } from 'react';
 import { useWS } from './useWs';
 
@@ -60,7 +60,7 @@ export function Chat({ url }: ChatProps) {
                 <div key={idx} className="flex justify-end">
                     <div></div>
                     {m.type === 'image' ? (
-                        <img src={isrc(m.text)} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
+                        <img src={SRC(m.text)} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
                     ) : (
                         <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-blue-500 text-white ml-auto text-right">{m.text}</div>
                     )}
@@ -70,7 +70,7 @@ export function Chat({ url }: ChatProps) {
         return (
             <div key={idx} className="flex justify-start">
                 {m.type === 'image' ? (
-                    <img src={isrc(m.text)} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
+                    <img src={SRC(m.text)} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
                 ) : (
                     <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-gray-200 text-gray-900">{m.text}</div>
                 )}

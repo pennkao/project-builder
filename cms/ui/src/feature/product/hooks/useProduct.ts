@@ -1,6 +1,8 @@
 import { defaultProductMain } from '@/defaults/product';
 import { useBatchPost } from '@/hooks/usePost';
+import { decontent } from '@/lib/content';
 import { useEffect, useState } from 'react';
+
 export function useProduct(productId: number) {
     const { doBatchPost, Params } = useBatchPost();
     const [productData, setProductData] = useState<ProductType>({
@@ -45,9 +47,10 @@ export function useProduct(productId: number) {
                     setInitByKey('images', res.images);
                 }),
                 Params('fetch', { params: { id: productId, target: 'product-content' } }, (res) => {
-                    console.log('product-content', res);
-                    setByKey('content', res);
-                    setInitByKey('content', res);
+                    const content = decontent(res);
+                    console.log(content),232323;
+                    setByKey('content', content);
+                    setInitByKey('content', content);
                 }),
             ]);
         }

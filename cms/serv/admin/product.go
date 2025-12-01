@@ -299,7 +299,17 @@ func (t *Cms) UpdateProductContent(c *gin.Context) {
         hp.Error[any](c,  err.Error())
         return
     }
-    err := t.Q.UpdateProductContent(c.Request.Context(), req)
+
+	productContent,err:= t.Q.GetProductContent(c.Request.Context(), req.ProductID)
+	if err != nil || productContent == "" {
+		err:=t.Q.CreateProductContent(c.Request.Context(), db.CreateProductContentParams(req))
+		if err != nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}
+	}	
+
+    err = t.Q.UpdateProductContent(c.Request.Context(), req)
     if err != nil {
         hp.Error[any](c,  err.Error())
         return

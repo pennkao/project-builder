@@ -23,6 +23,8 @@ export const config = {
     CDN_URL: import.meta.env.VITE_CDN_URL || 'http://localhost:3000/static',
     IMAGE_URL: import.meta.env.VITE_IMAGE_URL || '/public/images/',
     WS_URL: import.meta.env.VITE_WS_URL || 'ws://localhost:8080/wss/chat',
+    CONTENT_PREFIX: import.meta.env.VITE_CONTENT_PREFIX || '/public/images/',
+    CONTENT_REPLACE: import.meta.env.VITE_CONTENT_REPLACE || '{{@#base_url#@}}$1',
     FallBacks: [
         'https://cdn1.example.com/', //
         'https://cdn2.example.com/',

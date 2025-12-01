@@ -1,8 +1,9 @@
 import { Confirm } from '@/components/composed';
 import { useBatchPost } from '@/hooks/usePost';
-// import { makeProductAttrs } from '@/utils/attrs';
+import { encontent } from '@/lib/content';
 import { formatNumbers } from '@/utils/pre';
 import { fnv1a32 } from '@/utils/product';
+
 export function useProductSave(productId: number, productData: ProductType, productDataInit: ProductType, navigate: Function) {
     const { doBatchPost, Params } = useBatchPost();
 
@@ -32,8 +33,7 @@ export function useProductSave(productId: number, productData: ProductType, prod
 
         const id = fnv1a32(productData.main.handle);
         productData.main.id = id;
-
-        // return;
+        productData.content = encontent(productData.content);
         const res = await doBatchPost([
             Params('add-product', { params: formatNumbers(productData.main) }),
             Params('add-product-content', { params: { product_id: id, content: productData.content } }),
@@ -66,6 +66,8 @@ export function useProductSave(productId: number, productData: ProductType, prod
             await message('No change');
             return;
         }
+
+        productData.content = encontent(productData.content);
         const res = await doBatchPost([
             Params('update-product', { params: formatNumbers(productData.main) }),
             Params('update-product-content', { params: { product_id: productId, content: productData.content } }),

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import { useOrders } from './hooks/useOrders';
 export default function SiteLogs() {
     const navigator = useNavigate();
-    const [index, setIndex] = useState(-1);
+    // const [index, setIndex] = useState(-1);
     const [search, setSearch] = useState('');
     const { result, setParamFilter, setPage } = useOrders();
 

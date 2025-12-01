@@ -6,7 +6,8 @@ import Loading from '@/components/Loading/Loading';
 import { defaultSku } from '@/defaults/product';
 import { Card } from '@/feature/common/layout';
 import { PencilIcon, RefreshIcon } from '@/icons';
-import { formartValue, isrc, keyDownNumberInput } from '@/utils';
+import { SRC } from '@/lib/image';
+import { formartValue, keyDownNumberInput } from '@/utils';
 import { Md5 } from 'ts-md5';
 import { ProductContext } from '../context';
 import { makeSkuListByAttrs } from '../utils/attrs';
@@ -47,8 +48,8 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
         }
     }, [productDataInit.skus, productDataInit.options]);
 
-    const makeNewAttr = (option: string) => ({ attr_id: 'a' + '#' + Md5.hashStr(option), name: option, label: option, display: 'text', sort: 0, values: [] } as AttrType);
-    const makeNewAttrValue = (option: string, value: string) => ({ value_id: 'v' + '#' + Md5.hashStr(option + ':' + value), value: value, label: value, content: value } as AttrValueType);
+    const makeNewAttr = (option: string) => ({ attr_id: 'a' + '#' + Md5.hashStr(option), name: option, label: option, display: 'text', sort: 0, values: [] }) as AttrType;
+    const makeNewAttrValue = (option: string, value: string) => ({ value_id: 'v' + '#' + Md5.hashStr(option + ':' + value), value: value, label: value, content: value }) as AttrValueType;
     const handleOption = (option: string) => {
         if (productAttr.length >= 3) {
             Confirm('Error', '最多只能添加三个维度');
@@ -110,7 +111,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                     akey: skuAttrArray.map((attr) => attr.value).join('-'),
                     stock: parseInt((Math.random() * 100).toFixed(2)),
                     attrs: skuAttrArray,
-                } as SkuType)
+                }) as SkuType
         );
         if (productId > 0) {
             setSkuList((prev) => {
@@ -420,7 +421,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                                                                         <PencilIcon className="w-4 h-4 hover:text-blue-600 dark:hover:text-white" />
                                                                     </button>
                                                                 </div>
-                                                                <img src={isrc(value.content)} className="w-8 h-8 rounded-sm" />
+                                                                <img src={SRC(value.content)} className="w-8 h-8 rounded-sm" />
                                                             </div>
                                                         </div>
                                                     ) : item.display === 'color' ? (
@@ -521,7 +522,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                                                             </button>
                                                         </div>
                                                         {sku.image ? (
-                                                            <img src={isrc(sku.image)} alt="" className="w-11 h-11 flex items-center rounded-md" onChange={() => handleSkuInput(index, 'image', '')} />
+                                                            <img src={SRC(sku.image)} alt="" className="w-11 h-11 flex items-center rounded-md" onChange={() => handleSkuInput(index, 'image', '')} />
                                                         ) : (
                                                             <div className="w-11 h-11 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-600">Img</div>
                                                         )}

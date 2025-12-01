@@ -2,7 +2,7 @@ import { SearchInput } from '@/components/composed';
 import { Button, Image } from '@/components/elements';
 import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
 import { List, Pagination, type ListColumn } from '@/feature/common/list';
-import { isrc } from '@/lib/image';
+import { SRC } from '@/lib/image';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { Link } from 'react-router';
@@ -35,7 +35,7 @@ const Reviews = () => {
             render: (item) => (
                 <div className="flex items-center gap-3">
                     <Link to={`/collections/${item?.handle}`}>
-                        <Image src={isrc(item?.main_image || '')} className="h-10 w-10 rounded-md object-cover" />
+                        <Image src={SRC(item?.main_image || '')} className="h-10 w-10 rounded-md object-cover" />
                     </Link>
                     {item?.name || '-'}
                 </div>
