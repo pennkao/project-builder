@@ -1,12 +1,13 @@
+import { isrc } from '@/utils';
 import { Activity, useRef, useState } from 'react';
 import { useWS } from './useWs';
 
 interface ChatProps {
-    url?: string;
+    url: string;
 }
 
 export function Chat({ url }: ChatProps) {
-    const { messages, clients, send } = useWS('admin');
+    const { messages, clients, send } = useWS(url, 'admin');
     const [isOpen, setIsOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [currentUser, setCurrentUser] = useState<string | null>(null);
@@ -59,7 +60,7 @@ export function Chat({ url }: ChatProps) {
                 <div key={idx} className="flex justify-end">
                     <div></div>
                     {m.type === 'image' ? (
-                        <img src={m.text} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
+                        <img src={isrc(m.text)} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
                     ) : (
                         <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-blue-500 text-white ml-auto text-right">{m.text}</div>
                     )}
@@ -69,7 +70,7 @@ export function Chat({ url }: ChatProps) {
         return (
             <div key={idx} className="flex justify-start">
                 {m.type === 'image' ? (
-                    <img src={m.text} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
+                    <img src={isrc(m.text)} onClick={() => setPreviewImage(m.text || '')} className="w-24 h-24 border border-gray-500  rounded-md" />
                 ) : (
                     <div className="px-3 py-2 rounded-2xl shadow text-sm whitespace-pre-line animate-chatMessage bg-gray-200 text-gray-900">{m.text}</div>
                 )}
@@ -160,7 +161,7 @@ export function Chat({ url }: ChatProps) {
                             <input
                                 className="flex-1 border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 placeholder="Type your message..."
-                                disabled={currentUser == '' || currentUser == null}   
+                                disabled={currentUser == '' || currentUser == null}
                                 value={inputValue}
                                 onPaste={(e) => handlePaste(e)}
                                 onChange={(e) => setInputValue(e.target.value)}

@@ -1,5 +1,6 @@
+import { config } from '@/config/config';
 const makeParams = (api: string, page?: number, id?: number, body?: Record<string, any>) => {
-    let url = `http://localhost:8080/api/${api}`;
+    let url = `${config.API_URL}${api}`;
 
     if (id) url += `/${id}`;
     if (page) url += `?page=${page}`;

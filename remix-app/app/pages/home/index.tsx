@@ -1,6 +1,7 @@
 import BaseImage from '@/components/BaseImage';
 
 import BackToTopButton from '@/components/BackToTopButton';
+import { config } from '@/config/config';
 import AppHeader from '@/features/app/AppHeader';
 import { doList } from '@/utils/api';
 import { useEffect, useState } from 'react';
@@ -15,11 +16,9 @@ const HomePage = ({ data }: any) => {
         doList<ProductItemType[]>('products', 1, (data) => {
             if (data && data.length) {
                 setProducts(data);
-            
             }
         });
     };
-
 
     useEffect(() => {
         product();
@@ -28,7 +27,7 @@ const HomePage = ({ data }: any) => {
     return (
         <>
             <AppHeader />
-
+            222{config.IS_PROD ? 999:666}111
             <div className="bg-white rounded-lg p-1 shadow-sm">
                 {/* <h2 className="text-xl font-bold text-gray-800 mb-4">热门商品</h2> */}
 

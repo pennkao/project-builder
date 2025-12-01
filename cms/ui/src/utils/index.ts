@@ -1,4 +1,4 @@
-export * from './image';
+export * from '../lib/image';
 export * from './pre';
 export * from './product';
 export * from './tools';

@@ -4,13 +4,13 @@ import { useWS } from './useWs';
 interface ChatWidgetProps {
     clientId: string;
     isOpen: boolean;
+    role: string;
     onClose: () => void;
-    url?: string;
+    url: string;
 }
 
-const me = 'asite';
-export default function ChatWidget({ clientId, url, isOpen, onClose }: ChatWidgetProps) {
-    const { messages, send } = useWS(clientId);
+export default function ChatWidget({ clientId, role, url, isOpen, onClose }: ChatWidgetProps) {
+    const { messages, send } = useWS(clientId, url, role);
     const [input, setInput] = useState('');
     const bottomRef = useRef<HTMLDivElement>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);

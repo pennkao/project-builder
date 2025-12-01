@@ -1,4 +1,4 @@
-import { getFastestCdn } from '@/utils/cdnChecker';
+import { config } from '@/config/config';
 import React, { useEffect, useRef, useState } from 'react';
 
 interface SmartImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -13,7 +13,7 @@ export default function SmartImage({ src, alt = '', className = '', ...rest }: S
 
     useEffect(() => {
         if (!src) return;
-        const base = getFastestCdn();
+        const base = config.IMAGE_URL;
         if (src && !src.startsWith('http')) {
             src = base + src;
         }

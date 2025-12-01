@@ -27,7 +27,7 @@ export default function CreditCardPayment() {
 
     return (
         <>
-            <PaymentForm onChange={setCardNumber} />
+            <PaymentForm onChange={setCardNumber} onErrors={() => {}} />
             <button type="submit" onClick={validateAll} className="w-full mt-4 text-test-500  py-2 button-main ">
                 {t('common.submit')}
             </button>

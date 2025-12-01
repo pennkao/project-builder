@@ -4,7 +4,7 @@ import TextArea from '@/components/elements/TextArea';
 import { Content, FooterPage, Header, Page } from '@/feature/common/layout';
 
 import { MainIcon, PlusIcon } from '@/icons';
-import { isrc } from '@/utils/image';
+import { isrc } from '@/lib/image';
 import { useState } from 'react';
 import { useImages } from './hooks/useImages';
 

@@ -1,5 +1,6 @@
 import ChatWidget from '@/components/Chat/Chat';
-import { isrc } from '@/utils/images';
+import { config } from '@/config/config';
+import { SRC } from '@/lib/images';
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -20,10 +21,9 @@ const OrderPage = ({ orderId }: any) => {
         }
         setOrdrerInfo(OrderInfo);
     }, []);
-    const url = 'http://localhost:8080/api/upload';
     return (
         <div className="flex flex-col items-center justify-start bg-page w-full min-h-screen pt-1">
-            <ChatWidget clientId={orderId}  url={url} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+            <ChatWidget clientId={orderId} role={config.APP_NAME} url={config.WS_URL} isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
             {/* 支付成功提示区 */}
             <div className="bg-container rounded-2xl  w-full max-w-3xl p-6 flex flex-col gap-4">
@@ -82,7 +82,7 @@ const OrderPage = ({ orderId }: any) => {
                     <div className="divide-y divide-gray-200">
                         <div className="flex justify-between py-2">
                             <div className="flex items-center gap-3">
-                                <img src={isrc(orderInfo?.product?.sku?.image || null)} alt="" className="w-14 h-14 rounded-md object-cover" />
+                                <img src={SRC(orderInfo?.product?.sku?.image || null)} alt="" className="w-14 h-14 rounded-md object-cover" />
                                 <div>
                                     <p className="text-sm font-medium text-gray-800">{orderInfo?.product?.name || ''}</p>
                                     <p className="text-xs text-gray-500">

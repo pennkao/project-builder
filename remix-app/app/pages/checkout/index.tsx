@@ -9,9 +9,9 @@ import CryptoPayment from '@/features/CryptoPayment';
 import UserInfo from '@/features/UserInfo';
 import { useJump } from '@/hooks/useJump';
 import useMessageBox from '@/hooks/useMessageBox';
+import { SRC } from '@/lib/images';
 import { doPut } from '@/utils/api';
 import { encryptData } from '@/utils/hash';
-import { isrc } from '@/utils/images';
 
 // 表单错误信息状态
 import { checkoutPayment, checkoutPaymentFormat } from '@/utils/tools';
@@ -249,7 +249,7 @@ const CheckoutPage = ({ data }: any) => {
             <Activity mode={isOpen ? 'visible' : 'hidden'}>
                 <div className="flex flex-row justify-start px-2 text-main gap-3">
                     <div className="w-32 h-32 p-3">
-                        <img src={isrc(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
+                        <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
                     </div>
                     <div className="flex-1 flex flex-col justify-center gap-2">
                         <div className="text-main">{checkoutData?.productDetail?.name}</div>
@@ -373,7 +373,7 @@ const CheckoutPage = ({ data }: any) => {
             <div className="h-2 "></div>
             <div className="flex flex-row justify-start px-2 text-main gap-3">
                 <div className="w-32 h-32 p-3">
-                    <img src={isrc(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
+                    <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
                 </div>
                 <div className="flex-1 flex flex-col justify-center gap-2">
                     <div>{checkoutData?.productDetail?.name}</div>

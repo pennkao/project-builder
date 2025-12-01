@@ -6,7 +6,10 @@ export function isrc(src: string) {
     if (src.startsWith('blob:')) {
         return src;
     }
-    return config.imageUrl + src;
+    if (src.startsWith('data:image')) {
+        return src;
+    }
+    return config.IMAGE_URL + src;
 }
 export const generateId = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
 

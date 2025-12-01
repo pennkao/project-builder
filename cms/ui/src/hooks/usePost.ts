@@ -23,8 +23,6 @@ interface DoPostParams<T = any> {
     callback?: (data?: T) => void;
 }
 
-const defaultBaseUrl = config.apiBaseUrl;
-
 /**
  * 通用 POST Hook
  * - 固定使用 POST
@@ -52,7 +50,7 @@ export function usePost<T = any>(api: string) {
 
         try {
             // 拼接完整 URL
-            let url = `${defaultBaseUrl}${api}`;
+            let url = `${config.API_URL}${api}`;
             if (querys && Object.keys(querys).length) {
                 url += '?' + new URLSearchParams(querys).toString();
             }
@@ -109,7 +107,7 @@ export function useBatchPost() {
     const doPost = async <T = any>(api: string, options: PostOptions, callback?: (data?: T) => void): Promise<T | null> => {
         setError(null);
         try {
-            let url = `${defaultBaseUrl}${api}`;
+            let url = `${config.API_URL}${api}`;
             if (options.querys && Object.keys(options.querys).length) {
                 url += '?' + new URLSearchParams(options.querys).toString();
             }

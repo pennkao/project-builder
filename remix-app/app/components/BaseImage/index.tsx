@@ -1,4 +1,4 @@
-import { Cdn_Config } from '@/config/cdn';
+import { config } from '@/config/config';
 import React, { useEffect, useRef, useState } from 'react';
 interface SImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     className?: string;
@@ -9,15 +9,11 @@ interface SImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 export default function BaseImage({ src, alt = '', isUrl = false, className = '', skeletonClassName = '', ...rest }: SImageProps) {
     const [loaded, setLoaded] = useState(false);
     const imgRef = useRef<HTMLImageElement>(null);
-    let baseUrl = '';
-    if (import.meta.env.VITE_ENV === 'DEV') {
-        baseUrl = Cdn_Config.defaultBase;
-    } else {
-        baseUrl = Cdn_Config.devBase;
-    }
+
     if (src && !src.startsWith('http')) {
-        src = baseUrl + src;
+        src = config.IMAGE_URL + src;
     }
+    
     // 如果图片缓存中已加载完，直接设置 loaded
     useEffect(() => {
         const img = imgRef.current;

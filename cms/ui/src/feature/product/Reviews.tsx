@@ -2,7 +2,7 @@ import { SearchInput } from '@/components/composed';
 import { Button, Image } from '@/components/elements';
 import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
 import { List, Pagination, type ListColumn } from '@/feature/common/list';
-import { isrc } from '@/utils/image';
+import { isrc } from '@/lib/image';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { Link } from 'react-router';

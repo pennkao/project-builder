@@ -1,7 +1,7 @@
 import BaseImage from '@/components/BaseImage';
 import { Keys } from '@/config/keys';
 import { useJump } from '@/hooks/useJump';
-import { isrc } from '@/utils/images';
+import { SRC } from '@/lib/images';
 import { discount, discountMoneyFormat, moneyFormat } from '@/utils/tools';
 import { t } from 'i18next';
 import { useEffect, useMemo, useState } from 'react';
@@ -152,7 +152,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
         const jsxImage = (
             <button key={idx} disabled={isDisabled(optionItem.attr_id, value.value_id)} onClick={() => handleOptionClick(index, value.value_id, selectedValues[index] === value.value_id)} className={imageClassName}>
                 <div className="w-8 h-8 flex items-center justify-center">
-                    <img src={isrc(value.content)} alt="product" className=" w-full h-full object-cover flex-shrink-0 rounded-sm bg-cover" />
+                    <img src={SRC(value.content)} alt="product" className=" w-full h-full object-cover flex-shrink-0 rounded-sm bg-cover" />
                     {/* <img src={value.content} alt="product" className="w-8 h-8 object-cover flex-shrink-0" /> */}
                 </div>
             </button>

@@ -1,4 +1,5 @@
 import { Chat } from '@/components/Chat/Chat';
+import { config } from '@/config/config';
 import { ReactNode } from 'react';
 import { PageBreadcrumb, PageMeta } from './compos';
 
@@ -9,7 +10,7 @@ export default function Page({ children, title, showBackgroud }: { children: Rea
         <div>
             <PageMeta title={title || ''} description="" />
             <PageBreadcrumb pageTitle={title || ''} />
-            <Chat url={'ws://localhost:8080/ws/chat'} title={title || ''} />
+            <Chat url={config.WS_URL} />
             {content}
         </div>
     );

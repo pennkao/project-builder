@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function useWS(clientId: string, url?: string) {
+export function useWS(apiBaseUrl: string, role: string) {
     const ws = useRef<WebSocket | null>(null);
     const [messages, setMessages] = useState<Record<string, MessageType[]>>({});
     const [clients, setClients] = useState<ClientType[]>([]);
-    const role = 'admin';
     useEffect(() => {
         if (ws.current) return;
-        const url = `ws://localhost:8080/ws/chat?s=${role}`;
+        const url = `${apiBaseUrl}?s=${role}`;
         ws.current = new WebSocket(url);
 
         ws.current.onmessage = (ev) => {
@@ -31,8 +30,6 @@ export function useWS(clientId: string, url?: string) {
         ws.current.onopen = () => {
             console.log('open ...');
         };
-        // ws.current.o
-        // return () => ws.current?.close();
     }, []);
 
     function send(to: string, text: string, type: 'text' | 'image' = 'text') {

@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function useWS(clientId: string, url?: string) {
+export function useWS(clientId: string, baseUrl: string, role: string) {
     const ws = useRef<WebSocket | null>(null);
     const [messages, setMessages] = useState<MessageType[]>([]);
 
-    const role = 'site1';
     useEffect(() => {
         if (ws.current) return;
-        const url = `ws://localhost:8080/wss/chat?s=${role}`;
+        const url = `${baseUrl}?s=${role}&c=${clientId}`;
         ws.current = new WebSocket(url);
 
         ws.current.onmessage = (ev) => {
