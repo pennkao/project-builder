@@ -45,6 +45,7 @@ interface ProductItemType {
     price: number;
     sales_count: number;
     stock: number;
+    points: number;
 }
 
 interface DiscountInfoType {
@@ -155,11 +156,12 @@ interface CrypoType {
 
 interface ProductType {
     main: ProductMainType;
+    stock: number;
     skus: SkuType[];
     options: AttrType[];
     videos: string[];
     images: string[];
-    specs: Record<string, string>;
+    specs: Record<string, string>[];
 }
 
 interface ProductMainType {

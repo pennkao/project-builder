@@ -7,10 +7,10 @@ export default function ProductCard({ data }: { data: ProductMainType | null }) 
             <div className="bg-red-500 text-white p-3 flex justify-between items-center">
                 <div>
                     <div className="text-lg font-bold">
-                        {data?.stock}积分<span className="text-yellow-200">+{(data?.stock || 0) / 100}元</span>
-                        <span className="text-sm ml-1 text-red-100">¥{data?.price}</span>
+                        {/* {data?.stock}积分<span className="text-yellow-200">+{(data?.stock || 0) / 100}元</span> */}
+                        <span className="text-brand ml-1 text-red-100">{t('common.symbol')}{data?.price}</span>
                     </div>
-                    <div className="text-xs text-red-100 mt-1">{t('product.detail.marketing.save', { save: data?.stock ? (data?.price || 0) - (data?.stock || 0) / 100 : 0 })}</div>
+                    <div className="text-xs text-red-100 mt-1">{t('product.detail.marketing.save', { save: data?.stock ? (data?.stock || 0) / 100 : 0 })}</div>
                 </div>
                 <div className="flex flex-col items-end">
                     <div className="text-sm font-medium">{t('product.detail.marketing.limit')}</div>

@@ -4,12 +4,12 @@ CREATE TABLE orders (
     order_no TEXT NOT NULL DEFAULT '',                      -- 订单编号（业务唯一标识，如：ORD202511270001）
     user_id TEXT NOT NULL DEFAULT '',                       -- 下单用户 ID（可关联 users 表）
     status SMALLINT NOT NULL DEFAULT 0,                     -- 订单状态（0: 待支付, 1: 已支付, 2: 已发货, 3: 已完成, -1: 已取消）
-    pay_amount NUMERIC(12, 2) NOT NULL DEFAULT 0.00,        -- 实际支付金额
-    total_amount NUMERIC(12, 2) NOT NULL DEFAULT 0.00,      -- 订单总金额（含运费、优惠等）
-    discount_amount NUMERIC(12, 2) NOT NULL DEFAULT 0.00,   -- 优惠金额
-    freight_amount NUMERIC(12, 2) NOT NULL DEFAULT 0.00,    -- 运费
+    pay_amount BIGINT NOT NULL DEFAULT 0,        -- 实际支付金额
+    total_amount BIGINT NOT NULL DEFAULT 0,      -- 订单总金额（含运费、优惠等）
+    discount_amount BIGINT NOT NULL DEFAULT 0,   -- 优惠金额
+    freight_amount BIGINT NOT NULL DEFAULT 0,    -- 运费
     payment_method TEXT NOT NULL DEFAULT '',         -- 支付方式（如：wechat, alipay, credit_card）
-    payment_time bigINT NOT NULL DEFAULT 0,          -- 支付时间
+    payment_time BIGINT NOT NULL DEFAULT 0,          -- 支付时间
     consignee TEXT NOT NULL DEFAULT '',              -- 收货人姓名
     phone TEXT NOT NULL DEFAULT '',                  -- 联系电话
     email TEXT NOT NULL DEFAULT '',                  -- email

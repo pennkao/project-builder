@@ -20,6 +20,12 @@ func (t *Cms) Deleter(c *gin.Context) {
 			hp.Error[any](c,  err.Error())
 			return
 		}
+	case "site":
+		err := t.Q.DeleteSite(c.Request.Context(), req.Id)
+		if err != nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}
 	default:
 		hp.Error[any](c, "Not Found")
 	}

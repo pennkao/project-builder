@@ -3,9 +3,10 @@
     "header.score": "可用积分",
     "header.score_limit": "积分上限",
     "header.search": "搜索",
+    "header.search_placeholder": "搜索产品",
     "common.currency": "元",
     "common.score": "积分",
-    "common.monthly": "月兑",
+    "common.monthly": "月兑{{num}}+",
 
     "common.unit_day": "天",
     "common.shipping_free": "免费配送",
@@ -51,6 +52,8 @@
     "product.tiered_discount_text": "再买{{num}}件,再减{{discount}}元",
     "product.continue": "继续",
     "product.pay_amount": "支付金额",
+
+    "product.price":"${{price}}",
 
     "product.detail.marketing.label1": "超值兑",
     "product.detail.marketing.label2": "可积分抵扣",

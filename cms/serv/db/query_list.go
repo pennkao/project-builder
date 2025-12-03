@@ -40,6 +40,7 @@ func (q *Queries) QueryProductList(ctx context.Context, where string, args []int
 			&i.Category,
 			&i.MainImage,
 			&i.SalesCount,
+			&i.Points,
 			&i.Stock,
 			&i.Price,
 			&i.Cts,

@@ -36,6 +36,7 @@ interface ProductMainType {
     stock: number; // int4 → number
     sku_num: number; // int4 → number
     price: number; // numeric(12,2) → number（注意精度问题，见说明）
+    points: number; // int4 → number
 }
 type ProductContentType = string;
 
@@ -47,6 +48,12 @@ interface ProductType {
     content: ProductContentType;
 }
 
+interface ProductDetailsType {
+    images: string[];
+    videos: string[];
+    specs: Record<string, string>[];
+}
+
 interface ProductItemType {
     id: number;
     handle: string;
@@ -55,6 +62,7 @@ interface ProductItemType {
     brand: string;
     price: string;
     sales_count: string;
+    points: string;
     status: number;
     cts: string;
     main_image: string;

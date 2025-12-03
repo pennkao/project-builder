@@ -16,20 +16,7 @@ export default function SiteLogs() {
             setParamFilter([{ field: 'ukey', operator: 'like', value: search }]);
         }
     };
-    const handle = () => {
-        fetch('http://localhost:8080/admin/api/chat', {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'clients',
-            }),
-        }).then((res) => {
-            if (res.ok) {
-                res.json().then((data) => {
-                    console.log(data);
-                });
-            }
-        });
-    };
+
     const siteLogColumns: ListColumn<OrderLogsType>[] = [
         {
             key: 'order_no',
@@ -50,7 +37,7 @@ export default function SiteLogs() {
     return (
         <Page title="Order List" showBackgroud={true}>
             <Header title="Order List" desc="Track your store's progress to boost your sales.">
-                <Button endIcon={<DownloadIcon className="w-5 h-5" />} variant="outline" onClick={handle}>
+                <Button endIcon={<DownloadIcon className="w-5 h-5" />} variant="outline" onClick={() => navigator('/export')}>
                     Export
                 </Button>
 

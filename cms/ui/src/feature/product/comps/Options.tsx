@@ -522,7 +522,9 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                                                             </button>
                                                         </div>
                                                         {sku.image ? (
-                                                            <img src={SRC(sku.image)} alt="" className="w-11 h-11 flex items-center rounded-md" onChange={() => handleSkuInput(index, 'image', '')} />
+                                                            <div className="aspect-square w-11 h-11">
+                                                                <img src={SRC(sku.image)} alt="" className="w-11 h-11 flex items-center rounded-md object-cover" onChange={() => handleSkuInput(index, 'image', '')} />
+                                                            </div>
                                                         ) : (
                                                             <div className="w-11 h-11 flex items-center justify-center rounded-md bg-gray-200 dark:bg-gray-600">Img</div>
                                                         )}

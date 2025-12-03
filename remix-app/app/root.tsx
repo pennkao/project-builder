@@ -27,7 +27,8 @@ export default function App() {
 
         // 设置文档语言和 cookie
         document.documentElement.lang = lang;
-        const clientLang = Intl.NumberFormat().resolvedOptions().locale;
+        // const clientLang = Intl.NumberFormat().resolvedOptions().locale;
+        const clientLang = 'en'; 
         document.cookie = `${Keys.Lang}=${clientLang}; path=/; max-age=${60 * 60 * 24 * 365}`;
         if (typeof window === 'undefined') return; // SSR 时跳过
     }, [lang, resources]);
@@ -99,7 +100,7 @@ function ErrorBoundary({ error }: { error: Error }) {
     console.error(error);
     return (
         <div className="p-6 text-red-600">
-            <h2 className="text-xl font-bold">页面加载失败</h2>
+            <h2 className="text-xl font-bold">loading...</h2>
             <p>{error.message}</p>
         </div>
     );

@@ -4,12 +4,15 @@
 
 @import './theme/theme.css';
 
-@theme {
+/* @theme {
     --font-sans: 'PingFang SC', 'Inter', sans-serif;
     --font-serif: 'Merriweather', serif;
     --font-mono: 'Fira Code', monospace;
     --font-brand: 'PingFang SC', 'Inter', sans-serif;
-}
+} */
+
+/* main.css */
+
 
 /* Chat bubble fade + slide animation */
 @keyframes chatMessage {

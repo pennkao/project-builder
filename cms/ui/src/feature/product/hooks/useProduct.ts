@@ -2,6 +2,7 @@ import { defaultProductMain } from '@/defaults/product';
 import { useBatchPost } from '@/hooks/usePost';
 import { decontent } from '@/lib/content';
 import { useEffect, useState } from 'react';
+import { normalizeProduct, normalizeProductSkus } from '../utils/format';
 
 export function useProduct(productId: number) {
     const { doBatchPost, Params } = useBatchPost();
@@ -31,24 +32,25 @@ export function useProduct(productId: number) {
         async function fetchProduct() {
             await doBatchPost([
                 Params<ProductMainType>('fetch', { params: { id: productId, target: 'product' } }, (res) => {
-                    setByKey('main', res);
-                    setInitByKey('main', res);
+                    const normalized = normalizeProduct(res);
+                    setByKey('main', normalized);
+                    setInitByKey('main', normalized);
                 }),
-                Params('fetch', { params: { id: productId, target: 'product-skus' } }, (res) => {
-                    setByKey('skus', res);
-                    setInitByKey('skus', res);
+                Params<SkuType[]>('fetch', { params: { id: productId, target: 'product-skus' } }, (res) => {
+                    const normalized = normalizeProductSkus(res);
+                    setByKey('skus', normalized);
+                    setInitByKey('skus', normalized);
                 }),
-                Params('fetch', { params: { id: productId, target: 'product-options' } }, (res) => {
+                Params<ProductAttrType>('fetch', { params: { id: productId, target: 'product-options' } }, (res) => {
                     setByKey('options', res);
                     setInitByKey('options', res);
                 }),
-                Params('fetch', { params: { id: productId, target: 'product-details' } }, (res) => {
+                Params<ProductDetailsType>('fetch', { params: { id: productId, target: 'product-details' } }, (res) => {
                     setByKey('images', res.images);
                     setInitByKey('images', res.images);
                 }),
-                Params('fetch', { params: { id: productId, target: 'product-content' } }, (res) => {
+                Params<string>('fetch', { params: { id: productId, target: 'product-content' } }, (res) => {
                     const content = decontent(res);
-                    console.log(content),232323;
                     setByKey('content', content);
                     setInitByKey('content', content);
                 }),

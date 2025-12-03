@@ -1,8 +1,8 @@
 import BaseImage from '@/components/BaseImage';
 
 import BackToTopButton from '@/components/BackToTopButton';
-import { config } from '@/config/config';
 import AppHeader from '@/features/app/AppHeader';
+import { denormalizeProductList } from '@/lib/convert';
 import { doList } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,9 @@ const HomePage = ({ data }: any) => {
     const product = async () => {
         doList<ProductItemType[]>('products', 1, (data) => {
             if (data && data.length) {
-                setProducts(data);
+                console.log(data);
+                const pdata = denormalizeProductList(data);
+                setProducts(pdata);
             }
         });
     };
@@ -27,7 +29,6 @@ const HomePage = ({ data }: any) => {
     return (
         <>
             <AppHeader />
-            222{config.IS_PROD ? 999:666}111
             <div className="bg-white rounded-lg p-1 shadow-sm">
                 {/* <h2 className="text-xl font-bold text-gray-800 mb-4">热门商品</h2> */}
 
@@ -46,17 +47,15 @@ const HomePage = ({ data }: any) => {
 
                                 {/* 内容区 */}
                                 <div className="p-3 flex flex-col justify-between">
-                                    <h3 className="font-medium text-gray-900 line-clamp-2 text-sm">{product.name}</h3>
+                                    <h3 className="font-medium  text-gray-900 line-clamp-2 text-sm">{product.name}</h3>
 
                                     <div className="mt-2">
                                         <div className="text-lg font-bold text-red-600">
                                             {product.stock} {t('common.score')}
                                         </div>
                                         <div className="flex justify-between items-center">
-                                            <div className="text-xs text-gray-500">
-                                                {product.price} {t('common.currency')}
-                                            </div>
-                                            <div className="text-xs text-orange-600">月兑 {product.stock}+</div>
+                                            <div className="text-xs text-gray-500">{t('product.price', { price: product.price })}</div>
+                                            <div className="text-xs text-orange-600">{t('common.monthly', { num: product.stock })}</div>
                                         </div>
                                     </div>
                                 </div>

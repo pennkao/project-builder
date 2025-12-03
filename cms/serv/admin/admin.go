@@ -35,6 +35,10 @@ func (t *Cms) Dispatcher(c *gin.Context) {
 		t.Lister(c)
 	case "/updater":
 		t.Updater(c)
+	case "/add-site":
+		t.CreateSite(c)
+	case "/update-site":
+		t.UpdateSite(c)
 	case "/add-images":
 		t.AddImages(c)
 	case "/product-handle-check":

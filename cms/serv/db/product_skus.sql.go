@@ -9,7 +9,6 @@ import (
 	"context"
 
 	"github.com/cms/dbtypes"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 const deleteProductSku = `-- name: DeleteProductSku :exec
@@ -31,13 +30,13 @@ SELECT id,product_id,name,image,price,attrs,akey FROM product_skus WHERE product
 `
 
 type FetchProductSkusRow struct {
-	ID        int64          `json:"id"`
-	ProductID int64          `json:"product_id"`
-	Name      string         `json:"name"`
-	Image     string         `json:"image"`
-	Price     pgtype.Numeric `json:"price"`
-	Attrs     dbtypes.JSON   `json:"attrs"`
-	Akey      string         `json:"akey"`
+	ID        int64        `json:"id"`
+	ProductID int64        `json:"product_id"`
+	Name      string       `json:"name"`
+	Image     string       `json:"image"`
+	Price     int64        `json:"price"`
+	Attrs     dbtypes.JSON `json:"attrs"`
+	Akey      string       `json:"akey"`
 }
 
 func (q *Queries) FetchProductSkus(ctx context.Context, productID int64) ([]FetchProductSkusRow, error) {

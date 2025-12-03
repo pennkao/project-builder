@@ -34,7 +34,8 @@ export function usePost<T = any>(api: string) {
 
     const Params = (options: PostOptions, callback?: (data: T) => void) => {
         return {
-            options: { params: options.params, query: options.querys },
+            params: options.params,
+            querys: options.querys,
             callback,
         };
     };
@@ -47,7 +48,6 @@ export function usePost<T = any>(api: string) {
     const doPost = async ({ params, querys, callback }: DoPostParams<T>) => {
         setError(null);
         setLoading(true);
-
         try {
             // 拼接完整 URL
             let url = `${config.API_URL}${api}`;
@@ -61,7 +61,7 @@ export function usePost<T = any>(api: string) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'X-Timestamp': Date.now().toString(),
+                    'X-Requested-Time': Date.now().toString(),
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 credentials: 'include',
@@ -185,5 +185,5 @@ export function useBatchPost() {
         return [firstResult, ...results];
     };
 
-    return { doBatchPost, Params, loading, error };
+    return { doBatchPost, doPost, Params, loading, error };
 }

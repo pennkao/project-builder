@@ -29,7 +29,7 @@ const OrderPage = ({ orderId }: any) => {
             <div className="bg-container rounded-2xl  w-full max-w-3xl p-6 flex flex-col gap-4">
                 {/* 标题 */}
                 <div className="flex flex-col items-center justify-center gap-2">
-                    <div className="text-3xl font-semibold text-green-600 flex items-center gap-2">✅ {t('order.payment_success')}</div>
+                    <div className="text-2xl font-semibold text-green-600 flex items-center gap-2">✅ {t('order.payment_success')}</div>
                     <div className="text-gray-600">{t('order.think_you')}</div>
                 </div>
 
@@ -95,7 +95,8 @@ const OrderPage = ({ orderId }: any) => {
                         </div>
                         <div className="flex justify-end py-2">
                             <span className="text-gray-700">
-                                {t('common.symbol')} {orderInfo?.product?.sku?.price || 0} ×{orderInfo?.product?.quantity || 0}
+                                {t('common.symbol')}
+                                {orderInfo?.product?.sku?.price || 0} × {orderInfo?.product?.quantity || 0}
                             </span>
                         </div>
                     </div>
@@ -105,32 +106,37 @@ const OrderPage = ({ orderId }: any) => {
                         <div className="flex justify-between">
                             <span>{t('product.total')}</span>
                             <span>
-                                {t('common.symbol')} <span className="line-through">{orderInfo?.product?.total.toFixed(2) || 0}</span>
+                                {t('common.symbol')}
+                                <span className="line-through">{orderInfo?.product?.total.toFixed(2) || 0}</span>
                             </span>
                         </div>
                         <div className="flex justify-between">
                             <span>{t('product.first_order')}</span>
                             <span>
-                                -{t('common.symbol')} {orderInfo?.firstOrderDiscount?.toFixed(2) || 0}
+                                -{t('common.symbol')}
+                                {orderInfo?.firstOrderDiscount?.toFixed(2) || 0}
                             </span>
                         </div>
                         <div className="flex justify-between">
                             <span>{t('product.tiered_discount')}</span>
                             <span>
-                                -{t('common.symbol')} {orderInfo?.discount?.toFixed(2) || 0}
+                                -{t('common.symbol')}
+                                {orderInfo?.discount?.toFixed(2) || 0}
                             </span>
                         </div>
                         <div className="flex justify-between">
                             <span>{orderInfo?.paymentMethod?.name === 'paypal' ? t('order.payment_fee') : t('order.payment_discount')}</span>
                             <span>
-                                -{t('common.symbol')} {orderInfo?.paymentDiscountOrFee?.toFixed(2) || 0}
+                                -{t('common.symbol')}
+                                {orderInfo?.paymentDiscountOrFee?.toFixed(2) || 0}
                             </span>
                         </div>
 
                         <div className="flex justify-between text-brand mt-1">
                             <span>{t('product.pay_amount')}</span>
                             <span>
-                                {t('common.symbol')} {orderInfo?.product?.payAmount.toFixed(2) || 0}
+                                {t('common.symbol')}
+                                {orderInfo?.product?.payAmount.toFixed(2) || 0}
                             </span>
                         </div>
                     </div>
@@ -144,12 +150,13 @@ const OrderPage = ({ orderId }: any) => {
                 </div>
 
                 {/* 底部提示 */}
-                <div className="text-sm text-gray-500 text-center ">
-                    <span>{t('order.question')}</span>
-                    <a href="#" className="text-blue-600 underline" onClick={() => setIsOpen(true)}>
-                        {t('order.contact_customer_service')}
-                    </a>
-                    。
+                <div className="text-xs text-gray-500 text-center">
+                        {t('order.question')}
+                        &nbsp;
+                        <a href="#" className="text-blue-600 underline" onClick={() => setIsOpen(true)}>
+                            {t('order.contact_customer_service')}
+                        </a>
+                        。
                 </div>
             </div>
         </div>

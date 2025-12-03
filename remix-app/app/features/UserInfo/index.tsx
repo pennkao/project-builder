@@ -120,7 +120,6 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
             return;
         }
         if (!useInfoForm.email) {
-            alert(222222222);
             showMessageBox(t('message.error.invalid_email'), 'error', timeout);
             return;
         }
@@ -140,10 +139,13 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
             showMessageBox(t('message.error.invalid_zip'), 'error', timeout);
             return;
         }
-        localStorage.setItem(Keys.UseInfo, JSON.stringify(useInfoForm));
-        DoJump();
-        // navigate('/checkout');
-        // action('saveUserInfo');
+
+        const pdata = JSON.stringify(useInfoForm);
+        localStorage.setItem(Keys.UseInfo, pdata);
+        const ckdata = localStorage.getItem(Keys.UseInfo);
+        if (pdata == ckdata) {
+            DoJump();
+        }
     };
     const className = 'w-full  p-2  input-main';
     const addressClassName = 'rounded-lg border border-gray-300 bg-white transition-colors py-1 text-base';

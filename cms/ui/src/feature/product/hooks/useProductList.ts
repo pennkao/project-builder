@@ -2,6 +2,7 @@ import { Confirm } from '@/components/composed';
 import { defaultPageDataList, defaultQueryParams } from '@/defaults';
 import { usePost } from '@/hooks/usePost';
 import { useEffect, useState } from 'react';
+import { normalizeProduct } from '../utils/format';
 
 const message = async (message: string) => {
     const confirm = await Confirm('Error', message, { confirmText: 'Confirm', cancelText: 'Cancel', danger: true });
@@ -22,7 +23,10 @@ export const useProductList = () => {
             params: listQueryParams,
             querys: { page: page, size: 10 },
             callback: (data) => {
-                if (data) setResult(data);
+                if (data) {
+                    const list = data.list.map((item) => normalizeProduct(item));
+                    setResult({ ...data, list: list });
+                }
             },
         });
     };

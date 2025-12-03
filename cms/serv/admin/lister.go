@@ -2,6 +2,7 @@ package admin
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/cms/admin/dto/hp"
@@ -20,7 +21,7 @@ func (t *Cms) Lister(c *gin.Context) {
 		hp.Error[any](c, err.Error())
 		return
 	}
-
+	fmt.Println(req)
 	switch req.Target {
 	case "products":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "uts")
@@ -42,9 +43,22 @@ func (t *Cms) Lister(c *gin.Context) {
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "cts")
 			t.QueryOrderLogsList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
+	case "sites":
+			t.QuerySiteList(c.Request.Context(), page)
+			hp.Success[any](c, page)
 	default:
 		hp.Error[any](c, "Not Found")
 	}
+}
+
+func (t *Cms) QuerySiteList(ctx context.Context, page *com.PageResponse) {
+    data,err:=t.Q.SiteList(ctx)
+	if err!= nil{
+		log.Println(err)
+		return
+	}
+	page.SetTotal(int(len(data))) // 设置总记录数
+	page.SetList(data) // 设置产品列表
 }
 
 func (t *Cms) QueryOrderLogsList(ctx context.Context, where,fullWhere string, args []interface{}, page *com.PageResponse) {

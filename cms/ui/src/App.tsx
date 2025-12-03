@@ -21,6 +21,8 @@ const BasicTables = lazy(() => import('@/pages/Tables/BasicTables'));
 const Alerts = lazy(() => import('@/pages/UiElements/Alerts'));
 const Images = lazy(() => import('@/pages/Images/Images'));
 const UserProfiles = lazy(() => import('@/pages/UserProfiles'));
+const Sites = lazy(() => import('./pages/Sites/Sites'));
+const AddSite = lazy(() => import('./pages/Sites/AddSite'));
 
 export default function App() {
     return (
@@ -105,6 +107,31 @@ export default function App() {
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <Logs />
+                                </Suspense>
+                            }
+                        />
+                        {/* site */}
+                        <Route
+                            path="/sites"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <Sites />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/add-site"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <AddSite />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/edit-site/:id"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <AddSite />
                                 </Suspense>
                             }
                         />

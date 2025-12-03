@@ -2,7 +2,6 @@ package hq
 
 import (
 	"github.com/cms/dbtypes"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type FetcherReq struct {
@@ -74,7 +73,7 @@ type SkuItemReq struct {
 	Ukey      string         `json:"ukey"`
 	Code      string         `json:"code"`
 	Image     string         `json:"image"`
-	Price     pgtype.Numeric `json:"price"`
+	Price     int64          `json:"price"`
 	Stock     int32          `json:"stock"`
 	WeightG   int32          `json:"weight_g"`
 	Attrs     dbtypes.JSON   `json:"attrs"`

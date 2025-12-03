@@ -55,7 +55,7 @@ export default function Add() {
                 </Content>
 
                 <Footer className="flex justify-end gap-2 ">
-                    <Button variant="outline" onClick={() => alert('Draft')}>
+                    <Button variant="outline" onClick={() => {navigate('/products-list')}}>
                         Draft
                     </Button>
                     <Button variant="primary" onClick={() => handleSave(product_id)}>

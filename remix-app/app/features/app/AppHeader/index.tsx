@@ -49,14 +49,14 @@ const AppHeader = ({ className }: { className?: string }) => {
                     {/* 搜索框容器：加 relative！ */}
                     <div className="h-8 max-w-xs flex rounded-full bg-white overflow-hidden shadow-md relative">
                         {/* 输入框：pl-8 足够避开图标 */}
-                        <input type="text" placeholder="水果手表" className="flex-1 px-3 pl-10 text-gray-700 focus:outline-none min-w-0" />
+                        <input type="text" placeholder={t('header.search_placeholder')} className="flex-1 px-3 pl-10 text-gray-700 focus:outline-none min-w-0" />
 
                         {/* SVG 放大镜：必须有 path！ */}
                         <svg className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
 
-                        <button className="bg-orange-500 text-white px-3 py-1.5 text-sm font-medium">{t('header.search')}</button>
+                        <button className="bg-orange-500 text-white px-3 py-0 text-sm font-medium">{t('header.search')}</button>
                     </div>
 
                     <span className="text-white text-lg whitespace-nowrap">🎧</span>

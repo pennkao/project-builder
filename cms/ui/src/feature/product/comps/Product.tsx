@@ -1,6 +1,6 @@
 import { Input as InputField } from '@/components/Basic/Input';
 import Loading from '@/components/Loading/Loading';
-import { Label,Input } from '@/components/elements';
+import { Input, Label } from '@/components/elements';
 import { Card } from '@/feature/common/layout';
 import { usePost } from '@/hooks/usePost';
 import { formartValue, formInput, genHandle, keyDownNumberInput } from '@/utils/product';
@@ -107,6 +107,32 @@ export default function ProductMain() {
                             onKeyDown={keyDownNumberInput}
                             value={formInput(productData.main?.weight_g)}
                             onChange={(e) => handleChange('weight_g', e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-row gap-1">
+                    <div className="w-1/2">
+                        <Label htmlFor="inputTwo">Points</Label>
+                        <Input
+                            type="number"
+                            placeholder="Points"
+                            min={'1'}
+                            step={5}
+                            onKeyDown={keyDownNumberInput}
+                            value={formInput(productData.main?.points || '')}
+                            onChange={(e) => handleChange('points', e.target.value)}
+                        />
+                    </div>
+                    <div className="w-1/2">
+                        <Label htmlFor="input">Sales</Label>
+                        <Input
+                            type="number"
+                            placeholder="Sales"
+                            min={'0'}
+                            step={1}
+                            onKeyDown={keyDownNumberInput}
+                            value={formInput(productData.main?.sales_count)}
+                            onChange={(e) => handleChange('sales_count', e.target.value)}
                         />
                     </div>
                 </div>

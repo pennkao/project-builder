@@ -1,5 +1,5 @@
 -- name: ListProducts :many
-SELECT  id,name, handle, tags, weight_g,deleted,status, brand, category, main_image, price,sales_count,cts
+SELECT  id,name, handle, tags, weight_g,deleted,status, brand, category, main_image, price,sales_count,points,cts
 FROM products
 WHERE deleted = 0
 ORDER BY uts desc
@@ -29,9 +29,10 @@ INSERT INTO products (
     price,
     sku_num,
     sales_count,
-    stock
+    stock,
+    points
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13  
 )
 RETURNING id;
 
@@ -73,7 +74,8 @@ SET
     main_image  = $10,
     sales_count = $11,
     stock       = $12,
-    price       = $13
+    price       = $13,
+    points      = $14
 WHERE id = $1;
 
 -- name: UpdateProductStatus :exec
@@ -83,7 +85,7 @@ WHERE id = $1;
 
 
 -- name: FetchProductList :many
-SELECT name,handle,main_image,tags,sales_count,price,stock FROM products ORDER BY uts DESC LIMIT $1 OFFSET $2;
+SELECT name,handle,main_image,tags,sales_count,price,stock,points FROM products ORDER BY uts DESC LIMIT $1 OFFSET $2;
 
 -- name: FetchProductById :one
-SELECT id,name,handle,main_image,tags,sales_count,price,stock FROM products WHERE id = $1;
+SELECT id,name,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE id = $1;

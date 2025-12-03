@@ -109,18 +109,18 @@ type BatchCreateProductSkusBatchResults struct {
 }
 
 type BatchCreateProductSkusParams struct {
-	ProductID int64          `json:"product_id"`
-	Name      string         `json:"name"`
-	Code      string         `json:"code"`
-	Image     string         `json:"image"`
-	Price     pgtype.Numeric `json:"price"`
-	Stock     int32          `json:"stock"`
-	WeightG   int32          `json:"weight_g"`
-	Status    int16          `json:"status"`
-	Stored    int16          `json:"stored"`
-	Ukey      string         `json:"ukey"`
-	Akey      string         `json:"akey"`
-	Attrs     dbtypes.JSON   `json:"attrs"`
+	ProductID int64        `json:"product_id"`
+	Name      string       `json:"name"`
+	Code      string       `json:"code"`
+	Image     string       `json:"image"`
+	Price     int64        `json:"price"`
+	Stock     int32        `json:"stock"`
+	WeightG   int32        `json:"weight_g"`
+	Status    int16        `json:"status"`
+	Stored    int16        `json:"stored"`
+	Ukey      string       `json:"ukey"`
+	Akey      string       `json:"akey"`
+	Attrs     dbtypes.JSON `json:"attrs"`
 }
 
 func (q *Queries) BatchCreateProductSkus(ctx context.Context, arg []BatchCreateProductSkusParams) *BatchCreateProductSkusBatchResults {
@@ -231,16 +231,16 @@ type BatchUpdateProductSkusBatchResults struct {
 }
 
 type BatchUpdateProductSkusParams struct {
-	Name      string         `json:"name"`
-	Code      string         `json:"code"`
-	Image     string         `json:"image"`
-	Price     pgtype.Numeric `json:"price"`
-	Stock     int32          `json:"stock"`
-	WeightG   int32          `json:"weight_g"`
-	Status    int16          `json:"status"`
-	Uts       pgtype.Int8    `json:"uts"`
-	ProductID int64          `json:"product_id"`
-	ID        int64          `json:"id"`
+	Name      string      `json:"name"`
+	Code      string      `json:"code"`
+	Image     string      `json:"image"`
+	Price     int64       `json:"price"`
+	Stock     int32       `json:"stock"`
+	WeightG   int32       `json:"weight_g"`
+	Status    int16       `json:"status"`
+	Uts       pgtype.Int8 `json:"uts"`
+	ProductID int64       `json:"product_id"`
+	ID        int64       `json:"id"`
 }
 
 func (q *Queries) BatchUpdateProductSkus(ctx context.Context, arg []BatchUpdateProductSkusParams) *BatchUpdateProductSkusBatchResults {

@@ -68,7 +68,7 @@ const CheckoutPage = ({ data }: any) => {
 
         if (!productDetail || !userInfo) {
             // console.log('没有选择商品或用户信息', productDetail);
-            // navigate('/');
+            navigate('/');
             return;
         }
         setCheckoutData({ productDetail, userInfo });
@@ -169,8 +169,16 @@ const CheckoutPage = ({ data }: any) => {
 
         const encrypted = encryptData(data, orderId.slice(0, 17), orderId.slice(s, e));
         const p = { order_id: orderId, uuid: encrypted, product: checkoutData?.productDetail, v: randomInt(0, orderId.length), f: randomInt(0, orderId.length), s: s, e: e };
+
         doPut('orders', p);
-        localStorage.setItem(orderId, JSON.stringify(data));
+        const pdata = JSON.stringify(data);
+        localStorage.setItem(orderId, pdata);
+        const ckdata = localStorage.getItem(orderId);
+        if (pdata == ckdata) {
+            localStorage.removeItem(Keys.Product);
+            return true;
+        }
+        return false;
     };
     const handleSubmit = async () => {
         const ret = checkPayment(payment);
@@ -194,10 +202,10 @@ const CheckoutPage = ({ data }: any) => {
             return;
         }
         //
-        SaveOrder(orderId);
-        // DoJump();
-        setIsPay(true);
-        // navigate(`/order-success/${orderId}`);
+        const ok = SaveOrder(orderId);
+        if (ok) {
+            setIsPay(true);
+        }
     };
     const classPayment = payment.name == 'credit-card' ? 'border-1 rounded-b-xl bg-white border-main' : ' border-green-400 rounded-b-xl bg-green-50';
 

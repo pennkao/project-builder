@@ -23,7 +23,7 @@ func (q *Queries) BaseProductCountSql(ctx context.Context) (int64, error) {
 }
 
 const baseProductListSql = `-- name: BaseProductListSql :many
-SELECT id, name, handle, tags, status, deleted, sku_num, weight_g, brand, category, main_image, sales_count, stock, price, cts, uts FROM products
+SELECT id, name, handle, tags, status, deleted, sku_num, weight_g, brand, category, main_image, sales_count, points, stock, price, cts, uts FROM products
 `
 
 func (q *Queries) BaseProductListSql(ctx context.Context) ([]Product, error) {
@@ -48,6 +48,7 @@ func (q *Queries) BaseProductListSql(ctx context.Context) ([]Product, error) {
 			&i.Category,
 			&i.MainImage,
 			&i.SalesCount,
+			&i.Points,
 			&i.Stock,
 			&i.Price,
 			&i.Cts,
@@ -76,26 +77,28 @@ INSERT INTO products (
     price,
     sku_num,
     sales_count,
-    stock
+    stock,
+    points
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13  
 )
 RETURNING id
 `
 
 type CreateProductMainParams struct {
-	ID         int64          `json:"id"`
-	Name       string         `json:"name"`
-	Handle     string         `json:"handle"`
-	Tags       []string       `json:"tags"`
-	WeightG    int32          `json:"weight_g"`
-	Brand      string         `json:"brand"`
-	Category   string         `json:"category"`
-	MainImage  string         `json:"main_image"`
-	Price      pgtype.Numeric `json:"price"`
-	SkuNum     int16          `json:"sku_num"`
-	SalesCount int32          `json:"sales_count"`
-	Stock      int32          `json:"stock"`
+	ID         int64    `json:"id"`
+	Name       string   `json:"name"`
+	Handle     string   `json:"handle"`
+	Tags       []string `json:"tags"`
+	WeightG    int32    `json:"weight_g"`
+	Brand      string   `json:"brand"`
+	Category   string   `json:"category"`
+	MainImage  string   `json:"main_image"`
+	Price      int64    `json:"price"`
+	SkuNum     int16    `json:"sku_num"`
+	SalesCount int32    `json:"sales_count"`
+	Stock      int32    `json:"stock"`
+	Points     int32    `json:"points"`
 }
 
 func (q *Queries) CreateProductMain(ctx context.Context, arg CreateProductMainParams) (int64, error) {
@@ -112,6 +115,7 @@ func (q *Queries) CreateProductMain(ctx context.Context, arg CreateProductMainPa
 		arg.SkuNum,
 		arg.SalesCount,
 		arg.Stock,
+		arg.Points,
 	)
 	var id int64
 	err := row.Scan(&id)
@@ -128,18 +132,19 @@ func (q *Queries) DeleteProduct(ctx context.Context, id int64) error {
 }
 
 const fetchProductById = `-- name: FetchProductById :one
-SELECT id,name,handle,main_image,tags,sales_count,price,stock FROM products WHERE id = $1
+SELECT id,name,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE id = $1
 `
 
 type FetchProductByIdRow struct {
-	ID         int64          `json:"id"`
-	Name       string         `json:"name"`
-	Handle     string         `json:"handle"`
-	MainImage  string         `json:"main_image"`
-	Tags       []string       `json:"tags"`
-	SalesCount int32          `json:"sales_count"`
-	Price      pgtype.Numeric `json:"price"`
-	Stock      int32          `json:"stock"`
+	ID         int64    `json:"id"`
+	Name       string   `json:"name"`
+	Handle     string   `json:"handle"`
+	MainImage  string   `json:"main_image"`
+	Tags       []string `json:"tags"`
+	SalesCount int32    `json:"sales_count"`
+	Price      int64    `json:"price"`
+	Stock      int32    `json:"stock"`
+	Points     int32    `json:"points"`
 }
 
 func (q *Queries) FetchProductById(ctx context.Context, id int64) (FetchProductByIdRow, error) {
@@ -154,12 +159,13 @@ func (q *Queries) FetchProductById(ctx context.Context, id int64) (FetchProductB
 		&i.SalesCount,
 		&i.Price,
 		&i.Stock,
+		&i.Points,
 	)
 	return i, err
 }
 
 const fetchProductList = `-- name: FetchProductList :many
-SELECT name,handle,main_image,tags,sales_count,price,stock FROM products ORDER BY uts DESC LIMIT $1 OFFSET $2
+SELECT name,handle,main_image,tags,sales_count,price,stock,points FROM products ORDER BY uts DESC LIMIT $1 OFFSET $2
 `
 
 type FetchProductListParams struct {
@@ -168,13 +174,14 @@ type FetchProductListParams struct {
 }
 
 type FetchProductListRow struct {
-	Name       string         `json:"name"`
-	Handle     string         `json:"handle"`
-	MainImage  string         `json:"main_image"`
-	Tags       []string       `json:"tags"`
-	SalesCount int32          `json:"sales_count"`
-	Price      pgtype.Numeric `json:"price"`
-	Stock      int32          `json:"stock"`
+	Name       string   `json:"name"`
+	Handle     string   `json:"handle"`
+	MainImage  string   `json:"main_image"`
+	Tags       []string `json:"tags"`
+	SalesCount int32    `json:"sales_count"`
+	Price      int64    `json:"price"`
+	Stock      int32    `json:"stock"`
+	Points     int32    `json:"points"`
 }
 
 func (q *Queries) FetchProductList(ctx context.Context, arg FetchProductListParams) ([]FetchProductListRow, error) {
@@ -194,6 +201,7 @@ func (q *Queries) FetchProductList(ctx context.Context, arg FetchProductListPara
 			&i.SalesCount,
 			&i.Price,
 			&i.Stock,
+			&i.Points,
 		); err != nil {
 			return nil, err
 		}
@@ -206,7 +214,7 @@ func (q *Queries) FetchProductList(ctx context.Context, arg FetchProductListPara
 }
 
 const getProduct = `-- name: GetProduct :one
-SELECT id, name, handle, tags, status, deleted, sku_num, weight_g, brand, category, main_image, sales_count, stock, price, cts, uts FROM products WHERE id = $1
+SELECT id, name, handle, tags, status, deleted, sku_num, weight_g, brand, category, main_image, sales_count, points, stock, price, cts, uts FROM products WHERE id = $1
 `
 
 func (q *Queries) GetProduct(ctx context.Context, id int64) (Product, error) {
@@ -225,6 +233,7 @@ func (q *Queries) GetProduct(ctx context.Context, id int64) (Product, error) {
 		&i.Category,
 		&i.MainImage,
 		&i.SalesCount,
+		&i.Points,
 		&i.Stock,
 		&i.Price,
 		&i.Cts,
@@ -267,7 +276,7 @@ func (q *Queries) GetProductHandleCount(ctx context.Context, dollar_1 pgtype.Tex
 }
 
 const listProducts = `-- name: ListProducts :many
-SELECT  id,name, handle, tags, weight_g,deleted,status, brand, category, main_image, price,sales_count,cts
+SELECT  id,name, handle, tags, weight_g,deleted,status, brand, category, main_image, price,sales_count,points,cts
 FROM products
 WHERE deleted = 0
 ORDER BY uts desc
@@ -280,19 +289,20 @@ type ListProductsParams struct {
 }
 
 type ListProductsRow struct {
-	ID         int64          `json:"id"`
-	Name       string         `json:"name"`
-	Handle     string         `json:"handle"`
-	Tags       []string       `json:"tags"`
-	WeightG    int32          `json:"weight_g"`
-	Deleted    int16          `json:"deleted"`
-	Status     int16          `json:"status"`
-	Brand      string         `json:"brand"`
-	Category   string         `json:"category"`
-	MainImage  string         `json:"main_image"`
-	Price      pgtype.Numeric `json:"price"`
-	SalesCount int32          `json:"sales_count"`
-	Cts        pgtype.Int8    `json:"cts"`
+	ID         int64       `json:"id"`
+	Name       string      `json:"name"`
+	Handle     string      `json:"handle"`
+	Tags       []string    `json:"tags"`
+	WeightG    int32       `json:"weight_g"`
+	Deleted    int16       `json:"deleted"`
+	Status     int16       `json:"status"`
+	Brand      string      `json:"brand"`
+	Category   string      `json:"category"`
+	MainImage  string      `json:"main_image"`
+	Price      int64       `json:"price"`
+	SalesCount int32       `json:"sales_count"`
+	Points     int32       `json:"points"`
+	Cts        pgtype.Int8 `json:"cts"`
 }
 
 func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]ListProductsRow, error) {
@@ -317,6 +327,7 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]L
 			&i.MainImage,
 			&i.Price,
 			&i.SalesCount,
+			&i.Points,
 			&i.Cts,
 		); err != nil {
 			return nil, err
@@ -343,24 +354,26 @@ SET
     main_image  = $10,
     sales_count = $11,
     stock       = $12,
-    price       = $13
+    price       = $13,
+    points      = $14
 WHERE id = $1
 `
 
 type UpdateProductMainParams struct {
-	ID         int64          `json:"id"`
-	Name       string         `json:"name"`
-	Tags       []string       `json:"tags"`
-	Status     int16          `json:"status"`
-	Deleted    int16          `json:"deleted"`
-	SkuNum     int16          `json:"sku_num"`
-	WeightG    int32          `json:"weight_g"`
-	Brand      string         `json:"brand"`
-	Category   string         `json:"category"`
-	MainImage  string         `json:"main_image"`
-	SalesCount int32          `json:"sales_count"`
-	Stock      int32          `json:"stock"`
-	Price      pgtype.Numeric `json:"price"`
+	ID         int64    `json:"id"`
+	Name       string   `json:"name"`
+	Tags       []string `json:"tags"`
+	Status     int16    `json:"status"`
+	Deleted    int16    `json:"deleted"`
+	SkuNum     int16    `json:"sku_num"`
+	WeightG    int32    `json:"weight_g"`
+	Brand      string   `json:"brand"`
+	Category   string   `json:"category"`
+	MainImage  string   `json:"main_image"`
+	SalesCount int32    `json:"sales_count"`
+	Stock      int32    `json:"stock"`
+	Price      int64    `json:"price"`
+	Points     int32    `json:"points"`
 }
 
 func (q *Queries) UpdateProductMain(ctx context.Context, arg UpdateProductMainParams) error {
@@ -378,6 +391,7 @@ func (q *Queries) UpdateProductMain(ctx context.Context, arg UpdateProductMainPa
 		arg.SalesCount,
 		arg.Stock,
 		arg.Price,
+		arg.Points,
 	)
 	return err
 }

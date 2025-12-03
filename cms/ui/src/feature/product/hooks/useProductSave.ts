@@ -3,6 +3,7 @@ import { useBatchPost } from '@/hooks/usePost';
 import { encontent } from '@/lib/content';
 import { formatNumbers } from '@/utils/pre';
 import { fnv1a32 } from '@/utils/product';
+import { denormalizeProduct, denormalizeProductSkus } from '../utils/format';
 
 export function useProductSave(productId: number, productData: ProductType, productDataInit: ProductType, navigate: Function) {
     const { doBatchPost, Params } = useBatchPost();
@@ -35,10 +36,10 @@ export function useProductSave(productId: number, productData: ProductType, prod
         productData.main.id = id;
         productData.content = encontent(productData.content);
         const res = await doBatchPost([
-            Params('add-product', { params: formatNumbers(productData.main) }),
+            Params('add-product', { params: denormalizeProduct(formatNumbers(productData.main)) }),
             Params('add-product-content', { params: { product_id: id, content: productData.content } }),
             Params('add-product-details', { params: { product_id: id, images: Array.from(new Set(productData.images)), videos: [], specs: {} } }),
-            Params('add-product-skus', { params: { product_id: id, skus: formatNumbers(productData.skus) } }),
+            Params('add-product-skus', { params: { product_id: id, skus: denormalizeProductSkus(formatNumbers(productData.skus)) } }),
             Params('add-product-options', { params: { product_id: id, options: productData.options } }),
             Params('add-product-sku-json', { params: { product_id: id, skus: productData.skus } }),
         ]);
@@ -69,10 +70,10 @@ export function useProductSave(productId: number, productData: ProductType, prod
 
         productData.content = encontent(productData.content);
         const res = await doBatchPost([
-            Params('update-product', { params: formatNumbers(productData.main) }),
+            Params('update-product', { params: denormalizeProduct(formatNumbers(productData.main)) }),
             Params('update-product-content', { params: { product_id: productId, content: productData.content } }),
             Params('update-product-details', { params: { product_id: productId, images: Array.from(new Set(productData.images)), videos: [], specs: {} } }),
-            Params('update-product-skus', { params: { product_id: productId, skus: formatNumbers(productData.skus) } }),
+            Params('update-product-skus', { params: { product_id: productId, skus: denormalizeProductSkus(formatNumbers(productData.skus)) } }),
             Params('update-product-options', { params: { product_id: productId, options: productData.options } }),
             Params('update-product-sku-json', { params: { product_id: productId, skus: productData.skus } }),
         ]);

@@ -116,9 +116,12 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
             discountValue: discountValue.discount,
             payAmount: discountValue.payAmount,
         };
-        localStorage.setItem(Keys.Product, JSON.stringify(productSelected));
-
-        DoJump();
+        const pdata = JSON.stringify(productSelected);
+        localStorage.setItem(Keys.Product, pdata);
+        const ckdata = localStorage.getItem(Keys.Product);
+        if (pdata == ckdata) {
+            DoJump();
+        }
     };
 
     const JsxValue = (optionItem: AttrType, value: AttrValueType, index: number, idx: number) => {
@@ -224,8 +227,8 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                                 </button>
 
                                 <div className="flex-1 text-xs text-left px-2">
-                                    <span className="text-sub">{t('product.stock')}</span>
-                                    <span className="text-main">16</span>
+                                    <span className="text-sub">{t('product.stock')} {product.main.stock}</span>
+                                    {/* <span className="text-main">{product.main.stock}3</span> */}
                                 </div>
                             </div>
                         </div>

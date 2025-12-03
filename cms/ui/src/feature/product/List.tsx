@@ -26,16 +26,21 @@ export default function Products() {
             sortable: true,
             render: (item) => (
                 <div className="flex items-center gap-3">
-                    <Link to={`/collections/${item?.handle}`}>
-                        <Image src={SRC(item?.main_image || '')} className="h-10 w-10 rounded-md object-cover" />
+                    <Link to={`/products/${item?.handle}`}>
+                        <Image src={SRC(item?.main_image || '')} className="h-10 w-10 rounded-md object-cover shrink-0" />
                     </Link>
-                    {item?.name || '-'}
+
+                    <div className="flex flex-1 items-center line-clamp-2">{item?.name || '-'}</div>
                 </div>
             ),
         },
         { key: 'category', label: 'Category', sortable: true },
         { key: 'brand', label: 'Brand', sortable: true },
-        { key: 'price', label: 'Price', sortable: true },
+        {
+            key: 'price',
+            label: 'Price',
+            sortable: true,
+        },
         { key: 'status', label: 'Status', sortable: false, render: (item?: ProductItemType) => <StatusLabel status={item?.status || 0} /> },
         { key: 'cts', label: 'Date', sortable: false, render: (item?: ProductItemType) => formatDate(item?.cts || 0) },
         {

@@ -60,11 +60,28 @@ func (t *Cms) CreateProductMain(c *gin.Context) {
 		return
 	}
 
-	if (req.Stock == 0) {
-		req.Stock = int32(99999)  ////////todo
+	if (req.Price == 0) {
+		n := 3 + rand.Intn(1000-2)
+		req.Price = int64(n+5) * 100
+		if (req.Points == 0) {
+			req.Points = int32(n * 10)
+		}
+	} else {
+		if (req.Points == 0) {
+			n := 0 + rand.Intn(int(req.Price-100)/100)
+			req.Points = int32(n * 10)
+		}
 	}
 
-	req.SalesCount = int32(10 + rand.Intn(2000-10+1)) // 随机生成一个10到2000之间的整数
+	if (req.Stock == 0) {
+		req.Stock = int32(3 + rand.Intn(19))
+	}
+	if (req.SalesCount == 0) {
+		req.SalesCount = int32(13 + rand.Intn(2000))
+	}
+	if (req.WeightG == 0) {
+		req.WeightG = 1
+	}
 
     id, err := t.Q.CreateProductMain(c.Request.Context(), req)
     if err != nil {
@@ -302,7 +319,7 @@ func (t *Cms) UpdateProductContent(c *gin.Context) {
 
 	productContent,err:= t.Q.GetProductContent(c.Request.Context(), req.ProductID)
 	if err != nil || productContent == "" {
-		err:=t.Q.CreateProductContent(c.Request.Context(), db.CreateProductContentParams(req))
+		err=t.Q.CreateProductContent(c.Request.Context(), db.CreateProductContentParams(req))
 		if err != nil {
 			hp.Error[any](c,  err.Error())
 			return

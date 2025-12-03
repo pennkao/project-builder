@@ -1,5 +1,5 @@
 // 可扩展：支持 price、weight、stock 等
-const NUMBER_FIELDS = ['price', 'weight_g', 'stock', 'id', 'count'];
+const NUMBER_FIELDS = ['price', 'weight_g', 'stock', 'id', 'count', 'points','sales_count'];
 
 function formatNumberField(field: string, value: string | number | undefined | null) {
     if (typeof value !== 'string') return value;
@@ -11,6 +11,8 @@ function formatNumberField(field: string, value: string | number | undefined | n
         case 'stock':
         case 'id':
         case 'count':
+        case 'points':
+        case 'sales_count':
             const x = parseInt(value, 10);
             return isNaN(x) ? 0 : x;
         default:

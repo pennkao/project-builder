@@ -35,6 +35,15 @@ export const navItems: NavItem[] = [
         icon: <ListIcon />,
         subItems: [{ name: 'Site Logs', path: '/logs' }],
     },
+    // site
+    {
+        name: 'Sites',
+        icon: <PageIcon />,
+        subItems: [
+            { name: 'Sites', path: '/sites' },
+            { name: 'Add Site', path: '/add-site' },
+        ],
+    },
     {
         name: 'Tables',
         icon: <TableIcon />,

@@ -21,12 +21,20 @@ func (t *Cms) Updater(c *gin.Context) {
 	case "product":
 		err := t.ProductUpdater(c.Request.Context(), req)
 		hp.Response(c, nil, err)
+	case "site":
+		err := t.SiteUpdater(c.Request.Context(), req)
+		hp.Response(c, nil, err)
 	case "images":
 		// category, err := t.Q.(c.Request.Context(), req.Id)
 		// hp.Response(c,category, err)
 	default:
 		hp.Error[any](c, "Not Found")
 	}
+}
+
+func (t *Cms) SiteUpdater(ctx context.Context, params hq.UpdaterReq) error {
+	
+	return nil
 }
 
 func (t *Cms) ProductUpdater(ctx context.Context, params hq.UpdaterReq) error {

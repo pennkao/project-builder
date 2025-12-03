@@ -15,10 +15,10 @@ import ProductSelector from '@/features/product/ProductSelector';
 import ReviewCard from '@/features/product/ReviewCard';
 import UserInfo from '@/features/UserInfo';
 import { decontent } from '@/lib/content';
+import { doGet } from '@/utils/api';
 import { t } from 'i18next';
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { useNavigate } from 'react-router';
-import { doGet } from '../../utils/api';
 
 const ProductPage = ({ productData }: { productData: ProductType }) => {
     const [tabActiveKey, setTabActiveKey] = useState<string | null>(null);
@@ -47,7 +47,7 @@ const ProductPage = ({ productData }: { productData: ProductType }) => {
         doGet('content', productData.main.id).then((res) => {
             setContent(res);
         });
-    }, [content]);
+    }, [productData.main.id]);
 
     return (
         <div className="bg-primary flex flex-col">
