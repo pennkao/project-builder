@@ -1,5 +1,6 @@
 export { default as Confirm } from './Confirm';
 export { default as DatePicker } from './date-picker';
+export { default as ImageView } from './ImageView';
 export { default as ModalBase } from './ModalBase';
 export { default as MultiSelect } from './MultiSelect';
 export { default as PhoneInput } from './PhoneInput';

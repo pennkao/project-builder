@@ -1,6 +1,6 @@
 import Label from '@/components/elements/Label';
 import TextArea from '@/components/elements/TextArea';
-import { Card } from '@/feature/common/layout';
+import { Card } from '@/feature/compos/layout';
 import { useState } from 'react';
 export default function ProductDescription() {
     const [message, setMessage] = useState('');

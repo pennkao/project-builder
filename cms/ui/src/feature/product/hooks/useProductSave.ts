@@ -1,12 +1,13 @@
 import { Confirm } from '@/components/composed';
-import { useBatchPost } from '@/hooks/usePost';
+import { useApi } from '@/hooks/useApi';
 import { encontent } from '@/lib/content';
 import { formatNumbers } from '@/utils/pre';
 import { fnv1a32 } from '@/utils/product';
+
 import { denormalizeProduct, denormalizeProductSkus } from '../utils/format';
 
 export function useProductSave(productId: number, productData: ProductType, productDataInit: ProductType, navigate: Function) {
-    const { doBatchPost, Params } = useBatchPost();
+    const { api } = useApi();
 
     const message = async (message: string) => {
         const confirm = await Confirm('Error', message, { confirmText: 'Confirm', cancelText: 'Cancel', danger: true });
@@ -32,24 +33,28 @@ export function useProductSave(productId: number, productData: ProductType, prod
             return;
         }
 
+        const confirm = await message('Are you sure you want to save this site?');
+        if (!confirm) return false;
+
         const id = fnv1a32(productData.main.handle);
         productData.main.id = id;
         productData.content = encontent(productData.content);
-        const res = await doBatchPost([
-            Params('add-product', { params: denormalizeProduct(formatNumbers(productData.main)) }),
-            Params('add-product-content', { params: { product_id: id, content: productData.content } }),
-            Params('add-product-details', { params: { product_id: id, images: Array.from(new Set(productData.images)), videos: [], specs: {} } }),
-            Params('add-product-skus', { params: { product_id: id, skus: denormalizeProductSkus(formatNumbers(productData.skus)) } }),
-            Params('add-product-options', { params: { product_id: id, options: productData.options } }),
-            Params('add-product-sku-json', { params: { product_id: id, skus: productData.skus } }),
+        const res = await api.batchPost([
+            api.Params('add-product', denormalizeProduct(formatNumbers(productData.main))),
+            api.Params('add-product-content', { product_id: id, content: productData.content }),
+            api.Params('add-product-details', { product_id: id, images: Array.from(new Set(productData.images)), videos: [], specs: {} }),
+            api.Params('add-product-skus', { product_id: id, skus: denormalizeProductSkus(formatNumbers(productData.skus)) }),
+            api.Params('add-product-options', { product_id: id, options: productData.options }),
+            api.Params('add-product-sku-json', { product_id: id, skus: productData.skus }),
         ]);
 
-        if (!res) {
-            await message('Add product failed');
-            return;
-        }
-        const ok = res[0] !== null && res.slice(1).every((item) => item === null);
-        if (!ok) {
+        let ret = true;
+        res.forEach((i) => {
+            if (!i.ok) {
+                ret = false;
+            }
+        });
+        if (!ret) {
             await message('Add product failed');
             return;
         }
@@ -68,23 +73,27 @@ export function useProductSave(productId: number, productData: ProductType, prod
             return;
         }
 
-        productData.content = encontent(productData.content);
-        const res = await doBatchPost([
-            Params('update-product', { params: denormalizeProduct(formatNumbers(productData.main)) }),
-            Params('update-product-content', { params: { product_id: productId, content: productData.content } }),
-            Params('update-product-details', { params: { product_id: productId, images: Array.from(new Set(productData.images)), videos: [], specs: {} } }),
-            Params('update-product-skus', { params: { product_id: productId, skus: denormalizeProductSkus(formatNumbers(productData.skus)) } }),
-            Params('update-product-options', { params: { product_id: productId, options: productData.options } }),
-            Params('update-product-sku-json', { params: { product_id: productId, skus: productData.skus } }),
-        ]);
+        const confirm = await message('Are you sure you want to save this site?');
+        if (!confirm) return false;
 
-        if (!res) {
-            await message('Update product failed');
-            return;
-        }
-        const ok = res[0] !== null && res.slice(1).every((item) => item === null);
-        if (!ok) {
-            await message('Update product failed');
+        productData.content = encontent(productData.content);
+    
+        const res = await api.batchPost([
+            api.Params('update-product', denormalizeProduct(formatNumbers(productData.main))),
+            api.Params('update-product-content', { product_id: productId, content: productData.content }),
+            api.Params('update-product-details', { product_id: productId, images: Array.from(new Set(productData.images)), videos: [], specs: {} }),
+            api.Params('update-product-skus', { product_id: productId, skus: denormalizeProductSkus(formatNumbers(productData.skus)) }),
+            api.Params('update-product-options', { product_id: productId, options: productData.options }),
+            api.Params('update-product-sku-json', { product_id: productId, skus: productData.skus }),
+        ]);
+        let ret = true;
+        res.forEach((i) => {
+            if (!i.ok) {
+                ret = false;
+            }
+        });
+        if (!ret) {
+            await message('Add product failed');
             return;
         }
         navigate('/products-list');

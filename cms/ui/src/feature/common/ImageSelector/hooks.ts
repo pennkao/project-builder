@@ -19,10 +19,6 @@ export const useImages = () => {
                 setData(data);
             });
     };
-    const addImages = (images: string[], callback: () => void) => {
-        api.Post('add-images', { images: images }).callback((ok) => {
-            if (!ok) callback();
-        });
-    };
-    return { data, setData, page, setPage, doLoadIamges, addImages };
+
+    return { data, setData, page, setPage, doLoadIamges };
 };

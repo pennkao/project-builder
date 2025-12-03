@@ -1,9 +1,9 @@
 import { Button } from '@/components/elements';
 import RichTextEditor from '@/components/RichTextEditor';
 import { config } from '@/config/config';
-import { Content, Footer, Page } from '@/feature/common/layout';
+import { Content, Footer, Page } from '@/feature/compos/layout';
 import { useNavigate, useParams } from 'react-router';
-import { ImageSelector, ImageUploder, Options, Product, Seo } from './comps';
+import { ImageSelector, ImageUploder, Options, Product, Seo } from './compos';
 import { ProductContext } from './context';
 import { useProduct, useProductImages, useProductSave } from './hooks';
 export default function Add() {
@@ -46,7 +46,10 @@ export default function Add() {
                             upLoadUrl={config.API_URL + 'file/upload'}
                             aotoUpLoad={true}
                             images={productDataInit.images}
-                            onChange={(images) => setByKey('images', images)}
+                            onChange={(images) => {
+                                setByKey('images', images);
+                                setProductData((prev) => ({ ...prev, main: { ...prev.main, main_image: images[0] || '' } }));
+                            }}
                             outSelected={imagesChannel}
                             onOpenSelected={openImageSelector}
                         />
@@ -55,7 +58,12 @@ export default function Add() {
                 </Content>
 
                 <Footer className="flex justify-end gap-2 ">
-                    <Button variant="outline" onClick={() => {navigate('/products-list')}}>
+                    <Button
+                        variant="outline"
+                        onClick={() => {
+                            navigate('/products-list');
+                        }}
+                    >
                         Draft
                     </Button>
                     <Button variant="primary" onClick={() => handleSave(product_id)}>

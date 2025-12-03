@@ -1,8 +1,8 @@
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/elements';
 import Checkbox from '@/components/elements/Checkbox';
-import { FieldSort } from '@/feature/common/list';
 import { sortItems } from '@/utils';
 import { useMemo, useState } from 'react';
+import { FieldSort } from './index';
 
 export interface ListColumn<T> {
     key: string | keyof T;

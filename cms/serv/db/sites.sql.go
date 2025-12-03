@@ -53,6 +53,22 @@ func (q *Queries) DeleteSite(ctx context.Context, id int64) error {
 	return err
 }
 
+const fetchSite = `-- name: FetchSite :one
+SELECT site,config FROM sites WHERE id = $1
+`
+
+type FetchSiteRow struct {
+	Site   dbtypes.JSON `json:"site"`
+	Config dbtypes.JSON `json:"config"`
+}
+
+func (q *Queries) FetchSite(ctx context.Context, id int64) (FetchSiteRow, error) {
+	row := q.db.QueryRow(ctx, fetchSite, id)
+	var i FetchSiteRow
+	err := row.Scan(&i.Site, &i.Config)
+	return i, err
+}
+
 const getSite = `-- name: GetSite :one
 SELECT id, name, domain, stype, site, config, cts, uts FROM sites WHERE id = $1
 `

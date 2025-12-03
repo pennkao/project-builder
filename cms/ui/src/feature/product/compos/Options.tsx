@@ -4,7 +4,7 @@ import { Confirm, TagInput } from '@/components/composed';
 import { CloseButton, Label, RadioSm } from '@/components/elements';
 import Loading from '@/components/Loading/Loading';
 import { defaultSku } from '@/defaults/product';
-import { Card } from '@/feature/common/layout';
+import { Card } from '@/feature/compos/layout';
 import { PencilIcon, RefreshIcon } from '@/icons';
 import { SRC } from '@/lib/image';
 import { formartValue, keyDownNumberInput } from '@/utils';
@@ -119,7 +119,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                 const newList = newSkuList.filter((item) => !(old || []).some((x) => x.akey === item.akey));
                 return [...old, ...newList];
             });
-            console.log(skuList);
+            // console.log(skuList);
             return;
         }
         setSkuList(newSkuList);
@@ -169,7 +169,6 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
         setProductAttr((prev) =>
             prev.map((item, i) => {
                 if (i === attrIndex) {
-                    console.log(index, attrIndex, item);
                     // 对item进行浅拷贝，并更新values数组
                     const updatedValues = item.values.map((value, j) => {
                         if (j === index) {
@@ -212,7 +211,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
         if (option != '' && tag === '') {
             setProductAttr((prev) =>
                 prev.map((item) => {
-                    console.log('Before update, item.values:', item.values); // 打印当前值
+                    // console.log('Before update, item.values:', item.values); // 打印当前值
                     if (item.name === option && item.values.length > 0) {
                         return { ...item, values: item.values.slice(0, -1) }; // 去掉最后一个元素
                     }
@@ -239,7 +238,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
     };
 
     const moveDown = (index: number) => {
-        console.log(index, 'index-down');
+        // console.log(index, 'index-down');
         if (index === productAttr.length - 1) return; // 如果是最后一个元素，则不执行操作
         const newItems = [...productAttr];
         // 交换当前元素和下一个元素的位置
@@ -247,7 +246,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
         setProductAttr(newItems);
     };
     const moveUp = (index: number) => {
-        console.log(index, 'index-up');
+        // console.log(index, 'index-up');
         if (index === 0) return; // 如果是第一个元素，则不执行操作
         const newItems = [...productAttr];
         // 交换当前元素和上一个元素的位置
@@ -457,7 +456,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                             </div>
                         ))}
                 </ContentCard>
-                <Activity mode={skuList && skuList.length > 0 ? 'visible' : 'hidden'}>
+                <Activity mode={(productAttr && productAttr.length > 0) || productId > 0 ? 'visible' : 'hidden'}>
                     <ContentCard className="flex flex-col gap-1 w-full">
                         <div className="flex justify-between items-center">
                             <Label>Product Variant</Label>

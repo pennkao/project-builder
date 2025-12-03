@@ -4,7 +4,7 @@ import MonthlySalesChart from '../../components/ecommerce/MonthlySalesChart';
 import MonthlyTarget from '../../components/ecommerce/MonthlyTarget';
 import RecentOrders from '../../components/ecommerce/RecentOrders';
 import StatisticsChart from '../../components/ecommerce/StatisticsChart';
-import PageMeta from '../../feature/common/layout/compos/PageMeta';
+import PageMeta from '@/feature/compos/layout/compos/PageMeta';
 
 export default function Home() {
     return (

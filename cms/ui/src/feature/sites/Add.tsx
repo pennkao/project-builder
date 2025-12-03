@@ -1,7 +1,8 @@
 import { Button, Input, Label } from '@/components/elements';
 import JsonEditor from '@/components/JsonEditor';
-import { Card, Col, Content, Footer, Page } from '@/feature/common/layout';
-import { useEffect } from 'react';
+import ImageSelector from '@/feature/common/ImageSelector';
+import { Card, Col, Content, Footer, Page } from '@/feature/compos/layout';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useSave } from './hooks/useSave';
 export function Add() {
@@ -10,6 +11,7 @@ export function Add() {
     const sid = Number.parseInt(id || '0');
     // 注释掉的确认删除对话框代码
     const { data, setData, UpdateOrSave } = useSave(sid); // 注释掉的批量操作相关钩子
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         console.log(data);
@@ -33,6 +35,11 @@ export function Add() {
                         <div>
                             <Label htmlFor="input">Domain</Label>
                             <Input type="text" placeholder="domain" value={data.domain} onChange={(e) => setData({ ...data, domain: e.target.value })} />
+                        </div>
+                        <div className="flex justify-end">
+                            <Button variant="primary" onClick={() => setIsOpen(true)}>
+                                Select Image
+                            </Button>
                         </div>
                     </Card>
                     <Card title="Site">
@@ -66,6 +73,7 @@ export function Add() {
                     Save & Create
                 </Button>
             </Footer>
+            <ImageSelector isOpen={isOpen} onClose={() => setIsOpen(false)} />
         </Page>
     );
 }

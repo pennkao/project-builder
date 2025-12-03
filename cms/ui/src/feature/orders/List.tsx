@@ -1,13 +1,13 @@
 import { Button, SearchInput } from '@/components/elements';
-import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
-import { List, Pagination, type ListColumn } from '@/feature/common/list';
+import { Action, Content, Footer, Header, Page } from '@/feature/compos/layout';
+import { List, Pagination, type ListColumn } from '@/feature/compos/list';
 import { DownloadIcon, FilterIcon, PlusIcon } from '@/icons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useOrders } from './hooks/useOrders';
 export default function SiteLogs() {
     const navigator = useNavigate();
-    // const [index, setIndex] = useState(-1);
+
     const [search, setSearch] = useState('');
     const { result, setParamFilter, setPage } = useOrders();
 

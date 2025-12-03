@@ -1,6 +1,6 @@
 import { Confirm } from '@/components/composed';
 import { defaultPageDataList, defaultQueryParams } from '@/defaults';
-import { usePost } from '@/hooks/usePost';
+import { useApi } from '@/hooks/useApi';
 import { useEffect, useState } from 'react';
 import { normalizeProduct } from '../utils/format';
 
@@ -11,26 +11,23 @@ const message = async (message: string) => {
 };
 
 export const useProductList = () => {
+    const { api } = useApi();
+
     const [page, setPage] = useState(1); // eslint-disable-next-line
     const [listQueryParams, setlistQueryParams] = useState<ListQueryParamsType>({ ...defaultQueryParams, target: 'products' });
     const [result, setResult] = useState<PageListDataType<ProductItemType>>(defaultPageDataList);
 
-    const { doPost } = usePost<PageListDataType<ProductItemType>>('list');
-    const { doPost: doPostDelete, Params } = usePost('delete');
-
     const fetchList = async () => {
-        doPost({
-            params: listQueryParams,
-            querys: { page: page, size: 10 },
-            callback: (data) => {
+        api.query({ page: page, size: 10 })
+            .doList('products', listQueryParams)
+            .callback((data) => {
                 if (data) {
-                    const list = data.list.map((item) => normalizeProduct(item));
+                    const list = (data.list as ProductItemType[]).map((item) => normalizeProduct(item));
                     setResult({ ...data, list: list });
                 }
-            },
-        });
+            });
     };
-    // doLoading({}, { page, size: 10 }, (res) => setResult(res));
+
     useEffect(() => {
         fetchList();
     }, [page, listQueryParams]);
@@ -47,14 +44,13 @@ export const useProductList = () => {
     const Delete = async (id: number) => {
         const confirm = await message('Are you sure you want to delete this product?');
         if (!confirm) return false;
-        doPostDelete(
-            Params({ params: { id: id, target: 'product' } }, () => {
-                setResult((prev) => ({
-                    ...prev,
-                    list: prev.list.filter((item) => item.id !== id),
-                }));
-            })
-        );
+        api.doDelete(id, 'product', (ret) => {
+            if (!ret) return;
+            setResult((prev) => ({
+                ...prev,
+                list: prev.list.filter((item) => item.id !== id),
+            }));
+        });
     };
     return { result, Delete, setParamFilter, setParamSort, setPage };
 };

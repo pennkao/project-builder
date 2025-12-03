@@ -1,7 +1,7 @@
 import { Input as InputField } from '@/components/Basic/Input';
 import Loading from '@/components/Loading/Loading';
 import { Input, Label } from '@/components/elements';
-import { Card } from '@/feature/common/layout';
+import { Card } from '@/feature/compos/layout';
 import { usePost } from '@/hooks/usePost';
 import { formartValue, formInput, genHandle, keyDownNumberInput } from '@/utils/product';
 import { useContext, useEffect } from 'react';

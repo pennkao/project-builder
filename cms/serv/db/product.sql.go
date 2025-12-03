@@ -399,7 +399,7 @@ func (q *Queries) UpdateProductMain(ctx context.Context, arg UpdateProductMainPa
 const updateProductMainImage = `-- name: UpdateProductMainImage :exec
 UPDATE products SET
     main_image = $1
-WHERE id = $2
+WHERE id = $2 AND main_image = ''
 `
 
 type UpdateProductMainImageParams struct {

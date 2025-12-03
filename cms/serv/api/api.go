@@ -30,6 +30,8 @@ func (t *API) Dispatcher(c *gin.Context) {
 		t.GetProduct(c)
 	case "content":
 		t.GetProductContent(c)
+	case "site":
+		t.GetSite(c)
 	default:
 		resp.Error[any](c, "")
 	}

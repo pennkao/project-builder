@@ -1,9 +1,9 @@
-import { Popover } from '@/components/composed';
+import { ImageView, Popover } from '@/components/composed';
 import { Button } from '@/components/elements';
 import TextArea from '@/components/elements/TextArea';
-import { Content, FooterPage, Header, Page } from '@/feature/common/layout';
+import { Content, FooterPage, Header, Page } from '@/feature/compos/layout';
 
-import { MainIcon, PlusIcon } from '@/icons';
+import { MainIcon, PageIcon, PlusIcon } from '@/icons';
 import { SRC } from '@/lib/image';
 import { useState } from 'react';
 import { useImages } from './hooks/useImages';
@@ -12,7 +12,7 @@ export default function List() {
     const { data, setPage, handleSubmit } = useImages();
     const [images, setImages] = useState('');
     const [toClose, setToClose] = useState<number | null>(null);
-
+    const [preview, setPreview] = useState<string | null>(null);
     const doSubmit = (images: string) => {
         setToClose((prev) => (prev === null ? 0 : prev + 1));
         handleSubmit(images);
@@ -44,16 +44,20 @@ export default function List() {
                         {data?.list?.length === 0 && <div className="text-center">No images found</div>}
                         {data?.list?.map((item, index) => (
                             <div key={index}>
-                                <div className={`relative border border-red-500 ${className}`}>
+                                <div className={`relative border border-red-500 ${className}`} onClick={() => setPreview(item.url)}>
                                     <span className="text-xs text-gray-500 absolute top-1 left-1">
                                         {item.width_px}x{item?.height_px || ''}
                                     </span>
                                     <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>
+                                    <span className="text-xs text-gray-500 absolute bottom-1 left-1">
+                                        <PageIcon className="w-5 h-5" fill="white" />
+                                    </span>
                                     <img src={SRC(item.url)} alt={item.alt_text} className={className} />
                                 </div>
                             </div>
                         ))}
                     </div>
+                    <ImageView src={SRC(preview || '')} onClick={() => setPreview(null)} />
                 </Content>
                 <FooterPage currentPage={data?.page} pageSize={data?.size} totalCount={data?.total} onPageChange={setPage} />
             </Page>

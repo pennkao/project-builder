@@ -1,6 +1,6 @@
 import { Button } from '@/components/elements';
-import { Content, Footer, Header, Page } from '@/feature/common/layout';
-import { List, type ListColumn } from '@/feature/common/list';
+import { Content, Footer, Header, Page } from '@/feature/compos/layout';
+import { List, type ListColumn } from '@/feature/compos/list';
 import { DownloadIcon, PlusIcon } from '@/icons';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { Link, useNavigate } from 'react-router';
@@ -8,16 +8,14 @@ import { Link, useNavigate } from 'react-router';
 import { useSite } from './hooks/useSite';
 export function SitesList() {
     const navigator = useNavigate();
-    // const [search, setSearch] = useState('');
     const { result, Delete } = useSite();
 
-    // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //     if (e.key === 'Enter') {
-    //         setParamFilter([{ field: 'name', operator: 'like', value: search }]);
-    //     }
-    // };
-
     const siteColumns: ListColumn<SiteType>[] = [
+        {
+            key: 'id',
+            label: 'ID',
+            sortable: false,
+        },
         {
             key: 'name',
             label: 'Name',

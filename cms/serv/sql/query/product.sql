@@ -44,7 +44,7 @@ WHERE id = $2;
 -- name: UpdateProductMainImage :exec
 UPDATE products SET
     main_image = $1
-WHERE id = $2;
+WHERE id = $2 AND main_image = '';
 
 -- name: DeleteProduct :exec
 DELETE FROM products WHERE id = $1;

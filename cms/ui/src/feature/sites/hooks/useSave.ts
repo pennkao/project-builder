@@ -1,5 +1,5 @@
 import { Confirm } from '@/components/composed';
-import { useBatchPost, usePost } from '@/hooks/usePost';
+import { useApi } from '@/hooks/useApi';
 import { fnv1a32 } from '@/utils';
 import { useEffect, useState } from 'react';
 
@@ -10,49 +10,25 @@ const message = async (message: string) => {
 };
 
 export const useSave = (id: number) => {
-    // const [Date, setDate] = useState<SiteType>();
-    // const [initDate, setInitDate] = useState<SiteType>();
+    const { api } = useApi();
     const [data, setData] = useState<SiteType>({ id: 0, name: '', domain: '', stype: '', site: {}, config: {} });
-    const { doPost } = usePost<SiteType>('list');
-    const { doPost: fetchOne } = usePost<SiteType>('fetch');
-    const { doPost: doPut } = useBatchPost();
-    // const { doPost: doPostDelete, Params } = usePost('delete');
-
-    const fetchList = async () => {
-        doPost({
-            params: { target: 'sites' },
-            querys: { page: 1, size: 1000 },
-            callback: (data) => {
-                if (data) {
-                    // setResult(data);
-                }
-            },
-        });
-    };
 
     useEffect(() => {
         if (id <= 0) {
             setData({ id: 0, name: '', domain: '', stype: '', site: {}, config: {} });
             return;
         }
-        fetchOne({
-            params: { id: id, target: 'site' },
-            callback: (data) => {
-                if (data) {
-                    if (typeof data.site == 'string') {
-                        data.site = JSON.parse(data.site);
-                    }
-                    if (typeof data.config == 'string') {
-                        data.config = JSON.parse(data.config);
-                    }
-                    setData(data);
+        api.doGet(id, 'site', (data) => {
+            if (data) {
+                if (typeof data.site == 'string') {
+                    data.site = JSON.parse(data.site);
                 }
-            },
+                if (typeof data.config == 'string') {
+                    data.config = JSON.parse(data.config);
+                }
+                setData(data);
+            }
         });
-    }, []);
-
-    useEffect(() => {
-        fetchList();
     }, []);
 
     const Save = async (callback: () => void) => {
@@ -63,38 +39,30 @@ export const useSave = (id: number) => {
         data.id = fnv1a32(data.domain);
         const confirm = await message('Are you sure you want to save this site?');
         if (!confirm) return false;
-        doPut(
-            'add-site',
-            {
-                params: data,
-            },
-            callback
-        );
+        api.Post('add-site', data).callback((ok) => {
+            if (ok) {
+                callback();
+            }
+        });
     };
 
     const Update = async (id: number, callback: () => void) => {
         if (!id || id <= 0) return false;
         const confirm = await message('Are you sure you want to update this site?');
         if (!confirm) return false;
-        doPut(
-            'update-site',
-            {
-                params: data,
-            },
-            callback
-        );
+        api.Post('update-site', data).callback((ok) => {
+            if (ok) {
+                callback();
+            }
+        });
     };
 
     const UpdateOrSave = async (callback: () => void) => {
-        console.log('id', id);
         if (id && id > 0) {
-            console.log(2222222, id);
-
             await Update(id, callback);
         } else {
             await Save(callback);
         }
-        callback();
     };
     return { data, setData, UpdateOrSave };
 };

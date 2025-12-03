@@ -1,12 +1,12 @@
 import { Button, Image, SearchInput } from '@/components/elements';
-import { Action, Content, Footer, Header, Page } from '@/feature/common/layout';
-import { List, Pagination, type ListColumn } from '@/feature/common/list';
+import { Action, Content, Footer, Header, Page } from '@/feature/compos/layout';
+import { List, Pagination, type ListColumn } from '@/feature/compos/list';
 import { DownloadIcon, FilterIcon, PlusIcon } from '@/icons';
 import { SRC } from '@/lib/image';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { StatusLabel } from './comps';
+import { StatusLabel } from './compos';
 import { useProductList } from './hooks';
 export default function Products() {
     const navigator = useNavigate();

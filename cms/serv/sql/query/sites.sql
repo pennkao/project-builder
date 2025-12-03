@@ -27,3 +27,6 @@ WHERE id = $1;
 
 -- name: DeleteSite :exec
 DELETE FROM sites WHERE id = $1;
+
+-- name: FetchSite :one
+SELECT site,config FROM sites WHERE id = $1;

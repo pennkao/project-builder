@@ -1,6 +1,8 @@
 package admin
 
 import (
+	"fmt"
+
 	"github.com/cms/admin/dto/hp"
 	"github.com/cms/db"
 	"github.com/gin-gonic/gin"
@@ -27,6 +29,7 @@ func (t *Cms) UpdateSite(c *gin.Context) {
 		hp.Error[any](c, err.Error())
 		return
 	}
+	fmt.Println(req)
     err := t.Q.UpdateSite(c.Request.Context(), req)
 	if err != nil {
 		hp.Error[any](c, err.Error())

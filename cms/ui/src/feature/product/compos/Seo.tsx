@@ -1,6 +1,6 @@
 import { Input, Label } from '@/components/elements';
 import { defaultProductMain } from '@/defaults/product';
-import { Card } from '@/feature/common/layout';
+import { Card } from '@/feature/compos/layout';
 import { genHandle } from '@/utils/product';
 import { useEffect, useState } from 'react';
 

@@ -1,20 +1,17 @@
-import imgUrl1 from '@/assets/images/s1.jpg';
-import imgUrl2 from '@/assets/images/s2.jpg';
-import imgUrl3 from '@/assets/images/s3.jpg';
-import imgUrl4 from '@/assets/images/s4.jpg';
-import imgUrl5 from '@/assets/images/s5.jpg';
+import SwiperImage from '@/components/SwiperImage';
+import { SRC } from '@/lib/images';
+import { doGet } from '@/utils/api';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import SwiperImage from '@/components/SwiperImage';
-import { useEffect, useRef, useState } from 'react';
-
-const bannerImages = [imgUrl1, imgUrl2, imgUrl3, imgUrl4, imgUrl5];
+// const bannerImages = [imgUrl1, imgUrl2, imgUrl3, imgUrl4, imgUrl5];
 
 const AppHeader = ({ className }: { className?: string }) => {
     const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
 
     const headerRef = useRef<HTMLDivElement>(null);
     const [headerHeight, setHeaderHeight] = useState(85);
+    const [bannerImages, setBannerImages] = useState<string[]>([]);
     className = className || '';
     useEffect(() => {
         // 组件挂载后，读取 Header 的实际高度
@@ -31,6 +28,14 @@ const AppHeader = ({ className }: { className?: string }) => {
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        doGet('site', 976292092).then((res) => {
+            let images = ((res && res?.config && res?.config?.banner) || []) as string[];
+            images = images.map((img) => SRC(img || ''));
+            setBannerImages(images);
+        });
     }, []);
 
     return (

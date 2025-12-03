@@ -98,7 +98,6 @@ func (t *Cms) UpdateProductMain(c *gin.Context) {
         hp.Error[any](c,  err.Error())
         return
     }
-	fmt.Println(req)
 	if (req.Stock == 0) {
 		req.Stock = int32(99999)  ////////todo
 	}
@@ -264,8 +263,7 @@ func (t *Cms) UpdateProductSkus(c *gin.Context) {
 	})
 	results2 := t.Q.BatchCreateProductSkus(c.Request.Context(), toCreate)
 	results2.Exec(func(i int, err error) {
-		fmt.Println(i, err)
-		if err != nil {
+			if err != nil {
 			hp.Error[any](c,  err.Error())
 			return
 		}
@@ -316,16 +314,14 @@ func (t *Cms) UpdateProductContent(c *gin.Context) {
         hp.Error[any](c,  err.Error())
         return
     }
-
-	productContent,err:= t.Q.GetProductContent(c.Request.Context(), req.ProductID)
-	if err != nil || productContent == "" {
+	_,err:= t.Q.GetProductContent(c.Request.Context(), req.ProductID)
+	if err != nil {
 		err=t.Q.CreateProductContent(c.Request.Context(), db.CreateProductContentParams(req))
 		if err != nil {
 			hp.Error[any](c,  err.Error())
 			return
 		}
 	}	
-
     err = t.Q.UpdateProductContent(c.Request.Context(), req)
     if err != nil {
         hp.Error[any](c,  err.Error())
@@ -385,7 +381,6 @@ func (t *Cms) UpdateProductDetails(c *gin.Context) {
         hp.Error[any](c,  err.Error())
         return
     }
-	fmt.Println(req)
 	tx, err := t.Db.Begin(c.Request.Context()) // database/sql 风格
 	if err != nil {
 		hp.Error[any](c,  err.Error())
@@ -393,8 +388,7 @@ func (t *Cms) UpdateProductDetails(c *gin.Context) {
 	}
 
 	defer func() {
-		fmt.Println(1111)
-		if err != nil {
+			if err != nil {
 			tx.Rollback(c.Request.Context())
 		}
 	}()
@@ -405,8 +399,7 @@ func (t *Cms) UpdateProductDetails(c *gin.Context) {
         hp.Error[any](c,  err.Error())
         return
     }
-		fmt.Println(22222222222)
-	if len(req.Images) > 0 {
+		if len(req.Images) > 0 {
 		err = t.Q.UpdateProductMainImage(c.Request.Context(), db.UpdateProductMainImageParams{
 			ID:           req.ProductID,
 			MainImage:    req.Images[0],
@@ -416,7 +409,6 @@ func (t *Cms) UpdateProductDetails(c *gin.Context) {
 			return
 		}
 	}
-	fmt.Println(333333333444)
 	// 关键：手动提交
 	err = tx.Commit(c.Request.Context())
 	if err != nil {
