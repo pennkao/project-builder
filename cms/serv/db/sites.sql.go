@@ -13,7 +13,7 @@ import (
 
 const createSite = `-- name: CreateSite :exec
 INSERT INTO sites (
-    sid,
+    id,
     name,
     domain,
     stype,
@@ -24,7 +24,7 @@ VALUES ($1, $2, $3, $4, $5, $6)
 `
 
 type CreateSiteParams struct {
-	Sid    int64        `json:"sid"`
+	ID     int64        `json:"id"`
 	Name   string       `json:"name"`
 	Domain string       `json:"domain"`
 	Stype  string       `json:"stype"`
@@ -34,7 +34,7 @@ type CreateSiteParams struct {
 
 func (q *Queries) CreateSite(ctx context.Context, arg CreateSiteParams) error {
 	_, err := q.db.Exec(ctx, createSite,
-		arg.Sid,
+		arg.ID,
 		arg.Name,
 		arg.Domain,
 		arg.Stype,
@@ -54,7 +54,7 @@ func (q *Queries) DeleteSite(ctx context.Context, id int64) error {
 }
 
 const fetchSite = `-- name: FetchSite :one
-SELECT site,config FROM sites WHERE sid = $1
+SELECT site,config FROM sites WHERE id = $1
 `
 
 type FetchSiteRow struct {
@@ -62,15 +62,15 @@ type FetchSiteRow struct {
 	Config dbtypes.JSON `json:"config"`
 }
 
-func (q *Queries) FetchSite(ctx context.Context, sid int64) (FetchSiteRow, error) {
-	row := q.db.QueryRow(ctx, fetchSite, sid)
+func (q *Queries) FetchSite(ctx context.Context, id int64) (FetchSiteRow, error) {
+	row := q.db.QueryRow(ctx, fetchSite, id)
 	var i FetchSiteRow
 	err := row.Scan(&i.Site, &i.Config)
 	return i, err
 }
 
 const getSite = `-- name: GetSite :one
-SELECT id, sid, name, domain, stype, site, config, cts, uts FROM sites WHERE id = $1
+SELECT id, name, domain, stype, site, config, cts, uts FROM sites WHERE id = $1
 `
 
 func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
@@ -78,7 +78,6 @@ func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
 	var i Site
 	err := row.Scan(
 		&i.ID,
-		&i.Sid,
 		&i.Name,
 		&i.Domain,
 		&i.Stype,
@@ -91,7 +90,7 @@ func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
 }
 
 const siteList = `-- name: SiteList :many
-SELECT id, sid, name, domain, stype, site, config, cts, uts FROM sites ORDER BY uts DESC
+SELECT id, name, domain, stype, site, config, cts, uts FROM sites ORDER BY uts DESC
 `
 
 func (q *Queries) SiteList(ctx context.Context) ([]Site, error) {
@@ -105,7 +104,6 @@ func (q *Queries) SiteList(ctx context.Context) ([]Site, error) {
 		var i Site
 		if err := rows.Scan(
 			&i.ID,
-			&i.Sid,
 			&i.Name,
 			&i.Domain,
 			&i.Stype,
@@ -126,34 +124,31 @@ func (q *Queries) SiteList(ctx context.Context) ([]Site, error) {
 
 const updateSite = `-- name: UpdateSite :exec
 UPDATE sites SET
-    sid = $1,
-    name = $2,
-    domain = $3,
-    stype = $4,
-    site = $5,
-    config = $6,
+    name = $1,
+    stype = $2,
+    site = $3,
+    config = $4,
+    domain = $5,
     uts = (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT
-WHERE id = $7
+WHERE id = $6
 `
 
 type UpdateSiteParams struct {
-	Sid    int64        `json:"sid"`
 	Name   string       `json:"name"`
-	Domain string       `json:"domain"`
 	Stype  string       `json:"stype"`
 	Site   dbtypes.JSON `json:"site"`
 	Config dbtypes.JSON `json:"config"`
+	Domain string       `json:"domain"`
 	ID     int64        `json:"id"`
 }
 
 func (q *Queries) UpdateSite(ctx context.Context, arg UpdateSiteParams) error {
 	_, err := q.db.Exec(ctx, updateSite,
-		arg.Sid,
 		arg.Name,
-		arg.Domain,
 		arg.Stype,
 		arg.Site,
 		arg.Config,
+		arg.Domain,
 		arg.ID,
 	)
 	return err

@@ -12,7 +12,7 @@ export function SitesList() {
 
     const siteColumns: ListColumn<SiteType>[] = [
         {
-            key: 'sid',
+            key: 'id',
             label: 'Id',
             sortable: false,
         },

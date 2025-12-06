@@ -33,6 +33,8 @@ func (t *Cms) Dispatcher(c *gin.Context) {
 		t.Fetcher(c)
 	case "/list":
 		t.Lister(c)
+	case "spider":
+		t.Spider(c)
 	case "/updater":
 		t.Updater(c)
 	case "/add-site":

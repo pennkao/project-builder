@@ -222,7 +222,6 @@ type ProductSkuJson struct {
 
 type Site struct {
 	ID     int64        `json:"id"`
-	Sid    int64        `json:"sid"`
 	Name   string       `json:"name"`
 	Domain string       `json:"domain"`
 	Stype  string       `json:"stype"`

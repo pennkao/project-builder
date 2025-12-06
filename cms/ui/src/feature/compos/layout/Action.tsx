@@ -3,3 +3,11 @@ const Action = ({ children, className }: { children: ReactNode; className?: stri
     return <div className={`flex justify-between gap-2 px-5 py-4 border-b border-gray-200 sm:flex-row sm:items-center dark:border-gray-800 ${className || ''}`}>{children}</div>;
 };
 export default Action;
+
+const ActionLeft = ({ children, className }: { children: ReactNode; className?: string }) => {
+    return <div className={`flex items-center justify-start gap-2 ${className || ''}`}>{children}</div>;
+};
+const ActionRight = ({ children, className }: { children: ReactNode; className?: string }) => {
+    return <div className={`flex items-center justify-end gap-2 ${className || ''}`}>{children}</div>;
+};
+export { ActionLeft, ActionRight };

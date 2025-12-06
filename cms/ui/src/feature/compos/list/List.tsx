@@ -19,7 +19,7 @@ interface ListProps<T> {
     rowKey?: keyof T; // 用于 TableRow key
     openTab?: boolean;
     expandedRow?: number | null;
-    children?: React.ReactNode;
+    children?: (item: T) => React.ReactNode;
 }
 const List = <T extends { id: number }>({ items = [], fields = [], openTab = false, expandedRow = null, children }: ListProps<T>) => {
     const [sortingField, setSortingField] = useState<{ field: string; status: '' | 'asc' | 'desc' }>({ field: '', status: '' });
@@ -129,10 +129,10 @@ const List = <T extends { id: number }>({ items = [], fields = [], openTab = fal
                                     </TableCell>
                                 ))}
                             </TableRow>
-                            {expandedRow !== null && expandedRow === item.id && (
+                            {children && expandedRow !== null && expandedRow === item.id && (
                                 <TableRow>
                                     <td colSpan={fields.length + 1} className="px-7">
-                                        <div className="flex items-center justify-end w-full">{children}</div>
+                                        <div className="flex items-center justify-end w-full"> {children && children(item)}</div>
                                     </td>
                                 </TableRow>
                             )}

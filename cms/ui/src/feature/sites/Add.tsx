@@ -13,9 +13,6 @@ export function Add() {
     const { data, setData, UpdateOrSave } = useSave(sid); // 注释掉的批量操作相关钩子
     const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
 
     return (
         <Page title="Add Site" showBackgroud={false}>

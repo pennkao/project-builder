@@ -1,6 +1,6 @@
 import { SearchInput } from '@/components/composed';
-import { Button, Image } from '@/components/elements';
-import { Action, Content, Footer, Header, Page } from '@/feature/compos/layout';
+import { Button, Image, Input } from '@/components/elements';
+import { Action, ActionLeft, ActionRight, Content, Footer, Page } from '@/feature/compos/layout';
 import { List, Pagination, type ListColumn } from '@/feature/compos/list';
 import { SRC } from '@/lib/image';
 import { formatDate } from '@fullcalendar/core/index.js';
@@ -12,7 +12,7 @@ import { useReviews } from './hooks';
 import { FilterIcon } from '@/icons';
 
 const Reviews = () => {
-    const { result, setParamFilter } = useReviews();
+    const { result, setParamFilter, setPage } = useReviews();
     const [search, setSearch] = useState('');
     const [expandedRow, setExpandedRow] = useState<number | null>(null);
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -22,6 +22,9 @@ const Reviews = () => {
     };
     const handleToggle = (id: number) => {
         setExpandedRow(expandedRow === id ? null : id);
+    };
+    const handleImport = (id: number) => {
+        setExpandedRow(null);
     };
     const productColumns: ListColumn<ProductReviewType>[] = [
         {
@@ -67,25 +70,31 @@ const Reviews = () => {
 
     return (
         <Page title="Reviews" showBackgroud={true}>
-            <Header title="Reviews" desc="Track your store's progress to boost your sales.">
-                <Button variant="outline">Export</Button>
-                <Button variant="primary">Add Product</Button>
-            </Header>
             <Action>
-                <SearchInput value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
-                <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
-                    Filter
-                </Button>
+                <ActionLeft>
+                    <SearchInput value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
+                    <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
+                        Filter
+                    </Button>
+                </ActionLeft>
+                <ActionRight>
+                    <Button variant="primary">Add Product</Button>
+                </ActionRight>
             </Action>
             <Content>
                 <List<ProductReviewType> rowKey="id" fields={productColumns} items={result?.list || []} expandedRow={expandedRow}>
-                    <Button variant="primary" size="sm">
-                        Import
-                    </Button>
+                    {(item) => (
+                        <div className="flex items-center gap-2 justify-end w-full">
+                            <Input placeholder="Enter product review url" />
+                            <Button variant="primary" size="sm" onClick={() => handleImport(item?.id || 0)}>
+                                Import
+                            </Button>
+                        </div>
+                    )}
                 </List>
             </Content>
             <Footer>
-                <Pagination currentPage={1} totalCount={100} pageSize={10} onPageChange={() => {}} />
+                <Pagination currentPage={result?.page || 1} totalCount={result?.total || 0} pageSize={result?.size || 10} onPageChange={setPage} />
             </Footer>
         </Page>
     );

@@ -1,7 +1,7 @@
 import { Button, SearchInput } from '@/components/elements';
-import { Action, Content, Footer, Header, Page } from '@/feature/compos/layout';
+import { Action, ActionLeft, ActionRight, Content, Footer, Page } from '@/feature/compos/layout';
 import { List, Pagination, type ListColumn } from '@/feature/compos/list';
-import { DownloadIcon, FilterIcon, PlusIcon } from '@/icons';
+import { FilterIcon, PlusIcon } from '@/icons';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -40,20 +40,18 @@ export default function SiteLogs() {
     ];
     return (
         <Page title="Order List" showBackgroud={true}>
-            <Header title="Order List" desc="Track your store's progress to boost your sales.">
-                <Button endIcon={<DownloadIcon className="w-5 h-5" />} variant="outline" onClick={() => navigator('/export')}>
-                    Export
-                </Button>
-
-                <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-product')}>
-                    Add Product
-                </Button>
-            </Header>
             <Action>
-                <SearchInput value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
-                <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
-                    Filter
-                </Button>
+                <ActionLeft>
+                    <SearchInput value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
+                    <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
+                        Filter
+                    </Button>
+                </ActionLeft>
+                <ActionRight>
+                    <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-product')}>
+                        Add Product
+                    </Button>
+                </ActionRight>
             </Action>
             <Content>
                 <List<OrderLogsType> fields={siteLogColumns} items={result?.list || []} openTab={true} />

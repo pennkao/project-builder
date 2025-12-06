@@ -18,15 +18,15 @@ export const useSave = (id: number) => {
             setData({ id: 0, name: '', domain: '', stype: '', site: {}, config: {} });
             return;
         }
-        api.doGet(id, 'site', (data) => {
-            if (data) {
-                if (typeof data.site == 'string') {
-                    data.site = JSON.parse(data.site);
+        api.doGet(id, 'site').callback((site) => {
+            if (site) {
+                if (typeof site.site == 'string') {
+                    site.site = JSON.parse(site.site);
                 }
-                if (typeof data.config == 'string') {
-                    data.config = JSON.parse(data.config);
+                if (typeof site.config == 'string') {
+                    site.config = JSON.parse(site.config);
                 }
-                setData(data);
+                setData(site);
             }
         });
     }, []);

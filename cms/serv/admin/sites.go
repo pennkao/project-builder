@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/cms/admin/dto/hp"
@@ -17,7 +16,7 @@ func (t *Cms) CreateSite(c *gin.Context) {
 		hp.Error[any](c, err.Error())
 		return
 	}
-	req.Sid = int64(utils.Fnv1a32(strings.TrimSpace(req.Domain)))
+	req.ID = int64(utils.Fnv1a32(strings.TrimSpace(req.Domain)))
 	err := t.Q.CreateSite(c.Request.Context(), req)
 	if err != nil {
 		hp.Error[any](c, err.Error())
@@ -27,17 +26,31 @@ func (t *Cms) CreateSite(c *gin.Context) {
 }
 
 func (t *Cms) UpdateSite(c *gin.Context) {
-    var req db.UpdateSiteParams
+    var req db.CreateSiteParams
 	if err := c.ShouldBindJSON(&req); err != nil {
 		hp.Error[any](c, err.Error())
 		return
 	}
-	fmt.Println(req)
-	req.Sid = int64(utils.Fnv1a32(strings.TrimSpace(req.Domain)))
-    err := t.Q.UpdateSite(c.Request.Context(), req)
+	req.ID = int64(utils.Fnv1a32(strings.TrimSpace(req.Domain)))
+	_, err := t.Q.GetSite(c.Request.Context(), req.ID)
+	if err != nil {
+		t.Q.CreateSite(c.Request.Context(), req)
+		hp.Success(c,"")
+		return
+	}
+
+	err = t.Q.UpdateSite(c.Request.Context(), db.UpdateSiteParams{
+		ID: req.ID,
+		Name: req.Name,
+		Stype: req.Stype,
+		Site: req.Site,
+		Config: req.Config,
+		Domain: req.Domain,
+	})
 	if err != nil {
 		hp.Error[any](c, err.Error())
 		return
 	}
 	hp.Success[any](c, nil) // 返回产品数量	
 }
+
