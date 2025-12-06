@@ -9,3 +9,4 @@ export { default as SearchInput } from './SearchInput';
 export { default as Select } from './Select';
 export { default as TagInput } from './TagInput';
 export { default as TextTag } from './TextTag';
+export { default as Drawer } from './Drawer';

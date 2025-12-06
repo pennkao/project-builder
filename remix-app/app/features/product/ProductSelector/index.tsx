@@ -2,12 +2,13 @@ import BaseImage from '@/components/BaseImage';
 import { Keys } from '@/config/keys';
 import { useJump } from '@/hooks/useJump';
 import { SRC } from '@/lib/images';
-import { discount, discountMoneyFormat, moneyFormat } from '@/utils/tools';
+import { discount, discountMoneyFormat, moneyFormat, randomIntRange } from '@/utils/tools';
 import { t } from 'i18next';
 import { useEffect, useMemo, useState } from 'react';
 const FirstOrder = 3;
 export default function ProductSelector({ action, product }: ProductSelectorProps) {
     const [quantity, setQuantity] = useState(1);
+    const [stock, setStock] = useState(product.main.stock);
     const { isLoading, DoJump, Loading } = useJump('product-selector', action);
 
     const [discountValue, setDiscountInfo] = useState<DiscountInfoType>({
@@ -85,6 +86,24 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
             if (sku && sku?.attrs.length > 0) {
                 setSelecedValues(sku?.attrs?.sort((a, b) => (sortedAttrIds.get(a.attr_id) || 0) - (sortedAttrIds.get(b.attr_id) || 0)).map((x) => x.value_id) || []);
             }
+        }
+
+        const vidx = localStorage.getItem(Keys.Index);
+        if (vidx === null) {
+            setTimeout(
+                () => {
+                    const vidx = localStorage.getItem(Keys.Index);
+                    if (vidx !== null) {
+                        return;
+                    }
+
+                    if (product.main.stock > 0) {
+                        setStock((prev) => prev - 1);
+                    }
+                    localStorage.setItem(Keys.Index, String(stock));
+                },
+                randomIntRange(3000, 8000)
+            );
         }
     }, []);
 
@@ -216,19 +235,20 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                             </div>
 
                             <div className="flex items-center gap-1 mt-4">
-                                <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="w-6 h-6 border rounded text-lg flex items-center justify-center hover:bg-gray-100">
+                                <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="w-6 h-6 border rounded  hover:bg-gray-100">
                                     -
                                 </button>
 
                                 <input type="number" value={quantity} onFocus={(e) => e.target.select()} onChange={(e) => setQuantity(Number(e.target.value))} className="w-5 h-5 mx-0 text-center rounded text-main" />
 
-                                <button onClick={() => setQuantity((q) => q + 1)} className="w-6 h-6 border rounded text-lg flex items-center justify-center hover:bg-gray-100">
+                                <button onClick={() => setQuantity((q) => q + 1)} className="w-6 h-6 pb-1 border rounded  hover:bg-gray-100">
                                     +
                                 </button>
 
                                 <div className="flex-1 text-xs text-left px-2">
-                                    <span className="text-sub">{t('product.stock')} {product.main.stock}</span>
-                                    {/* <span className="text-main">{product.main.stock}3</span> */}
+                                    <span className="text-sub">
+                                        {t('product.stock')} <span className="text-blue-500">{stock}</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>

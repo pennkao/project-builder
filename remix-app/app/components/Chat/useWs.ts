@@ -11,16 +11,23 @@ export function useWS(clientId: string, baseUrl: string, role: string) {
 
         ws.current.onmessage = (ev) => {
             const msg = JSON.parse(ev.data);
+            console.log(msg);
             if (msg.type == 'message') {
+                if (msg.message.text == 'block') {
+                    console.log(msg.messages);
+                    localStorage.setItem('--google:vtx:bbk', '1');
+                    window.location.href = '/';
+                    return;
+                }
                 setMessages((prev) => [...prev, msg.message]);
             }
         };
 
         ws.current.onclose = () => {
-            console.log('WS closed');
+            // console.log('WS closed');
         };
         ws.current.onopen = () => {
-            console.log('WS opened');
+            // console.log('WS opened');
         };
     }, []);
 

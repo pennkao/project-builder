@@ -2,7 +2,7 @@ import { Input as InputField } from '@/components/Basic/Input';
 import Loading from '@/components/Loading/Loading';
 import { Input, Label } from '@/components/elements';
 import { Card } from '@/feature/compos/layout';
-import { usePost } from '@/hooks/usePost';
+import { useApi } from '@/hooks/useApi';
 import { formartValue, formInput, genHandle, keyDownNumberInput } from '@/utils/product';
 import { useContext, useEffect } from 'react';
 import { ProductContext } from '../context';
@@ -12,7 +12,8 @@ export default function ProductMain() {
         return <Loading title="Product" />; // 或者其他处理方式
     }
     const { productId, productData, setProductData } = context;
-    const { doPost } = usePost<number>('product-handle-count');
+    // const { doPost } = usePost<number>('product-handle-count');
+    const { api } = useApi();
 
     const setProductMainField = (field: keyof ProductMainType, value: string | string[] | number) => {
         setProductData((prev) => ({ ...prev, main: { ...prev.main, [field]: value } }));
@@ -39,11 +40,7 @@ export default function ProductMain() {
         if (!productData.main.handle) {
             return;
         }
-        const count = await doPost({
-            params: {
-                handle: productData.main.handle,
-            },
-        });
+        const count = await api.Get<number>('product-handle-count', { handle: productData.main.handle });
         if (count && count > 0) {
             setProductMainField('handle', genHandle(productData.main.name, count));
         }

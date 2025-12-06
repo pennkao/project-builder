@@ -1,5 +1,6 @@
 import { defaultProductMain } from '@/defaults/product';
 import { useApi } from '@/hooks/useApi';
+import { decontent } from '@/lib/content';
 import { useEffect, useState } from 'react';
 import { normalizeProduct, normalizeProductSkus } from '../utils/format';
 export function useProduct(productId: number) {
@@ -58,7 +59,7 @@ export function useProduct(productId: number) {
             api.Params<string>('fetch', { id: productId, target: 'product-content' }, (ok, data) => {
                 if (!ok) return;
                 if (!data) return;
-                const content = decodeURIComponent(data);
+                const content = decontent(data);
                 setByKey('content', content);
                 setInitByKey('content', content);
             }),

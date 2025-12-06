@@ -1,9 +1,10 @@
 package api
 
 import (
+	"log"
+	"net/http"
 	"strconv"
 
-	"github.com/cms/api/dto/resp"
 	"github.com/cms/db"
 	"github.com/cms/dbtypes"
 	"github.com/gin-gonic/gin"
@@ -26,24 +27,24 @@ func (t *API) GetProductList(c *gin.Context) {
 		Offset: 0,
 	})
 	if err != nil {
-		resp.Success[any](c, nil)
 		return
 	}
-	resp.Success(c, productList)
+	c.JSON(http.StatusOK, productList)
+
 }
 
 func (t *API) GetProduct(c *gin.Context) {
 	id := c.Param("id")
 	id64,err:=strconv.ParseInt(id, 10, 64)
 	if err!=nil{
-		resp.Success[any](c, nil)
+		log.Println(err.Error())
 		return 
 	}
 	var product Product
 	// 从查询参数中获取产品 handle
 	product.Main, err = t.Q.FetchProductById(c, id64)
 	if err != nil {
-		resp.Success[any](c, nil)
+		log.Println(err.Error())
 		return
 	}
 
@@ -70,24 +71,24 @@ func (t *API) GetProduct(c *gin.Context) {
 	})
 
 	if err := g.Wait(); err != nil {
-		resp.Success[any](c, nil)
+		log.Println(err.Error())
 		return
 	}
-	resp.Success(c, product)
+	c.JSON(http.StatusOK, product)
 }
 
 func (t *API) GetProductContent(c *gin.Context){
 	id := c.Param("id")
 	id64,err:=strconv.ParseInt(id, 10, 64)
 	if err!=nil{
-		resp.Success[any](c, nil)
+		log.Println(err.Error())
 		return 
 	}
 	content, err:=t.Q.FetchProductContent(c.Request.Context(), id64)
 	if err!=nil{
-		resp.Success[any](c, nil)
+		log.Println(err.Error())
 		return
 	}
-	resp.Success(c, content)
+	c.String(http.StatusOK, content)
 }
 

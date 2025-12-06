@@ -5,6 +5,11 @@ CREATE TABLE product_reviews (
     count SMALLINT NOT NULL DEFAULT 0,   -- 评论用户 ID（外键）
     avg SMALLINT NOT NULL DEFAULT 0, -- 评论用户头像（外键）
     status  SMALLINT NOT NULL DEFAULT 0,
+    rating_1 SMALLINT  NOT NULL DEFAULT 0,
+    rating_2 SMALLINT  NOT NULL DEFAULT 0,
+    rating_3 SMALLINT  NOT NULL DEFAULT 0,
+    rating_4 SMALLINT  NOT NULL DEFAULT 0,
+    rating_5 SMALLINT  NOT NULL DEFAULT 0,  
 	cts int8 DEFAULT (EXTRACT(epoch FROM now()) * 1000::numeric)::bigint NULL
 );
 

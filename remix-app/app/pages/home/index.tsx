@@ -2,33 +2,47 @@ import BaseImage from '@/components/BaseImage';
 
 import BackToTopButton from '@/components/BackToTopButton';
 import AppHeader from '@/features/app/AppHeader';
+import { useApi } from '@/hooks/useApi';
 import { denormalizeProductList } from '@/lib/convert';
-import { doList } from '@/utils/api';
+import { fnv1a32 } from '@/utils/tools';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
+
 const HomePage = ({ data }: any) => {
-    // const products = products2;
+    const { api } = useApi();
     const [products, setProducts] = useState<ProductItemType[]>([]);
     const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
-
-    const product = async () => {
-        doList<ProductItemType[]>('products', 1, (data) => {
-            if (data && data.length) {
-                console.log(data);
-                const pdata = denormalizeProductList(data);
-                setProducts(pdata);
-            }
-        });
-    };
+    const [bannerImages, setBannerImages] = useState<string[]>([]);
 
     useEffect(() => {
-        product();
+        api.query({ page: 1, size: 12 })
+            .Get<ProductItemType[]>('products', {})
+            .callback((data) => {
+                if (data && data.length) {
+                    const pdata = denormalizeProductList(data);
+                    setProducts(pdata);
+                }
+            });
+        const domain = window.location.hostname;
+        const port = window.location.port;
+
+        let url = domain;
+        if (port) {
+            url += `:${port}`;
+        }
+        const id = fnv1a32(url);
+
+        api.doGet(id, 'site').callback((data) => {
+            if (data && data.config && data.config.banners) {
+                setBannerImages(data?.config?.banners || []);
+            }
+        });
     }, []);
 
     return (
         <>
-            <AppHeader />
+            <AppHeader images={bannerImages} />
             <div className="bg-white rounded-lg p-1 shadow-sm">
                 {/* <h2 className="text-xl font-bold text-gray-800 mb-4">热门商品</h2> */}
 
@@ -51,11 +65,11 @@ const HomePage = ({ data }: any) => {
 
                                     <div className="mt-2">
                                         <div className="text-lg font-bold text-red-600">
-                                            {product.stock} {t('common.score')}
+                                            {product.points} {t('common.score')}
                                         </div>
                                         <div className="flex justify-between items-center">
                                             <div className="text-xs text-gray-500">{t('product.price', { price: product.price })}</div>
-                                            <div className="text-xs text-orange-600">{t('common.monthly', { num: product.stock })}</div>
+                                            <div className="text-xs text-orange-600">{t('common.monthly', { num: product.sales_count })}</div>
                                         </div>
                                     </div>
                                 </div>

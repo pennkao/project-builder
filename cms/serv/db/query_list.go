@@ -88,6 +88,7 @@ func (q *Queries) QueryImageList(ctx context.Context, where string, args []inter
 }
 
 func (q *Queries) QueryProductReviewsCount(ctx context.Context, where string, args []interface{}) (int64, error) {
+
 	row := q.db.QueryRow(ctx, baseProductReviewsCountSql + where, args...)
 	var count int64
 	err := row.Scan(&count)

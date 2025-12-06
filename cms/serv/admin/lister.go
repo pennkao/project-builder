@@ -2,7 +2,6 @@ package admin
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/cms/admin/dto/hp"
@@ -21,7 +20,6 @@ func (t *Cms) Lister(c *gin.Context) {
 		hp.Error[any](c, err.Error())
 		return
 	}
-	fmt.Println(req)
 	switch req.Target {
 	case "products":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "uts")
@@ -32,7 +30,7 @@ func (t *Cms) Lister(c *gin.Context) {
 			t.QueryImagestList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
 	case "reviews":
-			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "c.cts")
+			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "r.cts")
 			t.QueryProductReviewsList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
 	case "logs":

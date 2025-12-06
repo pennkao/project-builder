@@ -4,7 +4,7 @@ import React from 'react';
 const ProductDetail = React.memo(({ data }: { data: string }) => {
     return (
         <div className="flex flex-col">
-            <div className="p-1">{t('product.detail.title')}</div>
+            <div className="p-2"></div>
             <div className="rich-text-container w-full">
                 <RichTextViewer htmlContent={data} />
             </div>

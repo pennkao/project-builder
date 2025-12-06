@@ -14,9 +14,7 @@ import (
 const baseProductReviewsCountSql = `-- name: baseProductReviewsCountSql :one
 SELECT
 	count(*)
-FROM products p
-JOIN product_reviews c 
-    ON c.product_id = p.id
+FROM products as p
 `
 
 func (q *Queries) baseProductReviewsCountSql(ctx context.Context) (int64, error) {
@@ -32,15 +30,15 @@ SELECT
     p.name,
     p.handle,
     p.main_image,
-    c.rating,
-    c.total,
-    c.count,
-    c.avg,
-    c.status,
-    c.cts
+    r.rating,
+    r.total,
+    r.count,
+    r.avg,
+    r.status,
+    r.cts
 FROM products p
-JOIN product_reviews c 
-    ON c.product_id = p.id
+LEFT JOIN product_reviews r
+    ON r.product_id = p.id
 `
 
 type baseProductReviewsListSqlRow struct {
@@ -48,11 +46,11 @@ type baseProductReviewsListSqlRow struct {
 	Name      string      `json:"name"`
 	Handle    string      `json:"handle"`
 	MainImage string      `json:"main_image"`
-	Rating    int16       `json:"rating"`
-	Total     int16       `json:"total"`
-	Count     int16       `json:"count"`
-	Avg       int16       `json:"avg"`
-	Status    int16       `json:"status"`
+	Rating    pgtype.Int2 `json:"rating"`
+	Total     pgtype.Int2 `json:"total"`
+	Count     pgtype.Int2 `json:"count"`
+	Avg       pgtype.Int2 `json:"avg"`
+	Status    pgtype.Int2 `json:"status"`
 	Cts       pgtype.Int8 `json:"cts"`
 }
 

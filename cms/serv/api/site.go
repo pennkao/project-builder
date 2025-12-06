@@ -1,9 +1,10 @@
 package api
 
 import (
+	"log"
+	"net/http"
 	"strconv"
 
-	"github.com/cms/api/dto/resp"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,13 +13,13 @@ func (t *API) GetSite(c *gin.Context) {
 	idStr := c.Param("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
-		resp.Error[any](c, "invalid id")
+		log.Println(err.Error())
 		return
 	}
 	site, err := t.Q.FetchSite(c, id)
 	if err != nil {
-		resp.Error[any](c, err.Error())
+		log.Println(err.Error())
 		return
 	}
-	resp.Success(c, site)
+	c.JSON(http.StatusOK, site)
 }

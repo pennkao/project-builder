@@ -58,7 +58,7 @@ func BuildDynamicQuery(filters []hq.FilterItem, sorts []hq.SortItem, page *com.P
         }
         fullWhere += " ORDER BY " + strings.Join(orderClauses, ", ")
     } else{
-		fullWhere += fmt.Sprintf(" ORDER BY %s DESC", defaultSortField)
+		fullWhere += fmt.Sprintf(" ORDER BY %s DESC  NULLS LAST", defaultSortField)
 	}
 
 	fullWhere += fmt.Sprintf(" LIMIT %d OFFSET %d;", page.GetLimit(), page.GetOffset())

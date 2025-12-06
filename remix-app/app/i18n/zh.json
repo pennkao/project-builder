@@ -8,6 +8,7 @@
     "common.score": "积分",
     "common.monthly": "月兑{{num}}+",
 
+    "buyer.minutes": "在{{num}}分钟前",
     "common.unit_day": "天",
     "common.shipping_free": "免费配送",
     "common.payment": "支付",

@@ -92,7 +92,7 @@ export function Chat({ url }: ChatProps) {
                 aria-expanded={isOpen}
                 aria-label={'Open chat'}
                 className={`
-        fixed right-1 top-[55%]  z-1000
+        fixed right-1 top-[55%]  z-99
         w-12 h-12 rounded-full
         flex items-center justify-center
         shadow-xl
@@ -116,7 +116,7 @@ export function Chat({ url }: ChatProps) {
                 )}
             </button>
             <Activity mode={`${isOpen ? 'visible' : 'hidden'}`}>
-                <div className="fixed bottom-10 right-0 w-[450px] h-[450px] flex shadow-xl rounded-2xl border border-gray-300 bg-white z-1000 overflow-hidden">
+                <div className="fixed bottom-10 md:right-0 md:w-[30%] right-0 w-full h-[450px] flex shadow-xl rounded-2xl border border-gray-300 bg-white z-1000 overflow-hidden">
                     {/* ---------------- 左侧：会话列表 ---------------- */}
                     <div className="w-[120px] border-r border-gray-300 bg-gray-100 flex flex-col">
                         <div className="p-3 font-semibold border-b bg-gray-200">会话列表</div>

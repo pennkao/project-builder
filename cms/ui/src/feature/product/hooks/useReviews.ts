@@ -17,11 +17,12 @@ export const useReviews = () => {
     const [result, setResult] = useState<PageListDataType<ProductReviewType>>(defaultPageDataList);
 
     const fetchList = async () => {
-        api.doList('reviews', listQueryParams).callback((data) => {
-            if (data) setResult(data);
-        });
+        api.query({ page, size: 10 })
+            .doList('reviews', listQueryParams)
+            .callback((data) => {
+                if (data) setResult(data);
+            });
     };
-    // doLoading({}, { page, size: 10 }, (res) => setResult(res));
     useEffect(() => {
         fetchList();
     }, [page, listQueryParams]);
@@ -38,8 +39,8 @@ export const useReviews = () => {
     const Delete = async (id: number) => {
         const confirm = await message('Are you sure you want to delete this product?');
         if (!confirm) return false;
-        api.doDelete(id, 'product', (ret) => {
-            if (!ret) return;
+        api.doDelete(id, 'product').callback((ok) => {
+            if (!ok) return;
             setResult((prev) => ({
                 ...prev,
                 list: prev.list.filter((item) => item.id !== id),

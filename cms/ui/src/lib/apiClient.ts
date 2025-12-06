@@ -306,28 +306,20 @@ export class HttpClient {
     }
 
     //=====================================================
-    doDelete(id: number, target: string, callback: (ok: boolean) => void) {
-        return this.Delete('delete', { id: id, target: target }).callback((ok) => {
-            callback(ok);
-        });
+    doDelete(id: number, target: string) {
+        return this.Delete('delete', { id: id, target: target });
     }
 
     doList<T = any>(target: string, params?: any) {
         return this.Get<T>('list', { ...params, target: target });
     }
 
-    doGet<T = any>(id: number, target: string, callback: (data: T) => void) {
-        return this.Get<T>('fetch', { id: id, target: target }).callback((data) => {
-            if (data === null) return;
-            callback(data);
-        });
+    doGet<T = any>(id: number, target: string) {
+        return this.Get<T>('fetch', { id: id, target: target });
     }
 
-    doUpdate<T = any>(body: any, callback: (ok: boolean) => void) {
-        return this.Post<T>('updater', body).callback((ok) => {
-            if (!ok) return;
-            callback(ok);
-        });
+    doUpdate<T = any>(body: any) {
+        return this.Post<T>('updater', body);
     }
 }
 

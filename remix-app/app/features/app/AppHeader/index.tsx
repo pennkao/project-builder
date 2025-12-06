@@ -1,17 +1,13 @@
 import SwiperImage from '@/components/SwiperImage';
-import { SRC } from '@/lib/images';
-import { doGet } from '@/utils/api';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-// const bannerImages = [imgUrl1, imgUrl2, imgUrl3, imgUrl4, imgUrl5];
-
-const AppHeader = ({ className }: { className?: string }) => {
+const AppHeader = ({ images, className }: { images?: string[]; className?: string }) => {
     const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
 
     const headerRef = useRef<HTMLDivElement>(null);
+    const [value, setValue] = useState('');
     const [headerHeight, setHeaderHeight] = useState(85);
-    const [bannerImages, setBannerImages] = useState<string[]>([]);
     className = className || '';
     useEffect(() => {
         // 组件挂载后，读取 Header 的实际高度
@@ -30,13 +26,15 @@ const AppHeader = ({ className }: { className?: string }) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    useEffect(() => {
-        doGet('site', 976292092).then((res) => {
-            let images = ((res && res?.config && res?.config?.banner) || []) as string[];
-            images = images.map((img) => SRC(img || ''));
-            setBannerImages(images);
-        });
-    }, []);
+    const handleClick = () => {
+        if (window === null || window === undefined) {
+            return;
+        }
+        const hostname = window.location.hostname;
+        const encodedValue = encodeURIComponent(value);
+        const encodedHostname = encodeURIComponent(hostname);
+        window.location.href = `https://www.google.com/search?q=${encodedValue}&sitesearch=${encodedHostname}`;
+    };
 
     return (
         <>
@@ -54,14 +52,29 @@ const AppHeader = ({ className }: { className?: string }) => {
                     {/* 搜索框容器：加 relative！ */}
                     <div className="h-8 max-w-xs flex rounded-full bg-white overflow-hidden shadow-md relative">
                         {/* 输入框：pl-8 足够避开图标 */}
-                        <input type="text" placeholder={t('header.search_placeholder')} className="flex-1 px-3 pl-10 text-gray-700 focus:outline-none min-w-0" />
+                        <input
+                            type="text"
+                            value={value}
+                            placeholder={t('header.search_placeholder')}
+                            className="flex-1 px-3 pl-10 text-gray-700 focus:outline-none min-w-0"
+                            onChange={(e) => {
+                                setValue(e.target.value);
+                            }}
+                        />
 
                         {/* SVG 放大镜：必须有 path！ */}
                         <svg className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
 
-                        <button className="bg-orange-500 text-white px-3 py-0 text-sm font-medium">{t('header.search')}</button>
+                        <button
+                            className="bg-orange-500 text-white px-3 py-0 text-sm font-medium cursor-pointer"
+                            onClick={() => {
+                                handleClick();
+                            }}
+                        >
+                            {t('header.search')}
+                        </button>
                     </div>
 
                     <span className="text-white text-lg whitespace-nowrap">🎧</span>
@@ -70,7 +83,7 @@ const AppHeader = ({ className }: { className?: string }) => {
             <div className={`h-[84px]`}></div>
             <section className="min-h-[170px] ">
                 {/* 占位元素：高度 = 宽度 * (高度/宽度) */}
-                <SwiperImage images={bannerImages} autoPlayInterval={4000} className="rounded-lg" />
+                <SwiperImage images={images || []} autoPlayInterval={4000} className="rounded-lg" />
             </section>
         </>
     );

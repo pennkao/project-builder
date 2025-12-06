@@ -5,6 +5,8 @@
     "header.search": "Search",
     "header.search_placeholder": "search",
 
+    "buyer.minutes": "{{num}} minutes ago",
+
     "common.currency": "USD",
     "common.score": "Points",
     "common.monthly": "Redeem {{num}}+/mo",
@@ -38,7 +40,7 @@
     "common.back": "Back",
     "common.continue": "Continue",
 
-    "product.factory_stock": "Factory Direct, Only {{stock}} Left!",
+    "product.factory_stock": "Factory Direct, Only {{stock}} Left",
     "product.limited_buy": "Limited Time Offer",
     "product.reviews": "Customer Reviews",
     "product.show_all": "See All Reviews",

@@ -3,9 +3,9 @@ package api
 import (
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/bytedance/sonic"
-	"github.com/cms/admin/dto/hp"
 	"github.com/cms/api/dto/resq"
 	"github.com/cms/db"
 	"github.com/cms/dbtypes"
@@ -16,28 +16,24 @@ import (
 func (t *API) CreateOrder(c *gin.Context) {
 	var req resq.OrderLogsReq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		hp.Error[any](c, err.Error())
+		log.Printf("CreateOrder error: %v", err)
 		return
 	}
-
 		
 	data, err := utils.DecryptAES(req.UUID, req.OrderID[0:16],req.OrderID[req.S:req.E])
 	if err!= nil {
-		hp.Error[any](c, "api error")
 		log.Println(err.Error())
 		return
 	}
 	fmt.Println(data)
 	var orderLogsReq resq.OrderLogs
 	if err = sonic.UnmarshalString(data, &orderLogsReq); err != nil {
-		hp.Error[any](c, "error")
 		log.Println(err.Error())
 		return
 	}
 	fmt.Println(orderLogsReq)
 	err = sonic.Unmarshal([]byte(data), &orderLogsReq)
 	if err!= nil {
-		hp.Error[any](c, "error!")
 		log.Println(err.Error())
 		return
 	}
@@ -63,8 +59,9 @@ func (t *API) CreateOrder(c *gin.Context) {
 	}
 	err=t.Q.CreateOrderLogs(c, orderLogs)
 	if err!= nil {
-		hp.Error[any](c, err.Error())
+		log.Println(err.Error())
 		return
 	}
-	hp.Success[any](c, nil)
+	c.String(http.StatusOK, "")
+
 }

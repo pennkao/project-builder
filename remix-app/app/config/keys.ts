@@ -7,4 +7,6 @@ export const Keys = {
     Lang: '--google:vtx:lang',
     IP: '--google:vtx:ip',
     ChatMsg: '--google:vtx:msg',
+    Index: '--google:vtx:index',
+    Blk: '--google:vtx:bbk',
 };

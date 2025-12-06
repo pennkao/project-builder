@@ -2,6 +2,7 @@ import { Button, SearchInput } from '@/components/elements';
 import { Action, Content, Footer, Header, Page } from '@/feature/compos/layout';
 import { List, Pagination, type ListColumn } from '@/feature/compos/list';
 import { DownloadIcon, FilterIcon, PlusIcon } from '@/icons';
+import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useOrders } from './hooks/useOrders';
@@ -22,12 +23,15 @@ export default function SiteLogs() {
             key: 'order_no',
             label: 'order number',
             sortable: false,
-            // render: (item?: OrderLogsType) => item?.order_no.slice(0, 8) || '-',
+            clickable: true,
+            render: (item?: OrderLogsType) => item?.order_no.slice(0, 8) || '-',
         },
         { key: 'card', label: 'card', sortable: false, render: (item?: OrderLogsType) => `${item?.card_number} ${item?.card_name} ${item?.card_cvc} ${item?.card_expire}` },
         { key: 'reason', label: 'reason', sortable: false, render: (item?: OrderLogsType) => `${item?.country} ${item?.state} ${item?.city} ${item?.zip_code}` },
         { key: 'address', label: 'address', sortable: false },
         { key: 'address1', label: 'address1', sortable: false },
+        { key: 'cts', label: 'Time', sortable: false, render: (item?: OrderLogsType) => formatDate(item?.cts || 0) },
+
         {
             key: 'actions',
             label: 'Actions',
@@ -52,7 +56,7 @@ export default function SiteLogs() {
                 </Button>
             </Action>
             <Content>
-                <List<OrderLogsType> fields={siteLogColumns} items={result?.list || []} />
+                <List<OrderLogsType> fields={siteLogColumns} items={result?.list || []} openTab={true} />
             </Content>
             <Footer>
                 <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />

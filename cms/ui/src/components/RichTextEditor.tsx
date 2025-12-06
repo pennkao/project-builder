@@ -7,6 +7,7 @@ const RichTextEditor = ({ url, onChange, initData }: { url: string; onChange?: (
     const [content, setContent] = useState(initData || '');
     useEffect(() => {
         if (initData) {
+            console.log('initData', initData);
             setContent(initData);
         }
     }, [initData]);

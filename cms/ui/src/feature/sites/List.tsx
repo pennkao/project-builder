@@ -12,8 +12,8 @@ export function SitesList() {
 
     const siteColumns: ListColumn<SiteType>[] = [
         {
-            key: 'id',
-            label: 'ID',
+            key: 'sid',
+            label: 'Id',
             sortable: false,
         },
         {
@@ -23,11 +23,7 @@ export function SitesList() {
         },
         { key: 'domain', label: 'Domain', sortable: false },
         { key: 'stype', label: 'Type', sortable: false },
-        {
-            key: 'price',
-            label: 'Price',
-            sortable: true,
-        },
+
         { key: 'uts', label: 'Update Date', sortable: false, render: (item?: SiteType) => formatDate(item?.uts || 0) },
         { key: 'cts', label: 'Date', sortable: false, render: (item?: SiteType) => formatDate(item?.cts || 0) },
 

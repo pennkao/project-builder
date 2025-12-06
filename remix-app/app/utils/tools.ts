@@ -172,3 +172,7 @@ export function fnv1a32(handle: string): number {
 
     return hash >>> 0;
 }
+
+export function randomIntRange(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

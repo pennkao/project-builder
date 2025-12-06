@@ -4,17 +4,16 @@ import (
 	"log"
 	"time"
 
-	"github.com/cms/admin/dto/hp"
 	"github.com/cms/db"
 	"github.com/gin-gonic/gin"
 )
 
-var cache map[string]time.Time
+var cache map[string]time.Time = make(map[string]time.Time)
 
 func (t *API) CreateLogs(c *gin.Context) {
 	var req db.CreateLogsParams
 	    if err := c.ShouldBindJSON(&req); err != nil {
-        hp.Error[any](c,  err.Error()+"55555555555555")
+		log.Println(err)
         return
     }
 

@@ -13,19 +13,15 @@ import { FilterIcon } from '@/icons';
 
 const Reviews = () => {
     const { result, setParamFilter } = useReviews();
-
     const [search, setSearch] = useState('');
+    const [expandedRow, setExpandedRow] = useState<number | null>(null);
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             setParamFilter([{ field: 'name', operator: 'like', value: search }]);
         }
     };
-    const handleDelete = (id: number) => {
-        console.log(id);
-        // setResult((prev) => ({
-        //     ...prev,
-        //     list: prev.list.filter((item) => item.id !== id),
-        // }));
+    const handleToggle = (id: number) => {
+        setExpandedRow(expandedRow === id ? null : id);
     };
     const productColumns: ListColumn<ProductReviewType>[] = [
         {
@@ -59,10 +55,10 @@ const Reviews = () => {
                         size="sm"
                         className="ml-2"
                         onClick={() => {
-                            handleDelete(item?.id || 0); // TODO: delete product
+                            handleToggle(item?.id || 0);
                         }}
                     >
-                        Delete
+                        Import
                     </Button>
                 </div>
             ),
@@ -82,7 +78,11 @@ const Reviews = () => {
                 </Button>
             </Action>
             <Content>
-                <List<ProductReviewType> rowKey="id" fields={productColumns} items={result?.list || []} />
+                <List<ProductReviewType> rowKey="id" fields={productColumns} items={result?.list || []} expandedRow={expandedRow}>
+                    <Button variant="primary" size="sm">
+                        Import
+                    </Button>
+                </List>
             </Content>
             <Footer>
                 <Pagination currentPage={1} totalCount={100} pageSize={10} onPageChange={() => {}} />

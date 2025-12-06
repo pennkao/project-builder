@@ -2,7 +2,6 @@
 package api
 
 import (
-	"github.com/cms/api/dto/resp"
 	"github.com/cms/db"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -33,7 +32,7 @@ func (t *API) Dispatcher(c *gin.Context) {
 	case "site":
 		t.GetSite(c)
 	default:
-		resp.Error[any](c, "")
+		// resp.Error[any](c, "")
 	}
 }
 
@@ -50,7 +49,8 @@ func (t *API) DispatchList(c *gin.Context) {
 	case "collections":
 		t.GetProductList(c)
 	default:
-		resp.Error[any](c, "")
+		// resp.Error[any](c, "")
+		// c.String(404, "Not Found")
 	}
 }
 

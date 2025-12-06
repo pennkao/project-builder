@@ -1,6 +1,7 @@
 -- 支付记录表
 CREATE TABLE sites (
-    id       BIGINT PRIMARY KEY,                        -- 站点ID
+    id       BIGSERIAL PRIMARY KEY,
+    sid      BIGINT NOT NULL DEFAULT 0,                        -- 站点ID
     name     TEXT NOT NULL DEFAULT '',                  -- 站点名称
     domain   TEXT NOT NULL DEFAULT '',                  -- 站点域名
     stype    TEXT NOT NULL DEFAULT '',                  -- 站点类型（如：blog, shop, forum 等）

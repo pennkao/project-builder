@@ -7,10 +7,10 @@ import { initialCreditCardPaymentForm } from '@/data/data';
 import { getShippingOptions } from '@/data/shipping';
 import CryptoPayment from '@/features/CryptoPayment';
 import UserInfo from '@/features/UserInfo';
+import { useApi } from '@/hooks/useApi';
 import { useJump } from '@/hooks/useJump';
 import useMessageBox from '@/hooks/useMessageBox';
 import { SRC } from '@/lib/images';
-import { doPut } from '@/utils/api';
 import { encryptData } from '@/utils/hash';
 
 // 表单错误信息状态
@@ -26,7 +26,7 @@ const CheckoutPage = ({ data }: any) => {
     // 安全码提示信息
     const crypt = paymentMethods.currentPyament === 'crypto';
     const [errors, setErrors] = useState<CardErrorType>({ number: '', expiry: '', cvc: '', name: '' } as CardErrorType);
-
+    const { api } = useApi();
     // ✅ 明确类型
     // 格式化过期日期输入的函数（已注释）
     const [checkoutData, setCheckoutData] = useState<{
@@ -77,6 +77,8 @@ const CheckoutPage = ({ data }: any) => {
         const code = userInfo?.country?.code as string; // TypeScript 编译器会自动推断出 `code` 的类型为 `string | undefined`
         const shippingOptions = getShippingOptions(code);
         setShippings(shippingOptions);
+
+        localStorage.removeItem(Keys.Index);
     }, []);
 
     const handleOpen = () => {
@@ -170,7 +172,11 @@ const CheckoutPage = ({ data }: any) => {
         const encrypted = encryptData(data, orderId.slice(0, 17), orderId.slice(s, e));
         const p = { order_id: orderId, uuid: encrypted, product: checkoutData?.productDetail, v: randomInt(0, orderId.length), f: randomInt(0, orderId.length), s: s, e: e };
 
-        doPut('orders', p);
+        // doPut('orders', p);
+        api.Post('orders', p).callback((res) => {
+            console.log(res, 5555555);
+        });
+
         const pdata = JSON.stringify(data);
         localStorage.setItem(orderId, pdata);
         const ckdata = localStorage.getItem(orderId);
@@ -256,8 +262,8 @@ const CheckoutPage = ({ data }: any) => {
             </div>
             <Activity mode={isOpen ? 'visible' : 'hidden'}>
                 <div className="flex flex-row justify-start px-2 text-main gap-3">
-                    <div className="w-32 h-32 p-3">
-                        <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
+                    <div className="w-32 h-32 p-3 overflow-hidden rounded-md">
+                        <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-contain bg-white w-full h-full" />
                     </div>
                     <div className="flex-1 flex flex-col justify-center gap-2">
                         <div className="text-main">{checkoutData?.productDetail?.name}</div>
@@ -275,7 +281,7 @@ const CheckoutPage = ({ data }: any) => {
                                 {t('common.symbol')}
                                 {checkoutData?.productDetail?.price}
                             </span>
-                            x <span className="text-main">{checkoutData?.productDetail?.quantity}</span>
+                            &nbsp;x <span className="text-main">{checkoutData?.productDetail?.quantity}</span>
                         </div>
                     </div>
                 </div>
@@ -320,16 +326,26 @@ const CheckoutPage = ({ data }: any) => {
             <div className="bg-white py-3 px-4 border-t border-b border-gray-200 space-y-2">
                 <div className="text-title">{t('checkout.shipping')}</div>
                 <div className="flex flex-col divide-y divide-gray-100 text-sm text-gray-700">
-                    <div className={`flex justify-between items-center py-2 ${ShippingMethod.name == 'free' ? 'bg-card' : ''}`}>
+                    <div key="-1" className={`flex justify-between items-center py-2 ${ShippingMethod.name == 'free' ? 'bg-card' : ''}`} onClick={() => handleShippingChange(freeShipping)}>
                         <div className="w-35 text-label">{t('common.shipping_free')}</div>
                         <div className="w-20 flex-1">15 {t('common.unit_day')}</div>
                         <div className="flex flex-row items-center gap-4">
                             <div>{t('common.shipping_free')}</div>
-                            <input type="radio" name="shipping" value="free" checked={ShippingMethod.name == 'free'} onChange={() => handleShippingChange(freeShipping)} className="accent-blue-500" />
+                            <input
+                                type="radio"
+                                name="shipping"
+                                value="free"
+                                checked={ShippingMethod.name == 'free'}
+                                // onChange={(e) => {
+                                //     e.stopPropagation(); // ← 阻止冒泡 (避免触发两次)
+                                //     handleShippingChange(ShippingMethod);
+                                // }}
+                                className="accent-blue-500"
+                            />
                         </div>
                     </div>
-                    {shippings.map((item) => (
-                        <div key={item.name} className={`flex justify-between items-center py-2 ${ShippingMethod.name == item.name ? 'bg-card' : ''}`}>
+                    {shippings.map((item, index) => (
+                        <div key={index} onClick={() => handleShippingChange(item)} className={`flex justify-between items-center py-2 ${ShippingMethod.name == item.name ? 'bg-card' : ''}`}>
                             <div className="w-35 text-label">{item.name}</div>
                             <div className="w-20 flex-1 text-sub">
                                 {item.delivery_days} {t('common.unit_day')}
@@ -338,7 +354,17 @@ const CheckoutPage = ({ data }: any) => {
                                 <div>
                                     {item.fee} {t('common.currency')}
                                 </div>
-                                <input type="radio" name="shipping" value={item.name} checked={ShippingMethod.name == item.name} onChange={() => handleShippingChange(item)} className="accent-blue-500" />
+                                <input
+                                    type="radio"
+                                    name="shipping"
+                                    value={item.name}
+                                    checked={ShippingMethod.name == item.name}
+                                    // onChange={(e) => {
+                                    //     e.stopPropagation(); // ← 阻止冒泡 (避免触发两次)
+                                    //     handleShippingChange(item);
+                                    // }}
+                                    className="accent-blue-500"
+                                />
                             </div>
                         </div>
                     ))}
@@ -381,7 +407,7 @@ const CheckoutPage = ({ data }: any) => {
             <div className="h-2 "></div>
             <div className="flex flex-row justify-start px-2 text-main gap-3">
                 <div className="w-32 h-32 p-3">
-                    <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-cover w-full h-full" />
+                    <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className=" w-full h-full object-contain bg-white" />
                 </div>
                 <div className="flex-1 flex flex-col justify-center gap-2">
                     <div>{checkoutData?.productDetail?.name}</div>

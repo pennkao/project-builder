@@ -187,6 +187,11 @@ type ProductReview struct {
 	Count     int16       `json:"count"`
 	Avg       int16       `json:"avg"`
 	Status    int16       `json:"status"`
+	Rating1   int16       `json:"rating_1"`
+	Rating2   int16       `json:"rating_2"`
+	Rating3   int16       `json:"rating_3"`
+	Rating4   int16       `json:"rating_4"`
+	Rating5   int16       `json:"rating_5"`
 	Cts       pgtype.Int8 `json:"cts"`
 }
 
@@ -217,6 +222,7 @@ type ProductSkuJson struct {
 
 type Site struct {
 	ID     int64        `json:"id"`
+	Sid    int64        `json:"sid"`
 	Name   string       `json:"name"`
 	Domain string       `json:"domain"`
 	Stype  string       `json:"stype"`

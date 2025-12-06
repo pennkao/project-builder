@@ -17,8 +17,6 @@ export default function ChatWidget({ clientId, role, url, isOpen, onClose }: Cha
 
     const sendMessage = async () => {
         if (!input.trim()) return;
-        // if (!url) return;
-        // send(input)
         send('admin', input);
         setInput('');
     };
@@ -76,7 +74,7 @@ export default function ChatWidget({ clientId, role, url, isOpen, onClose }: Cha
                     <img src={previewImage} className="max-w-[90%] max-h-[90%] rounded-lg" />
                 </div>
             )}
-            <div className="fixed bottom-10 right-0 w-[350px] max-w-md h-[450px] flex flex-col shadow-xl rounded-2xl border border-gray-300 bg-white z-1000">
+            <div className="fixed bottom-10 right-1 w-[350px] max-w-md h-[450px] flex flex-col shadow-xl rounded-2xl border border-gray-300 bg-white z-1000">
                 {/* Header */}
                 <div className="p-4 border-b border-gray-300 font-semibold text-lg bg-gray-300/20 rounded-t-2xl flex items-center justify-between">
                     ID:{clientId?.slice(0, 4)}
