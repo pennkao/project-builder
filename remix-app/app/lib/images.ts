@@ -1,7 +1,7 @@
 import { config } from '@/config/config';
 
-export function SRC(src: string): string {
-    if (!src) return '';
+export function SRC(src?: string | null) {
+    if (!src) return undefined; // 返回 undefined
 
     const isAbsolute = src.startsWith('http') || src.startsWith('blob:') || src.startsWith('data:image');
 

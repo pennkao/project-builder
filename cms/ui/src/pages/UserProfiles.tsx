@@ -1,8 +1,8 @@
+import PageBreadcrumb from '@/feature/compos/layout/compos/PageBreadCrumb';
+import PageMeta from '@/feature/compos/layout/compos/PageMeta';
 import UserAddressCard from '../components/UserProfile/UserAddressCard';
 import UserInfoCard from '../components/UserProfile/UserInfoCard';
 import UserMetaCard from '../components/UserProfile/UserMetaCard';
-import PageBreadcrumb from '../feature/common/layout/compos/PageBreadCrumb';
-import PageMeta from '../feature/common/layout/compos/PageMeta';
 
 export default function UserProfiles() {
     return (

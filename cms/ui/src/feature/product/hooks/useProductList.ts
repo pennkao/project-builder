@@ -14,6 +14,7 @@ export const useProductList = () => {
     const { api } = useApi();
 
     const [page, setPage] = useState(1); // eslint-disable-next-line
+    const [sites, setSites] = useState<{ value: string; label: string }[]>([]);
     const [listQueryParams, setlistQueryParams] = useState<ListQueryParamsType>({ ...defaultQueryParams, target: 'products' });
     const [result, setResult] = useState<PageListDataType<ProductItemType>>(defaultPageDataList);
 
@@ -33,6 +34,7 @@ export const useProductList = () => {
     }, [page, listQueryParams]);
 
     const setParamFilter = (items: FilterItemType[]) => {
+        items = items.filter((item) => item.value !== '');
         setlistQueryParams((prev) => ({
             ...prev,
             filter: items,
@@ -44,7 +46,7 @@ export const useProductList = () => {
     const Delete = async (id: number) => {
         const confirm = await message('Are you sure you want to delete this product?');
         if (!confirm) return false;
-        api.doDelete(id, 'product', (ret) => {
+        api.doDelete(id, 'product').callback((ret) => {
             if (!ret) return;
             setResult((prev) => ({
                 ...prev,
@@ -52,5 +54,33 @@ export const useProductList = () => {
             }));
         });
     };
-    return { result, Delete, setParamFilter, setParamSort, setPage };
+
+    const BatchBindSite = async (ids: number[], siteId: number) => {
+        const confirm = await message('Are you sure you want to bind this product to this site?');
+        if (!confirm) return false;
+
+        if (ids.length === 0) {
+            await message('Please select at least one product');
+            return false;
+        }
+        api.Post('bind-product-site', { ids, sid: siteId }).callback((obj) => {
+            if (!obj) return;
+        });
+    };
+
+    useEffect(() => {
+        api.query({ page: 1, size: 1000 })
+            .doList<PageListDataType<SiteType>>('sites')
+            .callback((data) => {
+                if (data) {
+                    const sites = data.list.map((item) => ({
+                        value: String(item.id),
+                        label: item.domain,
+                    }));
+                    setSites([{ value: '', label: '---- None ----' }, ...sites]);
+                }
+            });
+    }, []);
+
+    return { result, Delete, setParamFilter, setParamSort, setPage, sites, BatchBindSite };
 };

@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/cms/admin/dto/hp"
 	"github.com/cms/db"
 	"github.com/gin-gonic/gin"
 )
@@ -11,6 +12,13 @@ import (
 var cache map[string]time.Time = make(map[string]time.Time)
 
 func (t *API) CreateLogs(c *gin.Context) {
+
+	sid := c.GetInt64("sid")
+	if (sid==0){
+		log.Println("error sid")
+		return
+	}
+
 	var req db.CreateLogsParams
 	    if err := c.ShouldBindJSON(&req); err != nil {
 		log.Println(err)
@@ -18,14 +26,12 @@ func (t *API) CreateLogs(c *gin.Context) {
     }
 
 	if _, ok := cache[req.Ukey]; ok {
-		// hp.Error[any](c,  "uid already exist")
+		hp.Error[any](c,  "uid already exist")
 		return
 	}
-	// if utils.SHA256(req.Fps)!=req.Uid {
-	// 	hp.Error[any](c,  "uid not match")
-	// 	return
-	// }
-	// 从查询参数中获取产品 handle
+
+	req.Sid = sid
+	req.Domain = c.GetString("domain")
 	err:=t.Q.CreateLogs(c, req)
 	if err != nil {
 		log.Println(err)

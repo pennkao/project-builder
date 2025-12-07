@@ -1,6 +1,3 @@
-import url1 from '@/assets/images/product/10001.jpeg';
-import url2 from '@/assets/images/product/10002.jpeg';
-import url3 from '@/assets/images/product/10003.jpeg';
 import BackToTopButton from '@/components/BackToTopButton';
 import BottomSheet from '@/components/BottomSheet';
 import HorizontalTabs from '@/components/HorizontalTabs';
@@ -15,6 +12,8 @@ import ReviewCard from '@/features/product/ReviewCard';
 import UserInfo from '@/features/UserInfo';
 import { useApi } from '@/hooks/useApi';
 import { decontent } from '@/lib/content';
+import { getSiteId } from '@/utils/tools';
+
 import { t } from 'i18next';
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { useNavigate } from 'react-router';
@@ -47,7 +46,11 @@ const ProductPage = ({ productData }: { productData: ProductType | null }) => {
 
     useEffect(() => {
         if (productData === null || productData.main.id < 0) return;
-        api.doGet<string>(productData.main.id, 'content').callback((data) => {
+        const sid = getSiteId();
+        if (!sid) {
+            return;
+        }
+        api.doGetOne<string>('content', productData.main.id, sid).callback((data) => {
             if (data === null) return;
             setContent(data);
         });

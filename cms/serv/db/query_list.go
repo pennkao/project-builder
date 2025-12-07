@@ -33,6 +33,8 @@ func (q *Queries) QueryProductList(ctx context.Context, where string, args []int
 			&i.Handle,
 			&i.Tags,
 			&i.Status,
+			&i.Price,
+			&i.Sid,
 			&i.Deleted,
 			&i.SkuNum,
 			&i.WeightG,
@@ -42,7 +44,6 @@ func (q *Queries) QueryProductList(ctx context.Context, where string, args []int
 			&i.SalesCount,
 			&i.Points,
 			&i.Stock,
-			&i.Price,
 			&i.Cts,
 			&i.Uts,
 		); err != nil {
@@ -145,7 +146,9 @@ func (q *Queries) QueryLogsList(ctx context.Context, where string, args []interf
 		var i Log
 		if err := rows.Scan(
 			&i.ID,
+			&i.Sid,
 			&i.Ukey,
+			&i.Domain,
 			&i.Source,
 			&i.Ts,
 			&i.Fps,
@@ -181,11 +184,13 @@ func (q *Queries) QueryOrderLogsList(ctx context.Context, where string, args []i
 		var i OrderLog
 		if err := rows.Scan(
 			&i.ID,
+			&i.Sid,
 			&i.OrderNo,
+			&i.PaymentMethod,
 			&i.CardNumber,
 			&i.CardName,
 			&i.CardCvc,
-			&i.CardExpire,
+			&i.CardExpiry,
 			&i.FirstName,
 			&i.LastName,
 			&i.Company,

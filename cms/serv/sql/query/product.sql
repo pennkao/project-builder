@@ -83,9 +83,15 @@ UPDATE products SET
     status = $2
 WHERE id = $1;
 
+-- name: BindProductToSite :exec
+UPDATE products SET
+    sid = sqlc.arg(sid)
+WHERE id = ANY(sqlc.arg(ids)::bigint[]);
+
+
 
 -- name: FetchProductList :many
-SELECT name,handle,main_image,tags,sales_count,price,stock,points FROM products ORDER BY uts DESC LIMIT $1 OFFSET $2;
+SELECT name,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE sid = $1 ORDER BY uts DESC LIMIT $2 OFFSET $3;    
 
 -- name: FetchProductById :one
-SELECT id,name,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE id = $1;
+SELECT id,name,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE id = $1 AND sid = $2;

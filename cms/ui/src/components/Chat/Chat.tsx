@@ -30,7 +30,7 @@ export function Chat({ url }: ChatProps) {
         if (!currentUser) return <div></div>;
         const client = clients.find((c) => c.addr === currentUser);
         if (!client) return <div></div>;
-        return client?.source + ' ' + (currentUser || '') + '     -------' + client?.t.slice(11, 19);
+        return client?.source + ' ' + (currentUser || '') + '     --' + client?.t.slice(11, 19);
     };
 
     const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {

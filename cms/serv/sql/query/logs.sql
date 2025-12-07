@@ -1,12 +1,14 @@
 -- name: CreateLogs :exec
 INSERT INTO logs (
-    ukey,
+    sid,
+    ukey,   
     source,
     ts,
+    domain,
     fps,
     ips
 )
-VALUES ($1, $2, $3, $4, $5);
+VALUES ($1, $2, $3, $4, $5, $6, $7);
 
 -- name: BaseLogsCountSql :one
 SELECT count(*) FROM logs;

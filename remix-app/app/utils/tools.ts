@@ -176,3 +176,31 @@ export function fnv1a32(handle: string): number {
 export function randomIntRange(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+export function getSiteId(input?: { request?: Request }) {
+    try {
+        let url = '';
+
+        // 🔵 SSR 环境（React Router loader 会传入 request）
+        if (input?.request) {
+            const u = new URL(input.request.url);
+            url = u.port ? `${u.hostname}:${u.port}` : u.hostname;
+            return fnv1a32(url);
+        }
+
+        // 🔵 Node SSR 环境（但没有传 request）
+        if (typeof window === 'undefined') {
+            return null; // 无法推断 host，返回 null 更安全
+        }
+
+        // 🔵 浏览器环境
+        const domain = window.location.hostname || '';
+        const port = window.location.port || '';
+        url = port ? `${domain}:${port}` : domain;
+
+        return fnv1a32(url);
+    } catch (err) {
+        console.error('Failed to get site ID:', err);
+        return null;
+    }
+}

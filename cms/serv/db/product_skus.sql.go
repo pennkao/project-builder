@@ -17,11 +17,11 @@ DELETE FROM product_skus WHERE product_id = $1 and id = ANY($2::bigint[])
 
 type DeleteProductSkuParams struct {
 	ProductID int64   `json:"product_id"`
-	Column2   []int64 `json:"column_2"`
+	Ids       []int64 `json:"ids"`
 }
 
 func (q *Queries) DeleteProductSku(ctx context.Context, arg DeleteProductSkuParams) error {
-	_, err := q.db.Exec(ctx, deleteProductSku, arg.ProductID, arg.Column2)
+	_, err := q.db.Exec(ctx, deleteProductSku, arg.ProductID, arg.Ids)
 	return err
 }
 
@@ -73,46 +73,6 @@ SELECT id, product_id, name, code, image, price, stock, weight_g, status, stored
 
 func (q *Queries) GetProductSkus(ctx context.Context, productID int64) ([]ProductSku, error) {
 	rows, err := q.db.Query(ctx, getProductSkus, productID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []ProductSku
-	for rows.Next() {
-		var i ProductSku
-		if err := rows.Scan(
-			&i.ID,
-			&i.ProductID,
-			&i.Name,
-			&i.Code,
-			&i.Image,
-			&i.Price,
-			&i.Stock,
-			&i.WeightG,
-			&i.Status,
-			&i.Stored,
-			&i.Ukey,
-			&i.Akey,
-			&i.Attrs,
-			&i.Cts,
-			&i.Uts,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getSkuByIds = `-- name: GetSkuByIds :many
-SELECT id, product_id, name, code, image, price, stock, weight_g, status, stored, ukey, akey, attrs, cts, uts FROM product_skus WHERE id = ANY($1::bigint[])
-`
-
-func (q *Queries) GetSkuByIds(ctx context.Context, dollar_1 []int64) ([]ProductSku, error) {
-	rows, err := q.db.Query(ctx, getSkuByIds, dollar_1)
 	if err != nil {
 		return nil, err
 	}

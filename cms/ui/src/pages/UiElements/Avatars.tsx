@@ -1,7 +1,7 @@
+import PageBreadcrumb from '@/feature/compos/layout/compos/PageBreadCrumb';
+import PageMeta from '@/feature/compos/layout/compos/PageMeta';
 import ComponentCard from '../../components/common/ComponentCard';
 import Avatar from '../../components/ui/avatar/Avatar';
-import PageBreadcrumb from '../../feature/common/layout/compos/PageBreadCrumb';
-import PageMeta from '../../feature/common/layout/compos/PageMeta';
 
 export default function Avatars() {
     return (

@@ -1,5 +1,4 @@
 export const paymentMethods = {
-    currentPyament: '',
     nomorl: [
         { name: 'Credit Card', key: 'credit-card', fee: 0.05 },
         { name: 'PayPal', key: 'paypal', fee: 0.03 },

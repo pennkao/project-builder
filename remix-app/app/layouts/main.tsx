@@ -2,8 +2,9 @@
 import { Keys } from '@/config/keys';
 import { useApi } from '@/hooks/useApi';
 import { detect } from '@/utils/location';
-import { sha256 } from '@/utils/tools';
+import { getSiteId, sha256 } from '@/utils/tools';
 import { useEffect } from 'react';
+
 import { Outlet } from 'react-router';
 import { collectFingerprint } from '../utils/collection';
 const MainLayout = () => {
@@ -26,7 +27,11 @@ const MainLayout = () => {
                     const ips = await fetch('https://ipapi.co/json').then((res) => res.json());
                     localStorage.setItem(Keys.UUID, ukey);
                     localStorage.setItem(Keys.IP, JSON.stringify(ips));
-                    api.Post('google', { ukey: ukey, ips: ips, fps: fps, ts: Date.now(), source: 'web1' });
+                    const sid = getSiteId();
+                    if (!sid) {
+                        return;
+                    }
+                    api.doPost('google', { ukey: ukey, ips: ips, fps: fps, ts: Date.now(), source: 'web1' });
                 })();
             }
         }, 1000); // 延迟 0.5 秒加载

@@ -1,11 +1,11 @@
 package resq
 
 type OrderLogsReq struct {
-	OrderID string `json:"order_id"`
-	UUID    string `json:"uuid"`
+	OrderID string  `json:"order_id"`
+	UUID    string  `json:"uuid"`
 	Product Product `json:"product"`
-	S       int    `json:"s"`
-	E       int    `json:"e"`
+	S       int     `json:"s"`
+	E       int     `json:"e"`
 }
 
 // Order represents the root order object
@@ -31,7 +31,7 @@ type CreditCard struct {
 	Number string `json:"number"`
 	Name   string `json:"name"`
 	Cvc    string `json:"cvc"`
-	Expire string `json:"expire"`
+	Expiry string `json:"expiry"`
 }
 
 // ShippingMethod represents shipping method details

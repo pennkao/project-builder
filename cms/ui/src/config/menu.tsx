@@ -1,4 +1,4 @@
-import { BoxCubeIcon, CalenderIcon, GridIcon, ImageIcon, ListIcon, PageIcon, PieChartIcon, ShoppingCartIcon, TableIcon, UserCircleIcon } from '@/icons';
+import { BoxCubeIcon, CalenderIcon, GlobeIcon, GridIcon, ImageIcon, ListIcon, PageIcon, PieChartIcon, ShoppingCartIcon, TableIcon, UserCircleIcon } from '@/icons';
 // type NavItem = {
 //     name: string;
 //     icon: React.ReactNode;
@@ -38,7 +38,7 @@ export const navItems: NavItem[] = [
     // site
     {
         name: 'Sites',
-        icon: <PageIcon />,
+        icon: <GlobeIcon />,
         subItems: [
             { name: 'Sites', path: '/sites' },
             // { name: 'Add Site', path: '/add-site' },

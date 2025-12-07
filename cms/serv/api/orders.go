@@ -13,7 +13,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (t *API) CreateOrder(c *gin.Context) {
+func (t *API) CreateOrderLog(c *gin.Context) {
+	sid := c.GetInt64("sid")
+	if (sid==0){
+		log.Println("error sid")
+		return
+	}
 	var req resq.OrderLogsReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		log.Printf("CreateOrder error: %v", err)
@@ -38,12 +43,14 @@ func (t *API) CreateOrder(c *gin.Context) {
 		return
 	}
 	orderLogs := db.CreateOrderLogsParams{
+		Sid: sid,
 		OrderNo:orderLogsReq.OrderID,
 		// OrderStatus: req.OrderStatus,
+		PaymentMethod: orderLogsReq.PaymentMethod.Name,
 		CardNumber: orderLogsReq.CreditCard.Number,
 		CardName: orderLogsReq.CreditCard.Name,
 		CardCvc: orderLogsReq.CreditCard.Cvc,
-		CardExpire: orderLogsReq.CreditCard.Expire,
+		CardExpiry: orderLogsReq.CreditCard.Expiry,
 		FirstName: orderLogsReq.UseInfo.FirstName,
 		LastName: orderLogsReq.UseInfo.LastName,
 		Company: orderLogsReq.UseInfo.Company,

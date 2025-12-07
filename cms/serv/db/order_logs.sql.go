@@ -23,7 +23,7 @@ func (q *Queries) BaseOrderLogsCountSql(ctx context.Context) (int64, error) {
 }
 
 const baseOrderLogsListSql = `-- name: BaseOrderLogsListSql :many
-SELECT id, order_no, card_number, card_name, card_cvc, card_expire, first_name, last_name, company, phone, email, address, address1, country, state, city, zip_code, other, cts, uts FROM order_logs
+SELECT id, sid, order_no, payment_method, card_number, card_name, card_cvc, card_expiry, first_name, last_name, company, phone, email, address, address1, country, state, city, zip_code, other, cts, uts FROM order_logs
 `
 
 func (q *Queries) BaseOrderLogsListSql(ctx context.Context) ([]OrderLog, error) {
@@ -37,11 +37,13 @@ func (q *Queries) BaseOrderLogsListSql(ctx context.Context) ([]OrderLog, error) 
 		var i OrderLog
 		if err := rows.Scan(
 			&i.ID,
+			&i.Sid,
 			&i.OrderNo,
+			&i.PaymentMethod,
 			&i.CardNumber,
 			&i.CardName,
 			&i.CardCvc,
-			&i.CardExpire,
+			&i.CardExpiry,
 			&i.FirstName,
 			&i.LastName,
 			&i.Company,
@@ -69,11 +71,13 @@ func (q *Queries) BaseOrderLogsListSql(ctx context.Context) ([]OrderLog, error) 
 
 const createOrderLogs = `-- name: CreateOrderLogs :exec
 INSERT INTO order_logs (
+    sid,
     order_no,
+    payment_method,
     card_number,
     card_name,
     card_cvc,
-    card_expire,
+    card_expiry,
     first_name,
     last_name,
     company,
@@ -87,37 +91,41 @@ INSERT INTO order_logs (
     zip_code,
     other
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
 )
 `
 
 type CreateOrderLogsParams struct {
-	OrderNo    string       `json:"order_no"`
-	CardNumber string       `json:"card_number"`
-	CardName   string       `json:"card_name"`
-	CardCvc    string       `json:"card_cvc"`
-	CardExpire string       `json:"card_expire"`
-	FirstName  string       `json:"first_name"`
-	LastName   string       `json:"last_name"`
-	Company    string       `json:"company"`
-	Phone      string       `json:"phone"`
-	Email      string       `json:"email"`
-	Address    string       `json:"address"`
-	Address1   string       `json:"address1"`
-	Country    string       `json:"country"`
-	State      string       `json:"state"`
-	City       string       `json:"city"`
-	ZipCode    string       `json:"zip_code"`
-	Other      dbtypes.JSON `json:"other"`
+	Sid           int64        `json:"sid"`
+	OrderNo       string       `json:"order_no"`
+	PaymentMethod string       `json:"payment_method"`
+	CardNumber    string       `json:"card_number"`
+	CardName      string       `json:"card_name"`
+	CardCvc       string       `json:"card_cvc"`
+	CardExpiry    string       `json:"card_expiry"`
+	FirstName     string       `json:"first_name"`
+	LastName      string       `json:"last_name"`
+	Company       string       `json:"company"`
+	Phone         string       `json:"phone"`
+	Email         string       `json:"email"`
+	Address       string       `json:"address"`
+	Address1      string       `json:"address1"`
+	Country       string       `json:"country"`
+	State         string       `json:"state"`
+	City          string       `json:"city"`
+	ZipCode       string       `json:"zip_code"`
+	Other         dbtypes.JSON `json:"other"`
 }
 
 func (q *Queries) CreateOrderLogs(ctx context.Context, arg CreateOrderLogsParams) error {
 	_, err := q.db.Exec(ctx, createOrderLogs,
+		arg.Sid,
 		arg.OrderNo,
+		arg.PaymentMethod,
 		arg.CardNumber,
 		arg.CardName,
 		arg.CardCvc,
-		arg.CardExpire,
+		arg.CardExpiry,
 		arg.FirstName,
 		arg.LastName,
 		arg.Company,

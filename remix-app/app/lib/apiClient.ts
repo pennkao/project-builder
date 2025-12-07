@@ -18,7 +18,21 @@ export class HttpClient {
         this.options = { ...this.options, ...opts };
         return this;
     }
+    setHeader(key: string, value: string) {
+        this.options.headers = {
+            ...(this.options.headers || {}),
+            [key]: value,
+        };
+        return this;
+    }
 
+    setHeaders(headers: Record<string, string>) {
+        this.options.headers = {
+            ...(this.options.headers || {}),
+            ...headers,
+        };
+        return this;
+    }
     setTimeout(ms: number) {
         this.timeout = ms;
         return this;
@@ -26,7 +40,9 @@ export class HttpClient {
 
     private buildUrl(url: string) {
         const q = new URLSearchParams(this.queryParams).toString();
-        return q ? `${this.baseURL}${url}?${q}` : `${this.baseURL}${url}`;
+        const finalUrl = q ? `${this.baseURL}${url}?${q}` : `${this.baseURL}${url}`;
+        // this.queryParams = {};
+        return finalUrl;
     }
 
     private createTimeout() {
@@ -45,8 +61,8 @@ export class HttpClient {
         }
 
         const response = await Promise.race([fetch(finalUrl, finalOptions), this.createTimeout()]);
-        // const data = await (response as Response).json();
         const contentType = response.headers.get('content-type');
+        // console.log('RAW RESPONSE:', await response.json());
 
         let data: any;
 
@@ -55,15 +71,15 @@ export class HttpClient {
         } else {
             data = await response.text();
         }
-
+        this.options = {};
         return data as T;
     }
 
     // ------------------------------
     // GET / POST 封装
     // ------------------------------
-    Get<T = any>(url: string, body?: any) {
-        const promise = this.request<T>('POST', url, body);
+    Get<T = any>(api: string, body?: any) {
+        const promise = this.request<T>('POST', api, body);
         return Object.assign(promise, {
             callback: (fn: (data: T | null) => void, skipNull = false) => {
                 promise.then((res) => {
@@ -75,8 +91,8 @@ export class HttpClient {
         });
     }
 
-    Post<T = any>(url: string, body?: any) {
-        const promise = this.request<T>('POST', url, body);
+    Post<T = any>(api: string, body?: any) {
+        const promise = this.request<T>('POST', api, body);
         return Object.assign(promise, {
             callback: (fn: (data: T | null) => void) => {
                 promise.then((res) => fn(res ?? null));
@@ -85,8 +101,17 @@ export class HttpClient {
         });
     }
 
-    doGet<T = any>(id: number, target: string) {
-        return this.Get<T>(`${target}/${id}`);
+    doPost<T = any>(api: string, body?: any) {
+        return this.Post<T>(api, body);
+    }
+    doGet<T = any>(api: string, body?: any) {
+        return this.Get<T>(api, body);
+    }
+    doGetList<T = any>(api: string) {
+        return this.Get<T>(api, {});
+    }
+    doGetOne<T = any>(api: string, id: number) {
+        return this.Get<T>(api, { id: id });
     }
 }
 

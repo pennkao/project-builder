@@ -56,6 +56,7 @@ interface ProductDetailsType {
 
 interface ProductItemType {
     id: number;
+    sid: number;
     handle: string;
     name: string;
     category: string;

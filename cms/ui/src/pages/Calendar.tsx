@@ -5,7 +5,7 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useEffect, useRef, useState } from 'react';
 import { Modal } from '../components/ui/modal';
-import PageMeta from '../feature/common/layout/compos/PageMeta';
+import PageMeta from '@/feature/compos/layout/compos/PageMeta';
 import { useModal } from '../hooks/useModal';
 
 interface CalendarEvent extends EventInput {

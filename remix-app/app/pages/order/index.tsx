@@ -82,7 +82,7 @@ const OrderPage = ({ orderId }: any) => {
                     <div className="divide-y divide-gray-200">
                         <div className="flex justify-between py-2">
                             <div className="flex items-center gap-3">
-                                <img src={SRC(orderInfo?.product?.sku?.image)} alt="" className="w-14 h-14 rounded-md object-cover" />
+                                <img src={SRC(orderInfo?.product?.sku?.image || null)} className="w-14 h-14 rounded-md object-cover" />
                                 <div>
                                     <p className="text-sm font-medium text-gray-800">{orderInfo?.product?.name || ''}</p>
                                     <p className="text-xs text-gray-500">

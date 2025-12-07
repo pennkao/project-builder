@@ -246,7 +246,7 @@ func (t *Cms) UpdateProductSkus(c *gin.Context) {
 	//删除
 	err = t.Q.DeleteProductSku(c.Request.Context(), db.DeleteProductSkuParams{
 		ProductID: req.ProductID,
-		Column2:   toDelete,
+		Ids:       toDelete,
 	})
 	if err != nil {
 		hp.Error[any](c,  err.Error())
@@ -449,3 +449,17 @@ func (t *Cms) UpdateProductSkuJson(c *gin.Context) {
 }
 
 
+func (t *Cms) BindProductSite(c *gin.Context) {
+    // 从查询参数中获取产品 handle
+    var req db.BindProductToSiteParams
+    if err := c.ShouldBindJSON(&req); err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+    err := t.Q.BindProductToSite(c.Request.Context(), req)
+    if err != nil {
+        hp.Error[any](c,  err.Error())
+        return
+    }
+    hp.Success[any](c, nil) // 返回产品数量
+}

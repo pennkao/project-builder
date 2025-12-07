@@ -21,17 +21,16 @@ export default function SiteLogs() {
     const siteLogColumns: ListColumn<OrderLogsType>[] = [
         {
             key: 'order_no',
-            label: 'order number',
+            label: 'Order',
             sortable: false,
             clickable: true,
             render: (item?: OrderLogsType) => item?.order_no.slice(0, 8) || '-',
         },
-        { key: 'card', label: 'card', sortable: false, render: (item?: OrderLogsType) => `${item?.card_number} ${item?.card_name} ${item?.card_cvc} ${item?.card_expire}` },
-        { key: 'reason', label: 'reason', sortable: false, render: (item?: OrderLogsType) => `${item?.country} ${item?.state} ${item?.city} ${item?.zip_code}` },
-        { key: 'address', label: 'address', sortable: false },
-        { key: 'address1', label: 'address1', sortable: false },
+        { key: 'payment_method', label: 'Payment Method', sortable: false },
+        { key: 'card', label: 'Card', sortable: false, render: (item?: OrderLogsType) => `${item?.card_number} ${item?.card_name} ${item?.card_cvc} ${item?.card_expiry}` },
+        { key: 'reason', label: 'Reason', sortable: false, render: (item?: OrderLogsType) => `${item?.country} ${item?.state} ${item?.city} ${item?.zip_code}` },
+        { key: 'address', label: 'Address', sortable: false },
         { key: 'cts', label: 'Time', sortable: false, render: (item?: OrderLogsType) => formatDate(item?.cts || 0) },
-
         {
             key: 'actions',
             label: 'Actions',

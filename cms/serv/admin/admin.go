@@ -21,7 +21,7 @@ func NewCms(db *pgxpool.Pool, query *db.Queries) *Cms {
 }
 
 
-func (t *Cms) Dispatcher(c *gin.Context) {
+func (t *Cms) Dispatch(c *gin.Context) {
 	fmt.Println("path", c.Param("path"))
 	path := c.Param("path")
 	switch path {
@@ -37,6 +37,8 @@ func (t *Cms) Dispatcher(c *gin.Context) {
 		t.Spider(c)
 	case "/updater":
 		t.Updater(c)
+	case "/bind-product-site":
+		t.BindProductSite(c)
 	case "/add-site":
 		t.CreateSite(c)
 	case "/update-site":

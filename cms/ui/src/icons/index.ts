@@ -9,6 +9,7 @@ import { ReactComponent as ArrowLeftIcon } from './arrow-left.svg?react';
 import { ReactComponent as ArrowRightIcon } from './arrow-right.svg?react';
 import { ReactComponent as ArrowUpIcon } from './arrow-up.svg?react';
 import { ReactComponent as AudioIcon } from './audio.svg?react';
+import { ReactComponent as GlobeIcon } from './globe.svg?react';
 import { ReactComponent as BoltIcon } from './bolt.svg?react';
 import { ReactComponent as BoxCubeIcon } from './box-cube.svg?react';
 import { ReactComponent as BoxIconLine } from './box-line.svg?react';
@@ -64,6 +65,7 @@ import { ReactComponent as UserIcon } from './user-line.svg?react';
 import { ReactComponent as VideoIcon } from './videos.svg?react';
 import { ReactComponent as YyyIcon } from './yyy.svg?react';
 export {
+    GlobeIcon,
     AlertHexaIcon,
     AlertIcon,
     AngleDownIcon,

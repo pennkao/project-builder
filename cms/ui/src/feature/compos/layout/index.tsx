@@ -1,5 +1,5 @@
 export { default as FooterPage } from '../list/Pagination';
-export { default as Action, ActionLeft, ActionRight } from './Action';
+export { default as Action, ActionBatch, ActionLeft, ActionRight } from './Action';
 export { default as Card } from './Card';
 export { default as Col } from './Col';
 export { default as Content } from './Content';

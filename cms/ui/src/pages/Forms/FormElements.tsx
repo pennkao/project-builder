@@ -8,9 +8,8 @@ import RadioButtons from '../../components/form/form-elements/RadioButtons';
 import SelectInputs from '../../components/form/form-elements/SelectInputs';
 import TextAreaInput from '../../components/form/form-elements/TextAreaInput';
 import ToggleSwitch from '../../components/form/form-elements/ToggleSwitch';
-import PageBreadcrumb from '../../feature/common/layout/compos/PageBreadCrumb';
-import PageMeta from '../../feature/common/layout/compos/PageMeta';
-
+import PageBreadcrumb from '@/feature/compos/layout/compos/PageBreadCrumb';
+import PageMeta from '@/feature/compos/layout/compos/PageMeta';
 export default function FormElements() {
     return (
         <div>

@@ -2,7 +2,7 @@ import { Drawer } from '@/components/composed';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/elements';
 import Checkbox from '@/components/elements/Checkbox';
 import { sortItems } from '@/utils';
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { FieldSort } from './index';
 
 export interface ListColumn<T> {
@@ -18,16 +18,25 @@ interface ListProps<T> {
     fields: ListColumn<T>[];
     rowKey?: keyof T; // 用于 TableRow key
     openTab?: boolean;
+    onSelect?: (item: number[]) => void; // 选中行回调
     expandedRow?: number | null;
     children?: (item: T) => React.ReactNode;
 }
-const List = <T extends { id: number }>({ items = [], fields = [], openTab = false, expandedRow = null, children }: ListProps<T>) => {
+const List = <T extends { id: number }>({ items = [], fields = [], openTab = false, expandedRow = null, children, onSelect }: ListProps<T>) => {
     const [sortingField, setSortingField] = useState<{ field: string; status: '' | 'asc' | 'desc' }>({ field: '', status: '' });
     const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({}); // Add this line
     const [isOpen, setOpen] = useState(false);
     const [itemData, setItemData] = useState<T | null>(null);
 
     const [isAllSelected, setIsAllSelected] = useState(false);
+
+    useEffect(() => {
+
+        const ids = Object.keys(checkedItems).filter((v) => checkedItems[Number(v)]).map((v) => Number(v));
+        onSelect?.(ids);
+
+    }, [checkedItems]);
+
     const handleSelectAll = (isSelected: boolean) => {
         const allSelected: Record<number, boolean> = {};
         items.forEach((item) => {

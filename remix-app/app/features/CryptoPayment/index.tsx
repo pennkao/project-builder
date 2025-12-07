@@ -1,9 +1,8 @@
 import Countdown from '@/components/Countdown';
 import { Cryptos } from '@/config/crypto';
-import { Keys } from '@/config/keys';
 import useMessageBox from '@/hooks/useMessageBox';
 import { t } from 'i18next';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import QRCode from 'react-qr-code';
 
 const MIN_CLICK_INTERVAL = 15; // 秒
@@ -14,7 +13,6 @@ const CryptoCheckout = ({ payment, onStatueChange }: { payment: string; onStatue
     const [showVerifying, setShowVerifying] = useState(false);
     const [paidNum, setPaidNum] = useState(0);
     const [validPaidNum, setValidPaidNum] = useState(0);
-
     // 新增：记录弹窗打开时间戳
     const [openTime, setOpenTime] = useState<number | null>(null);
 
@@ -49,28 +47,28 @@ const CryptoCheckout = ({ payment, onStatueChange }: { payment: string; onStatue
     const handlePaidClick = (cryptoType: CrypoType) => {
         setOpenTime(Date.now()); // ✅ 记录弹窗打开时间
 
-        if (validPaidNum > 3) {
-            showMessageBox(t('checkout.paid_valid_tips'), 'error', 4000);
-            return;
-        }
-        setValidPaidNum((prev) => prev + 1);
-        // ✅ 新增：防止10秒内乱点
-        if (openTime) {
-            const elapsed = (Date.now() - openTime) / 1000;
-            console.log('elapsed', elapsed);
-            if (elapsed < MIN_CLICK_INTERVAL) {
-                showMessageBox(t('checkout.paid_checking_tips'), 'error', 3000);
-                return;
-            }
-        }
+        // if (validPaidNum > 3) {
+        //     showMessageBox(t('checkout.paid_valid_tips'), 'error', 4000);
+        //     return;
+        // }
+        // setValidPaidNum((prev) => prev + 1);
+        // // ✅ 新增：防止10秒内乱点
+        // if (openTime) {
+        //     const elapsed = (Date.now() - openTime) / 1000;
+        //     console.log('elapsed', elapsed);
+        //     if (elapsed < MIN_CLICK_INTERVAL) {
+        //         showMessageBox(t('checkout.paid_checking_tips'), 'error', 3000);
+        //         return;
+        //     }
+        // }
         setValidPaidNum(0);
 
-        if (paidNum < 1) {
-            setPaidNum((prev) => prev + 1);
+        // if (paidNum < 1) {
+        //     setPaidNum((prev) => prev + 1);
 
-            showMessageBox(t('checkout.paid_checking_tips'), 'error', 6000);
-            return;
-        }
+        //     showMessageBox(t('checkout.paid_checking_tips'), 'error', 6000);
+        //     return;
+        // }
         setShowVerifying(true);
 
         // 模拟调用后端验证
@@ -153,9 +151,9 @@ const CryptoCheckout = ({ payment, onStatueChange }: { payment: string; onStatue
 
             {/* 验证中提示 */}
             {showVerifying && (
-                <div className="fixed inset-0 flex items-center justify-center z-60">
+                <div className="fixed inset-0 flex items-center justify-center z-600">
                     <div className="absolute inset-0 bg-white bg-opacity-50"></div>
-                    <div className="relative w-48 h-48 flex flex-col items-center justify-center">
+                    <div className="relative w-60 h-60 flex flex-col items-center justify-center">
                         <div className="w-24 h-24 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin mb-4"></div>
                         <div className="text-center px-2">
                             <p className="text-gray-800 font-medium">

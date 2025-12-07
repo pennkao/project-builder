@@ -37,12 +37,8 @@ WHERE product_id = $9 AND id = $10;
 -- name: UpdateProductSkuStored :exec
 UPDATE product_skus SET stored = 1 WHERE product_id = $1;
 
--- name: GetSkuByIds :many
-SELECT * FROM product_skus WHERE id = ANY($1::bigint[]);
-
-
 -- name: DeleteProductSku :exec
-DELETE FROM product_skus WHERE product_id = $1 and id = ANY($2::bigint[]);
+DELETE FROM product_skus WHERE product_id = $1 and id = ANY(sqlc.arg(ids)::bigint[]); 
 
 -- name: FetchProductSkus :many
 SELECT id,product_id,name,image,price,attrs,akey FROM product_skus WHERE product_id = $1;

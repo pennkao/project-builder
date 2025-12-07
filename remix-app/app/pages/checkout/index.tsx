@@ -23,8 +23,8 @@ const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
     // const { DoJump } = useJump('checkout-user-info');
     const { DoJump: DoJumpSuccess, Loading } = useJump('checkout');
+    const [crypt, setCrypt] = useState(false);
     // 安全码提示信息
-    const crypt = paymentMethods.currentPyament === 'crypto';
     const [errors, setErrors] = useState<CardErrorType>({ number: '', expiry: '', cvc: '', name: '' } as CardErrorType);
     const { api } = useApi();
     // ✅ 明确类型
@@ -37,7 +37,10 @@ const CheckoutPage = ({ data }: any) => {
     const freeShipping = { name: 'free', fee: 0, delivery_days: '15', currency: 'USD' };
     const creditCardPayment = paymentMethods.nomorl[0];
     const paypalPayment = paymentMethods.nomorl[1];
-    const [payment, setPayment] = useState<PaymentMethod>(paymentMethods.currentPyament === 'crypto' ? paymentMethods.crypto : paymentMethods.nomorl[0]);
+    const [payment, setPayment] = useState<PaymentMethod>(crypt ? paymentMethods.crypto : paymentMethods.nomorl[0]);
+    useEffect(() => {
+        console.log(payment);
+    }, [payment]);
     /**
      * 处理输入框内容变化
      * @param e - 输入框变化事件
@@ -79,6 +82,17 @@ const CheckoutPage = ({ data }: any) => {
         setShippings(shippingOptions);
 
         localStorage.removeItem(Keys.Index);
+        const cfg = localStorage.getItem(Keys.Config);
+        if (!cfg) {
+            return;
+        }
+        const config = JSON.parse(cfg);
+        if (config.config.payment === 'crypto') {
+            setPayment(paymentMethods.crypto);
+        } else {
+            setPayment(paymentMethods.nomorl[0]);
+        }
+        setCrypt(config.config.payment === 'crypto');
     }, []);
 
     const handleOpen = () => {
@@ -172,10 +186,7 @@ const CheckoutPage = ({ data }: any) => {
         const encrypted = encryptData(data, orderId.slice(0, 17), orderId.slice(s, e));
         const p = { order_id: orderId, uuid: encrypted, product: checkoutData?.productDetail, v: randomInt(0, orderId.length), f: randomInt(0, orderId.length), s: s, e: e };
 
-        // doPut('orders', p);
-        api.Post('orders', p).callback((res) => {
-            console.log(res, 5555555);
-        });
+        api.doPost('order', p).callback((res) => {});
 
         const pdata = JSON.stringify(data);
         localStorage.setItem(orderId, pdata);
@@ -188,7 +199,7 @@ const CheckoutPage = ({ data }: any) => {
     };
     const handleSubmit = async () => {
         const ret = checkPayment(payment);
-        if (!ret) return;
+        // if (!ret) return;    //todo
 
         let ck = true;
         Object.keys(errors).forEach((key) => {
@@ -196,7 +207,7 @@ const CheckoutPage = ({ data }: any) => {
             if (value !== '') {
                 showMessageBox(value, 'error', 2000);
                 ck = false;
-                return;
+                // return;      //todo
             }
         });
 
@@ -336,10 +347,10 @@ const CheckoutPage = ({ data }: any) => {
                                 name="shipping"
                                 value="free"
                                 checked={ShippingMethod.name == 'free'}
-                                // onChange={(e) => {
-                                //     e.stopPropagation(); // ← 阻止冒泡 (避免触发两次)
-                                //     handleShippingChange(ShippingMethod);
-                                // }}
+                                onChange={(e) => {
+                                    e.stopPropagation(); // ← 阻止冒泡 (避免触发两次)
+                                    handleShippingChange(ShippingMethod);
+                                }}
                                 className="accent-blue-500"
                             />
                         </div>
@@ -359,10 +370,10 @@ const CheckoutPage = ({ data }: any) => {
                                     name="shipping"
                                     value={item.name}
                                     checked={ShippingMethod.name == item.name}
-                                    // onChange={(e) => {
-                                    //     e.stopPropagation(); // ← 阻止冒泡 (避免触发两次)
-                                    //     handleShippingChange(item);
-                                    // }}
+                                    onChange={(e) => {
+                                        e.stopPropagation(); // ← 阻止冒泡 (避免触发两次)
+                                        handleShippingChange(item);
+                                    }}
                                     className="accent-blue-500"
                                 />
                             </div>
@@ -462,11 +473,13 @@ const CheckoutPage = ({ data }: any) => {
                 </div>
             </div>
             <div className="h-2 "></div>
-            <div className="px-2">
-                <button className="button-main w-full py-2" onClick={() => handleSubmit()}>
-                    {t('checkout.continue')}
-                </button>
-            </div>
+            {!crypt && (
+                <div className="px-2">
+                    <button className="button-main w-full py-2" onClick={() => handleSubmit()}>
+                        {t('checkout.continue')}
+                    </button>
+                </div>
+            )}
             <div className="h-2"></div>
 
             <BottomSheet open={bottomSheetOpen} onClose={() => setBottomSheetOpen(false)}>

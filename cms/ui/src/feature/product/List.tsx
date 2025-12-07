@@ -1,23 +1,35 @@
+import { Select } from '@/components/composed';
 import { Button, Image, SearchInput } from '@/components/elements';
-import { Action, ActionLeft, ActionRight, Content, Footer, Page } from '@/feature/compos/layout';
+import { Action, ActionBatch, ActionLeft, ActionRight, Content, Footer, Page } from '@/feature/compos/layout';
 import { List, Pagination, type ListColumn } from '@/feature/compos/list';
-import { FilterIcon, PlusIcon } from '@/icons';
+import { PlusIcon } from '@/icons';
 import { SRC } from '@/lib/image';
 import { formatDate } from '@fullcalendar/core/index.js';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { StatusLabel } from './compos';
 import { useProductList } from './hooks';
 export default function Products() {
     const navigator = useNavigate();
     const [search, setSearch] = useState('');
-    const { result, Delete, setParamFilter, setPage } = useProductList();
+    const { result, Delete, setParamFilter, setPage, sites, BatchBindSite } = useProductList();
+    const [isBatchMode, setIsBatchMode] = useState<boolean>(false);
+    const [checkedItems, setCheckedItems] = useState<number[]>([]); // Add this line
+    const [sid, setSid] = useState<number>(0);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             setParamFilter([{ field: 'name', operator: 'like', value: search }]);
         }
     };
+
+    const sitesMap = useMemo(() => {
+        const mp = new Map<number, string>();
+        sites.forEach((site) => {
+            mp.set(Number(site?.value || 0), site?.label || '-');
+        });
+        return mp;
+    }, [sites]);
 
     const productColumns: ListColumn<ProductItemType>[] = [
         {
@@ -34,6 +46,7 @@ export default function Products() {
                 </div>
             ),
         },
+        { key: 'domain', label: 'Domain', sortable: false, render: (item) => sitesMap.get(item?.sid || 0) || '-' },
         { key: 'category', label: 'Category', sortable: true },
         { key: 'brand', label: 'Brand', sortable: true },
         {
@@ -55,16 +68,6 @@ export default function Products() {
                         size="sm"
                         className="ml-2"
                         onClick={() => {
-                            // Delete(item?.id || 0); // TODO: delete product
-                        }}
-                    >
-                        Import
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        className="ml-2"
-                        onClick={() => {
                             Delete(item?.id || 0); // TODO: delete product
                         }}
                     >
@@ -77,22 +80,49 @@ export default function Products() {
 
     return (
         <Page title="Product List" showBackgroud={true}>
+            <ActionBatch isBatchMode={isBatchMode}>
+                <Action>
+                    <ActionLeft className="">
+                        <SearchInput value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
+                        <Select onChange={(value) => setParamFilter([{ field: 'sid', operator: 'eq', value }])} options={sites} placeholder="Select site" />
+                    </ActionLeft>
+                    <ActionRight>
+                        <Button variant="outline" onClick={() => setIsBatchMode(true)}>
+                            Batch
+                        </Button>
+                        <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-product')}>
+                            Add Product
+                        </Button>
+                    </ActionRight>
+                </Action>
+                <Action>
+                    <ActionLeft />
+                    <ActionRight>
+                        <Button
+                            variant="outline"
+                            onClick={() => {
+                                BatchBindSite(checkedItems, sid);
+                                setIsBatchMode(false);
+                            }}
+                        >
+                            Add to Site
+                        </Button>
+                        <Select
+                            onChange={(value) => {
+                                setSid(Number(value));
+                            }}
+                            options={sites}
+                            placeholder="Select site"
+                        />
 
-            <Action>
-                <ActionLeft>
-                    <SearchInput value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
-                    <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
-                        Filter
-                    </Button>
-                </ActionLeft>
-                <ActionRight>
-                    <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-product')}>
-                        Add Product
-                    </Button>
-                </ActionRight>
-            </Action>
+                        <Button variant="outline" onClick={() => setIsBatchMode(false)}>
+                            Cancel
+                        </Button>
+                    </ActionRight>
+                </Action>
+            </ActionBatch>
             <Content>
-                <List<ProductItemType> fields={productColumns} items={result?.list || []} />
+                <List<ProductItemType> fields={productColumns} items={result?.list || []} onSelect={setCheckedItems} />
             </Content>
             <Footer>
                 <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />

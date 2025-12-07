@@ -28,7 +28,7 @@ export const useSite = () => {
     const Delete = async (id: number) => {
         const confirm = await message('Are you sure you want to delete this product?');
         if (!confirm) return false;
-        api.doDelete(id, 'site', (ok) => {
+        api.doDelete(id, 'site').callback((ok) => {
             if (!ok) return;
             setResult((prev) => ({
                 ...prev,

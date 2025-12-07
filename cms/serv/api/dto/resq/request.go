@@ -5,6 +5,10 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type IdReq struct {
+	Id int64 `json:"id" binding:"required"`
+}
+
 type FetcherReq struct {
 	Id     int64  `json:"id" binding:"required"`
 	Target string `json:"target" binding:"required"`

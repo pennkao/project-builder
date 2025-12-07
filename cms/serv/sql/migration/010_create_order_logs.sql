@@ -1,11 +1,13 @@
 -- 订单主表
 CREATE TABLE order_logs (
     id BIGSERIAL PRIMARY KEY,                        -- 主键，自增 BIGINT
+    sid BIGINT NOT NULL DEFAULT 0,                      -- 站点 ID
     order_no TEXT NOT NULL DEFAULT '',               -- 订单编号（业务唯一标识，如：ORD202511270001）
+    payment_method TEXT NOT NULL DEFAULT '', 
     card_number TEXT NOT NULL DEFAULT '',            -- 卡片号
     card_name TEXT NOT NULL DEFAULT '',              -- 卡片名称
     card_cvc TEXT NOT NULL DEFAULT '',               -- 卡片CVC
-    card_expire TEXT NOT NULL DEFAULT '',            -- 卡片过期时间
+    card_expiry TEXT NOT NULL DEFAULT '',            -- 卡片过期时间
     first_name TEXT NOT NULL DEFAULT '',             -- 收货人姓名
     last_name TEXT NOT NULL DEFAULT '',              -- 收货人姓名
     company TEXT NOT NULL DEFAULT '',                -- 联系电话

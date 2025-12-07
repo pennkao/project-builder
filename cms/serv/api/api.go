@@ -2,6 +2,8 @@
 package api
 
 import (
+	"fmt"
+
 	"github.com/cms/db"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -21,36 +23,32 @@ func NewApi(db *pgxpool.Pool, query *db.Queries) *API {
 }
 
 
-// /:path/:id
-func (t *API) Dispatcher(c *gin.Context) {
+// /:path/:sid
+func (t *API) Dispatch(c *gin.Context) {
+
 	path := c.Param("path")
+	fmt.Println("2323232")
 	switch path {
+	case "products": 
+		t.GetProductList(c)
 	case "product":
 		t.GetProduct(c)
 	case "content":
 		t.GetProductContent(c)
-	case "site":
-		t.GetSite(c)
-	default:
-		// resp.Error[any](c, "")
-	}
-}
-
-// /:path
-func (t *API) DispatchList(c *gin.Context) {
-	path := c.Param("path")
-	switch path {
-	case "orders":
-		t.CreateOrder(c)
-	case "google":
-		t.CreateLogs(c)
-	case "products": 
-		t.GetProductList(c)
 	case "collections":
 		t.GetProductList(c)
+	case "site":
+		t.GetSite(c)
+		
+	case "order":
+		t.CreateOrderLog(c)
+	case "google":
+		t.CreateLogs(c)
 	default:
 		// resp.Error[any](c, "")
-		// c.String(404, "Not Found")
 	}
+
 }
+
+
 

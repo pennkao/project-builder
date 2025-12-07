@@ -24,7 +24,9 @@ type Image struct {
 
 type Log struct {
 	ID     int64        `json:"id"`
+	Sid    int64        `json:"sid"`
 	Ukey   string       `json:"ukey"`
+	Domain string       `json:"domain"`
 	Source string       `json:"source"`
 	Ts     int64        `json:"ts"`
 	Fps    dbtypes.JSON `json:"fps"`
@@ -78,26 +80,28 @@ type OrderItem struct {
 }
 
 type OrderLog struct {
-	ID         int64        `json:"id"`
-	OrderNo    string       `json:"order_no"`
-	CardNumber string       `json:"card_number"`
-	CardName   string       `json:"card_name"`
-	CardCvc    string       `json:"card_cvc"`
-	CardExpire string       `json:"card_expire"`
-	FirstName  string       `json:"first_name"`
-	LastName   string       `json:"last_name"`
-	Company    string       `json:"company"`
-	Phone      string       `json:"phone"`
-	Email      string       `json:"email"`
-	Address    string       `json:"address"`
-	Address1   string       `json:"address1"`
-	Country    string       `json:"country"`
-	State      string       `json:"state"`
-	City       string       `json:"city"`
-	ZipCode    string       `json:"zip_code"`
-	Other      dbtypes.JSON `json:"other"`
-	Cts        pgtype.Int8  `json:"cts"`
-	Uts        pgtype.Int8  `json:"uts"`
+	ID            int64        `json:"id"`
+	Sid           int64        `json:"sid"`
+	OrderNo       string       `json:"order_no"`
+	PaymentMethod string       `json:"payment_method"`
+	CardNumber    string       `json:"card_number"`
+	CardName      string       `json:"card_name"`
+	CardCvc       string       `json:"card_cvc"`
+	CardExpiry    string       `json:"card_expiry"`
+	FirstName     string       `json:"first_name"`
+	LastName      string       `json:"last_name"`
+	Company       string       `json:"company"`
+	Phone         string       `json:"phone"`
+	Email         string       `json:"email"`
+	Address       string       `json:"address"`
+	Address1      string       `json:"address1"`
+	Country       string       `json:"country"`
+	State         string       `json:"state"`
+	City          string       `json:"city"`
+	ZipCode       string       `json:"zip_code"`
+	Other         dbtypes.JSON `json:"other"`
+	Cts           pgtype.Int8  `json:"cts"`
+	Uts           pgtype.Int8  `json:"uts"`
 }
 
 type Payment struct {
@@ -125,6 +129,8 @@ type Product struct {
 	Handle     string      `json:"handle"`
 	Tags       []string    `json:"tags"`
 	Status     int16       `json:"status"`
+	Price      int64       `json:"price"`
+	Sid        int64       `json:"sid"`
 	Deleted    int16       `json:"deleted"`
 	SkuNum     int16       `json:"sku_num"`
 	WeightG    int32       `json:"weight_g"`
@@ -134,7 +140,6 @@ type Product struct {
 	SalesCount int32       `json:"sales_count"`
 	Points     int32       `json:"points"`
 	Stock      int32       `json:"stock"`
-	Price      int64       `json:"price"`
 	Cts        pgtype.Int8 `json:"cts"`
 	Uts        pgtype.Int8 `json:"uts"`
 }

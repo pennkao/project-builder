@@ -23,7 +23,7 @@ func (q *Queries) BaseLogsCountSql(ctx context.Context) (int64, error) {
 }
 
 const baseLogsListSql = `-- name: BaseLogsListSql :many
-SELECT id, ukey, source, ts, fps, ips, cts FROM logs
+SELECT id, sid, ukey, domain, source, ts, fps, ips, cts FROM logs
 `
 
 func (q *Queries) BaseLogsListSql(ctx context.Context) ([]Log, error) {
@@ -37,7 +37,9 @@ func (q *Queries) BaseLogsListSql(ctx context.Context) ([]Log, error) {
 		var i Log
 		if err := rows.Scan(
 			&i.ID,
+			&i.Sid,
 			&i.Ukey,
+			&i.Domain,
 			&i.Source,
 			&i.Ts,
 			&i.Fps,
@@ -56,28 +58,34 @@ func (q *Queries) BaseLogsListSql(ctx context.Context) ([]Log, error) {
 
 const createLogs = `-- name: CreateLogs :exec
 INSERT INTO logs (
-    ukey,
+    sid,
+    ukey,   
     source,
     ts,
+    domain,
     fps,
     ips
 )
-VALUES ($1, $2, $3, $4, $5)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
 `
 
 type CreateLogsParams struct {
+	Sid    int64        `json:"sid"`
 	Ukey   string       `json:"ukey"`
 	Source string       `json:"source"`
 	Ts     int64        `json:"ts"`
+	Domain string       `json:"domain"`
 	Fps    dbtypes.JSON `json:"fps"`
 	Ips    dbtypes.JSON `json:"ips"`
 }
 
 func (q *Queries) CreateLogs(ctx context.Context, arg CreateLogsParams) error {
 	_, err := q.db.Exec(ctx, createLogs,
+		arg.Sid,
 		arg.Ukey,
 		arg.Source,
 		arg.Ts,
+		arg.Domain,
 		arg.Fps,
 		arg.Ips,
 	)

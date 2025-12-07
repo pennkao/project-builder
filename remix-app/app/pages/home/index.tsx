@@ -1,10 +1,10 @@
 import BaseImage from '@/components/BaseImage';
 
 import BackToTopButton from '@/components/BackToTopButton';
+import { Keys } from '@/config/keys';
 import AppHeader from '@/features/app/AppHeader';
 import { useApi } from '@/hooks/useApi';
 import { denormalizeProductList } from '@/lib/convert';
-import { fnv1a32 } from '@/utils/tools';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
@@ -17,25 +17,18 @@ const HomePage = ({ data }: any) => {
 
     useEffect(() => {
         api.query({ page: 1, size: 12 })
-            .Get<ProductItemType[]>('products', {})
+            .doGetList<ProductItemType[]>('products')
             .callback((data) => {
                 if (data && data.length) {
                     const pdata = denormalizeProductList(data);
                     setProducts(pdata);
                 }
             });
-        const domain = window.location.hostname;
-        const port = window.location.port;
 
-        let url = domain;
-        if (port) {
-            url += `:${port}`;
-        }
-        const id = fnv1a32(url);
-
-        api.doGet(id, 'site').callback((data) => {
+        api.doGetOne('site', 234134134).callback((data) => {
             if (data && data.config && data.config.banners) {
                 setBannerImages(data?.config?.banners || []);
+                localStorage.setItem(Keys.Config, JSON.stringify(data || {}));
             }
         });
     }, []);

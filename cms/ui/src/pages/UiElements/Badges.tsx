@@ -1,7 +1,7 @@
+import PageBreadcrumb from '@/feature/compos/layout/compos/PageBreadCrumb';
+import PageMeta from '@/feature/compos/layout/compos/PageMeta';
 import ComponentCard from '../../components/common/ComponentCard';
 import Badge from '../../components/ui/badge/Badge';
-import PageBreadcrumb from '../../feature/common/layout/compos/PageBreadCrumb';
-import PageMeta from '../../feature/common/layout/compos/PageMeta';
 import { PlusIcon } from '../../icons';
 
 export default function Badges() {

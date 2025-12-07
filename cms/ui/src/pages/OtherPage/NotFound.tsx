@@ -1,7 +1,6 @@
+import PageMeta from '@/feature/compos/layout/compos/PageMeta';
 import { Link } from 'react-router';
 import GridShape from '../../components/common/GridShape';
-import PageMeta from '../../feature/common/layout/compos/PageMeta';
-
 export default function NotFound() {
     return (
         <>
