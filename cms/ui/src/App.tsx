@@ -16,7 +16,7 @@ const Calendar = lazy(() => import('@/pages/Calendar'));
 const BarChart = lazy(() => import('@/pages/Charts/BarChart'));
 const LineChart = lazy(() => import('@/pages/Charts/LineChart'));
 const Home = lazy(() => import('@/pages/Dashboard/Home'));
-const Logs = lazy(() => import('@/pages/Logs/SiteLogs'));
+const Logger = lazy(() => import('@/pages/Logger/SiteLogs'));
 const BasicTables = lazy(() => import('@/pages/Tables/BasicTables'));
 const Alerts = lazy(() => import('@/pages/UiElements/Alerts'));
 const Images = lazy(() => import('@/pages/Images/Images'));
@@ -106,7 +106,7 @@ export default function App() {
                             path="/logs"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
-                                    <Logs />
+                                    <Logger />
                                 </Suspense>
                             }
                         />
