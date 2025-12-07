@@ -52,7 +52,10 @@
     "product.first_order": "First Order Bonus",
     "product.tiered_discount": "Tiered Discount",
     "product.tiered_discount_contition": "Buy {{num}} Items",
-    "product.tiered_discount_text": "Buy {{num}} More & Save {{discount}} ¥",
+    "product.tiered_discount_text": "Buy {{num}} More & Save ${{discount}}",
+    "product.points": "Redeemed Points",
+    "checkout.points": "Redeemed Points",
+
     "product.continue": "Continue",
     "product.pay_amount": "Amount to Pay",
 

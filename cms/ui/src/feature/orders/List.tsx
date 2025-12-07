@@ -1,20 +1,19 @@
 import { Button, SearchInput } from '@/components/elements';
 import { Action, ActionLeft, ActionRight, Content, Footer, Page } from '@/feature/compos/layout';
 import { List, Pagination, type ListColumn } from '@/feature/compos/list';
+import { useList } from '@/hooks/useList';
 import { FilterIcon, PlusIcon } from '@/icons';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useOrders } from './hooks/useOrders';
+
 export default function SiteLogs() {
     const navigator = useNavigate();
-
+    const { setPage, setFilter, result, Delete } = useList<OrderLogsType>('order-log');
     const [search, setSearch] = useState('');
-    const { result, setParamFilter, setPage } = useOrders();
-
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            setParamFilter([{ field: 'ukey', operator: 'like', value: search }]);
+            setFilter([{ field: 'ukey', operator: 'like', value: search }]);
         }
     };
 
@@ -35,6 +34,20 @@ export default function SiteLogs() {
             key: 'actions',
             label: 'Actions',
             sortable: false,
+            render: (item?: OrderLogsType) => (
+                <div className="flex items-center gap-1">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="ml-2"
+                        onClick={() => {
+                            Delete(item?.id || 0); // TODO: delete product
+                        }}
+                    >
+                        Delete
+                    </Button>
+                </div>
+            ),
         },
     ];
     return (

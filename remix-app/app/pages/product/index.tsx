@@ -50,7 +50,7 @@ const ProductPage = ({ productData }: { productData: ProductType | null }) => {
         if (!sid) {
             return;
         }
-        api.doGetOne<string>('content', productData.main.id, sid).callback((data) => {
+        api.doGetOne<string>('content', productData.main.id).callback((data) => {
             if (data === null) return;
             setContent(data);
         });

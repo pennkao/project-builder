@@ -24,7 +24,7 @@ func (t *Cms) Updater(c *gin.Context) {
 	case "site":
 		err := t.SiteUpdater(c.Request.Context(), req)
 		hp.Response(c, nil, err)
-	case "images":
+	case "image":
 		// category, err := t.Q.(c.Request.Context(), req.Id)
 		// hp.Response(c,category, err)
 	default:

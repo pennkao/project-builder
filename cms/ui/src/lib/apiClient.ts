@@ -318,8 +318,8 @@ export class HttpClient {
         return this.Get<T>('fetch', { id: id, target: target });
     }
 
-    doUpdate<T = any>(body: any) {
-        return this.Post<T>('updater', body);
+    doUpdate<T = any>(id: number, target: string, field: string, value: number | string) {
+        return this.Post<T>('updater', { id: id, target: target, dtype: field, value: value });
     }
 }
 

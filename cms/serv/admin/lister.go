@@ -21,27 +21,27 @@ func (t *Cms) Lister(c *gin.Context) {
 		return
 	}
 	switch req.Target {
-	case "products":
+	case "product":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "uts")
 			t.QueryProductList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
-	case "images":
+	case "image":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "cts")
 			t.QueryImagestList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
-	case "reviews":
+	case "review":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "r.cts")
 			t.QueryProductReviewsList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
-	case "logs":
+	case "log":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "ts")
 			t.QueryLogsList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
-	case "order-logs":
+	case "order-log":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "cts")
 			t.QueryOrderLogsList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
-	case "sites":
+	case "site":
 			t.QuerySiteList(c.Request.Context(), page)
 			hp.Success[any](c, page)
 	default:

@@ -2,22 +2,22 @@ import { SearchInput } from '@/components/composed';
 import { Button, Image, Input } from '@/components/elements';
 import { Action, ActionLeft, ActionRight, Content, Footer, Page } from '@/feature/compos/layout';
 import { List, Pagination, type ListColumn } from '@/feature/compos/list';
+import { useList } from '@/hooks/useList';
+import { FilterIcon } from '@/icons';
 import { SRC } from '@/lib/image';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { StatusLabel } from './compos';
-import { useReviews } from './hooks';
-
-import { FilterIcon } from '@/icons';
 
 const Reviews = () => {
-    const { result, setParamFilter, setPage } = useReviews();
+    // const { result, setParamFilter, setPage } = useReviews();
+    const { result, setFilter, setPage } = useList<ProductReviewType>('review');
     const [search, setSearch] = useState('');
     const [expandedRow, setExpandedRow] = useState<number | null>(null);
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            setParamFilter([{ field: 'name', operator: 'like', value: search }]);
+            setFilter([{ field: 'name', operator: 'like', value: search }]);
         }
     };
     const handleToggle = (id: number) => {

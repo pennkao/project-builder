@@ -13,7 +13,7 @@ export const useImages = () => {
 
     const doLoadIamges = () => {
         api.query({ page: page, size: 50 })
-            .doList('images')
+            .doList('image')
             .callback((images) => {
                 if (images) {
                     setData(images);

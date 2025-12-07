@@ -32,12 +32,19 @@ func (t *Cms) UpdateSite(c *gin.Context) {
 		return
 	}
 	req.ID = int64(utils.Fnv1a32(strings.TrimSpace(req.Domain)))
-	_, err := t.Q.GetSite(c.Request.Context(), req.ID)
+	site, err := t.Q.GetSite(c.Request.Context(), req.ID)
 	if err != nil {
 		t.Q.CreateSite(c.Request.Context(), req)
 		hp.Success(c,"")
 		return
 	}
+
+	defer func() {
+		t.Q.UpdateProductSite(c.Request.Context(), db.UpdateProductSiteParams{
+			Sid: site.ID,
+			Sid_2: req.ID,
+		})	
+	}()	
 
 	err = t.Q.UpdateSite(c.Request.Context(), db.UpdateSiteParams{
 		ID: req.ID,
@@ -54,3 +61,11 @@ func (t *Cms) UpdateSite(c *gin.Context) {
 	hp.Success[any](c, nil) // 返回产品数量	
 }
 
+
+func (t *Cms) SyncSite(c *gin.Context, whereId, toId int64) {
+
+	t.Q.UpdateProductSite(c.Request.Context(), db.UpdateProductSiteParams{
+			Sid: whereId,
+			Sid_2: 0,
+	})	
+}

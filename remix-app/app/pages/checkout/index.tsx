@@ -305,6 +305,13 @@ const CheckoutPage = ({ data }: any) => {
                         </div>
                     </div>
                     <div className="flex flex-row justify-between">
+                        <div>{t('checkout.points')}</div>
+                        <div>
+                            -{t('common.symbol')}
+                            {checkoutData?.productDetail?.points}
+                        </div>
+                    </div>
+                    <div className="flex flex-row justify-between">
                         <div>{t('checkout.first_order')}</div>
                         <div>
                             -{t('common.symbol')}
@@ -313,10 +320,7 @@ const CheckoutPage = ({ data }: any) => {
                     </div>
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.discount')}</div>
-                        <div>
-                            -{t('common.symbol')}
-                            {checkoutData?.productDetail?.discountValue.toFixed(2)}
-                        </div>
+                        <div>{checkoutData?.productDetail?.discountValue > 0 ? `-${t('common.symbol')}${checkoutData?.productDetail?.discountValue.toFixed(2)}` : '--'}</div>
                     </div>
                     <div className="flex flex-row justify-between">
                         <div>{t('checkout.payment_discount')}</div>
@@ -446,18 +450,23 @@ const CheckoutPage = ({ data }: any) => {
                     </div>
                 </div>
                 <div className="flex flex-row justify-between">
+                    <div>{t('checkout.points')}</div>
+                    <div>
+                        -{t('common.symbol')}
+                        {checkoutData?.productDetail?.points}
+                    </div>
+                </div>
+                <div className="flex flex-row justify-between">
                     <div>{t('checkout.first_order')}</div>
                     <div>
                         -{t('common.symbol')}
                         {checkoutData?.productDetail?.firstOrder}
                     </div>
                 </div>
+
                 <div className="flex flex-row justify-between">
                     <div>{t('checkout.discount')}</div>
-                    <div>
-                        -{t('common.symbol')}
-                        {checkoutData?.productDetail?.discountValue.toFixed(2)}
-                    </div>
+                    <div>{checkoutData?.productDetail?.discountValue > 0 ? `-${t('common.symbol')}${checkoutData?.productDetail?.discountValue.toFixed(2)}` : '--'}</div>
                 </div>
                 <div className="flex flex-row justify-between">
                     <div>{payment.key == 'paypal' ? t('checkout.payment_fee') : t('checkout.payment_discount')}</div>

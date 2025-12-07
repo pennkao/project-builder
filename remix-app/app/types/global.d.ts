@@ -156,7 +156,6 @@ interface CrypoType {
 
 interface ProductType {
     main: ProductMainType;
-    stock: number;
     skus: SkuType[];
     options: AttrType[];
     videos: string[];
@@ -170,6 +169,7 @@ interface ProductMainType {
     main_image: string;
     name: string;
     price: number;
+    points: number;
     sales_count: number;
     stock: number;
     tags: string[];

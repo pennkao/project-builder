@@ -15,12 +15,12 @@ export const useProductList = () => {
 
     const [page, setPage] = useState(1); // eslint-disable-next-line
     const [sites, setSites] = useState<{ value: string; label: string }[]>([]);
-    const [listQueryParams, setlistQueryParams] = useState<ListQueryParamsType>({ ...defaultQueryParams, target: 'products' });
+    const [listQueryParams, setlistQueryParams] = useState<ListQueryParamsType>({ ...defaultQueryParams, target: 'product' });
     const [result, setResult] = useState<PageListDataType<ProductItemType>>(defaultPageDataList);
-
+    const [refresh, setRefresh] = useState(0);
     const fetchList = async () => {
         api.query({ page: page, size: 10 })
-            .doList('products', listQueryParams)
+            .doList('product', listQueryParams)
             .callback((data) => {
                 if (data) {
                     const list = (data.list as ProductItemType[]).map((item) => normalizeProduct(item));
@@ -31,7 +31,7 @@ export const useProductList = () => {
 
     useEffect(() => {
         fetchList();
-    }, [page, listQueryParams]);
+    }, [page, listQueryParams, refresh]);
 
     const setParamFilter = (items: FilterItemType[]) => {
         items = items.filter((item) => item.value !== '');
@@ -65,12 +65,13 @@ export const useProductList = () => {
         }
         api.Post('bind-product-site', { ids, sid: siteId }).callback((obj) => {
             if (!obj) return;
+            setRefresh((prev) => prev + 1);
         });
     };
 
     useEffect(() => {
         api.query({ page: 1, size: 1000 })
-            .doList<PageListDataType<SiteType>>('sites')
+            .doList<PageListDataType<SiteType>>('site')
             .callback((data) => {
                 if (data) {
                     const sites = data.list.map((item) => ({

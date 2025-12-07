@@ -44,7 +44,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
     };
 
     useEffect(() => {
-        setDiscountInfo(discount(quantity, selectedSKU.price, '', FirstOrder));
+        setDiscountInfo(discount(quantity, selectedSKU.price, '', FirstOrder, product.main.points));
     }, [quantity, selectedSKU.price]);
 
     const [attr2SkuMap, attrHaveSku] = useMemo(() => {
@@ -128,6 +128,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
             name: product.main.name,
             sku: selectedSKU,
             firstOrder: FirstOrder, // 首单优惠
+            points:product.main.points/100,
             quantity: quantity,
             price: selectedSKU.price,
             image: selectedSKU.image || product.skus[0].image,
@@ -276,6 +277,13 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                                 {discountValue.total.toFixed(2)}
                             </span>
                         </div>
+                        <div className="flex justify-between text-main items-center sp-border-main py-1">
+                            <span className="text-sub-main">{t('product.points')}</span>
+                            <span className="text-main">
+                                {t('common.symbol')}
+                                {(product.main.points / 100).toFixed(2)}
+                            </span>
+                        </div>
 
                         <div className="flex justify-between text-main items-center sp-border-main py-1">
                             <span className="text-sub-main">{t('product.first_order')}</span>
@@ -284,15 +292,13 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                                 {FirstOrder}
                             </span>
                         </div>
-
                         <div className="flex justify-between items-center text-main sp-border-main py-1">
-                            <span className="flex items-center text-sub-main w-10">{t('product.tiered_discount')}</span>
+                            <span className="flex items-center text-sub-main w-30">{t('product.tiered_discount')}</span>
                             <span className="flex flex-row font-medium">
                                 <span className="mr-3 text-sub"></span>
                                 <span className="text-main">{discountMoneyFormat(discountValue.discount, t('common.symbol'))}</span>
                             </span>
                         </div>
-
                         <div className="flex justify-end items-center text-tip sp-border-main py-1">
                             {discountValue.discount <= 0
                                 ? ''
@@ -301,7 +307,6 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                                       discount: moneyFormat(discountValue.nextDiscount),
                                   })}
                         </div>
-
                         <div className="flex justify-between text-important">
                             <span>{t('product.pay_amount')}</span>
                             <span>

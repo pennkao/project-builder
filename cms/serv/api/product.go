@@ -27,6 +27,7 @@ func (t *API) GetProductList(c *gin.Context) {
 		log.Println("error sid")
 		return
 	}
+	fmt.Println(sid)
 	// 从查询参数中获取产品 handle
 	productList, err := t.Q.FetchProductList(c, db.FetchProductListParams{
 		Sid: sid,

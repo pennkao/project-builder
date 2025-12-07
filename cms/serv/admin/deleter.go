@@ -26,6 +26,8 @@ func (t *Cms) Deleter(c *gin.Context) {
 			hp.Error[any](c,  err.Error())
 			return
 		}
+		
+		t.SyncSite(c, req.Id, 0)	
 	default:
 		hp.Error[any](c, "Not Found")
 	}

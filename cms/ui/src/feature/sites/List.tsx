@@ -1,14 +1,14 @@
 import { Button } from '@/components/elements';
 import { Content, Footer, Header, Page } from '@/feature/compos/layout';
 import { List, type ListColumn } from '@/feature/compos/list';
+import { useList } from '@/hooks/useList';
 import { DownloadIcon, PlusIcon } from '@/icons';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { Link, useNavigate } from 'react-router';
-// import { StatusLabel } from './comps';
-import { useSite } from './hooks/useSite';
 export function SitesList() {
     const navigator = useNavigate();
-    const { result, Delete } = useSite();
+    // const { result, Delete } = useSite();
+    const { result, setFilter, setPage,Delete} = useList<SiteType>('site');
 
     const siteColumns: ListColumn<SiteType>[] = [
         {

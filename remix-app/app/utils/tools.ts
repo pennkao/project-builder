@@ -23,7 +23,7 @@ export function buildObbjectFromGroupAttributes<T extends Record<string, string>
     return result;
 }
 
-export function discount(num: number, price: number, payment: string, other: number): DiscountInfoType {
+export function discount(num: number, price: number, payment: string, other: number, points: number): DiscountInfoType {
     let total = num * price;
     let discount = 0.0;
     const rules = [3, 5, 10, 15, 20];
@@ -58,7 +58,7 @@ export function discount(num: number, price: number, payment: string, other: num
     }
 
     const paymentDiscount = payment === 'credit-card' ? total * 0.05 : 0;
-    let payAmount = total - discount - paymentDiscount - other;
+    let payAmount = total - discount - paymentDiscount - other - points / 100;
     payAmount = payAmount < 0 ? 0 : payAmount;
     return {
         total,

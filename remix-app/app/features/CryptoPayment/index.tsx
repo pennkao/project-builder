@@ -47,28 +47,28 @@ const CryptoCheckout = ({ payment, onStatueChange }: { payment: string; onStatue
     const handlePaidClick = (cryptoType: CrypoType) => {
         setOpenTime(Date.now()); // ✅ 记录弹窗打开时间
 
-        // if (validPaidNum > 3) {
-        //     showMessageBox(t('checkout.paid_valid_tips'), 'error', 4000);
-        //     return;
-        // }
-        // setValidPaidNum((prev) => prev + 1);
-        // // ✅ 新增：防止10秒内乱点
-        // if (openTime) {
-        //     const elapsed = (Date.now() - openTime) / 1000;
-        //     console.log('elapsed', elapsed);
-        //     if (elapsed < MIN_CLICK_INTERVAL) {
-        //         showMessageBox(t('checkout.paid_checking_tips'), 'error', 3000);
-        //         return;
-        //     }
-        // }
+        if (validPaidNum > 3) {
+            showMessageBox(t('checkout.paid_valid_tips'), 'error', 4000);
+            return;
+        }
+        setValidPaidNum((prev) => prev + 1);
+        // ✅ 新增：防止10秒内乱点
+        if (openTime) {
+            const elapsed = (Date.now() - openTime) / 1000;
+            console.log('elapsed', elapsed);
+            if (elapsed < MIN_CLICK_INTERVAL) {
+                showMessageBox(t('checkout.paid_checking_tips'), 'error', 3000);
+                return;
+            }
+        }
         setValidPaidNum(0);
 
-        // if (paidNum < 1) {
-        //     setPaidNum((prev) => prev + 1);
+        if (paidNum < 1) {
+            setPaidNum((prev) => prev + 1);
 
-        //     showMessageBox(t('checkout.paid_checking_tips'), 'error', 6000);
-        //     return;
-        // }
+            showMessageBox(t('checkout.paid_checking_tips'), 'error', 6000);
+            return;
+        }
         setShowVerifying(true);
 
         // 模拟调用后端验证
