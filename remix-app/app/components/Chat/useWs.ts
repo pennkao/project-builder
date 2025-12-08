@@ -13,7 +13,6 @@ export function useWS(clientId: string, baseUrl: string, role: string) {
 
         ws.current.onmessage = (ev) => {
             const msg = JSON.parse(ev.data);
-            console.log(msg);
             if (msg.type == 'message') {
                 if (msg.message.text == 'block') {
                     console.log(msg.messages);
@@ -25,9 +24,11 @@ export function useWS(clientId: string, baseUrl: string, role: string) {
             }
         };
 
-        ws.current.onclose = (e) => {
-            console.log('WS closed:', e.code, e.reason);
-            // localStorage.setItem(ChatKey, '1');
+        ws.current.onclose = () => {
+            console.log(window.location.host);
+            if (window.location.host.indexOf('localhost') == -1) {
+                localStorage.setItem(ChatKey, '1');
+            }
         };
         ws.current.onopen = () => {
             // console.log('WS opened');
