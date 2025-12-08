@@ -25,8 +25,8 @@ export function useWS(clientId: string, baseUrl: string, role: string) {
             }
         };
 
-        ws.current.onclose = () => {
-            console.log('WS closed');
+        ws.current.onclose = (e) => {
+            console.log('WS closed:', e.code, e.reason);
             // localStorage.setItem(ChatKey, '1');
         };
         ws.current.onopen = () => {

@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/cms/admin/dto/hp"
+	"github.com/cms/com/ws"
 	"github.com/cms/db"
-	"github.com/cms/ws"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/gin-gonic/gin"

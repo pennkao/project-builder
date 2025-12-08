@@ -8,8 +8,8 @@ import (
 	"github.com/cms/admin/middle" // AdminAuth 中间件
 	"github.com/cms/api"          // 前端接口
 	"github.com/cms/api/md"
+	"github.com/cms/com/ws"
 	"github.com/cms/cross" // 前端接口中间件
-	"github.com/cms/ws"
 
 	"github.com/gin-gonic/gin"
 )
