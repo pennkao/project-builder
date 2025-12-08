@@ -8,6 +8,7 @@ import { denormalizeProductList } from '@/lib/convert';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
+import AppFooter from '../../features/app/AppFooter';
 
 const HomePage = ({ data }: any) => {
     const { api } = useApi();
@@ -36,13 +37,13 @@ const HomePage = ({ data }: any) => {
     return (
         <>
             <AppHeader images={bannerImages} />
-            <div className="bg-white rounded-lg p-1 shadow-sm">
+            <div className="bg-white rounded-lg p-1 shadow-sm max-w-4xl w-full mx-auto">
                 {/* <h2 className="text-xl font-bold text-gray-800 mb-4">热门商品</h2> */}
 
                 {/* 商品网格 */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 auto-rows-min">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 auto-rows-min w-full">
                     {products.map((product, idx) => (
-                        <div key={product.handle} data-idx={idx} className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow duration-200 flex flex-col">
+                        <div key={idx} data-idx={idx} className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow duration-200 flex flex-col">
                             <Link to={`/products/${product.handle}`} className="flex flex-col">
                                 {/* 图片容器 */}
                                 <div className="relative w-full aspect-[1/1] min-h-[200px] overflow-hidden">
@@ -71,8 +72,7 @@ const HomePage = ({ data }: any) => {
                     ))}
                 </div>
             </div>
-            {/* <h1>{t('hello')}</h1>
-            <p>{t('welcome')}</p> */}
+            <AppFooter />
             <BackToTopButton />
         </>
     );

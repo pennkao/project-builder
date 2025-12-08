@@ -38,50 +38,52 @@ const AppHeader = ({ images, className }: { images?: string[]; className?: strin
 
     return (
         <>
-            <header ref={headerRef} className="fixed top-0 left-1/2 transform -translate-x-1/2 z-10 bg-red-600 text-white p-3 flex flex-col max-w-4xl w-full">
-                <div className="flex justify-between items-center mb-2 text-sm ">
-                    <span>{t('header.myaccount')}</span>
-                    <span className="text-yellow-200 font-semibold">
-                        {t('header.score')}: <strong className="text-white">396500</strong>
-                    </span>
-                </div>
-
-                <div className="flex items-center space-x-5 justify-between">
-                    <span className="font-medium text-xl text-white whitespace-nowrap">{t('header.score_limit')}</span>
-
-                    {/* 搜索框容器：加 relative！ */}
-                    <div className="h-8 max-w-xs flex rounded-full bg-white overflow-hidden shadow-md relative">
-                        {/* 输入框：pl-8 足够避开图标 */}
-                        <input
-                            type="text"
-                            value={value}
-                            placeholder={t('header.search_placeholder')}
-                            className="flex-1 px-3 pl-10 text-gray-700 focus:outline-none min-w-0"
-                            onChange={(e) => {
-                                setValue(e.target.value);
-                            }}
-                        />
-
-                        {/* SVG 放大镜：必须有 path！ */}
-                        <svg className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-
-                        <button
-                            className="bg-orange-500 text-white px-3 py-0 text-sm font-medium cursor-pointer"
-                            onClick={() => {
-                                handleClick();
-                            }}
-                        >
-                            {t('header.search')}
-                        </button>
+            <header ref={headerRef} className="fixed top-0 left-0 z-10  w-full flex flex-col items-center justify-center">
+                <div className="bg-red-600 text-white p-3 max-w-4xl w-full mx-auto flex flex-col ">
+                    <div className="flex justify-between items-center mb-2 text-sm ">
+                        <span>{t('header.myaccount')}</span>
+                        <span className="text-yellow-200 font-semibold">
+                            {t('header.score')}: <strong className="text-white">396500</strong>
+                        </span>
                     </div>
 
-                    <span className="text-white text-lg whitespace-nowrap">🎧</span>
+                    <div className="flex items-center space-x-5 justify-between">
+                        <span className="font-medium text-xl text-white whitespace-nowrap">{t('header.score_limit')}</span>
+
+                        {/* 搜索框容器：加 relative！ */}
+                        <div className="h-8 max-w-xs flex rounded-full bg-white overflow-hidden shadow-md relative">
+                            {/* 输入框：pl-8 足够避开图标 */}
+                            <input
+                                type="text"
+                                value={value}
+                                placeholder={t('header.search_placeholder')}
+                                className="flex-1 px-3 pl-10 text-gray-700 focus:outline-none min-w-0"
+                                onChange={(e) => {
+                                    setValue(e.target.value);
+                                }}
+                            />
+
+                            {/* SVG 放大镜：必须有 path！ */}
+                            <svg className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+
+                            <button
+                                className="bg-orange-500 text-white px-3 py-0 text-sm font-medium cursor-pointer"
+                                onClick={() => {
+                                    handleClick();
+                                }}
+                            >
+                                {t('header.search')}
+                            </button>
+                        </div>
+
+                        <span className="text-white text-lg whitespace-nowrap">🎧</span>
+                    </div>
                 </div>
             </header>
-            <div className={`h-[84px]`}></div>
-            <section className="min-h-[170px] ">
+            <div className={`h-[85px]`}></div>
+            <section className="min-h-[170px] m-auto flex">
                 {/* 占位元素：高度 = 宽度 * (高度/宽度) */}
                 <SwiperImage images={images || []} autoPlayInterval={4000} className="rounded-lg" />
             </section>

@@ -115,7 +115,7 @@ export default function SwiperImage({ images, autoPlayInterval = 5000, className
             <div className={`flex transition-transform duration-300 h-full w-full ease-out ${styles['swiper-container']}`} style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
                 {images.map((img, index) => (
                     <div key={index} className="w-full flex-shrink-0">
-                        <SmartImage src={img} alt={`slide-${index}`} className="w-full h-full object-cover" loading={index === 0 ? 'eager' : 'lazy'} draggable={false} />
+                        <SmartImage src={img} alt={`slide-${index}`} className="w-full h-full  object-cover" loading={index === 0 ? 'eager' : 'lazy'} draggable={false} />
                     </div>
                 ))}
             </div>

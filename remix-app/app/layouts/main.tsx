@@ -43,7 +43,7 @@ const MainLayout = () => {
 
     return (
         // MainLayout.tsx
-        <main className={`min-h-screen bg-page max-w-4xl mx-auto overflow-scroll`}>
+        <main className={`min-h-screen bg-page max-w-4xl mx-auto `}>
             <Outlet />
         </main>
     );

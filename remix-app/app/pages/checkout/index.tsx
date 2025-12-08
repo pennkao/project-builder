@@ -24,6 +24,7 @@ const CheckoutPage = ({ data }: any) => {
     // const { DoJump } = useJump('checkout-user-info');
     const { DoJump: DoJumpSuccess, Loading } = useJump('checkout');
     const [crypt, setCrypt] = useState(false);
+    const [reload, setReload] = useState(0);
     // 安全码提示信息
     const [errors, setErrors] = useState<CardErrorType>({ number: '', expiry: '', cvc: '', name: '' } as CardErrorType);
     const { api } = useApi();
@@ -38,9 +39,7 @@ const CheckoutPage = ({ data }: any) => {
     const creditCardPayment = paymentMethods.nomorl[0];
     const paypalPayment = paymentMethods.nomorl[1];
     const [payment, setPayment] = useState<PaymentMethod>(crypt ? paymentMethods.crypto : paymentMethods.nomorl[0]);
-    useEffect(() => {
-        console.log(payment);
-    }, [payment]);
+
     /**
      * 处理输入框内容变化
      * @param e - 输入框变化事件
@@ -60,6 +59,7 @@ const CheckoutPage = ({ data }: any) => {
     const [cardNumber, setCardNumber] = useState<CreditCardPaymentFormType>(initialCreditCardPaymentForm); // number, expiry, cvc, name
     const handleAction = (s: string) => {
         setBottomSheetOpen(false);
+        setReload((prev) => prev + 1);
     };
     useEffect(() => {
         if (typeof window === 'undefined') return;
@@ -93,7 +93,7 @@ const CheckoutPage = ({ data }: any) => {
             setPayment(paymentMethods.nomorl[0]);
         }
         setCrypt(config.config.payment === 'crypto');
-    }, []);
+    }, [reload]);
 
     const handleOpen = () => {
         setIsOpen((prev) => !prev);
