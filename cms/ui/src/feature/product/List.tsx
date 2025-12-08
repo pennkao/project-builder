@@ -62,7 +62,7 @@ export default function Products() {
             sortable: false,
             render: (item?: ProductItemType) => (
                 <div className="flex items-center gap-1">
-                    <Link to={`/edit-product/${item?.id}`}>Edit</Link>
+                    <Link to={`/products/edit/${item?.id}`}>Edit</Link>
                     <Button
                         variant="outline"
                         size="sm"
@@ -90,7 +90,7 @@ export default function Products() {
                         <Button variant="outline" onClick={() => setIsBatchMode(true)}>
                             Batch
                         </Button>
-                        <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-product')}>
+                        <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/products/create')}>
                             Add Product
                         </Button>
                     </ActionRight>

@@ -1,8 +1,8 @@
 import { ModalBase } from '@/components/composed';
 import Label from '@/components/elements/Label';
+import { useList } from '@/hooks/useList';
 import { SRC } from '@/lib/image';
 import { useState } from 'react';
-import { useImages } from '../hooks/useImages';
 
 const ImageSelector = ({
     isOpen,
@@ -18,7 +18,7 @@ const ImageSelector = ({
     closeModal: () => void;
     productImages: string[];
 }) => {
-    const { data } = useImages();
+    const { result } = useList<ImageType>('image', undefined, 100);
 
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const handleSelectedImages = (dtype: typeof selectType, img: string) => {
@@ -46,10 +46,10 @@ const ImageSelector = ({
                                 </div>
                             ))}
                         </div>
-                        {data.list.length > 0 && <div className="h-1 border-b-2 border-gray-200 dark:border-gray-700 my-2"></div>}
+                        {result.list.length > 0 && <div className="h-1 border-b-2 border-gray-200 dark:border-gray-700 my-2"></div>}
                         <Label>Gallery </Label>
                         <div className="flex flex-wrap gap-2 ">
-                            {data.list.map((item, index) => (
+                            {result.list.map((item, index) => (
                                 <div key={index} className="relative group">
                                     <img src={SRC(item.url)} alt={item.alt_text} className="w-28 h-28 object-cover" onClick={() => handleSelectedImages(selectType, item.url)} />
                                     {selectedImages.includes(item.url) && <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>}

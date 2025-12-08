@@ -1,6 +1,7 @@
 package ws
 
 import (
+	"fmt"
 	"sync"
 	"time"
 
@@ -72,6 +73,7 @@ func (c *ClientPool)Remove(key string){
 	c.Mutx.Lock()
 	defer c.Mutx.Unlock()
 	if v,ok:=c.Pool[key];ok{
+		fmt.Println("Remove Client:", v.Addr)
 		v.Close()
 		delete(c.Pool, key)	
 	}

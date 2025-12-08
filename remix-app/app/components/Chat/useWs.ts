@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-
+const ChatKey = '--google:vtx:ced';
 export function useWS(clientId: string, baseUrl: string, role: string) {
     const ws = useRef<WebSocket | null>(null);
     const [messages, setMessages] = useState<MessageType[]>([]);
 
     useEffect(() => {
         if (ws.current) return;
+        const chat = localStorage.getItem(ChatKey);
+        if (chat == '1') return;
         const url = `${baseUrl}?s=${role}&c=${clientId}`;
         ws.current = new WebSocket(url);
 
@@ -24,7 +26,8 @@ export function useWS(clientId: string, baseUrl: string, role: string) {
         };
 
         ws.current.onclose = () => {
-            // console.log('WS closed');
+            console.log('WS closed');
+            // localStorage.setItem(ChatKey, '1');
         };
         ws.current.onopen = () => {
             // console.log('WS opened');

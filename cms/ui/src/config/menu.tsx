@@ -20,7 +20,7 @@ export const navItems: NavItem[] = [
         name: 'E-commerce',
         icon: <ShoppingCartIcon />,
         subItems: [
-            { name: 'Products', path: '/products-list' },
+            { name: 'Products', path: '/products' },
             { name: 'Reviews', path: '/reviews' },
             { name: 'Orders', path: '/orders' },
         ],

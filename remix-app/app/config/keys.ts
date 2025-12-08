@@ -10,4 +10,5 @@ export const Keys = {
     Index: '--google:vtx:index',
     Blk: '--google:vtx:bbk',
     Config: '--google:vtx:cfg',
+    Chat: '--google:vtx:ced',
 };

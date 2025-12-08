@@ -32,31 +32,34 @@ func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 		frontend.GET("/chat", ws.Websocket)
 		frontend.POST("/:path",api.Dispatch)
 	}
-
 	r.POST("/the-door/come-in", cms.Login)
 	r.GET("/the-door/open", func(c *gin.Context) {
 		c.File("./dist/login.html")
 	})
-	// 3️⃣ 后台管理接口
-	backend := r.Group("/admin")
+
+	awss := r.Group("/wss")
 	{
-		protected := backend.Group("/")
-		protected.Use(middle.AdminAuth()) // 仅保护 SPA 页面
-		protected.POST("/api/*path", cms.Dispatch)
-		protected.GET("/*path", func(c *gin.Context) {
+		awss.Use(md.Check()) // 仅保护 SPA 页面
+		awss.GET("/chat", ws.Websocket)
+	}
+
+	// 3️⃣ 后台接口，需要验证
+	adminUi := r.Group("/admin")
+	adminUi.Use(middle.AdminAuth())   // ⭐ 关键：所有 /admin/** 统一鉴权
+	{
+		adminUi.GET("/*any", func(c *gin.Context) {
 			c.File("./dist/index.html")
 		})
 	}
-
-	wss := r.Group("/ws")
+	adminApi := r.Group("/backend/api")
+	adminApi.Use(middle.AdminAuth())   // ⭐ 关键：所有 /admin/api/** 统一鉴权
 	{
-		wss.Use(middle.AdminAuth(),) // 仅保护 SPA 页面
-		wss.GET("/chat", ws.Websocket)
+		adminApi.POST("/*path", cms.Dispatch)
 	}
-	awss := r.Group("/wss")
+	adminWs := r.Group("/backend/ws")
+	// adminWs.Use(middle.AdminAuth())   // ⭐ 关键：所有 /admin/ws/** 统一鉴权
 	{
-		awss.Use(middle.AdminAuth(),) // 仅保护 SPA 页面
-		awss.GET("/chat", ws.Websocket)
+		adminWs.GET("/chat", ws.Websocket)
 	}
 
 	// 4️⃣ 捕获所有未定义路由

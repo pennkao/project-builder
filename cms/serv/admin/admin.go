@@ -5,6 +5,7 @@ import (
 
 	"github.com/cms/admin/dto/hp"
 	"github.com/cms/db"
+	"github.com/cms/ws"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/gin-gonic/gin"
@@ -25,6 +26,8 @@ func (t *Cms) Dispatch(c *gin.Context) {
 	fmt.Println("path", c.Param("path"))
 	path := c.Param("path")
 	switch path {
+	case "/ws":
+		ws.WS(c)
 	case "/file/upload":
 		fileUpload(c)
 	case "/delete":

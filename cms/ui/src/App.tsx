@@ -77,7 +77,7 @@ export default function App() {
                             }
                         />
                         <Route
-                            path="/products-list"
+                            path="/products"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <Products />
@@ -85,7 +85,7 @@ export default function App() {
                             }
                         />
                         <Route
-                            path="/add-product"
+                            path="/products/create"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <AddProduct />
@@ -93,7 +93,7 @@ export default function App() {
                             }
                         />
                         <Route
-                            path="/edit-product/:id"
+                            path="/products/edit/:id"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <AddProduct />
@@ -120,7 +120,7 @@ export default function App() {
                             }
                         />
                         <Route
-                            path="/add-site"
+                            path="/sites/create"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <AddSite />
@@ -128,7 +128,7 @@ export default function App() {
                             }
                         />
                         <Route
-                            path="/edit-site/:id"
+                            path="/sites/edit/:id"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <AddSite />
@@ -180,7 +180,7 @@ export default function App() {
                             }
                         />
                         <Route
-                            path="/images"
+                            path="/images1"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <Images />

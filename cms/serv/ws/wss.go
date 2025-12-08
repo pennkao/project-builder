@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/bytedance/sonic"
+	"github.com/cms/admin/dto/hp"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
@@ -19,6 +20,32 @@ var upgrader = websocket.Upgrader{
 
 var pool = NewPool()
 var admins = NewPool()
+
+type ActonReq struct {
+	Action string `json:"action"`
+	Addr string `json:"addr"`
+}
+
+func WS(c *gin.Context) {
+	var req ActonReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		hp.Error[any](c, err.Error())
+		return
+	}
+	switch req.Action {
+	case "close":
+		WsClose(req.Addr)
+		hp.Success(c, pool.Pool)
+	default:
+		hp.Error[any](c, "action not found")
+	}
+}
+
+func WsClose(addr string) {
+	pool.Remove(addr)
+	broadcastClientsToAdmin()
+}
+
 func Websocket(c *gin.Context) {
 	source := c.Query("s")
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)

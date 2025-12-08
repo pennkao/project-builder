@@ -2,12 +2,8 @@ import { SRC } from '@/lib/image';
 import { Activity, useRef, useState } from 'react';
 import { useWS } from './useWs';
 
-interface ChatProps {
-    url: string;
-}
-
-export function Chat({ url }: ChatProps) {
-    const { messages, clients, send } = useWS(url, 'admin');
+export function Chat() {
+    const { messages, clients, send, close } = useWS('admin');
     const [isOpen, setIsOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [currentUser, setCurrentUser] = useState<string | null>(null);
@@ -42,7 +38,7 @@ export function Chat({ url }: ChatProps) {
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (event) => {
-                        console.log(event.target?.result);
+                        // console.log(event.target?.result);
                         if (currentUser) {
                             send(currentUser, event.target?.result as string, 'image');
                         }
@@ -127,11 +123,32 @@ export function Chat({ url }: ChatProps) {
                                     <div
                                         key={index}
                                         onClick={() => setCurrentUser(item.addr)}
-                                        className={`p-3 cursor-pointer border-b 
+                                        className={`py-3 px-1 cursor-pointer border-b flex items-center justify-between
                                    ${currentUser === item.addr ? 'bg-blue-600 text-white font-semibold' : 'border-gray-300'}
                                `}
                                     >
                                         {item.addr}
+                                        <button
+                                            onClick={() => {
+                                                close(item.addr);
+                                            }}
+                                            className="bg-gray-400 w-5 h-5 text-white rounded-full p-1 flex items-center justify-center"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path d="M18 6 6 18" />
+                                                <path d="m6 6 12 12" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 ))}
                         </div>

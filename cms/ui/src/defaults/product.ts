@@ -13,6 +13,7 @@ export const defaultProductMain: ProductMainType = {
     sales_count: 0, // int4 → number，默认 0
     stock: 0, // int4 → number，默认 0
     price: 0, // numeric(12,2) → number（注意精度问题，见说明）
+    points: 0, // int4 → number，默认 0
 };
 
 export const defaultSku: SkuType = {

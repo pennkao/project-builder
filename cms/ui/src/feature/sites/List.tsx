@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router';
 export function SitesList() {
     const navigator = useNavigate();
     // const { result, Delete } = useSite();
-    const { result, setFilter, setPage,Delete} = useList<SiteType>('site');
+    const { result, Delete } = useList<SiteType>('site');
 
     const siteColumns: ListColumn<SiteType>[] = [
         {
@@ -33,7 +33,7 @@ export function SitesList() {
             sortable: false,
             render: (item?: SiteType) => (
                 <div className="flex items-center gap-1">
-                    <Link to={`/edit-site/${item?.id}`}>Edit</Link>
+                    <Link to={`/sites/edit/${item?.id}`}>Edit</Link>
                     <Button
                         variant="outline"
                         size="sm"
@@ -66,16 +66,10 @@ export function SitesList() {
                     Export
                 </Button>
 
-                <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-site')}>
+                <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/sites/create')}>
                     Add Product
                 </Button>
             </Header>
-            {/* <Action>
-                <SearchInput value={search} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} />
-                <Button startIcon={<FilterIcon className="w-5 h-5" />} className="h-11" variant="outline">
-                    Filter
-                </Button>
-            </Action> */}
             <Content>
                 <List<SiteType> fields={siteColumns} items={result?.list || []} />
             </Content>

@@ -22,7 +22,7 @@ export const config = {
     API_URL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
     CDN_URL: import.meta.env.VITE_CDN_URL || 'http://localhost:3000/static',
     IMAGE_URL: import.meta.env.VITE_IMAGE_URL || '/public/images/',
-    WS_URL: import.meta.env.VITE_WS_URL || 'ws://localhost:8080/wss/chat',
+    WS_URL: import.meta.env.VITE_WS_URL || 'ws://localhost:8080/admin/api/wss',
     CONTENT_PREFIX: import.meta.env.VITE_CONTENT_PREFIX || '/public/images/',
     CONTENT_REPLACE: import.meta.env.VITE_CONTENT_REPLACE || '{{@#base_url#@}}$1',
     TOKEN_KEY: '--vxtn:xtoken',

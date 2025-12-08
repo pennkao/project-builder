@@ -55,7 +55,6 @@ const CryptoCheckout = ({ payment, onStatueChange }: { payment: string; onStatue
         // ✅ 新增：防止10秒内乱点
         if (openTime) {
             const elapsed = (Date.now() - openTime) / 1000;
-            console.log('elapsed', elapsed);
             if (elapsed < MIN_CLICK_INTERVAL) {
                 showMessageBox(t('checkout.paid_checking_tips'), 'error', 3000);
                 return;

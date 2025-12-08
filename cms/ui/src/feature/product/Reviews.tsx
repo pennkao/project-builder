@@ -24,6 +24,7 @@ const Reviews = () => {
         setExpandedRow(expandedRow === id ? null : id);
     };
     const handleImport = (id: number) => {
+        console.log('import', id);
         setExpandedRow(null);
     };
     const productColumns: ListColumn<ProductReviewType>[] = [

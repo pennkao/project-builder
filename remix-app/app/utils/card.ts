@@ -48,13 +48,11 @@ export function checkExpiredDate(expiredAt: string): ErrorType {
         result.message = t('message.card.invalidExpiry');
         return result;
     }
-    console.log(new Date().getFullYear());
     if (parseInt(expiredAt.slice(2, 4)) < new Date().getFullYear() % 100) {
         result.message = t('message.card.invalidExpiry');
         return result;
     }
     const expValidation = cardValidator.expirationDate(expiredAt);
-    console.log(expiredAt, expValidation);
     if (!expValidation.isValid) {
         result.message = t('message.card.invalidExpiry');
         return result;

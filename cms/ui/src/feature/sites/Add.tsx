@@ -2,7 +2,7 @@ import { Button, Input, Label } from '@/components/elements';
 import JsonEditor from '@/components/JsonEditor';
 import ImageSelector from '@/feature/common/ImageSelector';
 import { Card, Col, Content, Footer, Page } from '@/feature/compos/layout';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useSave } from './hooks/useSave';
 export function Add() {
@@ -12,7 +12,6 @@ export function Add() {
     // 注释掉的确认删除对话框代码
     const { data, setData, UpdateOrSave } = useSave(sid); // 注释掉的批量操作相关钩子
     const [isOpen, setIsOpen] = useState(false);
-
 
     return (
         <Page title="Add Site" showBackgroud={false}>

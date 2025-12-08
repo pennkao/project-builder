@@ -8,7 +8,7 @@ const message = async (message: string) => {
     if (!confirm) return false;
     return true;
 };
-export const useList = <T extends { id: number }>(target: string, normalize?: (item: any) => T) => {
+export const useList = <T extends { id: number }>(target: string, normalize?: (item: any) => T, size?: number) => {
     const { api } = useApi();
 
     const [page, setPage] = useState(1);
@@ -22,7 +22,7 @@ export const useList = <T extends { id: number }>(target: string, normalize?: (i
         });
     };
     const fetch = async () => {
-        api.query({ page, size: 10 })
+        api.query({ page, size: size || 10 })
             .doList(target, query)
             .callback((data) => {
                 if (!data) return;
