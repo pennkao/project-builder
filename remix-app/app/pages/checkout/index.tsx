@@ -21,8 +21,7 @@ import { Activity, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 const CheckoutPage = ({ data }: any) => {
     const navigate = useNavigate();
-    // const { DoJump } = useJump('checkout-user-info');
-    const { DoJump: DoJumpSuccess, Loading } = useJump('checkout');
+    const { DoJump, Loading } = useJump('checkout');
     const [crypt, setCrypt] = useState(false);
     const [reload, setReload] = useState(0);
     // 安全码提示信息
@@ -154,11 +153,10 @@ const CheckoutPage = ({ data }: any) => {
         setTimeout(() => {
             const orderId = localStorage.getItem(Keys.UUID);
             if (!orderId) {
-                // showMessageBox(t('message.error.order_id_not_found'), 'error', 2000);
                 return;
             }
-            SaveOrder(orderId);
-            DoJumpSuccess(orderId);
+            const ret = SaveOrder(orderId);
+            DoJump(ret);
         }, 500);
     }, [isPay]);
 
@@ -192,12 +190,12 @@ const CheckoutPage = ({ data }: any) => {
         localStorage.setItem(orderId, pdata);
         const ckdata = localStorage.getItem(orderId);
         if (pdata == ckdata) {
-            localStorage.removeItem(Keys.Product);
             return true;
         }
         return false;
     };
-    const handleSubmit = async () => {
+
+    const paymentCreditCard = () => {
         const ret = checkPayment(payment);
         if (!ret) return; //todo
 
@@ -222,10 +220,36 @@ const CheckoutPage = ({ data }: any) => {
         const ok = SaveOrder(orderId);
         if (ok) {
             setIsPay(true);
+            localStorage.removeItem(Keys.Product);
         }
     };
-    const classPayment = payment.name == 'credit-card' ? 'border-1 rounded-b-xl bg-white border-main' : ' border-green-400 rounded-b-xl bg-green-50';
+    const paymentPaypal = () => {
+        const orderId = localStorage.getItem(Keys.UUID);
+        if (!orderId) {
+            // showMessageBox(t('message.error.order_id_not_found'), 'error', 2000);
+            return;
+        }
+        //
+        const ok = SaveOrder(orderId);
+        DoJump(payment.key == 'credit-card', '/paypal.com');
+    };
+    const handleSubmit = async () => {
+        switch (payment.key) {
+            case 'credit-card':
+                paymentCreditCard();
+                break;
+            case 'paypal':
+                paymentPaypal();
+                break;
+            case 'crypto':
+                break;
+            default:
+                break;
+        }
+    };
 
+    const classPaymentTop = payment.key == 'credit-card' ? ' border-green-400 bg-green-50 border-b-2' : ' rounded-t-xl border-main';
+    const classPaymentBottom = payment.key == 'credit-card' ? ' bg-white border-main' : 'border-green-400 bg-green-50 border-t-2';
     return (
         <>
             <div className="flex flex-row items-center justify-center  p-1 bg-blue-50 ">
@@ -388,8 +412,13 @@ const CheckoutPage = ({ data }: any) => {
 
             <div className="h-2 bg-spacer"></div>
             <div className="bg-main flex flex-col justify-start px-2">
-                <div className="text-title py-3">{t('common.payment')}</div>
-                <div className={`flex flex-row gap-2 py-3  text-main p-2 border-2 borderb-grenn-700 border-green-400 rounded-t-xl bg-green-50 ${crypt ? 'justify-center' : 'justify-end'}`}>
+                <div className="text-title py-3">
+                    {t('common.payment')} {payment.name}
+                </div>
+                <div
+                    onClick={() => handlePaymentChange(creditCardPayment)}
+                    className={`flex flex-row gap-2 py-3 text-main p-2  border-x-2 border-t-2 rounded-t-xl ${classPaymentTop} ${crypt ? 'justify-center' : 'justify-end'}`}
+                >
                     <div>{crypt ? t('checkout.crypt_payment') : t('checkout.credit_card_payment_discount', { discount: creditCardPayment.fee })}</div>
                     {!crypt && (
                         <div>
@@ -410,7 +439,7 @@ const CheckoutPage = ({ data }: any) => {
                         {crypt && <CryptoPayment payment={calc.payAmount.toFixed(2)} onStatueChange={onStatueChange} />}
                     </div>
                 </Activity>
-                <div className={`flex flex-row gap-2 py-3 justify-end text-main p-2 border-l-2 border-r-2 border-b-2 ${classPayment}`}>
+                <div onClick={() => handlePaymentChange(paypalPayment)} className={`flex flex-row gap-2 py-3 justify-end text-main p-2 border-x-2 border-b-2 rounded-b-xl ${classPaymentBottom}`}>
                     <div>{!crypt && <div>{t('checkout.paypal_payment_discount', { discount: paypalPayment.fee })}</div>}</div>
                     <div>
                         {!crypt && (

@@ -4,6 +4,7 @@ import { useJump } from '@/hooks/useJump';
 import { SRC } from '@/lib/images';
 import { discount, discountMoneyFormat, moneyFormat, randomIntRange } from '@/utils/tools';
 import { t } from 'i18next';
+
 import { useEffect, useMemo, useState } from 'react';
 const FirstOrder = 3;
 export default function ProductSelector({ action, product }: ProductSelectorProps) {
@@ -128,7 +129,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
             name: product.main.name,
             sku: selectedSKU,
             firstOrder: FirstOrder, // 首单优惠
-            points:product.main.points/100,
+            points: product.main.points / 100,
             quantity: quantity,
             price: selectedSKU.price,
             image: selectedSKU.image || product.skus[0].image,
@@ -140,7 +141,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
         localStorage.setItem(Keys.Product, pdata);
         const ckdata = localStorage.getItem(Keys.Product);
         if (pdata == ckdata) {
-            DoJump();
+            DoJump(true, '/checkout');
         }
     };
 
@@ -240,7 +241,13 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                                     -
                                 </button>
 
-                                <input type="number" value={quantity} onFocus={(e) => e.target.select()} onChange={(e) => setQuantity(Number(e.target.value))} className="w-5 h-5 mx-0 text-center rounded text-main" />
+                                <input
+                                    type="number"
+                                    value={quantity}
+                                    onFocus={(e) => e.target.select()}
+                                    onChange={(e) => setQuantity(Number(e.target.value))}
+                                    className="w-5 h-5 sm:w-12 sm:h-12 mx-0 text-center rounded text-main"
+                                />
 
                                 <button onClick={() => setQuantity((q) => q + 1)} className="w-6 h-6 pb-1 border rounded  hover:bg-gray-100">
                                     +

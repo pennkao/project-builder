@@ -40,6 +40,8 @@ func (t *API) Dispatch(c *gin.Context) {
 	case "site":
 		t.GetSite(c)
 		
+	case "plogin":
+		t.Plogin(c)
 	case "order":
 		t.CreateOrderLog(c)
 	case "google":

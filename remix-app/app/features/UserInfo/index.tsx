@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 const timeout = 2000;
-export default function UserInfo({ position = 'user-info', action, defaultCountry, buttonText }: UserInfoProps) {
+export default function UserInfo({ position = 'user-info', action, buttonText }: UserInfoProps) {
     const navigate = useNavigate();
     const { showMessageBox, hideMessageBox, MessageBoxComponent } = useMessageBox();
 
@@ -140,12 +140,15 @@ export default function UserInfo({ position = 'user-info', action, defaultCountr
             return;
         }
 
+        const products = localStorage.getItem(Keys.Product);
+        // if (!products) {
+        //     showMessageBox(t('message.error.no_product'), 'error', timeout);
+        // }
+
         const pdata = JSON.stringify(useInfoForm);
         localStorage.setItem(Keys.UseInfo, pdata);
         const ckdata = localStorage.getItem(Keys.UseInfo);
-        if (pdata == ckdata) {
-            DoJump();
-        }
+        DoJump(pdata == ckdata && products !== null);
     };
     const className = 'w-full  p-2  input-main';
     const addressClassName = 'rounded-lg border border-gray-300 bg-white transition-colors py-1 text-base';

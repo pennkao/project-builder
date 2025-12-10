@@ -8,6 +8,7 @@ export default [
         route('checkout', 'routes/_checkout.tsx'),
         route('checkout/:checkoutId', 'routes/checkout.tsx'),
         route('order-success/:orderId', 'routes/order.tsx'),
+        route('paypal.com', 'routes/pay.tsx'),
         // route("contacts/:contactId/edit", "routes/edit-contact.tsx"),
         // route("contacts/:contactId/destroy", "routes/destroy-contact.tsx"),
         // route("test", "routes/test.tsx"),

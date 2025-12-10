@@ -2,5 +2,5 @@
 
 
 export default function RichTextViewer({ htmlContent, className = '' }: RichTextViewerProps) {
-    return <div className={`rich-text-container ${className}`} dangerouslySetInnerHTML={{ __html: htmlContent }} />;
+    return <div className={`rich-text-container  break-words ${className}`} dangerouslySetInnerHTML={{ __html: htmlContent }} />;
 }

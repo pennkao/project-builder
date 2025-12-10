@@ -28,6 +28,12 @@ func (t *Cms) Deleter(c *gin.Context) {
 		}
 		
 		t.SyncSite(c, req.Id, 0)	
+	case "order-log":
+		err := t.Q.DeleteOrderLog(c.Request.Context(), req.Id)
+		if err != nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}
 	default:
 		hp.Error[any](c, "Not Found")
 	}

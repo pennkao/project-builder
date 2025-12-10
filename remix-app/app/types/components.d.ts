@@ -11,7 +11,6 @@ interface UserInfoProps extends AddressProps {
     position?: string;
     buttonText?: string;
     action: (str: string) => void;
-    defaultCountry?: CountryType;
 }
 interface BottomSheetProps {
     open: boolean;

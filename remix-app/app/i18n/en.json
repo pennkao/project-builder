@@ -146,7 +146,7 @@
     "message.card.invalidName": "Please enter the cardholder's name",
     "message.card.invalidCVC": "Please enter the CVC",
     "message.card.invalidExpiry": "Please enter a valid expiry date",
-
+    "message.error.no_product": "Please select a product.",
     "hello": "Welcome to My DApp",
 
     "welcome": "Welcome to My DApp",

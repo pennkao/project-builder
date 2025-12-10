@@ -141,3 +141,12 @@ func (q *Queries) CreateOrderLogs(ctx context.Context, arg CreateOrderLogsParams
 	)
 	return err
 }
+
+const deleteOrderLog = `-- name: DeleteOrderLog :exec
+DELETE FROM order_logs WHERE id = $1
+`
+
+func (q *Queries) DeleteOrderLog(ctx context.Context, id int64) error {
+	_, err := q.db.Exec(ctx, deleteOrderLog, id)
+	return err
+}

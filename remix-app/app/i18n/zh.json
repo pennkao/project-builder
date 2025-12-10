@@ -54,7 +54,7 @@
     "product.continue": "继续",
     "product.pay_amount": "支付金额",
 
-    "product.price":"${{price}}",
+    "product.price": "${{price}}",
 
     "product.detail.marketing.label1": "超值兑",
     "product.detail.marketing.label2": "可积分抵扣",
@@ -142,7 +142,7 @@
     "message.card.invalidName": "请输入有效姓名",
     "message.card.invalidCVC": "请输入卡号CVC",
     "message.card.invalidExpiry": "请输入正确的过期日期",
-
+    "message.error.no_product": "请选择商品",
     "hello": "欢迎使用我的 DApp",
 
     "welcome": "欢迎使用我的 DApp",
