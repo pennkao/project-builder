@@ -237,7 +237,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                             </div>
 
                             <div className="flex items-center gap-1 mt-4">
-                                <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="w-6 h-6 border rounded  hover:bg-gray-100">
+                                <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} className="w-7 h-7 no-spinner border rounded  hover:bg-gray-100">
                                     -
                                 </button>
 
@@ -249,7 +249,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
                                     className="w-5 h-5 sm:w-12 sm:h-12 mx-0 text-center rounded text-main"
                                 />
 
-                                <button onClick={() => setQuantity((q) => q + 1)} className="w-6 h-6 pb-1 border rounded  hover:bg-gray-100">
+                                <button onClick={() => setQuantity((q) => q + 1)} className="w-7 h-7 border rounded  hover:bg-gray-100">
                                     +
                                 </button>
 
