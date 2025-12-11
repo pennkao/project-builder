@@ -25,6 +25,8 @@ export const config = {
     WS_URL: import.meta.env.VITE_WS_URL || 'ws://localhost:8080/wss/chat',
     CONTENT_PREFIX: import.meta.env.VITE_CONTENT_PREFIX || '/public/images/',
     CONTENT_REPLACE: import.meta.env.VITE_CONTENT_REPLACE || '{{@#base_url#@}}',
+    SEARCH_SITE: import.meta.env.VITE_SEARCH_SITE || 'http://localhost:8080',
+    SEARCH_WORD: import.meta.env.VITE_SEARCH_KEYWORD || 'ABC', // 搜索关键词
     FallBacks: [
         'https://cdn1.example.com/', //
         'https://cdn2.example.com/',

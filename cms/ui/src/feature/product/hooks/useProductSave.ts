@@ -58,7 +58,7 @@ export function useProductSave(productId: number, productData: ProductType, prod
             await message('Add product failed');
             return;
         }
-        navigate('/products-list');
+        navigate('/products');
     };
 
     const updateProduct = async () => {
@@ -77,7 +77,7 @@ export function useProductSave(productId: number, productData: ProductType, prod
         if (!confirm) return false;
 
         productData.content = encontent(productData.content);
-    
+
         const res = await api.batchPost([
             api.Params('update-product', denormalizeProduct(formatNumbers(productData.main))),
             api.Params('update-product-content', { product_id: productId, content: productData.content }),
@@ -96,7 +96,7 @@ export function useProductSave(productId: number, productData: ProductType, prod
             await message('Add product failed');
             return;
         }
-        navigate('/products-list');
+        navigate('/products');
     };
 
     return { saveProduct, updateProduct };

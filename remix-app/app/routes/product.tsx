@@ -10,16 +10,17 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     const { handle } = params;
     const api = createApi();
     const id = fnv1a32(handle);
-    const res = await api.setHeader('Origin', 'http://localhost:5174').doGet<ProductType>('product', { id: id });
-    if (!res) return null;
+    const url = new URL(request.url);
+    const origin = url.origin;
+    const res = await api.setHeader('Origin', origin).doGet<ProductType>('product', { id: id });
+    if (!res) throw new Response('Not found', { status: 404 });
+
     return denormalizeProduct(res);
 };
 
 export default function Product({ loaderData }: Route.ComponentProps) {
     const data = loaderData;
-    if (!data) {
-        return <div>Product not found</div>;
-    }
+
     return (
         <>
             <ProductPage productData={data} />

@@ -1,0 +1,9 @@
+VITE_APP_NAME=MyApp4
+VITE_API_URL=http://localhost:8080/backend/api/
+VITE_IMAGE_URL=http://localhost:8080/public/images/
+VITE_CDN_URL=http://localhost:8080/images/
+VITE_WS_URL=ws://localhost:8080/backend/ws/chat
+VITE_CONTENT_PREFIX=/public/images/
+VITE_CONTENT_REPLACE='{{@#base_url#@}}'
+VITE_SEARCH_SITE=http://192.168.1.20:808
+VITE_SEARCH_KEYWORD=ABC

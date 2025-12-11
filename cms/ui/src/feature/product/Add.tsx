@@ -61,7 +61,7 @@ export default function Add() {
                     <Button
                         variant="outline"
                         onClick={() => {
-                            navigate('/products-list');
+                            navigate('/products');
                         }}
                     >
                         Draft

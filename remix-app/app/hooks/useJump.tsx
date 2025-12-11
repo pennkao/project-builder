@@ -1,7 +1,7 @@
 // hooks/useElementVisibility.ts
 import LoadingOverlay from '@/components/LoadingOverlay';
 import { Keys } from '@/config/keys';
-import { hashString } from '@/utils/tools';
+import { sha256 } from '@/utils/tools';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 export const useJump = (start: string, switcher?: (str: string) => void) => {
@@ -10,7 +10,8 @@ export const useJump = (start: string, switcher?: (str: string) => void) => {
 
     const DoJump = async (ok: boolean, target?: string) => {
         setIsLoading(true);
-        const hash = await hashString(new Date().toISOString().substring(0, 10));
+
+        const hash = await sha256(new Date().toISOString().substring(0, 10));
         setTimeout(() => {
             setIsLoading(false);
 

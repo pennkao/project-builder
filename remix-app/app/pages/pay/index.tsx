@@ -24,9 +24,15 @@ const PayPage = ({ data }: any) => {
     }, []);
 
     const handleFocus = () => {
-        setTimeout(() => ref.current?.focus(), 0); // ⭐ 自动 focus，解决条件渲染问题
         setFocus(true);
     };
+
+    // 每次 focus 变为 true，就让 input 聚焦
+    useEffect(() => {
+        if (focus && ref.current) {
+            ref.current.focus();
+        }
+    }, [focus]);
 
     const handleNext = (istep: string) => {
         if (account === '') {

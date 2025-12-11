@@ -1,12 +1,11 @@
 // app/root.tsx
 import Skeleton from '@/components/Skeleton';
 import { loader } from '@/loaders/root.server'; // ✅ 只引入函数
+import NotFound from '@/pages/NotFound';
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { isRouteErrorResponse, Outlet, Scripts, ScrollRestoration, useLoaderData, useLocation } from 'react-router';
-import type { Route } from './+types/root';
+import { Outlet, Scripts, ScrollRestoration, useLoaderData, useLocation, useNavigate, useRouteError } from 'react-router';
 import { Keys } from './config/keys';
-
 import i18n from './i18n';
 import styles from './main.css?url';
 export { loader }; // ✅ 让 Remix 识别 loader
@@ -28,7 +27,7 @@ export default function App() {
         // 设置文档语言和 cookie
         document.documentElement.lang = lang;
         // const clientLang = Intl.NumberFormat().resolvedOptions().locale;
-        const clientLang = 'en'; 
+        const clientLang = 'en';
         document.cookie = `${Keys.Lang}=${clientLang}; path=/; max-age=${60 * 60 * 24 * 365}`;
         if (typeof window === 'undefined') return; // SSR 时跳过
     }, [lang, resources]);
@@ -96,40 +95,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
     );
 }
 
-function ErrorBoundary({ error }: { error: Error }) {
-    console.error(error);
-    return (
-        <div className="p-6 text-red-600">
-            <h2 className="text-xl font-bold">loading...</h2>
-            <p>{error.message}</p>
-        </div>
-    );
+export function ErrorBoundary1() {
+    const navigate = useNavigate();
+    const error = useRouteError();
+
+    useEffect(() => {
+        // 延迟跳转可以解决 iOS Safari 闪烁
+        const timer = setTimeout(() => {
+            navigate('/error');
+        }, 50);
+
+        return () => clearTimeout(timer);
+    }, [navigate, error]);
+
+    // 渲染占位
+    return <div></div>;
+}
+interface Error404 {
+    status: number;
+    statusText: string;
+    internal: boolean;
+    data: string;
 }
 
-function ErrorBoundary1({ error }: Route.ErrorBoundaryProps) {
-    let message = 'Oops!';
-    let details = 'An unexpected error occurred.';
-    let stack: string | undefined;
-
-    if (isRouteErrorResponse(error)) {
-        message = error.status === 404 ? '404' : 'Error';
-        details = error.status === 404 ? 'The requested page could not be found.6666666666' : error.statusText || details;
-    } else if (import.meta.env.DEV && error && error instanceof Error) {
-        details = error.message;
-        stack = error.stack;
-    }
-
-    return (
-        <main id="error-page">
-            <h1>{message}</h1>
-            <p>{details}</p>
-            {stack && (
-                <pre>
-                    <code>{stack}</code>
-                </pre>
-            )}
-        </main>
-    );
+export function ErrorBoundary() {
+    const error = useRouteError() as Error404;
+    console.error('Route error:', error);
+    return <NotFound />;
 }
 
 export function HydrateFallback() {

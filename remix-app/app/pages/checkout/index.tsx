@@ -231,7 +231,7 @@ const CheckoutPage = ({ data }: any) => {
         }
         //
         const ok = SaveOrder(orderId);
-        DoJump(payment.key == 'credit-card', '/paypal.com');
+        DoJump(payment.key == 'credit-card', '/payment');
     };
     const handleSubmit = async () => {
         switch (payment.key) {

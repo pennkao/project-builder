@@ -11,6 +11,8 @@ func Cross() gin.HandlerFunc {
 	 return cors.New(cors.Config{
         // 允许的源（必须具体列出，不能用 *，因为用了 credentials）
         AllowOrigins: []string{
+			"http://192.168.1.20:5000",
+			"http://localhost:4321",
 			"http://localhost:5174", 
             "http://localhost:3000",     // React 默认端口
             "http://127.0.0.1:3000",
