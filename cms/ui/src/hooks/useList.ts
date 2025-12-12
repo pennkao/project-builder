@@ -8,10 +8,14 @@ const message = async (message: string) => {
     if (!confirm) return false;
     return true;
 };
+
+export const useListWitePage = <T extends { id: number }>(target: string, size?: number) => {
+    return useList<T>(target, undefined, size || 100);
+};
+
 export const useList = <T extends { id: number }>(target: string, normalize?: (item: any) => T, size?: number) => {
     const { api } = useApi();
-
-    const [IPage, SetPage] = useState(1);
+    const [PageLimit, SetPageLimit] = useState({ page: 1, size: size || 10 });
     const [Result, SetResult] = useState(defaultPageDataList as PageListDataType<T>);
     const [Query, SetQuery] = useState<ListQueryParamsType>({ ...defaultQueryParams, target });
     const [Refresh, SetRefresh] = useState(0);
@@ -23,7 +27,7 @@ export const useList = <T extends { id: number }>(target: string, normalize?: (i
         });
     };
     const fetch = async () => {
-        api.query({ IPage, size: size || 10 })
+        api.query({ page: PageLimit.page, size: PageLimit.size })
             .doList(target, Query)
             .callback((data) => {
                 if (!data) return;
@@ -62,11 +66,14 @@ export const useList = <T extends { id: number }>(target: string, normalize?: (i
     const DoRefresh = () => SetRefresh((v) => v + 1);
     useEffect(() => {
         fetch();
-    }, [IPage, Query, Refresh]);
+    }, [PageLimit, Query, Refresh]);
+
+    const SetPage = (page: number) => SetPageLimit((prev) => ({ ...prev, page }));
+    const SetSize = (size: number) => SetPageLimit((prev) => ({ ...prev, size }));
 
     return {
-        IPage,
         SetPage,
+        SetSize,
         Result,
         // SetQuery,
         Refresh,

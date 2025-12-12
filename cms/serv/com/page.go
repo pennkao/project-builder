@@ -16,6 +16,7 @@ type PageResponse struct {
 func NewPage(c *gin.Context) *PageResponse {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	size, _ := strconv.Atoi(c.DefaultQuery("size", "10"))
+
 	return &PageResponse{
 		Page:  int32(page),
 		Size:  int32(size),

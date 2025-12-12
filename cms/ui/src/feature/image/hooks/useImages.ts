@@ -1,25 +1,8 @@
-import { defaultPageDataList } from '@/defaults';
 import { useApi } from '@/hooks/useApi';
 import { isValidUrl } from '@/utils/tools';
-import { useEffect, useState } from 'react';
-export const useImages = () => {
+export const useImages = (callback: () => void) => {
     const { api } = useApi();
-    const [data, setData] = useState<PageListDataType<ImageType>>({ ...defaultPageDataList, size: 100 });
-    const [page, setPage] = useState(1);
 
-    useEffect(() => {
-        doLoadIamges();
-    }, [page]);
-
-    const doLoadIamges = () => {
-        api.query({ page: page, size: 50 })
-            .doList('image')
-            .callback((images) => {
-                if (images) {
-                    setData(images);
-                }
-            });
-    };
     const addImages = (images: string[], callback: () => void) => {
         api.Post('add-images', { images: images }).callback((ok) => {
             if (ok) callback();
@@ -37,8 +20,8 @@ export const useImages = () => {
             return;
         }
         addImages(imageArr, () => {
-            doLoadIamges();
+            callback();
         });
     };
-    return { data, setPage, handleSubmit };
+    return { handleSubmit };
 };

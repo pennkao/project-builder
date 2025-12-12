@@ -3,13 +3,19 @@ import { Button } from '@/components/elements';
 import TextArea from '@/components/elements/TextArea';
 import { Content, FooterPage, Header, Page } from '@/feature/compos/layout';
 
+import { useListWitePage } from '@/hooks/useList';
 import { MainIcon, PageIcon, PlusIcon } from '@/icons';
 import { SRC } from '@/lib/image';
 import { useState } from 'react';
 import { useImages } from './hooks/useImages';
 
 export default function List() {
-    const { data, setPage, handleSubmit } = useImages();
+    const { Result, SetPage, DoRefresh } = useListWitePage<ImageType>('image', 100);
+
+    const { handleSubmit } = useImages(() => {
+        DoRefresh();
+    });
+
     const [images, setImages] = useState('');
     const [toClose, setToClose] = useState<number | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
@@ -41,8 +47,8 @@ export default function List() {
                 </Header>
                 <Content className="flex flex-row justify-start sm:px-2 px-9">
                     <div className="flex flex-row justify-start flex-wrap gap-6 sm:gap-1 md:gap-5 xl:gap-2.5 ">
-                        {data?.list?.length === 0 && <div className="text-center">No images found</div>}
-                        {data?.list?.map((item, index) => (
+                        {Result?.list?.length === 0 && <div className="text-center">No images found</div>}
+                        {Result?.list?.map((item, index) => (
                             <div key={index}>
                                 <div className={`relative border border-red-500 ${className}`} onClick={() => setPreview(item.url)}>
                                     <span className="text-xs text-gray-500 absolute top-1 left-1">
@@ -59,7 +65,7 @@ export default function List() {
                     </div>
                     <ImageView src={SRC(preview || '')} onClick={() => setPreview(null)} />
                 </Content>
-                <FooterPage currentPage={data?.page} pageSize={data?.size} totalCount={data?.total} onPageChange={setPage} />
+                <FooterPage currentPage={Result?.page} pageSize={Result?.size || 10} totalCount={Result?.total || 0} onPageChange={(page) => SetPage(page)} />
             </Page>
         </>
     );
