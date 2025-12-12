@@ -152,5 +152,18 @@
     "welcome": "Welcome to My DApp",
     "login": "Log In",
     "logout": "Log Out",
-    "shipping.days": "Shipping Time"
+    "shipping.days": "Shipping Time",
+
+    "paypal.forgot_password": "Forgot your email?",
+    "paypal.email_mobile": "Email or mobile number",
+    "paypal.change_account": "Change Account",
+    "paypal.password": "Password",
+    "paypal.next": "Next",
+    "paypal.contact": "Contact Us",
+    "paypal.privacy": "Privacy Policy",
+    "paypal.Legal": "Legal",
+    "paypal.or": "or",
+    "paypal.worldwide": "Worldwide",
+    "paypal.login": "Log In",
+    "paypal.sign_up": "Sign Up"
 }

@@ -22,7 +22,12 @@ func (t *Cms) Updater(c *gin.Context) {
 		err := t.ProductUpdater(c.Request.Context(), req)
 		hp.Response(c, nil, err)
 	case "site":
+
 		err := t.SiteUpdater(c.Request.Context(), req)
+		if err != nil {
+			hp.Error[any](c, err.Error())
+			return
+		}
 		hp.Response(c, nil, err)
 	case "image":
 		// category, err := t.Q.(c.Request.Context(), req.Id)
@@ -33,7 +38,28 @@ func (t *Cms) Updater(c *gin.Context) {
 }
 
 func (t *Cms) SiteUpdater(ctx context.Context, params hq.UpdaterReq) error {
-	
+		if params.Dtype == "status" {
+
+			site, err := t.Q.GetSite(ctx, params.Id)
+			if err != nil {
+				return err	
+			}
+			status := int16(params.Value.(float64))
+			if status == 0 {
+			    AddDomain(site.Domain)
+			} else {
+			    DeleteDomain(site.Domain)
+			}
+
+			err = t.Q.SwitchSiteStatus(ctx, db.SwitchSiteStatusParams{
+				ID:     params.Id,
+				Status: status,
+			})
+			if err != nil {
+				return err
+			}
+			return nil
+		}
 	return nil
 }
 
@@ -43,13 +69,13 @@ func (t *Cms) ProductUpdater(ctx context.Context, params hq.UpdaterReq) error {
 	case "status":
 		err := t.Q.UpdateProductStatus(ctx, db.UpdateProductStatusParams{
 			ID:     params.Id,
-			Status: 1,
+			Status: int16(params.Value.(float64)),
 		})
 		return err
 	case "sku_num":
 		err := t.Q.UpdateProductMainSkuNum(ctx, db.UpdateProductMainSkuNumParams{
 			ID:     params.Id,
-			SkuNum: 1,
+			SkuNum: int16(params.Value.(float64)),
 		})
 		return err
 	default:

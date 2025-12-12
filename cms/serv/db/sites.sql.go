@@ -69,8 +69,37 @@ func (q *Queries) FetchSite(ctx context.Context, id int64) (FetchSiteRow, error)
 	return i, err
 }
 
+const getDomains = `-- name: GetDomains :many
+SELECT id,domain FROM sites WHERE status = 0
+`
+
+type GetDomainsRow struct {
+	ID     int64  `json:"id"`
+	Domain string `json:"domain"`
+}
+
+func (q *Queries) GetDomains(ctx context.Context) ([]GetDomainsRow, error) {
+	rows, err := q.db.Query(ctx, getDomains)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetDomainsRow
+	for rows.Next() {
+		var i GetDomainsRow
+		if err := rows.Scan(&i.ID, &i.Domain); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getSite = `-- name: GetSite :one
-SELECT id, name, domain, stype, site, config, cts, uts FROM sites WHERE id = $1
+SELECT id, name, domain, status, stype, site, config, cts, uts FROM sites WHERE id = $1
 `
 
 func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
@@ -80,6 +109,7 @@ func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
 		&i.ID,
 		&i.Name,
 		&i.Domain,
+		&i.Status,
 		&i.Stype,
 		&i.Site,
 		&i.Config,
@@ -90,7 +120,7 @@ func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
 }
 
 const siteList = `-- name: SiteList :many
-SELECT id, name, domain, stype, site, config, cts, uts FROM sites ORDER BY uts DESC
+SELECT id, name, domain, status, stype, site, config, cts, uts FROM sites ORDER BY uts DESC
 `
 
 func (q *Queries) SiteList(ctx context.Context) ([]Site, error) {
@@ -106,6 +136,7 @@ func (q *Queries) SiteList(ctx context.Context) ([]Site, error) {
 			&i.ID,
 			&i.Name,
 			&i.Domain,
+			&i.Status,
 			&i.Stype,
 			&i.Site,
 			&i.Config,
@@ -120,6 +151,23 @@ func (q *Queries) SiteList(ctx context.Context) ([]Site, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const switchSiteStatus = `-- name: SwitchSiteStatus :exec
+UPDATE sites SET
+    status = $1,
+    uts = (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT
+WHERE id = $2
+`
+
+type SwitchSiteStatusParams struct {
+	Status int16 `json:"status"`
+	ID     int64 `json:"id"`
+}
+
+func (q *Queries) SwitchSiteStatus(ctx context.Context, arg SwitchSiteStatusParams) error {
+	_, err := q.db.Exec(ctx, switchSiteStatus, arg.Status, arg.ID)
+	return err
 }
 
 const updateSite = `-- name: UpdateSite :exec

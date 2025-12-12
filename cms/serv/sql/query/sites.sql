@@ -28,5 +28,14 @@ WHERE id = $6;
 -- name: DeleteSite :exec
 DELETE FROM sites WHERE id = $1;
 
+-- name: SwitchSiteStatus :exec
+UPDATE sites SET
+    status = $1,
+    uts = (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT
+WHERE id = $2;  
+
 -- name: FetchSite :one
 SELECT site,config FROM sites WHERE id = $1;
+
+-- name: GetDomains :many
+SELECT id,domain FROM sites WHERE status = 0;

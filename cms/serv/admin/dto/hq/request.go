@@ -28,14 +28,14 @@ type UpdaterReq struct {
 	Id     int64  `json:"id" binding:"required"`
 	Target string `json:"target" binding:"required"`
 	Dtype string  `json:"dtype" binding:"required"`
-	Value string  `json:"value" binding:"required"`
+	Value interface{}  `json:"value" binding:"required"`
 }
 
 type UpdatersReq struct {
 	Ids    []int64 `json:"ids" binding:"required"` // 数组必须存在且非 nil
 	Target string  `json:"target" binding:"required"`
 	Dtype string  `json:"dtype" binding:"required"`
-	Value string  `json:"value" binding:"required"`
+	Value interface{}  `json:"value" binding:"required"`
 }
 // ==================
 type ProductHandleReq struct {

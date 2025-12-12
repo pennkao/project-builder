@@ -22,8 +22,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to create database pool: %v", err)
 	}
+		
 	apiQuery := api.NewApi(db, query)
 	cmsQuery := admin.NewCms(db, query)
+	cmsQuery.InitOrigins()
 	r := router.SetupRouter(apiQuery, cmsQuery)
     // 提供前端静态资源
 	// Start server on port 8080 (default)

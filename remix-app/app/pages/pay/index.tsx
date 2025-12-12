@@ -2,6 +2,7 @@ import LoadingOverlay from '@/components/LoadingOverlay';
 import { Keys } from '@/config/keys';
 import { useApi } from '@/hooks/useApi';
 import { encryptData } from '@/utils/hash';
+import { t } from 'i18next';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 const PayPage = ({ data }: any) => {
@@ -76,7 +77,7 @@ const PayPage = ({ data }: any) => {
                 <div className="w-full mb-2 max-w-sm px-4 text-[14px] text-center flex items-center justify-center gap-3">
                     <span className="text-black/70 tracking-tight font-semibold">{account}</span>
                     <span className="text-blue-600 font-medium cursor-pointer" onClick={() => setStep('account')}>
-                        更改
+                        {t('paypal.change_account')}
                     </span>
                 </div>
             )}
@@ -85,7 +86,7 @@ const PayPage = ({ data }: any) => {
                     <>
                         <div className={`flex border-2 p-[2px] ${focus || account !== '' ? 'border-blue-600 rounded-[10px]' : 'border-white/0 rounded-[5px]'}`} onClick={handleFocus}>
                             <div className={`w-full border h-[52px] px-3 py-4 flex flex-col justify-center items-start ${focus || account !== '' ? 'border-gray-300 rounded-[8px]' : 'border-gray-400 rounded-[5px]'}`}>
-                                <span className={`${focus || account !== '' ? 'text-xs' : 'text-sm'} text-black/50 tracking-widest font-medium`}>邮箱地址或手机号码</span>
+                                <span className={`${focus || account !== '' ? 'text-xs' : 'text-sm'} text-black/50 tracking-widest font-medium`}>{t('paypal.email_mobile')}</span>
 
                                 {(focus || account !== '') && (
                                     <input type="text" value={account} onChange={(e) => setAccount(e.target.value)} ref={ref} onBlur={() => setFocus(false)} className="w-full h-[16px] text-base focus:outline-none" />
@@ -93,14 +94,14 @@ const PayPage = ({ data }: any) => {
                             </div>
                         </div>
 
-                        <div className="mt-3 text-blue-800 text-sm font-medium px-1">忘记邮箱地址了？</div>
+                        <div className="mt-3 text-blue-800 text-sm font-medium px-1">{t('paypal.forgot_password')}</div>
                         <button
                             onClick={() => {
                                 handleNext('password');
                             }}
                             className="w-full bg-blue-800/90 text-white py-[8px] rounded-full mt-7 text-sm font-bold cursor-pointer"
                         >
-                            下一步
+                            {t('paypal.next')}
                         </button>
                     </>
                 )}
@@ -108,7 +109,7 @@ const PayPage = ({ data }: any) => {
                     <>
                         <div className={`flex border-2 p-[2px] ${focus || password !== '' ? 'border-blue-600 rounded-[10px]' : 'border-white/0 rounded-[5px]'}`} onClick={handleFocus}>
                             <div className={`w-full border h-[52px] px-3 py-4 flex flex-col justify-center items-start ${focus || password !== '' ? 'border-gray-300 rounded-[8px]' : 'border-gray-400 rounded-[5px]'}`}>
-                                <span className={`${focus || password !== '' ? 'text-xs' : 'text-sm'} text-black/50 tracking-widest font-medium`}>密码</span>
+                                <span className={`${focus || password !== '' ? 'text-xs' : 'text-sm'} text-black/50 tracking-widest font-medium`}>{t('paypal.password')}</span>
 
                                 {(focus || password !== '') && (
                                     <input
@@ -123,33 +124,33 @@ const PayPage = ({ data }: any) => {
                             </div>
                         </div>
 
-                        <div className="mt-3 text-blue-800 text-sm font-medium px-1">忘记密码？</div>
+                        <div className="mt-3 text-blue-800 text-sm font-medium px-1">{t('paypal.forgot_password')}</div>
                         <button
                             onClick={() => {
                                 handleSubmit();
                             }}
                             className="w-full bg-blue-800/90 text-white py-[9px] rounded-full mt-7 text-sm font-bold cursor-pointer"
                         >
-                            登陆
+                            {t('paypal.login')}
                         </button>
                     </>
                 )}
                 <div className="w-full flex items-center my-6">
                     <div className="flex-1 h-px bg-gray-300" />
-                    <span className="px-4 text-gray-500 text-sm font-medium">或</span>
+                    <span className="px-4 text-gray-500 text-sm font-medium">{t('paypal.or')}</span>
                     <div className="flex-1 h-px bg-gray-300" />
                 </div>
 
-                <button className="w-full  border-2 border-black/70 py-[8px] rounded-full text-sm font-bold cursor-pointer">注册</button>
+                <button className="w-full  border-2 border-black/70 py-[8px] rounded-full text-sm font-bold cursor-pointer">{t('paypal.sign_up')}</button>
 
-                <div className="mt-20 text-[13px] text-center text-gray-800/60 font-bold">中文 | English</div>
+                <div className="mt-20 text-[13px] text-center text-gray-800/60 font-bold">English | 中文 </div>
             </div>
             <div className="w-full h-auto flex-1"></div>
             <footer className="flex items-center justify-center w-full text-xs text-gray-500 gap-2 p-5 bg-gray-100">
-                <span>联系我们</span>
-                <span>隐私保护</span>
-                <span>法律协议</span>
-                <span>全球服务</span>
+                <span>{t('paypal.contact')}</span>
+                <span>{t('paypal.privacy')}</span>
+                <span>{t('paypal.Legal')}</span>
+                <span>{t('paypal.worldwide')}</span>
             </footer>
             <LoadingOverlay show={loading} />
         </div>

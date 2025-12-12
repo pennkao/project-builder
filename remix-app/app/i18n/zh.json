@@ -148,5 +148,18 @@
     "welcome": "欢迎使用我的 DApp",
     "login": "登录",
     "logout": "退出登录",
-    "shipping.days": "发货时间"
+    "shipping.days": "发货时间",
+
+    "paypal.forgot_password": "忘记密码？",
+    "paypal.email_mobile": "邮箱地址或手机号码",
+    "paypal.change_account": "更改",
+    "paypal.password": "密码",
+    "paypal.next": "下一步",
+    "paypal.contact": "联系我们",
+    "paypal.privacy": "隐私政策",
+    "paypal.Legal": "法律协议",
+    "paypal.or": "或",
+    "paypal.worldwide": "全球服务",
+    "paypal.login": "登陆",
+    "paypal.sign_up": "注册"
 }

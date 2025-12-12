@@ -1,15 +1,28 @@
-import { Button } from '@/components/elements';
+import { Button, Switch } from '@/components/elements';
 import { Content, Footer, Header, Page } from '@/feature/compos/layout';
 import { List, type ListColumn } from '@/feature/compos/list';
+import { useApi } from '@/hooks/useApi';
 import { useList } from '@/hooks/useList';
+
 import { DownloadIcon, PlusIcon } from '@/icons';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { Link, useNavigate } from 'react-router';
 export function SitesList() {
     const navigator = useNavigate();
-    // const { result, Delete } = useSite();
-    const { result, Delete } = useList<SiteType>('site');
+    const { api } = useApi();
 
+    const { result, Delete } = useList<SiteType>('site');
+    const SwitchSiteStatus = (data: { id: number; status: number }) => {
+        if (data.id === 0) {
+            return;
+        }
+        api.Post('updater', {
+            id: data.id,
+            target: 'site',
+            dtype: 'status',
+            value: data.status,
+        });
+    };
     const siteColumns: ListColumn<SiteType>[] = [
         {
             key: 'id',
@@ -22,6 +35,24 @@ export function SitesList() {
             sortable: false,
         },
         { key: 'domain', label: 'Domain', sortable: false },
+        {
+            key: 'status',
+            label: 'Status',
+            sortable: false,
+            render: (item?: SiteType) => (
+                <Switch
+                    onChange={(checked) => {
+                        SwitchSiteStatus({
+                            id: item?.id || 0,
+                            status: checked ? 0 : 1,
+                        });
+                    }}
+                    label={item?.status === 0 ? 'Active' : 'Inactive'}
+                    defaultChecked={item?.status === 0}
+                    disabled={item?.status === 1}
+                />
+            ),
+        },
         { key: 'stype', label: 'Type', sortable: false },
 
         { key: 'uts', label: 'Update Date', sortable: false, render: (item?: SiteType) => formatDate(item?.uts || 0) },

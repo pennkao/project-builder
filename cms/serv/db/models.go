@@ -229,6 +229,7 @@ type Site struct {
 	ID     int64        `json:"id"`
 	Name   string       `json:"name"`
 	Domain string       `json:"domain"`
+	Status int16        `json:"status"`
 	Stype  string       `json:"stype"`
 	Site   dbtypes.JSON `json:"site"`
 	Config dbtypes.JSON `json:"config"`

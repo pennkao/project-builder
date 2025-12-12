@@ -9,15 +9,14 @@ import (
 	"github.com/cms/api"          // 前端接口
 	"github.com/cms/api/md"
 	"github.com/cms/com/ws"
-	"github.com/cms/cross" // 前端接口中间件
-
+	"github.com/cms/cross"
 	"github.com/gin-gonic/gin"
 )
 
 
 func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 	r := gin.Default()
-	r.Use(cross.Cross())
+	r.Use(cross.Cross2())
 	// 1️⃣ 静态资源 开放
 	r.Static("/public",  "./public")
 
