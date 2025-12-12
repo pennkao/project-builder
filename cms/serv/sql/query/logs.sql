@@ -15,3 +15,6 @@ SELECT count(*) FROM logs;
 
 -- name: BaseLogsListSql :many
 SELECT * FROM logs;
+
+-- name: BatchDeleteLogs :exec
+DELETE FROM logs WHERE id = ANY(sqlc.arg(ids)::bigint[]);

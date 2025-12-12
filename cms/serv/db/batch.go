@@ -86,7 +86,7 @@ func (b *BatchCreateImagesBatchResults) Close() error {
 const batchCreateProductSkus = `-- name: BatchCreateProductSkus :batchexec
 INSERT INTO product_skus (
     product_id,
-    name,
+    title,
     code,
     image,
     price,
@@ -110,7 +110,7 @@ type BatchCreateProductSkusBatchResults struct {
 
 type BatchCreateProductSkusParams struct {
 	ProductID int64        `json:"product_id"`
-	Name      string       `json:"name"`
+	Title     string       `json:"title"`
 	Code      string       `json:"code"`
 	Image     string       `json:"image"`
 	Price     int64        `json:"price"`
@@ -128,7 +128,7 @@ func (q *Queries) BatchCreateProductSkus(ctx context.Context, arg []BatchCreateP
 	for _, a := range arg {
 		vals := []interface{}{
 			a.ProductID,
-			a.Name,
+			a.Title,
 			a.Code,
 			a.Image,
 			a.Price,
@@ -167,53 +167,10 @@ func (b *BatchCreateProductSkusBatchResults) Close() error {
 	return b.br.Close()
 }
 
-const batchDeleteProducts = `-- name: BatchDeleteProducts :batchexec
-DELETE FROM products WHERE id = $1
-`
-
-type BatchDeleteProductsBatchResults struct {
-	br     pgx.BatchResults
-	tot    int
-	closed bool
-}
-
-func (q *Queries) BatchDeleteProducts(ctx context.Context, id []int64) *BatchDeleteProductsBatchResults {
-	batch := &pgx.Batch{}
-	for _, a := range id {
-		vals := []interface{}{
-			a,
-		}
-		batch.Queue(batchDeleteProducts, vals...)
-	}
-	br := q.db.SendBatch(ctx, batch)
-	return &BatchDeleteProductsBatchResults{br, len(id), false}
-}
-
-func (b *BatchDeleteProductsBatchResults) Exec(f func(int, error)) {
-	defer b.br.Close()
-	for t := 0; t < b.tot; t++ {
-		if b.closed {
-			if f != nil {
-				f(t, ErrBatchAlreadyClosed)
-			}
-			continue
-		}
-		_, err := b.br.Exec()
-		if f != nil {
-			f(t, err)
-		}
-	}
-}
-
-func (b *BatchDeleteProductsBatchResults) Close() error {
-	b.closed = true
-	return b.br.Close()
-}
-
 const batchUpdateProductSkus = `-- name: BatchUpdateProductSkus :batchexec
 UPDATE product_skus
 SET
-    name       = $1,
+    title      = $1,
     code       = $2,
     image      = $3,
     price      = $4,
@@ -231,7 +188,7 @@ type BatchUpdateProductSkusBatchResults struct {
 }
 
 type BatchUpdateProductSkusParams struct {
-	Name      string      `json:"name"`
+	Title     string      `json:"title"`
 	Code      string      `json:"code"`
 	Image     string      `json:"image"`
 	Price     int64       `json:"price"`
@@ -247,7 +204,7 @@ func (q *Queries) BatchUpdateProductSkus(ctx context.Context, arg []BatchUpdateP
 	batch := &pgx.Batch{}
 	for _, a := range arg {
 		vals := []interface{}{
-			a.Name,
+			a.Title,
 			a.Code,
 			a.Image,
 			a.Price,

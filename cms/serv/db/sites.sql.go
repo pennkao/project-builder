@@ -11,6 +11,15 @@ import (
 	"github.com/cms/dbtypes"
 )
 
+const batchDeleteSites = `-- name: BatchDeleteSites :exec
+DELETE FROM sites WHERE id = ANY($1::bigint[])
+`
+
+func (q *Queries) BatchDeleteSites(ctx context.Context, ids []int64) error {
+	_, err := q.db.Exec(ctx, batchDeleteSites, ids)
+	return err
+}
+
 const createSite = `-- name: CreateSite :exec
 INSERT INTO sites (
     id,
@@ -41,15 +50,6 @@ func (q *Queries) CreateSite(ctx context.Context, arg CreateSiteParams) error {
 		arg.Site,
 		arg.Config,
 	)
-	return err
-}
-
-const deleteSite = `-- name: DeleteSite :exec
-DELETE FROM sites WHERE id = $1
-`
-
-func (q *Queries) DeleteSite(ctx context.Context, id int64) error {
-	_, err := q.db.Exec(ctx, deleteSite, id)
 	return err
 }
 

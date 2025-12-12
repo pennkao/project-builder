@@ -27,7 +27,7 @@ func (q *Queries) baseProductReviewsCountSql(ctx context.Context) (int64, error)
 const baseProductReviewsListSql = `-- name: baseProductReviewsListSql :many
 SELECT
     p.id,
-    p.name,
+    p.title,
     p.handle,
     p.main_image,
     r.rating,
@@ -43,7 +43,7 @@ LEFT JOIN product_reviews r
 
 type baseProductReviewsListSqlRow struct {
 	ID        int64       `json:"id"`
-	Name      string      `json:"name"`
+	Title     string      `json:"title"`
 	Handle    string      `json:"handle"`
 	MainImage string      `json:"main_image"`
 	Rating    pgtype.Int2 `json:"rating"`
@@ -65,7 +65,7 @@ func (q *Queries) baseProductReviewsListSql(ctx context.Context) ([]baseProductR
 		var i baseProductReviewsListSqlRow
 		if err := rows.Scan(
 			&i.ID,
-			&i.Name,
+			&i.Title,
 			&i.Handle,
 			&i.MainImage,
 			&i.Rating,

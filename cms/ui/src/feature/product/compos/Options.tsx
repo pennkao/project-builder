@@ -103,7 +103,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                     ...defaultSku,
                     product_id: productId > 0 ? productId : 0,
                     id: index,
-                    name: skuAttrArray.map((attr) => attr.value).join('-'),
+                    title: skuAttrArray.map((attr) => attr.value).join('-'),
                     image: productData?.images?.[0] || '',
                     price: productData?.main?.price || 0,
                     stored: 0,
@@ -506,7 +506,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                                         <div key={index}>
                                             <div key={index} className="flex justify-between items-center px-4 hover:bg-gray-100 dark:hover:bg-gray-800">
                                                 <div>
-                                                    <Input type="text" className="w-full px-1 py-2 border-none" value={sku.name} onChange={(e) => handleSkuInput(index, 'name', e.target.value)} />
+                                                    <Input type="text" className="w-full px-1 py-2 border-none" value={sku.title} onChange={(e) => handleSkuInput(index, 'title', e.target.value)} />
                                                 </div>
                                                 <div className="flex gap-4 items-center">
                                                     <div className="flex items-center">

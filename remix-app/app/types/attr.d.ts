@@ -29,7 +29,7 @@ type SkuAttrType = SkuAttrItemType[];
 interface SkuType {
     id: number; // SKU ID
     product_id: number; // 关联商品 ID
-    name: string; // SKU 名称
+    title: string; // SKU 名称
     price: number; // 价格
     image: string;
     attrs: SkuAttrType; // 属性引用

@@ -15,13 +15,14 @@ func (t *Cms) Deleter(c *gin.Context) {
 
 	switch req.Target {
 	case "product":
-		err := t.Q.DeleteProduct(c.Request.Context(), req.Id)
-		if err != nil {
+		err:=t.Q.BatchDeleteProducts(c.Request.Context(), req.Ids)
+		if err!= nil {
 			hp.Error[any](c,  err.Error())
 			return
 		}
+		hp.Success[any](c, nil)
 	case "site":
-		site, err := t.Q.GetSite(c.Request.Context(), req.Id)
+		site, err := t.Q.GetSite(c.Request.Context(), req.Ids[0])
 		if err != nil {
 			hp.Error[any](c,  err.Error())
 			return
@@ -30,22 +31,30 @@ func (t *Cms) Deleter(c *gin.Context) {
 			DeleteDomain(site.Domain)
 		}
 
-		err = t.Q.DeleteSite(c.Request.Context(), req.Id)
-		if err != nil {
-			hp.Error[any](c,  err.Error())
-			return
-		}
-		t.SyncSite(c, req.Id, 0)	
-	case "order-log":
-		err := t.Q.DeleteOrderLog(c.Request.Context(), req.Id)
-		if err != nil {
+		err=t.Q.BatchDeleteSites(c.Request.Context(), req.Ids)
+		if err!= nil {
 			hp.Error[any](c,  err.Error())
 			return
 		}
 
+		t.SyncSite(c, req.Ids[0], 0)	
+		hp.Success[any](c, nil)
+	case "order-log":
+		err:=t.Q.BatchDeleteOrderLogs(c.Request.Context(), req.Ids)
+		if err!= nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}	
+		hp.Success[any](c, nil)
+		case "log":
+			err:=t.Q.BatchDeleteLogs(c.Request.Context(), req.Ids)
+			if err!= nil {
+				hp.Error[any](c,  err.Error())
+				return
+			}	
+			hp.Success[any](c, nil)
 	default:
 		hp.Error[any](c, "Not Found")
 	}
 
-    hp.Success[any](c, nil) // 返回产品数
 }

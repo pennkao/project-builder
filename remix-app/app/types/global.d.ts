@@ -38,8 +38,10 @@ interface CreditCardPaymentFormType {
 }
 
 interface ProductItemType {
-    name: string;
+    title: string;
     handle: string;
+    subtitle: string;
+    description: string;
     main_image: string;
     tags: string[];
     price: number;
@@ -167,7 +169,9 @@ interface ProductMainType {
     handle: string;
     id: number;
     main_image: string;
-    name: string;
+    title: string;
+    subtitle: string;
+    description: string;
     price: number;
     points: number;
     sales_count: number;

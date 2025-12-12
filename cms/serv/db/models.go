@@ -60,23 +60,23 @@ type Order struct {
 }
 
 type OrderItem struct {
-	ID          int64        `json:"id"`
-	OrderID     int64        `json:"order_id"`
-	ProductID   int64        `json:"product_id"`
-	ProductName string       `json:"product_name"`
-	SkuID       int64        `json:"sku_id"`
-	SkuName     string       `json:"sku_name"`
-	SkuAkey     string       `json:"sku_akey"`
-	SkuAttrs    dbtypes.JSON `json:"sku_attrs"`
-	SkuImage    string       `json:"sku_image"`
-	SkuDesc     string       `json:"sku_desc"`
-	Quantity    int16        `json:"quantity"`
-	Price       int64        `json:"price"`
-	TotalAmount int64        `json:"total_amount"`
-	PayAmount   int64        `json:"pay_amount"`
-	Status      int16        `json:"status"`
-	Cts         pgtype.Int8  `json:"cts"`
-	Uts         pgtype.Int8  `json:"uts"`
+	ID           int64        `json:"id"`
+	OrderID      int64        `json:"order_id"`
+	ProductID    int64        `json:"product_id"`
+	ProductTitle string       `json:"product_title"`
+	SkuID        int64        `json:"sku_id"`
+	SkuTitle     string       `json:"sku_title"`
+	SkuAkey      string       `json:"sku_akey"`
+	SkuAttrs     dbtypes.JSON `json:"sku_attrs"`
+	SkuImage     string       `json:"sku_image"`
+	SkuDesc      string       `json:"sku_desc"`
+	Quantity     int16        `json:"quantity"`
+	Price        int64        `json:"price"`
+	TotalAmount  int64        `json:"total_amount"`
+	PayAmount    int64        `json:"pay_amount"`
+	Status       int16        `json:"status"`
+	Cts          pgtype.Int8  `json:"cts"`
+	Uts          pgtype.Int8  `json:"uts"`
 }
 
 type OrderLog struct {
@@ -124,24 +124,26 @@ type Payment struct {
 }
 
 type Product struct {
-	ID         int64       `json:"id"`
-	Name       string      `json:"name"`
-	Handle     string      `json:"handle"`
-	Tags       []string    `json:"tags"`
-	Status     int16       `json:"status"`
-	Price      int64       `json:"price"`
-	Sid        int64       `json:"sid"`
-	Deleted    int16       `json:"deleted"`
-	SkuNum     int16       `json:"sku_num"`
-	WeightG    int32       `json:"weight_g"`
-	Brand      string      `json:"brand"`
-	Category   string      `json:"category"`
-	MainImage  string      `json:"main_image"`
-	SalesCount int32       `json:"sales_count"`
-	Points     int32       `json:"points"`
-	Stock      int32       `json:"stock"`
-	Cts        pgtype.Int8 `json:"cts"`
-	Uts        pgtype.Int8 `json:"uts"`
+	ID          int64       `json:"id"`
+	Title       string      `json:"title"`
+	Handle      string      `json:"handle"`
+	Subtitle    string      `json:"subtitle"`
+	Description string      `json:"description"`
+	Tags        []string    `json:"tags"`
+	Status      int16       `json:"status"`
+	Price       int64       `json:"price"`
+	Sid         int64       `json:"sid"`
+	Deleted     int16       `json:"deleted"`
+	SkuNum      int16       `json:"sku_num"`
+	WeightG     int32       `json:"weight_g"`
+	Brand       string      `json:"brand"`
+	Category    string      `json:"category"`
+	MainImage   string      `json:"main_image"`
+	SalesCount  int32       `json:"sales_count"`
+	Points      int32       `json:"points"`
+	Stock       int32       `json:"stock"`
+	Cts         pgtype.Int8 `json:"cts"`
+	Uts         pgtype.Int8 `json:"uts"`
 }
 
 type ProductContent struct {
@@ -203,7 +205,7 @@ type ProductReview struct {
 type ProductSku struct {
 	ID        int64        `json:"id"`
 	ProductID int64        `json:"product_id"`
-	Name      string       `json:"name"`
+	Title     string       `json:"title"`
 	Code      string       `json:"code"`
 	Image     string       `json:"image"`
 	Price     int64        `json:"price"`

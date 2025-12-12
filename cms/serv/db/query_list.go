@@ -29,8 +29,10 @@ func (q *Queries) QueryProductList(ctx context.Context, where string, args []int
 		var i Product
 		if err := rows.Scan(
 			&i.ID,
-			&i.Name,
+			&i.Title,
 			&i.Handle,
+			&i.Subtitle,
+			&i.Description,
 			&i.Tags,
 			&i.Status,
 			&i.Price,
@@ -108,7 +110,7 @@ func (q *Queries) QueryProductReviewsList(ctx context.Context, where string, arg
 		var i baseProductReviewsListSqlRow
 		if err := rows.Scan(
 			&i.ID,
-			&i.Name,
+			&i.Title,
 			&i.Handle,
 			&i.MainImage,
 			&i.Rating,

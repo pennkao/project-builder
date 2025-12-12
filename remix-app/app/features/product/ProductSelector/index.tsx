@@ -126,7 +126,7 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
         }
         const productSelected = {
             productId: product.main.id,
-            name: product.main.name,
+            title: product.main.title,
             sku: selectedSKU,
             firstOrder: FirstOrder, // 首单优惠
             points: product.main.points / 100,

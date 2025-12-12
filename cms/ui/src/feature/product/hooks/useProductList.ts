@@ -43,14 +43,14 @@ export const useProductList = () => {
     const setParamSort = (items: SortItemType[]) => {
         setlistQueryParams((prev) => ({ ...prev, sort: items }));
     };
-    const Delete = async (id: number) => {
+    const Delete = async (ids: number[]) => {
         const confirm = await message('Are you sure you want to delete this product?');
         if (!confirm) return false;
-        api.doDelete(id, 'product').callback((ret) => {
+        api.doDelete(ids, 'product').callback((ret) => {
             if (!ret) return;
             setResult((prev) => ({
                 ...prev,
-                list: prev.list.filter((item) => item.id !== id),
+                list: prev.list.filter((item) => !ids.includes(item.id)),
             }));
         });
     };

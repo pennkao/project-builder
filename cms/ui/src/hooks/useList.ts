@@ -11,10 +11,11 @@ const message = async (message: string) => {
 export const useList = <T extends { id: number }>(target: string, normalize?: (item: any) => T, size?: number) => {
     const { api } = useApi();
 
-    const [page, setPage] = useState(1);
-    const [result, setResult] = useState(defaultPageDataList as PageListDataType<T>);
-    const [query, setQuery] = useState<ListQueryParamsType>({ ...defaultQueryParams, target });
-    const [refresh, setRefresh] = useState(0);
+    const [IPage, SetPage] = useState(1);
+    const [Result, SetResult] = useState(defaultPageDataList as PageListDataType<T>);
+    const [Query, SetQuery] = useState<ListQueryParamsType>({ ...defaultQueryParams, target });
+    const [Refresh, SetRefresh] = useState(0);
+    const [Ids, SetIds] = useState<number[]>([]);
 
     const Update = async (id: number, field: string, value: number | string) => {
         api.doUpdate(id, target, field, value).callback((ok) => {
@@ -22,51 +23,58 @@ export const useList = <T extends { id: number }>(target: string, normalize?: (i
         });
     };
     const fetch = async () => {
-        api.query({ page, size: size || 10 })
-            .doList(target, query)
+        api.query({ IPage, size: size || 10 })
+            .doList(target, Query)
             .callback((data) => {
                 if (!data) return;
                 const list = normalize ? data.list.map(normalize) : data.list;
-                setResult({ ...data, list });
+                SetResult({ ...data, list });
             });
     };
 
-    const setFilter = (items: FilterItemType[]) => {
+    const SetFilter = (items: FilterItemType[]) => {
         items = items.filter((item) => item.value !== '');
-        setQuery((prev) => ({
+        SetQuery((prev) => ({
             ...prev,
             filter: items,
         }));
     };
 
-    const setSort = (items: SortItemType[]) => {
-        setQuery((prev) => ({ ...prev, sort: items }));
+    const SetSort = (items: SortItemType[]) => {
+        SetQuery((prev) => ({ ...prev, sort: items }));
     };
 
-    const Delete = async (id: number) => {
+    const Delete = async (id?: number) => {
+        const del_ids = id && id > 0 ? [id] : Ids.filter((id) => id > 0);
+        if (!del_ids.length) return;
         const confirm = await message('Are you sure you want to delete this product?');
         if (!confirm) return false;
-        api.doDelete(id, target).callback((ok) => {
+        api.doDelete(del_ids, target).callback((ok) => {
             if (!ok) return;
-            setResult((prev) => ({
-                ...prev,
-                list: prev.list.filter((item) => item.id !== id),
-            }));
+            // setResult((prev) => ({
+            //     ...prev,
+            //     list: prev.list.filter((item) => !del_ids.includes(item.id)),
+            // }));
+            DoRefresh();
+            SetIds([]);
         });
     };
-    const doRefresh = () => setRefresh((v) => v + 1);
+    const DoRefresh = () => SetRefresh((v) => v + 1);
     useEffect(() => {
         fetch();
-    }, [page, query, refresh]);
+    }, [IPage, Query, Refresh]);
 
     return {
-        page,
-        setPage,
-        result,
-        setFilter,
+        IPage,
+        SetPage,
+        Result,
+        // SetQuery,
+        Refresh,
+        SetFilter,
+        DoRefresh,
         Delete,
-        setSort,
-        doRefresh,
+        SetSort,
         Update,
+        SetIds,
     };
 };

@@ -17,7 +17,7 @@ export function useProductSave(productId: number, productData: ProductType, prod
 
     const checkParams = (data: ProductType) => {
         const rules = [
-            { valid: !!data.main.name, msg: 'Please enter name' },
+            { valid: !!data.main.title, msg: 'Please enter title' },
             { valid: !!data.main.handle, msg: 'Please enter handle' },
             { valid: data.images.length > 0, msg: 'Please upload main image' },
         ];

@@ -306,8 +306,8 @@ export class HttpClient {
     }
 
     //=====================================================
-    doDelete(id: number, target: string) {
-        return this.Delete('delete', { id: id, target: target });
+    doDelete(ids: number[], target: string) {
+        return this.Delete('delete', { ids: ids, target: target });
     }
 
     doList<T = any>(target: string, params?: any) {

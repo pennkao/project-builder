@@ -69,6 +69,15 @@ func (q *Queries) BaseOrderLogsListSql(ctx context.Context) ([]OrderLog, error) 
 	return items, nil
 }
 
+const batchDeleteOrderLogs = `-- name: BatchDeleteOrderLogs :exec
+DELETE FROM order_logs WHERE id = ANY($1::bigint[])
+`
+
+func (q *Queries) BatchDeleteOrderLogs(ctx context.Context, ids []int64) error {
+	_, err := q.db.Exec(ctx, batchDeleteOrderLogs, ids)
+	return err
+}
+
 const createOrderLogs = `-- name: CreateOrderLogs :exec
 INSERT INTO order_logs (
     sid,
@@ -139,14 +148,5 @@ func (q *Queries) CreateOrderLogs(ctx context.Context, arg CreateOrderLogsParams
 		arg.ZipCode,
 		arg.Other,
 	)
-	return err
-}
-
-const deleteOrderLog = `-- name: DeleteOrderLog :exec
-DELETE FROM order_logs WHERE id = $1
-`
-
-func (q *Queries) DeleteOrderLog(ctx context.Context, id int64) error {
-	_, err := q.db.Exec(ctx, deleteOrderLog, id)
 	return err
 }

@@ -15,13 +15,8 @@ type FetchersReq struct {
 }
 
 type DeleterReq struct {
-	Id     int64  `json:"id" binding:"required"`
+	Ids     []int64  `json:"ids" binding:"required"`
 	Target string `json:"target" binding:"required"`
-}
-
-type DeletersReq struct {
-	Ids    []int64 `json:"ids" binding:"required"` // 数组必须存在且非 nil
-	Target string  `json:"target" binding:"required"`
 }
 
 type UpdaterReq struct {
@@ -68,7 +63,7 @@ type ProductSkusReq struct {
 type SkuItemReq struct {
 	ID        int64          `json:"id"`
 	ProductID int64          `json:"product_id"`
-	Name      string         `json:"name"`
+	Title     string         `json:"title"`
 	Akey      string         `json:"akey"`
 	Ukey      string         `json:"ukey"`
 	Code      string         `json:"code"`

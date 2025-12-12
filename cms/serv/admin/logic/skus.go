@@ -33,7 +33,7 @@ func ProcessUpdateSkus(product db.Product, submitSkus []hq.SkuItemReq, dbSkus []
 		if sku.Ukey == "" {
 			toCreate = append(toCreate, db.BatchCreateProductSkusParams{
 				ProductID: product.ID,
-				Name      : sku.Name,
+				Title      : sku.Title,
 				Code      : sku.Code,
 				Image     : sku.Image,
 				WeightG   : sku.WeightG,
@@ -79,7 +79,7 @@ func ProcessUpdateSkus(product db.Product, submitSkus []hq.SkuItemReq, dbSkus []
 				ProductID: product.ID,
 				ID: sku.ID,
 				Code      : sku.Code,
-				Name      : sku.Name,
+				Title      : sku.Title,
 				Image     : sku.Image,
 				WeightG   : sku.WeightG,
 				Status    : sku.Status,
@@ -98,7 +98,7 @@ func ProcessCreateSkus( product db.Product,reqSkuList []hq.SkuItemReq) (toCreate
 	if len(reqSkuList) == 0 {
 		toCreate = append(toCreate, db.BatchCreateProductSkusParams{
 			ProductID: product.ID,
-			Name      : DefaultSkuName, //sku.Name,	
+			Title      : DefaultSkuName, //sku.Name,	
 			Code      : "",
 			Image     : product.MainImage,
 			Price     : product.Price,
@@ -113,12 +113,12 @@ func ProcessCreateSkus( product db.Product,reqSkuList []hq.SkuItemReq) (toCreate
 	}
 
 	for _, sku := range reqSkuList {
-		if sku.Name == "" {
-			return nil, errors.New("sku name is empty")
+		if sku.Title == "" {
+			return nil, errors.New("sku title is empty")
 		}
 		toCreate = append(toCreate, db.BatchCreateProductSkusParams{
 			ProductID: product.ID,
-			Name      : sku.Name,
+			Title      : sku.Title,
 			Code      : sku.Code,
 			Image     : sku.Image,
 			Price     : sku.Price,

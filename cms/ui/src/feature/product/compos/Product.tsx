@@ -1,6 +1,6 @@
 import { Input as InputField } from '@/components/Basic/Input';
 import Loading from '@/components/Loading/Loading';
-import { Input, Label } from '@/components/elements';
+import { Input, Label, TextArea } from '@/components/elements';
 import { Card } from '@/feature/compos/layout';
 import { useApi } from '@/hooks/useApi';
 import { formartValue, formInput, genHandle, keyDownNumberInput } from '@/utils/product';
@@ -12,7 +12,6 @@ export default function ProductMain() {
         return <Loading title="Product" />; // 或者其他处理方式
     }
     const { productId, productData, setProductData } = context;
-    // const { doPost } = usePost<number>('product-handle-count');
     const { api } = useApi();
 
     const setProductMainField = (field: keyof ProductMainType, value: string | string[] | number) => {
@@ -21,20 +20,20 @@ export default function ProductMain() {
 
     //update handle
     useEffect(() => {
-        if (!productData.main.name) {
+        if (!productData.main.title) {
             return;
         }
         if (productData.main.id && productData.main.id > 0) {
             return;
         }
-        setProductMainField('handle', genHandle(productData.main.name, 0));
-    }, [productData.main.name]);
+        setProductMainField('handle', genHandle(productData.main.title, 0));
+    }, [productData.main.title]);
 
     const handleCheckHandle = async () => {
         if (productData.main.id && productData.main.id > 0) {
             return;
         }
-        if (!productData.main.name) {
+        if (!productData.main.title) {
             return;
         }
         if (!productData.main.handle) {
@@ -42,7 +41,7 @@ export default function ProductMain() {
         }
         const count = await api.Get<number>('product-handle-count', { handle: productData.main.handle });
         if (count && count > 0) {
-            setProductMainField('handle', genHandle(productData.main.name, count));
+            setProductMainField('handle', genHandle(productData.main.title, count));
         }
     };
 
@@ -54,14 +53,26 @@ export default function ProductMain() {
         <Card title="Product">
             <div className="space-y-6">
                 <div>
-                    <Label htmlFor="input">Product Name</Label>
+                    <Label htmlFor="input">Product Title</Label>
                     <InputField
                         type="text"
                         className="w-full px-4 py-2.5"
                         id="input"
-                        placeholder="Product Name"
-                        value={productData.main?.name}
-                        onChange={(e) => handleChange('name', e.target.value)}
+                        placeholder="Product Title"
+                        value={productData.main?.title}
+                        onChange={(e) => handleChange('title', e.target.value)}
+                        onBlur={handleCheckHandle}
+                    />
+                </div>
+                <div>
+                    <Label htmlFor="input">Subtitle</Label>
+                    <InputField
+                        type="text"
+                        className="w-full px-4 py-2.5"
+                        id="input"
+                        placeholder="Subtitle"
+                        value={productData.main?.subtitle}
+                        onChange={(e) => handleChange('subtitle', e.target.value)}
                         onBlur={handleCheckHandle}
                     />
                 </div>
@@ -133,6 +144,8 @@ export default function ProductMain() {
                         />
                     </div>
                 </div>
+                <Label htmlFor="inputTwo">Description</Label>
+                <TextArea placeholder="Description" className="w-full px-4 py-2.5" value={productData.main?.description} onChange={(value) => handleChange('description', value)} rows={5} />
             </div>
         </Card>
     );

@@ -42,7 +42,7 @@ export default function Products() {
                         <Image src={SRC(item?.main_image || '')} className="h-10 w-10 rounded-md object-cover shrink-0" />
                     </Link>
 
-                    <div className="flex flex-1 items-center line-clamp-2">{item?.name || '-'}</div>
+                    <div className="flex flex-1 items-center line-clamp-2">{item?.title || '-'}</div>
                 </div>
             ),
         },
@@ -68,7 +68,7 @@ export default function Products() {
                         size="sm"
                         className="ml-2"
                         onClick={() => {
-                            Delete(item?.id || 0); // TODO: delete product
+                            Delete([item?.id || 0]); // TODO: delete product
                         }}
                     >
                         Delete

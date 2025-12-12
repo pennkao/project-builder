@@ -11,13 +11,12 @@ import { Link } from 'react-router';
 import { StatusLabel } from './compos';
 
 const Reviews = () => {
-    // const { result, setParamFilter, setPage } = useReviews();
-    const { result, setFilter, setPage } = useList<ProductReviewType>('review');
+    const { Result, SetFilter, SetPage } = useList<ProductReviewType>('review');
     const [search, setSearch] = useState('');
     const [expandedRow, setExpandedRow] = useState<number | null>(null);
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            setFilter([{ field: 'name', operator: 'like', value: search }]);
+            SetFilter([{ field: 'name', operator: 'like', value: search }]);
         }
     };
     const handleToggle = (id: number) => {
@@ -37,7 +36,7 @@ const Reviews = () => {
                     <Link to={`/collections/${item?.handle}`}>
                         <Image src={SRC(item?.main_image || '')} className="h-10 w-10 rounded-md object-cover" />
                     </Link>
-                    {item?.name || '-'}
+                    {item?.title || '-'}
                 </div>
             ),
         },
@@ -83,7 +82,7 @@ const Reviews = () => {
                 </ActionRight>
             </Action>
             <Content>
-                <List<ProductReviewType> rowKey="id" fields={productColumns} items={result?.list || []} expandedRow={expandedRow}>
+                <List<ProductReviewType> rowKey="id" fields={productColumns} items={Result?.list || []} expandedRow={expandedRow}>
                     {(item) => (
                         <div className="flex items-center gap-2 justify-end w-full">
                             <Input placeholder="Enter product review url" />
@@ -95,7 +94,7 @@ const Reviews = () => {
                 </List>
             </Content>
             <Footer>
-                <Pagination currentPage={result?.page || 1} totalCount={result?.total || 0} pageSize={result?.size || 10} onPageChange={setPage} />
+                <Pagination currentPage={Result?.page || 1} totalCount={Result?.total || 0} pageSize={Result?.size || 10} onPageChange={SetPage} />
             </Footer>
         </Page>
     );

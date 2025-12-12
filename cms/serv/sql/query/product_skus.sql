@@ -5,7 +5,7 @@ SELECT * FROM product_skus WHERE product_id = $1;
 -- name: BatchCreateProductSkus :batchexec
 INSERT INTO product_skus (
     product_id,
-    name,
+    title,
     code,
     image,
     price,
@@ -24,7 +24,7 @@ INSERT INTO product_skus (
 -- name: BatchUpdateProductSkus :batchexec
 UPDATE product_skus
 SET
-    name       = $1,
+    title      = $1,
     code       = $2,
     image      = $3,
     price      = $4,
@@ -41,7 +41,7 @@ UPDATE product_skus SET stored = 1 WHERE product_id = $1;
 DELETE FROM product_skus WHERE product_id = $1 and id = ANY(sqlc.arg(ids)::bigint[]); 
 
 -- name: FetchProductSkus :many
-SELECT id,product_id,name,image,price,attrs,akey FROM product_skus WHERE product_id = $1;
+SELECT id,product_id,title,image,price,attrs,akey FROM product_skus WHERE product_id = $1;
 
 
 

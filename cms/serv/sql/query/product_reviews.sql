@@ -1,7 +1,7 @@
 -- name: baseProductReviewsListSql :many
 SELECT
     p.id,
-    p.name,
+    p.title,
     p.handle,
     p.main_image,
     r.rating,

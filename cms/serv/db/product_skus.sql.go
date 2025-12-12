@@ -26,13 +26,13 @@ func (q *Queries) DeleteProductSku(ctx context.Context, arg DeleteProductSkuPara
 }
 
 const fetchProductSkus = `-- name: FetchProductSkus :many
-SELECT id,product_id,name,image,price,attrs,akey FROM product_skus WHERE product_id = $1
+SELECT id,product_id,title,image,price,attrs,akey FROM product_skus WHERE product_id = $1
 `
 
 type FetchProductSkusRow struct {
 	ID        int64        `json:"id"`
 	ProductID int64        `json:"product_id"`
-	Name      string       `json:"name"`
+	Title     string       `json:"title"`
 	Image     string       `json:"image"`
 	Price     int64        `json:"price"`
 	Attrs     dbtypes.JSON `json:"attrs"`
@@ -51,7 +51,7 @@ func (q *Queries) FetchProductSkus(ctx context.Context, productID int64) ([]Fetc
 		if err := rows.Scan(
 			&i.ID,
 			&i.ProductID,
-			&i.Name,
+			&i.Title,
 			&i.Image,
 			&i.Price,
 			&i.Attrs,
@@ -68,7 +68,7 @@ func (q *Queries) FetchProductSkus(ctx context.Context, productID int64) ([]Fetc
 }
 
 const getProductSkus = `-- name: GetProductSkus :many
-SELECT id, product_id, name, code, image, price, stock, weight_g, status, stored, ukey, akey, attrs, cts, uts FROM product_skus WHERE product_id = $1
+SELECT id, product_id, title, code, image, price, stock, weight_g, status, stored, ukey, akey, attrs, cts, uts FROM product_skus WHERE product_id = $1
 `
 
 func (q *Queries) GetProductSkus(ctx context.Context, productID int64) ([]ProductSku, error) {
@@ -83,7 +83,7 @@ func (q *Queries) GetProductSkus(ctx context.Context, productID int64) ([]Produc
 		if err := rows.Scan(
 			&i.ID,
 			&i.ProductID,
-			&i.Name,
+			&i.Title,
 			&i.Code,
 			&i.Image,
 			&i.Price,

@@ -1,5 +1,5 @@
 -- name: ListProducts :many
-SELECT  id,name, handle, tags, weight_g,deleted,status, brand, category, main_image, price,sales_count,points,cts
+SELECT  id,title, handle, tags, weight_g,deleted,status, brand, category, main_image, price,sales_count,points,cts
 FROM products
 WHERE deleted = 0
 ORDER BY uts desc
@@ -19,20 +19,22 @@ SELECT * FROM products WHERE id = $1;
 -- name: CreateProductMain :one
 INSERT INTO products (
     id,
-    name,
+    title,
+    subtitle,
     handle,
     tags,
     weight_g,
     brand,
     category,
     main_image,
+    description,
     price,
-    sku_num,
+    sku_num,    
     sales_count,
     stock,
     points
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13  
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13 , $14, $15
 )
 RETURNING id;
 
@@ -46,13 +48,8 @@ UPDATE products SET
     main_image = $1
 WHERE id = $2 AND main_image = '';
 
--- name: DeleteProduct :exec
-DELETE FROM products WHERE id = $1;
-
-
--- name: BatchDeleteProducts :batchexec
-DELETE FROM products WHERE id = $1;
-
+-- name: BatchDeleteProducts :exec
+DELETE FROM products WHERE id = ANY(sqlc.arg(ids)::bigint[]); 
 
 -- name: BaseProductListSql :many
 SELECT * FROM products;
@@ -63,7 +60,7 @@ SELECT COUNT(*) FROM products;
 -- name: UpdateProductMain :exec
 UPDATE products
 SET
-    name        = $2,
+    title       = $2,
     tags        = $3,
     status      = $4,
     deleted     = $5,
@@ -75,7 +72,9 @@ SET
     sales_count = $11,
     stock       = $12,
     price       = $13,
-    points      = $14
+    points      = $14,
+    subtitle    = $15,
+    description = $16
 WHERE id = $1;
 
 -- name: UpdateProductStatus :exec
@@ -91,7 +90,7 @@ WHERE id = ANY(sqlc.arg(ids)::bigint[]);
 
 
 -- name: FetchProductList :many
-SELECT name,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE sid = $1 ORDER BY uts DESC LIMIT $2 OFFSET $3;    
+SELECT title,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE sid = $1 ORDER BY uts DESC LIMIT $2 OFFSET $3;    
 
 -- name: FetchProductById :one
-SELECT id,name,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE id = $1 AND sid = $2;
+SELECT id,title,handle,main_image,tags,subtitle,sales_count,price,stock,points FROM products WHERE id = $1 AND sid = $2;

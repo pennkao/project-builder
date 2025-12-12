@@ -56,6 +56,15 @@ func (q *Queries) BaseLogsListSql(ctx context.Context) ([]Log, error) {
 	return items, nil
 }
 
+const batchDeleteLogs = `-- name: BatchDeleteLogs :exec
+DELETE FROM logs WHERE id = ANY($1::bigint[])
+`
+
+func (q *Queries) BatchDeleteLogs(ctx context.Context, ids []int64) error {
+	_, err := q.db.Exec(ctx, batchDeleteLogs, ids)
+	return err
+}
+
 const createLogs = `-- name: CreateLogs :exec
 INSERT INTO logs (
     sid,

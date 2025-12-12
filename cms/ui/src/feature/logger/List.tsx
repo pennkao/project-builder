@@ -9,11 +9,11 @@ import { useNavigate } from 'react-router';
 export default function SiteLogs() {
     const navigator = useNavigate();
     const [search, setSearch] = useState('');
-    const { result, setFilter, setPage } = useList<SiteLogType>('log');
+    const { SetPage, Result, SetFilter, Delete, SetIds } = useList<SiteLogType>('log');
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            setFilter([{ field: 'ukey', operator: 'like', value: search }]);
+            SetFilter([{ field: 'ukey', operator: 'like', value: search }]);
         }
     };
 
@@ -49,7 +49,7 @@ export default function SiteLogs() {
                             handhandleRowClick(item);
                         }}
                     >
-                        Edit{i}
+                        Edit
                     </Button>
                 </div>
             ),
@@ -68,13 +68,23 @@ export default function SiteLogs() {
                     <Button startIcon={<PlusIcon className="w-5 h-5" fill="white" />} variant="primary" onClick={() => navigator('/add-product')}>
                         Add Product
                     </Button>
+                    <Button variant="outline" onClick={Delete}>
+                        Delete
+                    </Button>
                 </ActionRight>
             </Action>
             <Content>
-                <List<SiteLogType> fields={siteLogColumns} items={result?.list || []} openTab={true} />
+                <List<SiteLogType>
+                    fields={siteLogColumns}
+                    items={Result?.list || []}
+                    openTab={true}
+                    onSelect={(ids) => {
+                        SetIds(ids);
+                    }}
+                />
             </Content>
             <Footer>
-                <Pagination currentPage={result?.page} pageSize={result?.size} totalCount={result?.total} onPageChange={setPage} />
+                <Pagination currentPage={Result?.page || 1} pageSize={Result?.size} totalCount={Result?.total} onPageChange={SetPage} />
             </Footer>
         </Page>
     );

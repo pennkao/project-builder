@@ -3,7 +3,7 @@ import RichTextEditor from '@/components/RichTextEditor';
 import { config } from '@/config/config';
 import { Content, Footer, Page } from '@/feature/compos/layout';
 import { useNavigate, useParams } from 'react-router';
-import { ImageSelector, ImageUploder, Options, Product, Seo } from './compos';
+import { ImageSelector, ImageUploder, Options, Product } from './compos';
 import { ProductContext } from './context';
 import { useProduct, useProductImages, useProductSave } from './hooks';
 export default function Add() {
@@ -11,9 +11,6 @@ export default function Add() {
 
     const { id } = useParams<{ id: string }>();
     const product_id = Number.parseInt(id || '0');
-    // Confirm('确认删除吗？', `删除后将无法恢复${param_id}`);
-
-    // const { doBatchPost, Params } = useBatchPost();
     const { productData, setProductData, productDataInit, setByKey } = useProduct(product_id);
     const { saveProduct, updateProduct } = useProductSave(product_id, productData, productDataInit, navigate);
     const { imagesChannel, handleSelectedImages, openImageSelector, isOpen, closeModal, uploadType } = useProductImages();
@@ -32,7 +29,6 @@ export default function Add() {
                 <Content className="grid grid-cols-1 gap-6 xl:grid-cols-2">
                     <div className="space-y-6">
                         <Product />
-                        <Seo />
                         <RichTextEditor
                             url={config.API_URL + 'file/upload'}
                             onChange={(value) => {

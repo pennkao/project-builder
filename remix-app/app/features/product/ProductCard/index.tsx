@@ -30,7 +30,7 @@ export default function ProductCard({ data }: { data: ProductMainType | null }) 
 
                 {/* 商品标题 */}
                 <div className="text-sm leading-tight">
-                    <span className="text-main">{data?.name}</span>
+                    <span className="text-main">{data?.title}</span>
                 </div>
             </div>
         </div>

@@ -159,7 +159,6 @@ func (t *Cms) CreateProductSkus(c *gin.Context) {
 		return
 	}
 
-
 	toCreate, err := logic.ProcessCreateSkus(product, req.Skus)
 	if err != nil {
 		hp.Error[any](c,  err.Error())

@@ -3,9 +3,9 @@ CREATE TABLE order_items (
     id BIGSERIAL PRIMARY KEY,
     order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE, -- 关联订单
     product_id BIGINT NOT NULL DEFAULT 0,                             -- 商品 ID（可关联 products 表）
-    product_name TEXT NOT NULL DEFAULT '',                            -- 商品名称（冗余存储，防止商品信息变更影响历史订单）
+    product_title TEXT NOT NULL DEFAULT '',                            -- 商品名称（冗余存储，防止商品信息变更影响历史订单）
     sku_id BIGINT NOT NULL DEFAULT 0,                                 -- SKU ID（若支持多规格）
-    sku_name          TEXT NOT NULL DEFAULT '',                       -- 名称，如 'IPhone 15 128GB 黑色'
+    sku_title          TEXT NOT NULL DEFAULT '',                       -- 名称，如 'IPhone 15 128GB 黑色'
     sku_akey          TEXT NOT NULL DEFAULT '',                       -- 名称，如 'IPhone 15 128GB 黑色'
     sku_attrs         JSONB NOT NULL DEFAULT '{}'::JSONB,             -- {"Size": "M", "Color": "Red"}
     sku_image         TEXT NOT NULL DEFAULT '',                       -- 图片

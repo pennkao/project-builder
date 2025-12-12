@@ -94,7 +94,6 @@ func (t *Cms) QueryLogsList(ctx context.Context, where,fullWhere string, args []
 func (t *Cms) QueryProductList(ctx context.Context, where,fullWhere string, args []interface{}, page *com.PageResponse) {
 		count, err := t.Q.QueryProductCount(ctx, where, args)
 		if err != nil || count<=0 {
-			
 			log.Println(err)
 			return
 		}	

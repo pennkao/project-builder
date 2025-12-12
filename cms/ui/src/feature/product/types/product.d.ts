@@ -9,7 +9,7 @@ type SkuAttrArrayType = Record<string, SkuAttrObjType>;
 interface SkuType {
     id: number;
     product_id: number;
-    name: string;
+    title: string;
     akey: string;
     ukey: string;
     image: string;
@@ -23,7 +23,9 @@ interface SkuType {
 
 interface ProductMainType {
     id: number; // bigserial → number (或 bigint，见下方说明)
-    name: string; // text NOT NULL
+    title: string; // text NOT NULL
+    subtitle: string; // text，默认 ''
+    description: string; // text，默认 ''
     handle: string; // text NOT NULL, 唯一
     tags: string[]; // _text (text array)，默认 []
     status: number; // int2 → number，通常表示枚举（如 0: 下架, 1: 上架）
@@ -58,7 +60,7 @@ interface ProductItemType {
     id: number;
     sid: number;
     handle: string;
-    name: string;
+    title: string;
     category: string;
     brand: string;
     price: string;
@@ -71,7 +73,7 @@ interface ProductItemType {
 
 interface ProductReviewType {
     id: number;
-    name: string;
+    title: string;
     handle: string;
     main_image: string;
     rating: number;

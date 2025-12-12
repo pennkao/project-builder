@@ -1,8 +1,10 @@
 -- 创建 products 表
 CREATE TABLE products (
     id              BIGINT PRIMARY KEY,
-    name            TEXT NOT NULL,
+    title           TEXT NOT NULL,
     handle          TEXT NOT NULL UNIQUE,                           -- URL slug, e.g., 'iphone-15'
+    subtitle        TEXT NOT NULL DEFAULT '',                       -- 副标题
+    description     TEXT NOT NULL DEFAULT '',                       -- 详细描述
     tags            TEXT[] NOT NULL DEFAULT '{}',                   -- e.g., ARRAY['手机', '新品']
     status          SMALLINT NOT NULL DEFAULT 0,                    -- 1: 上架, 0: 下架
     price           BIGINT NOT NULL DEFAULT 0,                      -- 分

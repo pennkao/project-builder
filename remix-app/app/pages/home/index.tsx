@@ -8,7 +8,7 @@ import { denormalizeProductList } from '@/lib/convert';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-import AppFooter from '../../features/app/AppFooter';
+import AppFooter from '@/features/app/AppFooter';
 
 const HomePage = ({ data }: any) => {
     const { api } = useApi();
@@ -47,7 +47,7 @@ const HomePage = ({ data }: any) => {
                             <Link to={`/products/${product.handle}`} className="flex flex-col">
                                 {/* 图片容器 */}
                                 <div className="relative w-full aspect-[1/1] min-h-[200px] overflow-hidden">
-                                    <BaseImage src={product.main_image} alt={product.name} className="w-full h-full object-cover" isUrl={true} />
+                                    <BaseImage src={product.main_image} alt={product.title} className="w-full h-full object-cover" isUrl={true} />
 
                                     {/* 标签 */}
                                     {product.tags && <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">{product.tags.join(' ')}</div>}
@@ -55,7 +55,7 @@ const HomePage = ({ data }: any) => {
 
                                 {/* 内容区 */}
                                 <div className="p-3 flex flex-col justify-between">
-                                    <h3 className="font-medium  text-gray-900 line-clamp-2 text-sm">{product.name}</h3>
+                                    <h3 className="font-medium  text-gray-900 line-clamp-2 text-sm">{product.title}</h3>
 
                                     <div className="mt-2">
                                         <div className="text-lg font-bold text-red-600">

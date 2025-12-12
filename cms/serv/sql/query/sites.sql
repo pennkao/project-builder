@@ -25,8 +25,8 @@ UPDATE sites SET
     uts = (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT
 WHERE id = $6;
 
--- name: DeleteSite :exec
-DELETE FROM sites WHERE id = $1;
+-- name: BatchDeleteSites :exec
+DELETE FROM sites WHERE id = ANY(sqlc.arg(ids)::bigint[]); 
 
 -- name: SwitchSiteStatus :exec
 UPDATE sites SET

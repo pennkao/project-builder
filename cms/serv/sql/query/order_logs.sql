@@ -29,5 +29,5 @@ SELECT count(*) FROM order_logs;
 -- name: BaseOrderLogsListSql :many
 SELECT * FROM order_logs;
 
--- name: DeleteOrderLog :exec
-DELETE FROM order_logs WHERE id = $1;
+-- name: BatchDeleteOrderLogs :exec
+DELETE FROM order_logs WHERE id = ANY(sqlc.arg(ids)::bigint[]); 

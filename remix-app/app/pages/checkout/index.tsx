@@ -298,10 +298,10 @@ const CheckoutPage = ({ data }: any) => {
             <Activity mode={isOpen ? 'visible' : 'hidden'}>
                 <div className="flex flex-row justify-start px-2 text-main gap-3">
                     <div className="w-32 h-32 p-3 overflow-hidden rounded-md">
-                        <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className="object-contain bg-white w-full h-full" />
+                        <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.title} className="object-contain bg-white w-full h-full" />
                     </div>
                     <div className="flex-1 flex flex-col justify-center gap-2">
-                        <div className="text-main">{checkoutData?.productDetail?.name}</div>
+                        <div className="text-main">{checkoutData?.productDetail?.title}</div>
                         <div className="text-tip">
                             {Object.entries(checkoutData?.productDetail?.sku?.attributes || {}).map(([key, value]) => (
                                 <div key={key}>
@@ -454,7 +454,7 @@ const CheckoutPage = ({ data }: any) => {
                     <img src={SRC(checkoutData?.productDetail?.image || null)} alt={checkoutData?.productDetail?.name} className=" w-full h-full object-contain bg-white" />
                 </div>
                 <div className="flex-1 flex flex-col justify-center gap-2">
-                    <div>{checkoutData?.productDetail?.name}</div>
+                    <div>{checkoutData?.productDetail?.title}</div>
                     <div className="text-sub">
                         {Object.entries(checkoutData?.productDetail?.sku?.attributes || {}).map(([key, value]) => (
                             <div key={key}>
