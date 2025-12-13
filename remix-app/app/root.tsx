@@ -4,7 +4,7 @@ import { loader } from '@/loaders/root.server'; // ✅ 只引入函数
 import NotFound from '@/pages/NotFound';
 import { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { Outlet, Scripts, ScrollRestoration, useLoaderData, useLocation, useNavigate, useRouteError } from 'react-router';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useLocation, useNavigate, useRouteError } from 'react-router';
 import { Keys } from './config/keys';
 import i18n from './i18n';
 import styles from './main.css?url';
@@ -93,39 +93,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <title>{seo.title}</title>
-                <meta name="description" content={seo.description} />
 
-                {/* Open Graph */}
-                <meta property="og:title" content={seo.title} />
-                <meta property="og:description" content={seo.description} />
-                <meta property="og:image" content={seo.image} />
-                <meta property="og:url" content={seo.url} />
-                <meta property="og:type" content="product" />
-
+                <Links />
+                <Meta />
                 {/* 样式 & 图标 */}
                 <link rel="stylesheet" href={styles} />
                 <link rel="icon" href="/favicon.ico" />
-
-                {/* JSON-LD 结构化数据 */}
-                <script
-                    type="application/ld+json"
-                    // JSON.stringify 保证合法的 JSON-LD
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            '@context': 'https://schema.org/',
-                            '@type': 'Product',
-                            name: seo.title,
-                            description: seo.description,
-                            image: seo.image,
-                            offers: {
-                                '@type': 'Offer',
-                                price: seo.price,
-                                priceCurrency: seo.currency,
-                            },
-                        }),
-                    }}
-                />
             </head>
             <body>
                 {children}

@@ -24,48 +24,65 @@ const createSite = `-- name: CreateSite :exec
 INSERT INTO sites (
     id,
     name,
+    image,
+    description,
     domain,
     stype,
-    site,
+    meta,
     config
 )
-VALUES ($1, $2, $3, $4, $5, $6)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 `
 
 type CreateSiteParams struct {
-	ID     int64        `json:"id"`
-	Name   string       `json:"name"`
-	Domain string       `json:"domain"`
-	Stype  string       `json:"stype"`
-	Site   dbtypes.JSON `json:"site"`
-	Config dbtypes.JSON `json:"config"`
+	ID          int64        `json:"id"`
+	Name        string       `json:"name"`
+	Image       string       `json:"image"`
+	Description string       `json:"description"`
+	Domain      string       `json:"domain"`
+	Stype       string       `json:"stype"`
+	Meta        dbtypes.JSON `json:"meta"`
+	Config      dbtypes.JSON `json:"config"`
 }
 
 func (q *Queries) CreateSite(ctx context.Context, arg CreateSiteParams) error {
 	_, err := q.db.Exec(ctx, createSite,
 		arg.ID,
 		arg.Name,
+		arg.Image,
+		arg.Description,
 		arg.Domain,
 		arg.Stype,
-		arg.Site,
+		arg.Meta,
 		arg.Config,
 	)
 	return err
 }
 
 const fetchSite = `-- name: FetchSite :one
-SELECT site,config FROM sites WHERE id = $1
+SELECT name,domain,image,description,meta,config FROM sites WHERE id = $1
 `
 
 type FetchSiteRow struct {
-	Site   dbtypes.JSON `json:"site"`
-	Config dbtypes.JSON `json:"config"`
+	Name        string       `json:"name"`
+	Domain      string       `json:"domain"`
+	Image       string       `json:"image"`
+	Description string       `json:"description"`
+	Meta        dbtypes.JSON `json:"meta"`
+	Config      dbtypes.JSON `json:"config"`
 }
 
 func (q *Queries) FetchSite(ctx context.Context, id int64) (FetchSiteRow, error) {
 	row := q.db.QueryRow(ctx, fetchSite, id)
 	var i FetchSiteRow
-	err := row.Scan(&i.Site, &i.Config)
+	err := row.Scan(
+		&i.Name,
+		&i.Domain,
+		&i.Image,
+		&i.Description,
+		&i.Meta,
+		&i.Config,
+	)
 	return i, err
 }
 
@@ -99,7 +116,7 @@ func (q *Queries) GetDomains(ctx context.Context) ([]GetDomainsRow, error) {
 }
 
 const getSite = `-- name: GetSite :one
-SELECT id, name, domain, status, stype, site, config, cts, uts FROM sites WHERE id = $1
+SELECT id, name, domain, image, description, status, stype, meta, config, cts, uts FROM sites WHERE id = $1
 `
 
 func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
@@ -109,9 +126,11 @@ func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
 		&i.ID,
 		&i.Name,
 		&i.Domain,
+		&i.Image,
+		&i.Description,
 		&i.Status,
 		&i.Stype,
-		&i.Site,
+		&i.Meta,
 		&i.Config,
 		&i.Cts,
 		&i.Uts,
@@ -120,7 +139,7 @@ func (q *Queries) GetSite(ctx context.Context, id int64) (Site, error) {
 }
 
 const siteList = `-- name: SiteList :many
-SELECT id, name, domain, status, stype, site, config, cts, uts FROM sites ORDER BY uts DESC
+SELECT id, name, domain, image, description, status, stype, meta, config, cts, uts FROM sites ORDER BY uts DESC
 `
 
 func (q *Queries) SiteList(ctx context.Context) ([]Site, error) {
@@ -136,9 +155,11 @@ func (q *Queries) SiteList(ctx context.Context) ([]Site, error) {
 			&i.ID,
 			&i.Name,
 			&i.Domain,
+			&i.Image,
+			&i.Description,
 			&i.Status,
 			&i.Stype,
-			&i.Site,
+			&i.Meta,
 			&i.Config,
 			&i.Cts,
 			&i.Uts,
@@ -173,28 +194,34 @@ func (q *Queries) SwitchSiteStatus(ctx context.Context, arg SwitchSiteStatusPara
 const updateSite = `-- name: UpdateSite :exec
 UPDATE sites SET
     name = $1,
-    stype = $2,
-    site = $3,
-    config = $4,
-    domain = $5,
+    image = $2,
+    description = $3,
+    stype = $4,
+    meta = $5,
+    config = $6,
+    domain = $7,
     uts = (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT
-WHERE id = $6
+WHERE id = $8
 `
 
 type UpdateSiteParams struct {
-	Name   string       `json:"name"`
-	Stype  string       `json:"stype"`
-	Site   dbtypes.JSON `json:"site"`
-	Config dbtypes.JSON `json:"config"`
-	Domain string       `json:"domain"`
-	ID     int64        `json:"id"`
+	Name        string       `json:"name"`
+	Image       string       `json:"image"`
+	Description string       `json:"description"`
+	Stype       string       `json:"stype"`
+	Meta        dbtypes.JSON `json:"meta"`
+	Config      dbtypes.JSON `json:"config"`
+	Domain      string       `json:"domain"`
+	ID          int64        `json:"id"`
 }
 
 func (q *Queries) UpdateSite(ctx context.Context, arg UpdateSiteParams) error {
 	_, err := q.db.Exec(ctx, updateSite,
 		arg.Name,
+		arg.Image,
+		arg.Description,
 		arg.Stype,
-		arg.Site,
+		arg.Meta,
 		arg.Config,
 		arg.Domain,
 		arg.ID,

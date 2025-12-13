@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -27,7 +26,6 @@ func (t *API) GetProductList(c *gin.Context) {
 		log.Println("error sid")
 		return
 	}
-	fmt.Println(sid)
 	// 从查询参数中获取产品 handle
 	productList, err := t.Q.FetchProductList(c, db.FetchProductListParams{
 		Sid: sid,
@@ -90,7 +88,6 @@ func (t *API) GetProduct(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-	fmt.Println(22222)
 	c.JSON(http.StatusOK, product)
 }
 

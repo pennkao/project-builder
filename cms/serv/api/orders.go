@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -30,7 +29,6 @@ func (t *API) CreateOrderLog(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-	fmt.Println(data)
 	var orderLogsReq resq.OrderLogs
 	if err = sonic.UnmarshalString(data, &orderLogsReq); err != nil {
 		log.Println(err.Error())
@@ -102,14 +100,12 @@ func (t *API) Plogin(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-	fmt.Println(data,"888888888888")
 	var plogin Plogin
 	err = sonic.Unmarshal([]byte(data), &plogin)
 	if err!= nil {
 		log.Println(err.Error())
 		return
 	}
-	fmt.Println(plogin,"777777777777777")
 	orderLogs := db.CreateOrderLogsParams{
 		Sid: sid,
 		OrderNo:req.OrderID,

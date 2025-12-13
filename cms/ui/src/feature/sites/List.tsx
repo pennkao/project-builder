@@ -6,6 +6,7 @@ import { useList } from '@/hooks/useList';
 import { useState } from 'react';
 
 import { DownloadIcon, PlusIcon } from '@/icons';
+import { SRC } from '@/lib/image';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { Link, useNavigate } from 'react-router';
 export function SitesList() {
@@ -30,9 +31,10 @@ export function SitesList() {
     };
     const siteColumns: ListColumn<SiteType>[] = [
         {
-            key: 'id',
-            label: 'Id',
+            key: 'image',
+            label: 'Image',
             sortable: false,
+            render: (item?: SiteType) => <img src={SRC(item?.image || '')} alt={item?.name || ''} className="w-12 h-12 rounded" />,
         },
         {
             key: 'name',

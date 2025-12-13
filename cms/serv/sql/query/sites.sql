@@ -8,22 +8,26 @@ SELECT * FROM sites WHERE id = $1;
 INSERT INTO sites (
     id,
     name,
+    image,
+    description,
     domain,
     stype,
-    site,
+    meta,
     config
 )
-VALUES ($1, $2, $3, $4, $5, $6);
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
 
 -- name: UpdateSite :exec
 UPDATE sites SET
     name = $1,
-    stype = $2,
-    site = $3,
-    config = $4,
-    domain = $5,
+    image = $2,
+    description = $3,
+    stype = $4,
+    meta = $5,
+    config = $6,
+    domain = $7,
     uts = (EXTRACT(EPOCH FROM NOW()) * 1000)::BIGINT
-WHERE id = $6;
+WHERE id = $8;  
 
 -- name: BatchDeleteSites :exec
 DELETE FROM sites WHERE id = ANY(sqlc.arg(ids)::bigint[]); 
@@ -35,7 +39,7 @@ UPDATE sites SET
 WHERE id = $2;  
 
 -- name: FetchSite :one
-SELECT site,config FROM sites WHERE id = $1;
+SELECT name,domain,image,description,meta,config FROM sites WHERE id = $1;
 
 -- name: GetDomains :many
 SELECT id,domain FROM sites WHERE status = 0;

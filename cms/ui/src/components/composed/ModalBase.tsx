@@ -16,7 +16,6 @@ const ModalBase = ({
     tips: string;
     isOpen: boolean;
     children: React.ReactNode;
-    onChange: (data: any) => void;
     openModal?: () => void;
     doAction?: () => void;
     closeModal?: () => void;

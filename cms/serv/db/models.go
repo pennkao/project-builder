@@ -228,13 +228,15 @@ type ProductSkuJson struct {
 }
 
 type Site struct {
-	ID     int64        `json:"id"`
-	Name   string       `json:"name"`
-	Domain string       `json:"domain"`
-	Status int16        `json:"status"`
-	Stype  string       `json:"stype"`
-	Site   dbtypes.JSON `json:"site"`
-	Config dbtypes.JSON `json:"config"`
-	Cts    pgtype.Int8  `json:"cts"`
-	Uts    pgtype.Int8  `json:"uts"`
+	ID          int64        `json:"id"`
+	Name        string       `json:"name"`
+	Domain      string       `json:"domain"`
+	Image       string       `json:"image"`
+	Description string       `json:"description"`
+	Status      int16        `json:"status"`
+	Stype       string       `json:"stype"`
+	Meta        dbtypes.JSON `json:"meta"`
+	Config      dbtypes.JSON `json:"config"`
+	Cts         pgtype.Int8  `json:"cts"`
+	Uts         pgtype.Int8  `json:"uts"`
 }

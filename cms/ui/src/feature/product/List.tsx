@@ -38,7 +38,7 @@ export default function Products() {
             sortable: true,
             render: (item) => (
                 <div className="flex items-center gap-3">
-                    <Link to={`/products/${item?.handle}`}>
+                    <Link target="_blank" to={`${sitesMap.get(item?.sid || 0) || ''}/products/${item?.handle}`}>
                         <Image src={SRC(item?.main_image || '')} className="h-10 w-10 rounded-md object-cover shrink-0" />
                     </Link>
 

@@ -2,13 +2,13 @@ import BaseImage from '@/components/BaseImage';
 
 import BackToTopButton from '@/components/BackToTopButton';
 import { Keys } from '@/config/keys';
+import AppFooter from '@/features/app/AppFooter';
 import AppHeader from '@/features/app/AppHeader';
 import { useApi } from '@/hooks/useApi';
 import { denormalizeProductList } from '@/lib/convert';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-import AppFooter from '@/features/app/AppFooter';
 
 const HomePage = ({ data }: any) => {
     const { api } = useApi();
@@ -27,8 +27,8 @@ const HomePage = ({ data }: any) => {
             });
 
         api.doGetOne('site', 234134134).callback((data) => {
-            if (data && data.config && data.config.banners) {
-                setBannerImages(data?.config?.banners || []);
+            if (data && data.meta && data.meta.banners) {
+                setBannerImages(data?.meta?.banners || []);
                 localStorage.setItem(Keys.Config, JSON.stringify(data || {}));
             }
         });

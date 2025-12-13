@@ -1,8 +1,8 @@
 import { Confirm } from '@/components/composed';
+import { defaultSite } from '@/defaults';
 import { useApi } from '@/hooks/useApi';
 import { fnv1a32 } from '@/utils';
 import { useEffect, useState } from 'react';
-
 const message = async (message: string) => {
     const confirm = await Confirm('Error', message, { confirmText: 'Confirm', cancelText: 'Cancel', danger: true });
     if (!confirm) return false;
@@ -11,11 +11,11 @@ const message = async (message: string) => {
 
 export const useSave = (id: number) => {
     const { api } = useApi();
-    const [data, setData] = useState<SiteType>({ id: 0, name: '', domain: '', stype: '', site: {}, config: {} });
+    const [data, setData] = useState<SiteType>(defaultSite);
 
     useEffect(() => {
         if (id <= 0) {
-            setData({ id: 0, name: '', domain: '', stype: '', site: {}, config: {} });
+            setData(defaultSite);
             return;
         }
         api.doGet(id, 'site').callback((site) => {

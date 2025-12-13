@@ -90,8 +90,10 @@ func (t *Cms) UpdateSite(c *gin.Context) {
 	err = t.Q.UpdateSite(c.Request.Context(), db.UpdateSiteParams{
 		ID: req.ID,
 		Name: req.Name,
+		Image: req.Image,
+		Description: req.Description,
 		Stype: req.Stype,
-		Site: req.Site,
+		Meta: req.Meta,
 		Config: req.Config,
 		Domain: req.Domain,
 	})

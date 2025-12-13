@@ -1,7 +1,9 @@
-import { Button, Input, Label } from '@/components/elements';
+import { Button, Input, Label, TextArea } from '@/components/elements';
 import JsonEditor from '@/components/JsonEditor';
 import ImageSelector from '@/feature/common/ImageSelector';
+
 import { Card, Col, Content, Footer, Page } from '@/feature/compos/layout';
+import { SRC } from '@/lib/image';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useSave } from './hooks/useSave';
@@ -12,7 +14,10 @@ export function Add() {
     // 注释掉的确认删除对话框代码
     const { data, setData, UpdateOrSave } = useSave(sid); // 注释掉的批量操作相关钩子
     const [isOpen, setIsOpen] = useState(false);
-
+    const handleSelect = (url: string) => {
+        setData({ ...data, image: url });
+        setIsOpen(false);
+    };
     return (
         <Page title="Add Site" showBackgroud={false}>
             <Content className="grid grid-cols-1 gap-6 xl:grid-cols-2">
@@ -32,14 +37,19 @@ export function Add() {
                             <Label htmlFor="input">Domain</Label>
                             <Input type="text" placeholder="domain" value={data.domain} onChange={(e) => setData({ ...data, domain: e.target.value })} />
                         </div>
-                        <div className="flex justify-end">
-                            <Button variant="primary" onClick={() => setIsOpen(true)}>
-                                Select Image
-                            </Button>
+                        <TextArea placeholder="Description" className="w-full px-4 py-2.5" value={data.description} onChange={(value) => setData({ ...data, description: value })} rows={5} />
+                        <div className="flex flex-row justify-between gap-1">
+                            <img src={SRC(data.image)} alt={data.name} className="w-12 h-12 rounded-md" />
+
+                            <div className="flex justify-end">
+                                <Button variant="primary" onClick={() => setIsOpen(true)}>
+                                    Select Image
+                                </Button>
+                            </div>
                         </div>
                     </Card>
                     <Card title="Site">
-                        <JsonEditor value={data.site} onChange={(site) => setData({ ...data, site })} />
+                        <JsonEditor value={data.meta} onChange={(meta) => setData({ ...data, meta })} />
                     </Card>
                 </Col>
                 <Col>
@@ -69,7 +79,13 @@ export function Add() {
                     Save & Create
                 </Button>
             </Footer>
-            <ImageSelector isOpen={isOpen} onClose={() => setIsOpen(false)} />
+            <ImageSelector
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                onSelect={(url) => {
+                    handleSelect(url);
+                }}
+            />
         </Page>
     );
 }

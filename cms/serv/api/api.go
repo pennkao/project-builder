@@ -2,8 +2,6 @@
 package api
 
 import (
-	"fmt"
-
 	"github.com/cms/db"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -27,7 +25,6 @@ func NewApi(db *pgxpool.Pool, query *db.Queries) *API {
 func (t *API) Dispatch(c *gin.Context) {
 
 	path := c.Param("path")
-	fmt.Println("2323232")
 	switch path {
 	case "products": 
 		t.GetProductList(c)
