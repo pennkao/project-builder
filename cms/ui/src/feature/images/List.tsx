@@ -10,7 +10,7 @@ import { SRC } from '@/lib/image';
 import { useState } from 'react';
 import { useImages } from './hooks/useImages';
 
-export default function List() {
+export default function ImageList() {
     const { Result, SetPage, DoRefresh, Delete } = useListWitePage<ImageType>('image', 100);
     const { handleSubmit } = useImages(() => {
         DoRefresh();
@@ -55,7 +55,6 @@ export default function List() {
                                 </Button>
                             </div>
                         </Popover>
-                        {JSON.stringify(ids)}
                         <Button
                             variant="outline"
                             onClick={() => {

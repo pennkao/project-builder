@@ -1,5 +1,5 @@
-import List from '@/feature/product/List';
-const ListProduct = () => {
-    return <List />;
+import ProductList from '@/feature/products/List';
+const Products = () => {
+    return <ProductList />;
 };
-export default ListProduct;
+export default Products;

@@ -16,13 +16,15 @@ const Calendar = lazy(() => import('@/pages/Calendar'));
 const BarChart = lazy(() => import('@/pages/Charts/BarChart'));
 const LineChart = lazy(() => import('@/pages/Charts/LineChart'));
 const Home = lazy(() => import('@/pages/Dashboard/Home'));
-const Logger = lazy(() => import('@/pages/Logger/SiteLogs'));
+const Loggers = lazy(() => import('@/pages/Loggers/Loggers'));
 const BasicTables = lazy(() => import('@/pages/Tables/BasicTables'));
 const Alerts = lazy(() => import('@/pages/UiElements/Alerts'));
 const Images = lazy(() => import('@/pages/Images/Images'));
 const UserProfiles = lazy(() => import('@/pages/UserProfiles'));
 const Sites = lazy(() => import('./pages/Sites/Sites'));
 const AddSite = lazy(() => import('./pages/Sites/AddSite'));
+const Pages = lazy(() => import('./pages/Pages/Pages'));
+const AddPage = lazy(() => import('./pages/Pages/AddPage'));
 
 export default function App() {
     return (
@@ -57,6 +59,30 @@ export default function App() {
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <Orders />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/pages"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <Pages />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/pages/create"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <AddPage />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/pages/edit/:id"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <AddPage />
                                 </Suspense>
                             }
                         />
@@ -106,7 +132,7 @@ export default function App() {
                             path="/logs"
                             element={
                                 <Suspense fallback={<LoadingPage />}>
-                                    <Logger />
+                                    <Loggers />
                                 </Suspense>
                             }
                         />

@@ -1,6 +1,6 @@
-import List from '@/feature/image/List';
+import ImageList from '@/feature/images/List';
 
 const Images = () => {
-    return <List />;
+    return <ImageList />;
 };
 export default Images;

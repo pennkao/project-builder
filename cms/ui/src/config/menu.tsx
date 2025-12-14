@@ -45,17 +45,14 @@ export const navItems: NavItem[] = [
         ],
     },
     {
+        name: 'Pages',
+        icon: <PageIcon />,
+        subItems: [{ name: 'Pages', path: '/pages' }],
+    },
+    {
         name: 'Tables',
         icon: <TableIcon />,
         subItems: [{ name: 'Basic Tables', path: '/basic-tables' }],
-    },
-    {
-        name: 'Pages',
-        icon: <PageIcon />,
-        subItems: [
-            { name: 'Blank Page', path: '/blank' },
-            //   { name: "404 Error", path: "/error-404",  },
-        ],
     },
     {
         icon: <PieChartIcon />,
@@ -77,14 +74,6 @@ export const navItems: NavItem[] = [
             { name: 'Videos', path: '/videos' },
         ],
     },
-    //   {
-    //     icon: <PlugInIcon />,
-    //     name: "Authentication",
-    //     subItems: [
-    //       { name: "Sign In", path: "/signin",  },
-    //       { name: "Sign Up", path: "/signup",  },
-    //     ],
-    //   },
     {
         icon: <CalenderIcon />,
         name: 'Calendar',

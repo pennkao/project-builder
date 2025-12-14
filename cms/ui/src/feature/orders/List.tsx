@@ -7,7 +7,7 @@ import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-export default function SiteLogs() {
+export default function OrderLogList() {
     const navigator = useNavigate();
     const { SetPage, Result, SetFilter, Delete, SetIds } = useList<OrderLogsType>('order-log');
     const [search, setSearch] = useState('');

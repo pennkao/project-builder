@@ -18,7 +18,7 @@ const ImageSelector = ({
     closeModal: () => void;
     productImages: string[];
 }) => {
-    const { result } = useList<ImageType>('image', undefined, 100);
+    const { Result } = useList<ImageType>('image', undefined, 100);
 
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const handleSelectedImages = (dtype: typeof selectType, img: string) => {
@@ -34,7 +34,7 @@ const ImageSelector = ({
 
     return (
         <>
-            <ModalBase isOpen={isOpen} closeModal={closeModal} doAction={handleAction} onChange={(data) => console.log(data)} title="Product Image" tips="Upload product image">
+            <ModalBase isOpen={isOpen} closeModal={closeModal} doAction={handleAction} title="Product Image" tips="Upload product image">
                 <div className="w-full h-[400px]  dark:bg-gray-700">
                     <div className="w-full h-full overflow-y-scroll">
                         <Label>Product Image</Label>
@@ -46,10 +46,10 @@ const ImageSelector = ({
                                 </div>
                             ))}
                         </div>
-                        {result.list.length > 0 && <div className="h-1 border-b-2 border-gray-200 dark:border-gray-700 my-2"></div>}
+                        {Result.list.length > 0 && <div className="h-1 border-b-2 border-gray-200 dark:border-gray-700 my-2"></div>}
                         <Label>Gallery </Label>
                         <div className="flex flex-wrap gap-2 ">
-                            {result.list.map((item, index) => (
+                            {Result.list.map((item, index) => (
                                 <div key={index} className="relative group">
                                     <img src={SRC(item.url)} alt={item.alt_text} className="w-28 h-28 object-cover" onClick={() => handleSelectedImages(selectType, item.url)} />
                                     {selectedImages.includes(item.url) && <span className="text-xs text-gray-500 absolute top-0 right-0">✅</span>}

@@ -59,7 +59,14 @@ func (t *Cms) Deleter(c *gin.Context) {
 			hp.Error[any](c,  err.Error())
 			return
 		}	
+	case "page":
+		err:=t.Q.BatchDeletePages(c.Request.Context(), req.Ids)
+		if err!= nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}	
 		hp.Success[any](c, nil)
+	
 	default:
 		hp.Error[any](c, "Not Found")
 	}

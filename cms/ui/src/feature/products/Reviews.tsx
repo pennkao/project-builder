@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { StatusLabel } from './compos';
 
-const Reviews = () => {
+export default function ProductReviewList() {
     const { Result, SetFilter, SetPage } = useList<ProductReviewType>('review');
     const [search, setSearch] = useState('');
     const [expandedRow, setExpandedRow] = useState<number | null>(null);
@@ -98,5 +98,4 @@ const Reviews = () => {
             </Footer>
         </Page>
     );
-};
-export default Reviews;
+}

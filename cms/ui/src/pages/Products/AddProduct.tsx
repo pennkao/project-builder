@@ -1,4 +1,4 @@
-import AddPage from '@/feature/product/Add';
+import AddPage from '@/feature/products/Add';
 export default function AddProduct() {
     return <AddPage />;
 }

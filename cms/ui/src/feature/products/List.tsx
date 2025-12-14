@@ -9,7 +9,7 @@ import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { StatusLabel } from './compos';
 import { useProductList } from './hooks';
-export default function Products() {
+export default function ProductList() {
     const navigator = useNavigate();
     const [search, setSearch] = useState('');
     const { result, Delete, setParamFilter, setPage, sites, BatchBindSite } = useProductList();

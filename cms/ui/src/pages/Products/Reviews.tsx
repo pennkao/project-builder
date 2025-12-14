@@ -1,4 +1,4 @@
-import Reviews from '@/feature/product/Reviews';
-export default function ReviewsProduct() {
-    return <Reviews />;
+import ProductReviewList from '@/feature/products/Reviews';
+export default function Reviews() {
+    return <ProductReviewList />;
 }

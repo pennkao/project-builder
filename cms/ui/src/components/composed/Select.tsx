@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Option {
     value: string;
@@ -22,6 +22,13 @@ const Select = ({ options, placeholder = 'Select an option', onChange, className
         setSelectedValue(value);
         onChange(value); // Trigger parent handler
     };
+
+    // 🔥 关键：同步 defaultValue
+    useEffect(() => {
+        if (defaultValue !== undefined) {
+            setSelectedValue(defaultValue);
+        }
+    }, [defaultValue]);
 
     return (
         <select

@@ -32,9 +32,31 @@ func (t *Cms) Updater(c *gin.Context) {
 	case "image":
 		// category, err := t.Q.(c.Request.Context(), req.Id)
 		// hp.Response(c,category, err)
+	case "page":
+		err := t.PageUpdater(c.Request.Context(), req)
+		hp.Response(c, nil, err)
 	default:
 		hp.Error[any](c, "Not Found")
 	}
+}
+
+func (t *Cms) PageUpdater(ctx context.Context, params hq.UpdaterReq) error {
+    switch params.Dtype {
+	case "status":
+		err := t.Q.SwitchPageStatus(ctx, db.SwitchPageStatusParams{
+			ID:     params.Id,
+			Status: int16(params.Value.(float64)),
+		})
+		return err
+	case "visibility":
+		err := t.Q.SwitchPageVisibility(ctx, db.SwitchPageVisibilityParams{
+			ID:        params.Id,
+			Visibility: int16(params.Value.(float64)),
+		})
+		return err
+	default:
+		return errors.New("Not Found")
+    }
 }
 
 func (t *Cms) SiteUpdater(ctx context.Context, params hq.UpdaterReq) error {

@@ -78,6 +78,10 @@ func (t *Cms) Dispatch(c *gin.Context) {
 		t.CreateProductSkuJson(c)
 	case "/update-product-sku-json":
 		t.UpdateProductSkuJson(c)
+	case "/add-page":
+		t.CreatePage(c)
+	case "/update-page":
+		t.UpdatePage(c)
 	default:
 		hp.Error[any](c, "Not Found")
 	}

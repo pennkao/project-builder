@@ -1,6 +1,6 @@
-import { SitesList } from '@/feature/sites/List';
+import { SiteList } from '@/feature/sites/List';
 const Sites = () => {
-    return <SitesList />;
+    return <SiteList />;
 };
 
 export default Sites;

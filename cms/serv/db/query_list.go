@@ -4,6 +4,47 @@ import (
 	"context"
 )
 
+func (q *Queries) QueryPageCount(ctx context.Context, where string, args []interface{}) (int64, error) {
+	row := q.db.QueryRow(ctx, basePageCountSql + where, args...)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+func (q *Queries) QueryPageList(ctx context.Context, where string, args []interface{}) ([]Page, error) {
+	rows, err := q.db.Query(ctx, basePageListSql + where, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Page
+	for rows.Next() {
+		var i Page
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Handle,
+			&i.Subtitle,
+			&i.Sid,
+			&i.Description,
+			&i.Stype,
+			&i.Image,
+			&i.Status,
+			&i.Visibility,
+			&i.Seo,
+			&i.Meta,
+			&i.Cts,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 func (q *Queries) QueryImageCount(ctx context.Context,where string, args []interface{}) (int64, error) {
 	row := q.db.QueryRow(ctx, baseImageCountSql+ where, args...)
 	var count int64

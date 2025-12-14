@@ -44,9 +44,28 @@ func (t *Cms) Lister(c *gin.Context) {
 	case "site":
 			t.QuerySiteList(c.Request.Context(), page)
 			hp.Success[any](c, page)
+	case "page":
+			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "uts")
+			t.QueryPageList(c.Request.Context(), where,fullWhere, args, page)
+			hp.Success[any](c, page)
 	default:
 		hp.Error[any](c, "Not Found")
 	}
+}
+
+func (t *Cms) QueryPageList(ctx context.Context, where,fullWhere string, args []interface{}, page *com.PageResponse) {
+		count, err := t.Q.QueryPageCount(ctx, where, args)
+		if err != nil || count<=0 {
+			log.Println(err)
+			return
+		}
+		data,err:=t.Q.QueryPageList(ctx, fullWhere , args)
+		if err!= nil{
+			log.Println(err)
+			return
+		}
+		page.SetTotal(int(count)) // 设置总记录数
+		page.SetList(data) // 设置产品列表
 }
 
 func (t *Cms) QuerySiteList(ctx context.Context, page *com.PageResponse) {

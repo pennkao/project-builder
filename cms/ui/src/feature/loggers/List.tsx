@@ -6,7 +6,7 @@ import { FilterIcon, PlusIcon } from '@/icons';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-export default function SiteLogs() {
+export default function LoggerList() {
     const navigator = useNavigate();
     const [search, setSearch] = useState('');
     const { SetPage, Result, SetFilter, Delete, SetIds } = useList<SiteLogType>('log');

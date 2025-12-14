@@ -32,6 +32,9 @@ func (t *Cms) Fetcher(c *gin.Context) {
 	case "site":
 		content, err := t.Q.GetSite(c.Request.Context(), req.Id)
 		hp.Response(c,content, err)
+	case "page":
+		page, err := t.Q.GetPage(c.Request.Context(), req.Id)
+		hp.Response(c,page, err)
 	default:
 		hp.Error[any](c, "Not Found")
 	}

@@ -113,9 +113,9 @@ type Page struct {
 	Description string       `json:"description"`
 	Stype       string       `json:"stype"`
 	Content     string       `json:"content"`
-	MainImage   string       `json:"main_image"`
+	Image       string       `json:"image"`
 	Status      int16        `json:"status"`
-	Visibility  string       `json:"visibility"`
+	Visibility  int16        `json:"visibility"`
 	Seo         dbtypes.JSON `json:"seo"`
 	Meta        dbtypes.JSON `json:"meta"`
 	Cts         pgtype.Int8  `json:"cts"`

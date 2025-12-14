@@ -9,7 +9,7 @@ import { DownloadIcon, PlusIcon } from '@/icons';
 import { SRC } from '@/lib/image';
 import { formatDate } from '@fullcalendar/core/index.js';
 import { Link, useNavigate } from 'react-router';
-export function SitesList() {
+export function SiteList() {
     const navigator = useNavigate();
     const { api } = useApi();
     const [expandedRow, setExpandedRow] = useState<number | null>(null);

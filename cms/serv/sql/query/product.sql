@@ -90,7 +90,8 @@ WHERE id = ANY(sqlc.arg(ids)::bigint[]);
 
 
 -- name: FetchProductList :many
-SELECT title,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE sid = $1 ORDER BY uts DESC LIMIT $2 OFFSET $3;    
+SELECT title,handle,main_image,tags,sales_count,price,stock,points FROM products WHERE sid IN (0::bigint,$1) ORDER BY uts DESC LIMIT $2 OFFSET $3;    
 
 -- name: FetchProductById :one
-SELECT id,title,handle,main_image,tags,subtitle,sales_count,price,stock,points FROM products WHERE id = $1 AND sid = $2;
+SELECT id,title,handle,main_image,tags,subtitle,sales_count,price,stock,points 
+FROM products WHERE deleted = 0 AND status = 0 AND sid IN (0::bigint,$2) AND id = $1;
