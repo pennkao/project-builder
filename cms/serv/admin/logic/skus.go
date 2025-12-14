@@ -27,10 +27,22 @@ func ProcessUpdateSkus(product db.Product, submitSkus []hq.SkuItemReq, dbSkus []
 	}
 
 	submitMap := make(map[string]hq.SkuItemReq)
-	for _, sku := range submitSkus {
-		
+	for idx, sku := range submitSkus {
+		if (sku.Image == ""){
+			submitSkus[idx].Image = product.MainImage	
+		}
+		if (sku.Price == 0){
+			submitSkus[idx].Price = product.Price
+		}
+		if (sku.WeightG == 0){
+			submitSkus[idx].WeightG = product.WeightG 
+		}
+		if (sku.Stock == 0){
+			submitSkus[idx].Stock = product.Stock
+		}
 		//无ukey  新增的
 		if sku.Ukey == "" {
+
 			toCreate = append(toCreate, db.BatchCreateProductSkusParams{
 				ProductID: product.ID,
 				Title      : sku.Title,
@@ -115,6 +127,18 @@ func ProcessCreateSkus( product db.Product,reqSkuList []hq.SkuItemReq) (toCreate
 	for _, sku := range reqSkuList {
 		if sku.Title == "" {
 			return nil, errors.New("sku title is empty")
+		}
+		if (sku.Image == ""){
+			sku.Image = product.MainImage	
+		}
+		if (sku.Price == 0){
+			sku.Price = product.Price
+		}
+		if (sku.WeightG == 0){
+			sku.WeightG = product.WeightG 
+		}
+		if (sku.Stock == 0){
+			sku.Stock = product.Stock
 		}
 		toCreate = append(toCreate, db.BatchCreateProductSkusParams{
 			ProductID: product.ID,

@@ -1,6 +1,7 @@
 import { formatPrice, priceToCents } from '@/utils';
 
 export function normalizeProduct<T extends ProductMainType | ProductItemType>(raw: T) {
+    console.log(raw);
     return {
         ...raw,
         price: formatPrice(raw.price),

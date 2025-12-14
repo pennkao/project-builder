@@ -43,11 +43,12 @@ interface ProductMainType {
 type ProductContentType = string;
 
 interface ProductType {
-    main: ProductMainType;
+    product: ProductMainType;
     options: ProductAttrType;
     images: string[];
     skus: SkuType[];
     content: ProductContentType;
+    details?: any;
 }
 
 interface ProductDetailsType {

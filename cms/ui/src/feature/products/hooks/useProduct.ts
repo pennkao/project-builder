@@ -7,7 +7,7 @@ export function useProduct(productId: number) {
     const { api } = useApi();
     // const { doBatchPost, Params } = useBatchPost();
     const [productData, setProductData] = useState<ProductType>({
-        main: defaultProductMain,
+        product: defaultProductMain,
         options: [],
         skus: [],
         images: [],
@@ -28,42 +28,25 @@ export function useProduct(productId: number) {
 
     useEffect(() => {
         if (productId <= 0) return;
+        api.doGet<ProductType>(productId, 'product').callback((data) => {
+            if (!data) return;
+            const product = normalizeProduct<ProductMainType>(data.product);
+            setByKey('product', product);
+            setInitByKey('product', product);
 
-        api.batchPost([
-            api.Params<ProductMainType>('fetch', { id: productId, target: 'product' }, (ok, data) => {
-                if (!ok) return;
-                if (!data) return;
-                const normalized = normalizeProduct(data);
-                setByKey('main', normalized);
-                setInitByKey('main', normalized);
-            }),
-            api.Params<SkuType[]>('fetch', { id: productId, target: 'product-skus' }, (ok, data) => {
-                if (!ok) return;
-                if (!data) return;
-                const normalized = normalizeProductSkus(data);
-                setByKey('skus', normalized);
-                setInitByKey('skus', normalized);
-            }),
-            api.Params<ProductAttrType>('fetch', { id: productId, target: 'product-options' }, (ok, data) => {
-                if (!ok) return;
-                if (!data) return;
-                setByKey('options', data);
-                setInitByKey('options', data);
-            }),
-            api.Params<ProductDetailsType>('fetch', { id: productId, target: 'product-details' }, (ok, data) => {
-                if (!ok) return;
-                if (!data) return;
-                setByKey('images', data.images);
-                setInitByKey('images', data.images);
-            }),
-            api.Params<string>('fetch', { id: productId, target: 'product-content' }, (ok, data) => {
-                if (!ok) return;
-                if (!data) return;
-                const content = decontent(data);
-                setByKey('content', content);
-                setInitByKey('content', content);
-            }),
-        ]);
+            const skus = normalizeProductSkus<SkuType>(data.skus);
+            setByKey('skus', skus);
+            setInitByKey('skus', skus);
+
+            setByKey('options', data.options);
+            setInitByKey('options', data.options);
+            setByKey('images', data.details.images);
+            setInitByKey('images', data.details.images);
+
+            const content = decontent(data.content);
+            setByKey('content', content);
+            setInitByKey('content', content);
+        });
     }, [productId]);
 
     return { productData, setProductData, productDataInit, setByKey };

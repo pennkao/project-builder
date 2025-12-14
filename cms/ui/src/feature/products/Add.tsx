@@ -5,23 +5,14 @@ import { Content, Footer, Page } from '@/feature/compos/layout';
 import { useNavigate, useParams } from 'react-router';
 import { ImageSelector, ImageUploder, Options, Product } from './compos';
 import { ProductContext } from './context';
-import { useProduct, useProductImages, useProductSave } from './hooks';
+import { useProductImages, useProductSave } from './hooks';
 export default function Add() {
     const navigate = useNavigate();
 
     const { id } = useParams<{ id: string }>();
     const product_id = Number.parseInt(id || '0');
-    const { productData, setProductData, productDataInit, setByKey } = useProduct(product_id);
-    const { saveProduct, updateProduct } = useProductSave(product_id, productData, productDataInit, navigate);
+    const { updateOrSave, productData, setProductData, productDataInit, setByKey } = useProductSave(product_id, 'product');
     const { imagesChannel, handleSelectedImages, openImageSelector, isOpen, closeModal, uploadType } = useProductImages();
-
-    const handleSave = (product_id: number) => {
-        if (product_id > 0) {
-            updateProduct();
-        } else {
-            saveProduct();
-        }
-    };
 
     return (
         <ProductContext.Provider value={{ productId: Number.parseInt(id || '0'), productData, setProductData, productDataInit }}>
@@ -44,7 +35,7 @@ export default function Add() {
                             images={productDataInit.images}
                             onChange={(images) => {
                                 setByKey('images', images);
-                                setProductData((prev) => ({ ...prev, main: { ...prev.main, main_image: images[0] || '' } }));
+                                setProductData((prev) => ({ ...prev, product: { ...prev.product, main_image: images[0] || '' } }));
                             }}
                             outSelected={imagesChannel}
                             onOpenSelected={openImageSelector}
@@ -62,7 +53,7 @@ export default function Add() {
                     >
                         Draft
                     </Button>
-                    <Button variant="primary" onClick={() => handleSave(product_id)}>
+                    <Button variant="primary" onClick={() => updateOrSave()}>
                         Save & Create
                     </Button>
                 </Footer>

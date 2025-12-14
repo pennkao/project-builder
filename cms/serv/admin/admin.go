@@ -36,7 +36,7 @@ func (t *Cms) Dispatch(c *gin.Context) {
 		t.Fetcher(c)
 	case "/list":
 		t.Lister(c)
-	case "spider":
+	case "/spider":
 		t.Spider(c)
 	case "/updater":
 		t.Updater(c)
@@ -48,36 +48,16 @@ func (t *Cms) Dispatch(c *gin.Context) {
 		t.UpdateSite(c)
 	case "/add-images":
 		t.AddImages(c)
+	case "/add-product":
+		t.CreateProduct(c)
+	case "/update-product":
+		t.UpdateProduct(c)
 	case "/product-handle-check":
 		t.CheckProductHandle(c)
 	case "/product-handle-count":
 		t.GetProductHandleCount(c)
 	case "/add-product/reivews":
 		CrawlProductReviwes(c)
-	case "/add-product":
-		t.CreateProductMain(c)
-	case "/update-product":
-		t.UpdateProductMain(c)
-	case "/add-product-options":
-		t.CreateProductOptions(c)
-	case "/update-product-options":
-		t.UpdateProductOptions(c)
-	case "/add-product-skus":
-		t.CreateProductSkus(c)
-	case "/update-product-skus":
-		t.UpdateProductSkus(c)
-	case "/add-product-content":
-		t.CreateProductContent(c)
-	case "/update-product-content":
-		t.UpdateProductContent(c)
-	case "/add-product-details":
-		t.CreateProductDetails(c)
-	case "/update-product-details":
-		t.UpdateProductDetails(c)
-	case "/add-product-sku-json":
-		t.CreateProductSkuJson(c)
-	case "/update-product-sku-json":
-		t.UpdateProductSkuJson(c)
 	case "/add-page":
 		t.CreatePage(c)
 	case "/update-page":

@@ -1,24 +1,34 @@
 import { Confirm } from '@/components/composed';
+import { defaultProductMain } from '@/defaults/product';
 import { useApi } from '@/hooks/useApi';
-import { encontent } from '@/lib/content';
+import { decontent, encontent } from '@/lib/content';
 import { formatNumbers } from '@/utils/pre';
 import { fnv1a32 } from '@/utils/product';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
-import { denormalizeProduct, denormalizeProductSkus } from '../utils/format';
+import { denormalizeProduct, denormalizeProductSkus, normalizeProduct, normalizeProductSkus } from '../utils/format';
+const message = async (message: string, confirmText: string = 'Confirm', cancelText: string = 'Cancel') => {
+    const confirm = await Confirm(confirmText, message, { confirmText, cancelText, danger: true });
+    if (!confirm) return false;
+    return true;
+};
+export function useProductSave(productId: number, target: string) {
+    const navigate = useNavigate();
 
-export function useProductSave(productId: number, productData: ProductType, productDataInit: ProductType, navigate: Function) {
     const { api } = useApi();
-
-    const message = async (message: string) => {
-        const confirm = await Confirm('Error', message, { confirmText: 'Confirm', cancelText: 'Cancel', danger: true });
-        if (!confirm) return false;
-        return true;
-    };
-
+    const [productData, setProductData] = useState<ProductType>({
+        product: defaultProductMain,
+        options: [],
+        skus: [],
+        images: [],
+        content: '',
+    });
+    const [productDataInit, setProductDataInit] = useState<ProductType>(productData);
     const checkParams = (data: ProductType) => {
         const rules = [
-            { valid: !!data.main.title, msg: 'Please enter title' },
-            { valid: !!data.main.handle, msg: 'Please enter handle' },
+            { valid: !!data.product.title, msg: 'Please enter title' },
+            { valid: !!data.product.handle, msg: 'Please enter handle' },
             { valid: data.images.length > 0, msg: 'Please upload main image' },
         ];
 
@@ -29,42 +39,34 @@ export function useProductSave(productId: number, productData: ProductType, prod
     const saveProduct = async () => {
         const valid = checkParams(productData);
         if (valid) {
-            await message(valid);
+            await message(valid, 'Error');
             return;
         }
 
-        const confirm = await message('Are you sure you want to save this site?');
+        const confirm = await message('Are you sure you want to save?');
         if (!confirm) return false;
 
-        const id = fnv1a32(productData.main.handle);
-        productData.main.id = id;
+        const id = fnv1a32(productData.product.handle);
+        productData.product.id = id;
         productData.content = encontent(productData.content);
-        const res = await api.batchPost([
-            api.Params('add-product', denormalizeProduct(formatNumbers(productData.main))),
-            api.Params('add-product-content', { product_id: id, content: productData.content }),
-            api.Params('add-product-details', { product_id: id, images: Array.from(new Set(productData.images)), videos: [], specs: {} }),
-            api.Params('add-product-skus', { product_id: id, skus: denormalizeProductSkus(formatNumbers(productData.skus)) }),
-            api.Params('add-product-options', { product_id: id, options: productData.options }),
-            api.Params('add-product-sku-json', { product_id: id, skus: productData.skus }),
-        ]);
-
-        let ret = true;
-        res.forEach((i) => {
-            if (!i.ok) {
-                ret = false;
+        api.Post('add-product', {
+            product: denormalizeProduct(formatNumbers(productData.product)),
+            skus: denormalizeProductSkus(formatNumbers(productData.skus)),
+            sku_json: denormalizeProductSkus(formatNumbers(productData.skus)),
+            details: { images: Array.from(new Set(productData.images)), videos: [], specs: {} },
+            options: productData.options,
+            content: encontent(productData.content),
+        }).callback((ok) => {
+            if (ok) {
+                navigate('/products');
             }
         });
-        if (!ret) {
-            await message('Add product failed');
-            return;
-        }
-        navigate('/products');
     };
 
     const updateProduct = async () => {
         const valid = checkParams(productData);
         if (valid) {
-            await message(valid);
+            await message(valid, 'Error');
             return;
         }
 
@@ -73,31 +75,64 @@ export function useProductSave(productId: number, productData: ProductType, prod
             return;
         }
 
-        const confirm = await message('Are you sure you want to save this site?');
+        const confirm = await message('Are you sure you want to save?');
         if (!confirm) return false;
 
         productData.content = encontent(productData.content);
-
-        const res = await api.batchPost([
-            api.Params('update-product', denormalizeProduct(formatNumbers(productData.main))),
-            api.Params('update-product-content', { product_id: productId, content: productData.content }),
-            api.Params('update-product-details', { product_id: productId, images: Array.from(new Set(productData.images)), videos: [], specs: {} }),
-            api.Params('update-product-skus', { product_id: productId, skus: denormalizeProductSkus(formatNumbers(productData.skus)) }),
-            api.Params('update-product-options', { product_id: productId, options: productData.options }),
-            api.Params('update-product-sku-json', { product_id: productId, skus: productData.skus }),
-        ]);
-        let ret = true;
-        res.forEach((i) => {
-            if (!i.ok) {
-                ret = false;
+        api.Post(`update-${target}`, {
+            product: denormalizeProduct(formatNumbers(productData.product)),
+            skus: denormalizeProductSkus(formatNumbers(productData.skus)),
+            sku_json: denormalizeProductSkus(formatNumbers(productData.skus)),
+            details: { images: Array.from(new Set(productData.images)), videos: [], specs: {} },
+            options: productData.options,
+            content: encontent(productData.content),
+        }).callback((ok) => {
+            if (ok) {
+                navigate('/products');
             }
         });
-        if (!ret) {
-            await message('Add product failed');
-            return;
-        }
-        navigate('/products');
     };
 
-    return { saveProduct, updateProduct };
+    const setByKey = (key: keyof ProductType, value: any) => {
+        if (key === 'images') {
+            setProductData((prev) => ({ ...prev, images: value }));
+            return;
+        }
+        setProductData((prev) => ({ ...prev, [key]: value }));
+    };
+    const setInitByKey = (key: keyof ProductType, value: any) => {
+        setProductDataInit((prev) => ({ ...prev, [key]: value }));
+    };
+
+    useEffect(() => {
+        if (productId <= 0) return;
+        api.doGet<ProductType>(productId, target).callback((data) => {
+            if (!data) return;
+            const product = normalizeProduct<ProductMainType>(data.product);
+            setByKey('product', product);
+            setInitByKey('product', product);
+
+            const skus = normalizeProductSkus<SkuType>(data.skus);
+            setByKey('skus', skus);
+            setInitByKey('skus', skus);
+
+            setByKey('options', data.options);
+            setInitByKey('options', data.options);
+            setByKey('images', data.details.images);
+            setInitByKey('images', data.details.images);
+
+            const content = decontent(data.content);
+            setByKey('content', content);
+            setInitByKey('content', content);
+        });
+    }, [productId]);
+
+    const updateOrSave = async () => {
+        if (productId && productId > 0) {
+            await updateProduct();
+        } else {
+            await saveProduct();
+        }
+    };
+    return { updateOrSave, productData, setProductData, productDataInit, setByKey };
 }
