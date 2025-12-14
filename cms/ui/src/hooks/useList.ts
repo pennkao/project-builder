@@ -48,8 +48,19 @@ export const useList = <T extends { id: number }>(target: string, normalize?: (i
         SetQuery((prev) => ({ ...prev, sort: items }));
     };
 
-    const Delete = async (id?: number) => {
-        const del_ids = id && id > 0 ? [id] : Ids.filter((id) => id > 0);
+    const Delete = async (id?: number | number[]) => {
+        let del_ids: number[] = [];
+        if (id) {
+            switch (typeof id) {
+                case 'number':
+                    if (id > 0) del_ids = [id];
+                    break;
+                case 'object':
+                    if (Array.isArray(id)) del_ids = id.filter((id) => id > 0);
+                    break;
+            }
+        } else del_ids = Ids;
+
         if (!del_ids.length) return;
         const confirm = await message('Are you sure you want to delete this product?');
         if (!confirm) return false;

@@ -46,13 +46,20 @@ func (t *Cms) Deleter(c *gin.Context) {
 			return
 		}	
 		hp.Success[any](c, nil)
-		case "log":
-			err:=t.Q.BatchDeleteLogs(c.Request.Context(), req.Ids)
-			if err!= nil {
-				hp.Error[any](c,  err.Error())
-				return
-			}	
-			hp.Success[any](c, nil)
+	case "log":
+		err:=t.Q.BatchDeleteLogs(c.Request.Context(), req.Ids)
+		if err!= nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}	
+		hp.Success[any](c, nil)
+	case "image":
+		err:=t.Q.BatchDeleteImages(c.Request.Context(), req.Ids)
+		if err!= nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}	
+		hp.Success[any](c, nil)
 	default:
 		hp.Error[any](c, "Not Found")
 	}

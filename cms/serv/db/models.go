@@ -104,6 +104,24 @@ type OrderLog struct {
 	Uts           pgtype.Int8  `json:"uts"`
 }
 
+type Page struct {
+	ID          int64        `json:"id"`
+	Title       string       `json:"title"`
+	Handle      string       `json:"handle"`
+	Subtitle    string       `json:"subtitle"`
+	Sid         int64        `json:"sid"`
+	Description string       `json:"description"`
+	Stype       string       `json:"stype"`
+	Content     string       `json:"content"`
+	MainImage   string       `json:"main_image"`
+	Status      int16        `json:"status"`
+	Visibility  string       `json:"visibility"`
+	Seo         dbtypes.JSON `json:"seo"`
+	Meta        dbtypes.JSON `json:"meta"`
+	Cts         pgtype.Int8  `json:"cts"`
+	Uts         pgtype.Int8  `json:"uts"`
+}
+
 type Payment struct {
 	ID             int64              `json:"id"`
 	PaymentNo      string             `json:"payment_no"`

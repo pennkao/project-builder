@@ -83,6 +83,15 @@ func (q *Queries) BaseImageListSql(ctx context.Context) ([]BaseImageListSqlRow, 
 	return items, nil
 }
 
+const batchDeleteImages = `-- name: BatchDeleteImages :exec
+DELETE FROM images WHERE id = ANY($1::bigint[])
+`
+
+func (q *Queries) BatchDeleteImages(ctx context.Context, ids []int64) error {
+	_, err := q.db.Exec(ctx, batchDeleteImages, ids)
+	return err
+}
+
 const listImages = `-- name: ListImages :many
 SELECT id, url, storage_path, file_name, file_type, mime_type, alt_text, width_px, height_px, cts FROM images
 ORDER BY cts DESC

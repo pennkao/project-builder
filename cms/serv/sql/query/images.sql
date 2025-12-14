@@ -32,3 +32,6 @@ INSERT INTO images (
     width_px
 )
 VALUES ($1, $2, $3, $4, $5, $6);
+
+-- name: BatchDeleteImages :exec
+DELETE FROM images WHERE id = ANY(sqlc.arg(ids)::bigint[]); 
