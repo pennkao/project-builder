@@ -165,5 +165,7 @@
     "paypal.or": "or",
     "paypal.worldwide": "Worldwide",
     "paypal.login": "Log In",
-    "paypal.sign_up": "Sign Up"
+    "paypal.sign_up": "Sign Up",
+
+    "show.more": "Show More"
 }

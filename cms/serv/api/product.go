@@ -1,8 +1,10 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/cms/api/dto/resq"
 	"github.com/cms/db"
@@ -26,11 +28,24 @@ func (t *API) GetProductList(c *gin.Context) {
 		log.Println("error sid")
 		return
 	}
+	page := c.DefaultQuery("page", "1")
+	size := c.DefaultQuery("size", "4")
+	pageNum, err := strconv.Atoi(page)
+	if err!= nil{
+		log.Println(err.Error())
+		return
+	}
+	sizeNum, err := strconv.Atoi(size)
+	if err!= nil{
+		log.Println(err.Error())
+		return
+	}
+	fmt.Println(pageNum, sizeNum)
 	// 从查询参数中获取产品 handle
 	productList, err := t.Q.FetchProductList(c, db.FetchProductListParams{
 		Sid: sid,
-		Limit:  6,
-		Offset: 0,
+		Limit:  int32(sizeNum),
+		Offset: int32((pageNum-1)*sizeNum),
 	})
 	if err != nil {
 		return

@@ -7,6 +7,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jackc/pgx/v5/pgtype"
 )
@@ -219,6 +220,7 @@ type FetchProductListRow struct {
 }
 
 func (q *Queries) FetchProductList(ctx context.Context, arg FetchProductListParams) ([]FetchProductListRow, error) {
+	fmt.Println(fetchProductList, arg.Sid, arg.Limit, arg.Offset)
 	rows, err := q.db.Query(ctx, fetchProductList, arg.Sid, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err

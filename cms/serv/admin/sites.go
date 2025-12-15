@@ -2,7 +2,6 @@ package admin
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"strings"
 	"sync"
@@ -38,7 +37,6 @@ func AddDomain(domain string) {
 func (t *Cms) InitOrigins(){
     Origins = make(map[string]int64)
 	domains, err := t.Q.GetDomains(context.Background())
-	fmt.Println(domains)
 	if err != nil {
 		log.Printf("failed to get domains: %v", err)
 	}
@@ -76,6 +74,7 @@ func (t *Cms) UpdateSite(c *gin.Context) {
 	site, err := t.Q.GetSite(c.Request.Context(), req.ID)
 	if err != nil {
 		t.Q.CreateSite(c.Request.Context(), req)
+		AddDomain(req.Domain)
 		hp.Success(c,"")
 		return
 	}

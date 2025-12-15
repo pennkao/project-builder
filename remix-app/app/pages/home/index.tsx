@@ -6,7 +6,7 @@ import AppFooter from '@/features/app/AppFooter';
 import AppHeader from '@/features/app/AppHeader';
 import { useApi } from '@/hooks/useApi';
 import { denormalizeProductList } from '@/lib/convert';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
@@ -15,17 +15,56 @@ const HomePage = ({ data }: any) => {
     const [products, setProducts] = useState<ProductItemType[]>([]);
     const { t, i18n } = useTranslation(); // 默认 namespace 是 "common"
     const [bannerImages, setBannerImages] = useState<string[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const bottomRef = useRef<HTMLDivElement>(null);
+    const [hasNext, setHasNext] = useState(true);
 
-    useEffect(() => {
-        api.query({ page: 1, size: 12 })
+    const getProductList = (page: number, size: number) => {
+        api.query({ page, size })
             .doGetList<ProductItemType[]>('products')
             .callback((data) => {
+                if (!data) {
+                    setHasNext(false);
+                    return;
+                }
                 if (data && data.length) {
                     const pdata = denormalizeProductList(data);
-                    setProducts(pdata);
+                    setProducts((prev) => [...prev, ...pdata]);
                 }
             });
+    };
 
+    useEffect(() => {
+        if (!hasNext) {
+            return;
+        }
+
+        console.log('page', page);
+        getProductList(page, 8);
+    }, [page]);
+    useEffect(() => {
+        if (!bottomRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    console.log('滑动到底部了！');
+                    // 这里触发加载下一页
+                    setPage((prev) => prev + 1);
+                }
+            },
+            {
+                root: null, // 默认 viewport
+                rootMargin: '200px', // 提前加载
+                threshold: 0.1, // 元素 10% 可见就触发
+            }
+        );
+
+        observer.observe(bottomRef.current);
+
+        return () => observer.disconnect();
+    }, []);
+    useEffect(() => {
         api.doGetOne('site', 234134134).callback((data) => {
             if (data && data.meta && data.meta.banners) {
                 setBannerImages(data?.meta?.banners || []);
@@ -72,6 +111,18 @@ const HomePage = ({ data }: any) => {
                     ))}
                 </div>
             </div>
+            {/* PC */}
+            <div className="hidden md:block text-center my-4">
+                {hasNext && (
+                    <button onClick={() => setPage((prev) => prev + 1)} className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-200">
+                        {t('show.more')}
+                    </button>
+                )}
+            </div>
+
+            {/* Mobile */}
+            {hasNext && <div className="block md:hidden" ref={bottomRef} />}
+
             <AppFooter />
             <BackToTopButton />
         </>

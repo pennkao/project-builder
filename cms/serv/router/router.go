@@ -16,7 +16,7 @@ import (
 
 func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 	r := gin.Default()
-	r.Use(cross.Cross2())
+	r.Use(cross.Cross())
 	// 1️⃣ 静态资源 开放
 	r.Static("/public",  "./public")
 

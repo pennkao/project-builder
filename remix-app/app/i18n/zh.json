@@ -161,5 +161,7 @@
     "paypal.or": "或",
     "paypal.worldwide": "全球服务",
     "paypal.login": "登陆",
-    "paypal.sign_up": "注册"
+    "paypal.sign_up": "注册",
+
+    "show.more": "显示更多"
 }
