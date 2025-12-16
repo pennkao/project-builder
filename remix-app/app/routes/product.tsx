@@ -1,4 +1,4 @@
-//routes/product.tsx
+// routes/product.tsx
 import { createApi } from '@/hooks/useApi';
 import { denormalizeProduct } from '@/lib/convert';
 import { SRC } from '@/lib/images';
@@ -16,6 +16,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
     const res = await api.setHeader('Origin', origin).doGet<ProductType>('product', { id: id });
     if (!res) throw new Response('Not found', { status: 404 });
     return denormalizeProduct(res);
+    return {};
 };
 
 export const meta: MetaFunction = ({ loaderData }) => {

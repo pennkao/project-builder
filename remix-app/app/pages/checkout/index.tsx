@@ -11,7 +11,7 @@ import { useApi } from '@/hooks/useApi';
 import { useJump } from '@/hooks/useJump';
 import useMessageBox from '@/hooks/useMessageBox';
 import { SRC } from '@/lib/images';
-import { encryptData } from '@/utils/hash';
+import { encryptData } from '@/utils/hash.client';
 
 // 表单错误信息状态
 import { checkoutPayment, checkoutPaymentFormat } from '@/utils/tools';

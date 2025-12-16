@@ -1,7 +1,7 @@
 import LoadingOverlay from '@/components/LoadingOverlay';
 import { Keys } from '@/config/keys';
 import { useApi } from '@/hooks/useApi';
-import { encryptData } from '@/utils/hash';
+import { encryptData } from '@/utils/hash.client';
 import { t } from 'i18next';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';

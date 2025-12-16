@@ -1,5 +1,5 @@
 //routes/home.tsx
-import { useApi } from '@/hooks/useApi';
+import { useApi } from '@/lib/api.server';
 import HomePage from '@/pages/home';
 import type { MetaFunction } from 'react-router';
 import { SRC } from '../lib/images';
@@ -30,7 +30,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
     console.log('origin', origin);
     const data = await api.setHeader('Origin', origin).doGetOne('site', 234134134);
     console.log('data', data);
-    return data;
+    return {};
 };
 
 export const meta: MetaFunction = ({ loaderData }) => {
