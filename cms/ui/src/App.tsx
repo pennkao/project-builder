@@ -25,7 +25,7 @@ const Sites = lazy(() => import('./pages/Sites/Sites'));
 const AddSite = lazy(() => import('./pages/Sites/AddSite'));
 const Pages = lazy(() => import('./pages/Pages/Pages'));
 const AddPage = lazy(() => import('./pages/Pages/AddPage'));
-
+const ReviewDetails = lazy(() => import('./pages/Products/ReviewDetails'));
 export default function App() {
     return (
         <>
@@ -43,6 +43,14 @@ export default function App() {
                             element={
                                 <Suspense fallback={<LoadingPage />}>
                                     <UserProfiles />
+                                </Suspense>
+                            }
+                        />
+                        <Route
+                            path="/reviews/details/:id"
+                            element={
+                                <Suspense fallback={<LoadingPage />}>
+                                    <ReviewDetails />
                                 </Suspense>
                             }
                         />

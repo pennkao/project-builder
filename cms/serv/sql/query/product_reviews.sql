@@ -18,3 +18,22 @@ LEFT JOIN product_reviews r
 SELECT
 	count(*)
 FROM products as p;
+
+
+-- name: baseCustomerReviewsListSql :many
+SELECT
+    *
+FROM product_customer_reviews;
+
+-- name: baseCustomerReviewsCountSql :one
+SELECT
+	count(*)
+FROM product_customer_reviews;
+
+
+-- name: BatchDeleteReviews :exec
+DELETE FROM product_reviews WHERE id = ANY(sqlc.arg(ids)::bigint[]);
+
+-- name: BatchDeleteCustomerReviews :exec
+DELETE FROM product_customer_reviews WHERE id = ANY(sqlc.arg(ids)::bigint[]);
+

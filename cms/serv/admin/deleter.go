@@ -66,7 +66,20 @@ func (t *Cms) Deleter(c *gin.Context) {
 			return
 		}	
 		hp.Success[any](c, nil)
-	
+	case "review":
+		err:=t.Q.BatchDeleteReviews(c.Request.Context(), req.Ids)
+		if err!= nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}	
+		hp.Success[any](c, nil)
+	case "customer-review":
+		err:=t.Q.BatchDeleteCustomerReviews(c.Request.Context(), req.Ids)
+		if err!= nil {
+			hp.Error[any](c,  err.Error())
+			return
+		}	
+		hp.Success[any](c, nil)
 	default:
 		hp.Error[any](c, "Not Found")
 	}

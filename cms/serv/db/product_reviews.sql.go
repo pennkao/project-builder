@@ -11,6 +11,75 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const batchDeleteCustomerReviews = `-- name: BatchDeleteCustomerReviews :exec
+DELETE FROM product_customer_reviews WHERE id = ANY($1::bigint[])
+`
+
+func (q *Queries) BatchDeleteCustomerReviews(ctx context.Context, ids []int64) error {
+	_, err := q.db.Exec(ctx, batchDeleteCustomerReviews, ids)
+	return err
+}
+
+const batchDeleteReviews = `-- name: BatchDeleteReviews :exec
+DELETE FROM product_reviews WHERE id = ANY($1::bigint[])
+`
+
+func (q *Queries) BatchDeleteReviews(ctx context.Context, ids []int64) error {
+	_, err := q.db.Exec(ctx, batchDeleteReviews, ids)
+	return err
+}
+
+const baseCustomerReviewsCountSql = `-- name: baseCustomerReviewsCountSql :one
+SELECT
+	count(*)
+FROM product_customer_reviews
+`
+
+func (q *Queries) baseCustomerReviewsCountSql(ctx context.Context) (int64, error) {
+	row := q.db.QueryRow(ctx, baseCustomerReviewsCountSql)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+const baseCustomerReviewsListSql = `-- name: baseCustomerReviewsListSql :many
+SELECT
+    id, product_id, user_name, user_avatar, title, content, rating, images, sort, status, cts
+FROM product_customer_reviews
+`
+
+func (q *Queries) baseCustomerReviewsListSql(ctx context.Context) ([]ProductCustomerReview, error) {
+	rows, err := q.db.Query(ctx, baseCustomerReviewsListSql)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ProductCustomerReview
+	for rows.Next() {
+		var i ProductCustomerReview
+		if err := rows.Scan(
+			&i.ID,
+			&i.ProductID,
+			&i.UserName,
+			&i.UserAvatar,
+			&i.Title,
+			&i.Content,
+			&i.Rating,
+			&i.Images,
+			&i.Sort,
+			&i.Status,
+			&i.Cts,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const baseProductReviewsCountSql = `-- name: baseProductReviewsCountSql :one
 SELECT
 	count(*)

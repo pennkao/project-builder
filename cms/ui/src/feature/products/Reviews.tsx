@@ -52,7 +52,7 @@ export default function ProductReviewList() {
             sortable: false,
             render: (item?: ProductReviewType) => (
                 <div className="flex items-center gap-1">
-                    <Link to={`/edit-product/${item?.id}`}>Edit</Link>
+                    <Link to={`/reviews/details/${item?.id}`}>Details</Link>
                     <Button
                         variant="outline"
                         size="sm"

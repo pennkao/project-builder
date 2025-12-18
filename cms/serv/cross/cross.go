@@ -1,7 +1,6 @@
 package cross
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -13,12 +12,12 @@ import (
 func Cross() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		origin := c.GetHeader("Origin")
-		xorigin := c.GetHeader("X-Origin")
-		fmt.Println("origin", origin, xorigin)
-		if origin != "" || xorigin != "" {
-			if xorigin != "" {
-				origin = xorigin
-			}
+		// xorigin := c.GetHeader("X-Origin")
+		// fmt.Println("origin", origin, xorigin)
+		if origin != ""{
+			// if xorigin != "" {
+			// 	origin = xorigin
+			// }
 			if _, ok := admin.Origins[origin]; ok {
 				c.Header("Access-Control-Allow-Origin", origin)
 				c.Header("Access-Control-Allow-Credentials", "true")

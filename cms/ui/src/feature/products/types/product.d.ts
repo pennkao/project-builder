@@ -71,16 +71,3 @@ interface ProductItemType {
     cts: string;
     main_image: string;
 }
-
-interface ProductReviewType {
-    id: number;
-    title: string;
-    handle: string;
-    main_image: string;
-    rating: number;
-    total: number;
-    count: number;
-    avg: number;
-    status: number;
-    cts: number;
-}

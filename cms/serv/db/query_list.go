@@ -4,6 +4,45 @@ import (
 	"context"
 )
 
+func (q *Queries) QueryCustomerReviewsCount(ctx context.Context, where string, args []interface{}) (int64, error) { // TODO: implement
+	row := q.db.QueryRow(ctx, baseProductReviewsCountSql + where, args...)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
+func (q *Queries) QueryCustomerReviewsList(ctx context.Context, where string, args []interface{}) ([]ProductCustomerReview, error) { // TODO: implement
+	rows, err := q.db.Query(ctx, baseCustomerReviewsListSql + where, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ProductCustomerReview
+	for rows.Next() {
+		var i ProductCustomerReview
+		if err := rows.Scan(
+			&i.ID,
+			&i.ProductID,
+			&i.UserName,
+			&i.UserAvatar,
+			&i.Title,
+			&i.Content,
+			&i.Rating,
+			&i.Images,
+			&i.Sort,
+			&i.Status,
+			&i.Cts,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 func (q *Queries) QueryPageCount(ctx context.Context, where string, args []interface{}) (int64, error) {
 	row := q.db.QueryRow(ctx, basePageCountSql + where, args...)
 	var count int64

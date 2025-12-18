@@ -33,6 +33,10 @@ func (t *Cms) Lister(c *gin.Context) {
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "r.cts")
 			t.QueryProductReviewsList(c.Request.Context(), where,fullWhere, args, page)
 			hp.Success[any](c, page)
+	case "customer-review":
+			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "cts")
+			t.QueryCustomerReviewsList(c.Request.Context(), where,fullWhere, args, page)
+			hp.Success[any](c, page)
 	case "log":
 			where, fullWhere, args := utils.BuildDynamicQuery(req.Filter, req.Sort, page,  "ts")
 			t.QueryLogsList(c.Request.Context(), where,fullWhere, args, page)
@@ -51,6 +55,21 @@ func (t *Cms) Lister(c *gin.Context) {
 	default:
 		hp.Error[any](c, "Not Found")
 	}
+}
+
+func (t *Cms) QueryCustomerReviewsList(ctx context.Context, where,fullWhere string, args []interface{}, page *com.PageResponse) {
+		count, err := t.Q.QueryCustomerReviewsCount(ctx, where, args)
+		if err != nil || count<=0 {
+			log.Println(err)
+			return
+		}
+		data,err:=t.Q.QueryCustomerReviewsList(ctx, fullWhere , args)
+		if err!= nil{
+			log.Println(err)
+			return
+		}
+		page.SetTotal(int(count)) // 设置总记录数
+		page.SetList(data) // 设置产品列表
 }
 
 func (t *Cms) QueryPageList(ctx context.Context, where,fullWhere string, args []interface{}, page *com.PageResponse) {

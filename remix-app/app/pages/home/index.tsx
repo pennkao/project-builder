@@ -39,7 +39,6 @@ const HomePage = ({ data }: any) => {
             return;
         }
 
-        console.log('page', page);
         getProductList(page, 8);
     }, [page]);
     useEffect(() => {
@@ -48,7 +47,6 @@ const HomePage = ({ data }: any) => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    console.log('滑动到底部了！');
                     // 这里触发加载下一页
                     setPage((prev) => prev + 1);
                 }
