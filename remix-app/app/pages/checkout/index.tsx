@@ -69,7 +69,7 @@ const CheckoutPage = ({ data }: any) => {
         const userInfo = userInfoJson ? JSON.parse(userInfoJson) : null;
 
         if (!productDetail || !userInfo) {
-            // console.log('没有选择商品或用户信息', productDetail);
+            console.log('没有选择商品或用户信息', productDetail);
             navigate('/');
             return;
         }

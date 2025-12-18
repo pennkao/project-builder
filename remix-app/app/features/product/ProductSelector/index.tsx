@@ -140,6 +140,9 @@ export default function ProductSelector({ action, product }: ProductSelectorProp
         const pdata = JSON.stringify(productSelected);
         localStorage.setItem(Keys.Product, pdata);
         const ckdata = localStorage.getItem(Keys.Product);
+        if (ckdata == null) {
+            handleSubmit();
+        }
         if (pdata == ckdata) {
             DoJump(true, '/checkout');
         }
