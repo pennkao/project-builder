@@ -29,9 +29,14 @@ INSERT INTO images (
     file_type,
     mime_type,
     height_px,
-    width_px
+    width_px,
+    size,
+    platform
 )
-VALUES ($1, $2, $3, $4, $5, $6);
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8);    
 
 -- name: BatchDeleteImages :exec
 DELETE FROM images WHERE id = ANY(sqlc.arg(ids)::bigint[]); 
+
+-- name: GetImagesByNames :many
+SELECT file_name FROM images WHERE file_name = ANY(sqlc.arg(file_names)::text[]); 

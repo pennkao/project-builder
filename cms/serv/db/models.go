@@ -19,6 +19,8 @@ type Image struct {
 	AltText     string      `json:"alt_text"`
 	WidthPx     int32       `json:"width_px"`
 	HeightPx    int32       `json:"height_px"`
+	Size        int64       `json:"size"`
+	Platform    int16       `json:"platform"`
 	Cts         pgtype.Int8 `json:"cts"`
 }
 

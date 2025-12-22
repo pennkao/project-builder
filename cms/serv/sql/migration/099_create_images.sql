@@ -8,5 +8,7 @@ CREATE TABLE images (
     alt_text        TEXT NOT NULL DEFAULT '',                      -- 描述/替代文字
     width_px        INT NOT NULL DEFAULT 0,
     height_px       INT NOT NULL DEFAULT 0,
+    size            BIGINT NOT NULL DEFAULT 0,
+    platform        SMALLINT NOT NULL DEFAULT 0,
 	cts int8 DEFAULT (EXTRACT(epoch FROM now()) * 1000::numeric)::bigint NULL
 );

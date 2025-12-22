@@ -23,6 +23,29 @@ interface ImageItemType {
     file?: File | null; // 本地文件（File对象），网络图片可以不填
     fileType?: string; // 文件类型，如 image/png
 }
+interface AwsImageUploadType {
+    path: string;
+    org_name: string;
+    file_name: string;
+    presign_url: string;
+    file: File | null;
+    mime_type: string;
+}
+interface SaveImageType {
+    file_name: string;
+    mime_type: string;
+    size: number;
+    height_px: number;
+    width_px: number;
+    platform: number;
+    storage_path: string;
+}
+interface AwsImageResponseType {
+    org_name: string;
+    path: string;
+    file_name: string;
+    presign_url: string;
+}
 
 interface UploadResponseType {
     id: number;

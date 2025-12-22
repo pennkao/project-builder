@@ -65,6 +65,7 @@ type ImagesReq struct {
 	Images      []string `json:"images"`
 }
 
+
 type SkuItemReq struct {
 	ID        int64          `json:"id"`
 	ProductID int64          `json:"product_id"`

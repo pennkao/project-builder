@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -8,6 +9,7 @@ import (
 	"slices"
 
 	"github.com/cms/admin/dto/hp"
+	"github.com/cms/com/oss"
 	"github.com/cms/utils"
 	"github.com/gin-gonic/gin"
 )
@@ -23,6 +25,20 @@ type ApiResponse struct {
 	Msg  string           `json:"message"`
 	Data []UploadResponse `json:"data"`
 }
+
+type PresignUrlItemReq struct {
+	Dir string `json:"dir"`
+	FileName string `json:"file_name"`
+	Type string `json:"type"`
+}
+
+type PresignUrlItemResp struct {
+	OrgName string `json:"org_name"`
+	Path string `json:"path"`
+	FileName string `json:"file_name"` //md5
+	PresignUrl string `json:"presign_url"`
+}
+
 const (
 	saveDir = "./public")
 var (
@@ -87,3 +103,53 @@ func fileUpload(c *gin.Context) {
 		c.JSON(http.StatusOK, ApiResponse{Code: 0, Msg: "success", Data: responses})
 
 }
+
+
+func (t *Cms)PresignUrls(c *gin.Context) {
+
+		var request []PresignUrlItemReq
+		if err := c.ShouldBindJSON(&request); err != nil {
+			hp.Error[any](c,  "Bind JSON error: " + err.Error())
+			return
+		}
+		if len(request) == 0 {
+			hp.Error[any](c,  "No files uploaded")
+			return
+		}
+		
+		var responses []PresignUrlItemResp
+		var fileNames []string
+		for _, fileItem := range request {
+			// 生成唯一文件名
+			ext := filepath.Ext(fileItem.FileName)
+			md5name := utils.SHA256(fileItem.FileName) + ext
+			path := fmt.Sprintf("%s/%s", fileItem.Dir, md5name)
+			url, err := oss.GeneratePresignedURL(c.Request.Context(), path, fileItem.Type)
+			fileNames = append(fileNames, md5name)
+			if err != nil {
+				log.Println("Generate presigned URL error:", err)
+				responses = append(responses, PresignUrlItemResp{OrgName: fileItem.FileName, Path: path, FileName: md5name, PresignUrl:""})
+				continue
+			}
+			fmt.Println(ext,md5name,url,fileItem.Type)
+			// 返回 URL
+			responses = append(responses, PresignUrlItemResp{OrgName: fileItem.FileName, Path: path, FileName: md5name, PresignUrl: url})
+		}
+
+		exists, err := t.Q.GetImagesByNames(c.Request.Context(), fileNames)
+		if err == nil {
+			md5Names := make(map[string]bool)
+			for _, name := range exists {
+				md5Names[name] = true
+			}
+			for k, resp := range responses {
+				if _,ok:=md5Names[resp.FileName]; ok {	
+					responses[k].PresignUrl = ""
+				}
+			}
+		}
+
+		hp.Success[any](c, responses)
+}
+
+

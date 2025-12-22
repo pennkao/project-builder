@@ -14,7 +14,7 @@ export const navItems: NavItem[] = [
     {
         icon: <GridIcon />,
         name: 'Dashboard',
-        path: '/',
+        path: '/home',
     },
     {
         name: 'E-commerce',

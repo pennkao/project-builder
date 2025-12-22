@@ -105,7 +105,7 @@ export default function ProductOptions({ onOpenSelected, selectedSkuImages }: { 
                     id: index,
                     title: skuAttrArray.map((attr) => attr.value).join('-'),
                     image: productData?.images?.[0] || '',
-                    price: productData?.main?.price || 0,
+                    price: productData?.product?.price || 0,
                     stored: 0,
                     ukey: '',
                     akey: skuAttrArray.map((attr) => attr.value).join('-'),

@@ -1,10 +1,11 @@
 import { Dropdown } from '@/components/ui/dropdown/Dropdown';
 import { DropdownItem } from '@/components/ui/dropdown/DropdownItem';
+import { useApi } from '@/hooks/useApi';
 import { useState } from 'react';
-import { Link } from 'react-router';
 
 export default function UserDropdown() {
     const [isOpen, setIsOpen] = useState(false);
+    const { api } = useApi();
 
     function toggleDropdown() {
         setIsOpen(!isOpen);
@@ -120,9 +121,13 @@ export default function UserDropdown() {
                         </DropdownItem>
                     </li>
                 </ul>
-                <Link
-                    to="/signin"
-                    className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+                <div
+                    onClick={() => {
+                        api.Post('logout', {}).then(() => {
+                            window.location.href = '/the-door/open';
+                        });
+                    }}
+                    className="cursor-pointer flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
                 >
                     <svg className="fill-gray-500 group-hover:fill-gray-700 dark:group-hover:fill-gray-300" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -133,7 +138,7 @@ export default function UserDropdown() {
                         />
                     </svg>
                     Sign out
-                </Link>
+                </div>
             </Dropdown>
         </div>
     );

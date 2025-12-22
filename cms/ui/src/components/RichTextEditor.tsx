@@ -1,10 +1,13 @@
 // src/components/RichTextEditor.jsx
+import { useApi } from '@/hooks/useApi';
 import { SRC } from '@/lib/image';
 import { Editor } from '@tinymce/tinymce-react';
 import { useEffect, useState } from 'react';
 
-const RichTextEditor = ({ url, onChange, initData }: { url: string; onChange?: (newContent: string) => void; initData?: string }) => {
+const RichTextEditor = ({ uploadUrl, uploadDir, onChange, initData }: { uploadUrl: string; uploadDir: string; onChange?: (newContent: string) => void; initData?: string }) => {
     const [content, setContent] = useState(initData || '');
+    const { api } = useApi();
+
     useEffect(() => {
         if (initData) {
             console.log('initData', initData);
@@ -12,15 +15,125 @@ const RichTextEditor = ({ url, onChange, initData }: { url: string; onChange?: (
         }
     }, [initData]);
     const doUpload = async (file: File) => {
+        if (uploadUrl.includes('cloud')) {
+            return await doUploadToCloud(file);
+        } else {
+            return await doUploadToServer(file);
+        }
+    };
+    const doUploadToCloud = async (file: File) => {
+        if (!file) {
+            return;
+        }
+        const dir = uploadDir;
+        // 1️⃣ 构建请求数据
+        const imagesArr: { file_name: string; dir: string; type: string }[] = [];
+        let imagesFileArr: AwsImageUploadType[] = [];
+
+        const mimeType = file?.type || 'image/png';
+        const orgName = file?.name;
+
+        imagesArr.push({
+            file_name: orgName,
+            dir,
+            type: mimeType,
+        });
+
+        imagesFileArr.push({
+            path: '',
+            org_name: orgName,
+            file_name: '',
+            presign_url: '',
+            file: file || null,
+            mime_type: mimeType,
+        });
+
+        try {
+            // 2️⃣ 请求后端生成 presign URL
+            const res = await fetch(uploadUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(imagesArr),
+            });
+
+            if (!res.ok) {
+                throw new Error(`Presign request failed: ${res.status}`);
+            }
+
+            const data = await res.json();
+            if (data?.code !== 0 || !Array.isArray(data.data)) {
+                throw new Error('Invalid presign response');
+            }
+
+            const toUploadImages = data.data as AwsImageResponseType[];
+
+            // 3️⃣ 组装上传 & 保存数据
+            const imagesUploaded: UploadResponseType[] = [];
+            const imagesSave: SaveImageType[] = [];
+
+            toUploadImages.forEach((img, idx) => {
+                imagesUploaded.push({
+                    id: idx,
+                    file_name: img.org_name,
+                    url: img.file_name,
+                });
+
+                if (!img.presign_url || !img.path || !img.file_name) return;
+
+                const uploadItem = imagesFileArr[idx];
+                uploadItem.path = img.path;
+                uploadItem.presign_url = img.presign_url;
+                uploadItem.file_name = img.file_name;
+
+                imagesSave.push({
+                    file_name: img.file_name,
+                    mime_type: uploadItem.mime_type,
+                    size: uploadItem.file?.size || 0,
+                    width_px: 0, // 后续可补
+                    height_px: 0, // 后续可补
+                    platform: 1,
+                    storage_path: 'local',
+                });
+            });
+
+            // 4️⃣ 过滤掉无效 presign
+            imagesFileArr = imagesFileArr.filter((item) => !!item.presign_url);
+
+            // 5️⃣ 上传到云存储
+            const uploadResults = await Promise.all(
+                imagesFileArr.map((item) =>
+                    fetch(item.presign_url, {
+                        method: 'PUT',
+                        body: item.file || new Blob([], { type: item.mime_type }),
+                    })
+                )
+            );
+
+            uploadResults.forEach((res) => {
+                if (!res.ok) {
+                    throw new Error(`Cloud upload failed: ${res.status}`);
+                }
+            });
+
+            // 6️⃣ 保存数据库
+            if (imagesSave.length) {
+                await api.Post('file/save', imagesSave);
+            }
+            return SRC(imagesFileArr[0].file_name);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const doUploadToServer = async (file: File) => {
         if (!file) {
             return;
         }
         const form = new FormData();
 
         form.append('images[]', file);
-        form.append('dir', 'images');
+        form.append('dir', uploadDir);
         try {
-            const res = await fetch(url, { method: 'POST', body: form });
+            const res = await fetch(uploadUrl, { method: 'POST', body: form });
             if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
             const data = await res.json(); // 假设 data.data 是数组
             if (!data || data.code !== 0 || !Array.isArray(data.data)) throw new Error('Invalid response format');

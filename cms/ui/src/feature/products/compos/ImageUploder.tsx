@@ -2,8 +2,9 @@
 import { ItemLoading } from '@/components/Loading/ItemLoading';
 import { Button } from '@/components/elements';
 import { Card } from '@/feature/compos/layout';
-import { SRC } from '@/lib/image';
+import { useApi } from '@/hooks/useApi';
 import { TrashIcon, UploadFileIcon } from '@/icons';
+import { SRC } from '@/lib/image';
 import { makeLocalImage, makeNetImage } from '@/utils';
 import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -16,12 +17,14 @@ interface ImageUploaderProps {
     aotoUpLoad?: boolean;
     outSelected?: ImageChannelType;
     images?: string[]; //初始化
+    upLoadDir: string;
     onChange: (images: string[]) => void;
     onOpenSelected?: (target: ImageTargetType) => void;
 }
-const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images, outSelected }: ImageUploaderProps) => {
+const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images, outSelected, upLoadDir }: ImageUploaderProps) => {
     const [internalImages, setInternalImages] = useState<ImageItemType[]>([]);
     const sensors = useSensors(useSensor(PointerSensor));
+    const { api } = useApi();
     //init
     useEffect(() => {
         if (!images || images.length <= 0) {
@@ -110,6 +113,7 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
     const updateStatus = (uploadImages: ImageItemType[], status: ImageItemType['status']) => {
         setInternalImages((prev) => prev.map((img) => (uploadImages.some((f) => f.id === img.id) ? { ...img, status } : img)));
     };
+
     // example upload handler
     const handleUpload = () => {
         const filterd = internalImages.filter((img) => img.file && img.file.size > 0 && img?.url?.length == 0);
@@ -119,7 +123,7 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
         }
         doUpload(
             filterd,
-            'images',
+            upLoadDir,
             (uploadedImages) => {
                 setInternalImages((prev) =>
                     prev.map((img) => {
@@ -134,8 +138,114 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
             }
         );
     };
+    const doUploadToCloud = async (images: ImageItemType[], dir: string, onSuccess?: (images: UploadResponseType[]) => void, onError?: (err: Error) => void) => {
+        if (!images.length) return;
 
-    const doUpload = async (images: ImageItemType[], dir: string, onSuccess?: (images: UploadResponseType[]) => void, onError?: (err: Error) => void) => {
+        // 1️⃣ 构建请求数据
+        const imagesArr: { file_name: string; dir: string; type: string }[] = [];
+        let imagesFileArr: AwsImageUploadType[] = [];
+
+        images.forEach((img, idx) => {
+            const file = img.file;
+            const mimeType = file?.type || 'image/png';
+            const ext = mimeType.split('/')?.[1] || 'png';
+            const orgName = file?.name || `image_${idx}.${ext}`;
+
+            imagesArr.push({
+                file_name: orgName,
+                dir,
+                type: mimeType,
+            });
+
+            imagesFileArr.push({
+                path: '',
+                org_name: orgName,
+                file_name: '',
+                presign_url: '',
+                file: file || null,
+                mime_type: mimeType,
+            });
+        });
+
+        try {
+            // 2️⃣ 请求后端生成 presign URL
+            const res = await fetch(upLoadUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(imagesArr),
+            });
+
+            if (!res.ok) {
+                throw new Error(`Presign request failed: ${res.status}`);
+            }
+
+            const data = await res.json();
+            if (data?.code !== 0 || !Array.isArray(data.data)) {
+                throw new Error('Invalid presign response');
+            }
+
+            const toUploadImages = data.data as AwsImageResponseType[];
+
+            // 3️⃣ 组装上传 & 保存数据
+            const imagesUploaded: UploadResponseType[] = [];
+            const imagesSave: SaveImageType[] = [];
+
+            toUploadImages.forEach((img, idx) => {
+                imagesUploaded.push({
+                    id: idx,
+                    file_name: img.org_name,
+                    url: img.file_name,
+                });
+
+                if (!img.presign_url || !img.path || !img.file_name) return;
+
+                const uploadItem = imagesFileArr[idx];
+                uploadItem.path = img.path;
+                uploadItem.presign_url = img.presign_url;
+                uploadItem.file_name = img.file_name;
+
+                imagesSave.push({
+                    file_name: img.file_name,
+                    mime_type: uploadItem.mime_type,
+                    size: uploadItem.file?.size || 0,
+                    width_px: 0, // 后续可补
+                    height_px: 0, // 后续可补
+                    platform: 1,
+                    storage_path: 'local',
+                });
+            });
+
+            // 4️⃣ 过滤掉无效 presign
+            imagesFileArr = imagesFileArr.filter((item) => !!item.presign_url);
+
+            // 5️⃣ 上传到云存储
+            const uploadResults = await Promise.all(
+                imagesFileArr.map((item) =>
+                    fetch(item.presign_url, {
+                        method: 'PUT',
+                        body: item.file || new Blob([], { type: item.mime_type }),
+                    })
+                )
+            );
+
+            uploadResults.forEach((res) => {
+                if (!res.ok) {
+                    throw new Error(`Cloud upload failed: ${res.status}`);
+                }
+            });
+
+            // 6️⃣ 保存数据库
+            if (imagesSave.length) {
+                await api.Post('file/save', imagesSave);
+            }
+
+            onSuccess?.(imagesUploaded);
+        } catch (err) {
+            onError?.(err as Error);
+        }
+    };
+
+    const doUploadToServer = async (images: ImageItemType[], dir: string, onSuccess?: (images: UploadResponseType[]) => void, onError?: (err: Error) => void) => {
         if (images.length === 0) {
             return;
         }
@@ -153,6 +263,17 @@ const ImageUploader = ({ upLoadUrl, aotoUpLoad, onChange, onOpenSelected, images
             if (data && data.data) onSuccess?.(data.data);
         } catch (err) {
             onError?.(err as Error);
+        }
+    };
+    const doUpload = async (images: ImageItemType[], dir: string, onSuccess?: (images: UploadResponseType[]) => void, onError?: (err: Error) => void) => {
+        if (images.length === 0) {
+            return;
+        }
+        if (upLoadUrl.includes('cloud')) {
+            doUploadToCloud(images, dir, onSuccess, onError);
+        } else {
+            // doUploadToCloud(images, dir, onSuccess, onError);
+            doUploadToServer(images, dir, onSuccess, onError);
         }
     };
 

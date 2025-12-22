@@ -11,7 +11,9 @@ import (
 	"github.com/cms/router"
 )
 
+
 func main() {
+
 	// 在程序启动时设置时区
 	if loc, err := time.LoadLocation("Asia/Shanghai"); err == nil {
 		time.Local = loc

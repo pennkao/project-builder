@@ -4,5 +4,11 @@ export function SRC(src: string) {
 
     const isAbsolute = src.startsWith('http') || src.startsWith('blob:') || src.startsWith('data:image');
 
+    // if (!isLocal) {
+    //     return isAbsolute ? src : 'https://img.shopifycdn.store/images/' + src;
+    // } else {
+    //     return isAbsolute ? src : config.IMAGE_URL + src;
+    // }
+
     return isAbsolute ? src : config.IMAGE_URL + src;
 }

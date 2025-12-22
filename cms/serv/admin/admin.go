@@ -30,6 +30,12 @@ func (t *Cms) Dispatch(c *gin.Context) {
 		ws.WS(c)
 	case "/file/upload":
 		fileUpload(c)
+	case "/logout":
+		t.Logout(c)
+	case "/file/cloud":
+		t.PresignUrls(c)
+	case "/file/save":
+		t.SaveImages(c)
 	case "/delete":
 		t.Deleter(c)
 	case "/fetch":

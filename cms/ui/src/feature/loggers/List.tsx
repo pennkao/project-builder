@@ -41,7 +41,7 @@ export default function LoggerList() {
             key: 'actions',
             label: 'Actions',
             sortable: false,
-            render: (item?: SiteLogType, i?: number) => (
+            render: (item?: SiteLogType) => (
                 <div>
                     <Button
                         variant="primary"

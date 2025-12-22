@@ -25,9 +25,11 @@ INSERT INTO images (
     file_type,
     mime_type,
     height_px,
-    width_px
+    width_px,
+    size,
+    platform
 )
-VALUES ($1, $2, $3, $4, $5, $6)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 `
 
 type BatchCreateImagesBatchResults struct {
@@ -43,6 +45,8 @@ type BatchCreateImagesParams struct {
 	MimeType    string `json:"mime_type"`
 	HeightPx    int32  `json:"height_px"`
 	WidthPx     int32  `json:"width_px"`
+	Size        int64  `json:"size"`
+	Platform    int16  `json:"platform"`
 }
 
 func (q *Queries) BatchCreateImages(ctx context.Context, arg []BatchCreateImagesParams) *BatchCreateImagesBatchResults {
@@ -55,6 +59,8 @@ func (q *Queries) BatchCreateImages(ctx context.Context, arg []BatchCreateImages
 			a.MimeType,
 			a.HeightPx,
 			a.WidthPx,
+			a.Size,
+			a.Platform,
 		}
 		batch.Queue(batchCreateImages, vals...)
 	}

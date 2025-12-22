@@ -1,0 +1,1 @@
+import{j as o}from"./index-DGm3F72F.js";const d=({src:r,alt:s,className:e,onClick:t})=>r?o.jsx("img",{src:r,alt:s,className:e,onClick:t}):o.jsx("div",{className:`${e} border border-dashed border-gray-300 bg-gray-200 `});export{d as I};

@@ -20,6 +20,8 @@ export const config = {
     IS_DEV: import.meta.env.MODE === 'development',
 
     API_URL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+    UPLOAD_DIR: import.meta.env.VITE_UPLOAD_DIR || 'images',
+    UPLOAD_URL: import.meta.env.VITE_UPLOAD_URL || '/backend/api/file/cloud',
     CDN_URL: import.meta.env.VITE_CDN_URL || 'http://localhost:3000/static',
     IMAGE_URL: import.meta.env.VITE_IMAGE_URL || '/public/images/',
     WS_URL: import.meta.env.VITE_WS_URL || 'ws://localhost:8080/admin/api/wss',

@@ -39,6 +39,7 @@ export default function LoginForm() {
             // 调用后台登录 API
             const res = (await fetch('/the-door/come-in', {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -49,7 +50,7 @@ export default function LoginForm() {
             })) as Response & { code: number; message: string };
 
             if (!res.ok || res.status !== 200) {
-                setError('Login failed1');
+                setError('Login failed');
                 setLoading(false);
                 return;
             }
@@ -59,9 +60,7 @@ export default function LoginForm() {
                 setError(data.message || 'Login failed');
                 return;
             }
-            // 登录成功，可存 token 或者跳转
-            localStorage.setItem('--vxtn:token', data.data.token);
-            document.cookie = `xtoken=${data.data.token}; path=/; max-age=1800`;
+
             window.location.href = '/admin'; // 登录后跳转后台主页
         } catch (err) {
             setError('Network error');
@@ -86,7 +85,7 @@ export default function LoginForm() {
                             <div className="relative flex justify-center text-sm"></div>
                         </div>
                         {error && <div className="mb-4 text-sm text-red-500 dark:text-red-400">{error}</div>}
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} action="/the-door/come-in" method="POST">
                             <div className="space-y-6">
                                 <div>
                                     <Label>

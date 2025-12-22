@@ -27,3 +27,22 @@ export function makeNetImage(url: string, fileName: string): ImageItemType {
 
     return imageItem;
 }
+
+export const getImageInfo = async (file: File | null) => {
+    if (!file) return null;
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+
+    const dimensions = await new Promise<{ width: number; height: number }>((res, rej) => {
+        img.onload = () => res({ width: img.width, height: img.height });
+        img.onerror = rej;
+        img.src = url;
+    });
+
+    return {
+        file,
+        width: dimensions.width,
+        height: dimensions.height,
+        size: file.size,
+    };
+};

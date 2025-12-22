@@ -1,0 +1,1 @@
+import{j as t}from"./index-DGm3F72F.js";import{H as o}from"./main-D_fUlH9b.js";const m=({title:e,description:s})=>t.jsxs(o,{children:[t.jsx("title",{children:e}),t.jsx("meta",{name:"description",content:s})]});export{m as P};

@@ -92,8 +92,32 @@ func (q *Queries) BatchDeleteImages(ctx context.Context, ids []int64) error {
 	return err
 }
 
+const getImagesByNames = `-- name: GetImagesByNames :many
+SELECT file_name FROM images WHERE file_name = ANY($1::text[])
+`
+
+func (q *Queries) GetImagesByNames(ctx context.Context, fileNames []string) ([]string, error) {
+	rows, err := q.db.Query(ctx, getImagesByNames, fileNames)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []string
+	for rows.Next() {
+		var file_name string
+		if err := rows.Scan(&file_name); err != nil {
+			return nil, err
+		}
+		items = append(items, file_name)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listImages = `-- name: ListImages :many
-SELECT id, url, storage_path, file_name, file_type, mime_type, alt_text, width_px, height_px, cts FROM images
+SELECT id, url, storage_path, file_name, file_type, mime_type, alt_text, width_px, height_px, size, platform, cts FROM images
 ORDER BY cts DESC
 LIMIT $1 OFFSET $2
 `
@@ -122,6 +146,8 @@ func (q *Queries) ListImages(ctx context.Context, arg ListImagesParams) ([]Image
 			&i.AltText,
 			&i.WidthPx,
 			&i.HeightPx,
+			&i.Size,
+			&i.Platform,
 			&i.Cts,
 		); err != nil {
 			return nil, err

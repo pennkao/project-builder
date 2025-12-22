@@ -53,3 +53,25 @@ func (t *Cms) AddImages(c *gin.Context) {
 
 	hp.Success[any](c, req.Images)
 }
+
+func (t *Cms)SaveImages(c *gin.Context) {
+		var request []db.BatchCreateImagesParams
+		if err := c.ShouldBindJSON(&request); err != nil {
+			hp.Error[any](c,  "Bind JSON error: " + err.Error())
+			return
+		}
+		if len(request) == 0 {
+			hp.Error[any](c,  "No files uploaded")
+			return
+		}
+
+		results := t.Q.BatchCreateImages(c.Request.Context(), request)
+		results.Exec(func(i int, err error) {
+			if err != nil {
+				hp.Error[any](c,  err.Error())
+				return
+			}
+		})
+
+		hp.Success[any](c, nil)
+}

@@ -21,7 +21,8 @@ export default function Add() {
                     <div className="space-y-6">
                         <Product />
                         <RichTextEditor
-                            url={config.API_URL + 'file/upload'}
+                            uploadUrl={config.UPLOAD_URL}
+                            uploadDir={config.UPLOAD_DIR}
                             onChange={(value) => {
                                 setProductData({ ...productData, content: value });
                             }}
@@ -30,7 +31,8 @@ export default function Add() {
                     </div>
                     <div className="space-y-6">
                         <ImageUploder
-                            upLoadUrl={config.API_URL + 'file/upload'}
+                            upLoadUrl={config.UPLOAD_URL}
+                            upLoadDir={config.UPLOAD_DIR}
                             aotoUpLoad={true}
                             images={productDataInit.images}
                             onChange={(images) => {

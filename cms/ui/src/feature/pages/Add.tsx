@@ -78,7 +78,8 @@ export default function Add() {
                 <Col>
                     <Card title="Config Schema">
                         <RichTextEditor
-                            url={config.API_URL + 'file/upload'}
+                            uploadUrl={config.UPLOAD_URL}
+                            uploadDir={config.UPLOAD_DIR}
                             onChange={(value) => {
                                 setData({ ...data, content: encontent(value) });
                             }}
