@@ -1,0 +1,32 @@
+project/
+├─ cmd/
+│  ├─ api/
+│  └─ admin/
+│
+├─ app/                 # 应用层（装配 / 启动）
+│  ├─ api/
+│  └─ admin/
+│
+├─ domain/              # 领域层（业务核心）
+│  ├─ user/
+│  ├─ auth/
+│  └─ order/
+│
+├─ transport/           # 传输层
+│  ├─ http/
+│  │  ├─ api/
+│  │  └─ admin/
+│  └─ middleware/
+│
+├─ infra/               # 基础设施
+│  ├─ db/
+│  ├─ cache/
+│  └─ logger/
+│
+├─ config/
+│
+├─ pkg/                 # 可复用公共工具（真的公共）
+│
+├─ deploy/
+├─ scripts/
+└─ go.mod

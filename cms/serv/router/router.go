@@ -12,6 +12,7 @@ import (
 	"github.com/cms/api/md"
 	"github.com/cms/com/ws"
 	"github.com/cms/cross"
+	"github.com/cms/utils"
 	"github.com/gin-contrib/sessions/cookie"
 
 	"github.com/gin-contrib/sessions"
@@ -59,6 +60,9 @@ func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 	{
 		login.POST("/come-in", cms.Login)
 		login.GET("/open", func(c *gin.Context) {
+			fmt.Println(c.Request.URL.Path)
+			value := utils.SHA256(c.Request.Host + c.Request.URL.Path + define.LoginSecSalt)
+			c.SetCookie(define.LoginSecKey, value, 60, "/the-door", c.Request.Host, false, true)
 			c.File("./dist/login.html")
 		})
 	}
@@ -68,7 +72,6 @@ func SetupRouter(api *api.API, cms *admin.Cms) *gin.Engine {
 	adminUi.Use(middle.AdminAuth())   // ⭐ 关键：所有 /admin/** 统一鉴权
 	{
 		adminUi.GET("/*any", func(c *gin.Context) {
-
 			c.File("./dist/index.html")
 		})
 	}

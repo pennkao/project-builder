@@ -21,6 +21,12 @@ func LoginCheck() gin.HandlerFunc {
 		}
 
 		if c.Request.Method == http.MethodPost {
+			if c.Request.Host == "" || c.Request.Referer() == "" || 
+			!strings.Contains(c.Request.Referer(),  c.Request.Host) || 
+			!strings.Contains(c.Request.Referer(),  "/the-door/open") {
+				c.AbortWithStatus(http.StatusNotFound)
+				return
+			}
 			c.Next()
 			return
 		}

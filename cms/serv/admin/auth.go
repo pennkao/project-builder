@@ -2,7 +2,7 @@
 package admin
 
 import (
-	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/cms/admin/define"
@@ -15,6 +15,37 @@ import (
 
 // 登录接口，不验证
 func (t *Cms)Login(c *gin.Context) {
+
+	cookie, err := c.Cookie(define.LoginSecKey)
+	if err != nil {
+		hp.Error[any](c, "Invalid request body")
+		return
+	}	
+	if cookie == "" {
+		hp.Error[any](c, "Invalid request body")
+		return
+	}
+
+	url, err := url.Parse(c.Request.Referer())
+	if err != nil {
+		hp.Error[any](c, "Invalid request body")
+		return
+	}
+	ck := utils.SHA256(c.Request.Host + url.Path + define.LoginSecSalt)
+	if ck != cookie {
+		hp.Error[any](c, "Invalid request body")
+		return
+	}	
+	c.SetCookie(
+		define.LoginSecKey, // cookie 名
+		"",      // value 置空
+		-1,      // MaxAge = -1 表示删除
+		"//the-door",     // Path，必须和原来一致
+		"",      // Domain，必须和原来一致
+		true,    // Secure（https）
+		true,    // HttpOnly
+	)
+
 	host := c.Request.Host
 	var request struct {
 		Email    string `json:"email"`
@@ -29,7 +60,6 @@ func (t *Cms)Login(c *gin.Context) {
 		return
 	}
 	// session.Set(c, define.SessionKey, request.Email)
-	fmt.Println(host)
 	value := utils.SHA256(request.Email + request.Password + time.Now().Format(time.RFC3339))
 	session := sessions.Default(c)
 	session.Clear()
@@ -38,9 +68,9 @@ func (t *Cms)Login(c *gin.Context) {
 	session.Save()
 
 	// c.SetSameSite(http.SameSiteNoneMode)
-	c.SetCookie(define.IsLoginKey, "1", 1800, "/the-door", host, false, true)
-	c.SetCookie(define.CookieKey, value, 3600, "/admin", host, false, true)
-	c.SetCookie(define.CookieKey, value, 3600, "/backend", host, false, true)
+	c.SetCookie(define.IsLoginKey, "1", 60, "/the-door", host, false, true)
+	c.SetCookie(define.CookieKey, value, 60, "/admin", host, false, true)
+	c.SetCookie(define.CookieKey, value, 60, "/backend", host, false, true)
 	hp.Success(c, gin.H{"token": value})
 }
 

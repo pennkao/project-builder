@@ -2,6 +2,7 @@
 package middle
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -17,21 +18,20 @@ func AdminAuth() gin.HandlerFunc {
             c.AbortWithStatus(http.StatusNotFound)
 			return 
         }
-
 		//登陆验证
         value, err := c.Cookie(define.CookieKey)
         if err != nil || value == "" { // 简单示例，实际用 JWT
 			// c.String(http.StatusNotFound, "404 Not Found")
 			// c.Redirect(http.StatusTemporaryRedirect, `https://www.google.com/search?q=%E8%93%9D%E8%89%B2&sitesearch=xiaoyakankan.com`)
-			c.AbortWithStatus(http.StatusNotFound)
+			c.Redirect(http.StatusFound, "/the-door/open")
             return
         } 
 		session := sessions.Default(c)
+		fmt.Println(session.Get(value))
 		if session.Get(value) == nil || session.Get(value) != "admin" {
-			c.AbortWithStatus(http.StatusNotFound)
+			c.Redirect(http.StatusFound, "/the-door/open")
 			return
 		}
-		
 		c.Next()
     }
 }
